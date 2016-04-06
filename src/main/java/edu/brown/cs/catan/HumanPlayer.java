@@ -54,4 +54,10 @@ public class HumanPlayer implements Player {
     return Collections.unmodifiableMap(devCards);
   }
 
+  @Override
+  public void addResource(Resource resource) {
+    // TODO Auto-generated method stub
+
+  }
+
 }

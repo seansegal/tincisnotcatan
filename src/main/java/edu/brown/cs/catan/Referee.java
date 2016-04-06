@@ -2,7 +2,13 @@ package edu.brown.cs.catan;
 
 public interface Referee {
 
-  // Contains reference to the board
+  // Board
+  // devCardHasBeenPlayed
+  // turnOrder - List<Player>
+  // Players
+  // Bank
+  // DevCardDeck - returns Enum
+  // Set<Player> hasDiscarded
 
   /**
    *

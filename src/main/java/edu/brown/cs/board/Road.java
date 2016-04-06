@@ -4,10 +4,10 @@ import edu.brown.cs.catan.Player;
 
 public class Road {
 
-  public Player getPlayer(){
-    //TODO implement
-    return null;
-  }
+  Player player;
 
+  public Player getPlayer() {
+    return player;
+  }
 
 }
