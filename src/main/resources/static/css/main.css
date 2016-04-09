@@ -1,0 +1,78 @@
+#board-viewport {
+	background-color: #DDDDDD;
+	height: 100vh;
+	width: 100vw;
+	position: absolute;
+	z-index: 0;
+	overflow: hidden;
+}
+
+.right-tab-content {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.nav-pills.nav-stacked {
+	padding-right: 0px;
+}
+
+.right-tab {
+	background-color: #FFFFFF;
+}
+
+.right-tab-pane {
+	height: 100vh;
+	background-color: #FFFFFF;
+}
+
+.mover {
+	height: 50px;
+	width: 50px;
+	background-color: #0000FF;
+}
+
+.circle {
+	border-radius: 50%;
+	background-color: #BBBBBB;
+	height: 30px;
+	width: 30px;
+}
+
+.above-board {
+	z-index: 10;
+}
+
+.below-board {
+	z-index: -1;
+}
+
+.navbar-right {
+	padding-right: 15px;
+}
+
+.navbar-btn {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.hexagon {
+	position: absolute;
+	background-color: #64C7CC;
+	transform: rotate(30deg);
+}
+
+.hexagon:before,
+.hexagon:after {
+	content: "";
+	position: absolute;
+	width: 0;
+}
+
+.hexagon:before {
+	bottom: 100%;
+}
+
+.hexagon:after {
+	top: 100%;
+	width: 0;
+}
