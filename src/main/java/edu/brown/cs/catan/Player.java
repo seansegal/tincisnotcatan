@@ -16,18 +16,28 @@ public interface Player {
 
   void buildCity();
 
+  void buyDevelopmentCard();
+
   void useRoad();
 
   void useCity();
 
   void useSettlement();
 
-  Map<Resource, Integer> getResources();
+  void playDevelopmentCard(DevelopmentCard card);
+
+  Map<Resource, Double> getResources();
 
   Map<DevelopmentCard, Integer> getDevCards();
 
   void addResource(Resource resource);
 
   void removeResource(Resource resource);
+
+  double getNumResourceCards();
+
+  void addDevelopmentCard(DevelopmentCard card);
+
+  Player getImmutableCopy();
 
 }
