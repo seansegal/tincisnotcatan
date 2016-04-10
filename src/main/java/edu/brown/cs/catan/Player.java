@@ -16,10 +16,18 @@ public interface Player {
 
   void buildCity();
 
+  void useRoad();
+
+  void useCity();
+
+  void useSettlement();
+
   Map<Resource, Integer> getResources();
 
   Map<DevelopmentCard, Integer> getDevCards();
 
   void addResource(Resource resource);
+
+  void removeResource(Resource resource);
 
 }
