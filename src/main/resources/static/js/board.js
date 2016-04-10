@@ -10,6 +10,7 @@ function Board() {
 	this.scaleFactor = INITIAL_HEX_SIZE;
 
 	this.tiles = [];
+	this.intersections = [];
 
 	setupHexagonSizes(this.scaleFactor);
 }
@@ -32,10 +33,19 @@ Board.prototype.draw = function() {
 	for (var i = 0; i < this.tiles.length; i++) {
 		this.tiles[i].draw(this.transX, this.transY, this.scaleFactor);
 	}
+	
+	for (var i = 0; i < this.intersections.length; i++) {
+//		this.intersections[i].draw(this.transX, this.transY, this.scaleFactor);
+	}
 }
 
 Board.prototype.addTile = function(coordinates) {
 	this.tiles.push(new Tile(coordinates));
+	this.draw();
+}
+
+Board.prototype.addIntersection = function(c1, c2, c3) {
+	this.intersections.push(new Intersection(c1, c2, c3));
 	this.draw();
 }
 

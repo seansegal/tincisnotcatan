@@ -1,4 +1,5 @@
 var board = undefined;
+var players = [];
 
 $(window).load(function() {
 	board = new Board();
@@ -26,7 +27,29 @@ $(window).load(function() {
 	board.addTile({x: 2, y: 0, z: 2});
 	board.addTile({x: 2, y: 0, z: 1});
 	board.addTile({x: 1, y: 0, z: 2});
-})
+	
+	// Add settlements
+	board.addIntersection({x: 1, y: 0, z: 0}, {x: 1, y: 1, z: 0}, {x: 2, y: 1, z: 0});
+	board.addIntersection({x: 0, y: 0, z: 0}, {x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 1});
+	board.addIntersection({x: 0, y: 2, z: 0}, {x: 0, y: 1, z: 0}, {x: 0, y: 2, z: 1});
+	board.addIntersection({x: 0, y: 1, z: 1}, {x: 0, y: 1, z: 2}, {x: 0, y: 0, z: 2});
+
+	// Create players
+	players.push(new Player(1, "#FF0000"));
+	players.push(new Player(2, "#FFFF00"));
+	players.push(new Player(3, "#00FF00"));
+	players.push(new Player(4, "#0000FF"));
+
+	redrawCatan();
+});
+
+function redrawCatan() {
+	board.draw();
+	
+	for (var i = 0; i < players.length; i++) {
+		players[i].fillPlayerTab();
+	}
+}
 
 var dragging = false;
 var lastX;
