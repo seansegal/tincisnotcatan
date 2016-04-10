@@ -2,13 +2,26 @@ package edu.brown.cs.board;
 
 import java.util.Collection;
 
-public interface Board {
+public class Board {
+  private Collection<Tile> _tiles;
+  private int _robberTile;
 
-  //instance variable: robberTile (int tileID)
+  public void notifyTiles(int roll) {
+    for (Tile t : _tiles) {
+      if (t.getRollNum() == roll) {
+        t.notifyIntersections();
+      }
+    }
+  }
 
-  void notifyTiles(int roll);
-  Collection<Tile> getTiles();
-  void moveRobber(int tileID);
+  public Collection<Tile> getTiles() {
+    return _tiles;
+  }
+  
+  public void moveRobber(int tileID) {
+    assert (tileID != _robberTile);
+    _robberTile = tileID;
+  }
 
 
 }

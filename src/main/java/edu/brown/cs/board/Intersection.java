@@ -1,25 +1,104 @@
 package edu.brown.cs.board;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import edu.brown.cs.catan.Player;
-import edu.brown.cs.graph.Node;
+import edu.brown.cs.catan.Resource;
 
-public interface Intersection extends Node<Path, Intersection> {
+public class Intersection {
 
-  // int intersectionID;
-  // Port port;
+  private Building _building;
+  private int _intersectionID;
+  private Port _port;
+  private Collection<Path> _paths;
+  private Collection<HexCoordinate> _position;
+  
+  public Intersection(int intersectionID, Collection<Path> paths,
+      Collection<HexCoordinate> position) {
+    _intersectionID = intersectionID;
+    _paths = paths;
+    _position = position;
+    _building = null;
+    _port = null;
+  }
+  
+  public Intersection(int intersectionID, Collection<HexCoordinate> position) {
+    _intersectionID = intersectionID;
+    _paths = new ArrayList<Path>();
+    _position = position;
+    _building = null;
+    _port = null;
+  }
 
-  int getID();
+  public Intersection(int intersectionID, Collection<Path> paths,
+      Collection<HexCoordinate> position, Port port) {
+    _intersectionID = intersectionID;
+    _paths = paths;
+    _position = position;
+    _building = null;
+    _port = port;
+  }
 
-  void notifyBuilding();
+  public Intersection(int intersectionID, Collection<HexCoordinate> position,
+      Port port) {
+    _intersectionID = intersectionID;
+    _paths = new ArrayList<Path>();
+    _position = position;
+    _building = null;
+    _port = port;
+  }
 
-  void placeSettlement(Player p);
+  public void addPath(Path path) {
+    _paths.add(path);
+  }
 
-  void placeCity(Player p);
+  public int getID() {
+    return _intersectionID;
+  }
 
-  boolean canPlaceSettlement(Player p);
+  public Port getPort() {
+    return _port;
+  }
 
-  boolean canPlaceCity(Player p);
+  public void notifyBuilding(Resource res) {
+    if (_building != null) {
+      _building.collectResource(res);
+    }
+  }
+
+  public void placeSettlement(Player p) {
+    if (canPlaceSettlement(p)) {
+      _building = new Settlement(p);
+    }
+  }
+
+  public void placeCity(Player p) {
+    if (canPlaceCity(p)) {
+      _building = new City(p);
+    }
+  }
+
+  boolean canPlaceSettlement(Player p) {
+    if (_building == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  boolean canPlaceCity(Player p) {
+    if (_building == null) {
+      return false;
+    } else if (_building.getPlayer().equals(p)
+        && _building instanceof Settlement) { // Need to double check that type
+                                              // checking will allow this to
+        return true;                          // work
+
+    }
+
+    return false;
+  }
 
 }
