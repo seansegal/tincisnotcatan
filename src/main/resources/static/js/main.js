@@ -58,10 +58,10 @@ $(window).load(function() {
 	board.addIntersection({x: 0, y: 2, z: 1}, {x: 0, y: 1, z: 1}, {x: 0, y: 2, z: 2});
 
 	// Create players
-	players.push(new Player(1, "#FF0000"));
-	players.push(new Player(2, "#FFFF00"));
-	players.push(new Player(3, "#00FF00"));
-	players.push(new Player(4, "#0000FF"));
+	players.push(new Player(1, "#FF4747"));
+	players.push(new Player(2, "#1995D5"));
+	players.push(new Player(3, "#F6F3EA"));
+	players.push(new Player(4, "#FEB33C"));
 
 	redrawCatan();
 });
