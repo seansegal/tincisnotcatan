@@ -28,11 +28,34 @@ $(window).load(function() {
 	board.addTile({x: 2, y: 0, z: 1});
 	board.addTile({x: 1, y: 0, z: 2});
 	
-	// Add settlements
-	board.addIntersection({x: 1, y: 0, z: 0}, {x: 1, y: 1, z: 0}, {x: 2, y: 1, z: 0});
+	// Add intersections: inner ring
 	board.addIntersection({x: 0, y: 0, z: 0}, {x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 1});
+	board.addIntersection({x: 0, y: 0, z: 0}, {x: 0, y: 0, z: 1}, {x: 0, y: 1, z: 1});
+	board.addIntersection({x: 0, y: 0, z: 0}, {x: 1, y: 0, z: 0}, {x: 1, y: 1, z: 0});
+	board.addIntersection({x: 0, y: 0, z: 0}, {x: 0, y: 1, z: 0}, {x: 1, y: 1, z: 0});
+	board.addIntersection({x: 0, y: 0, z: 0}, {x: 1, y: 0, z: 0}, {x: 1, y: 0, z: 1});
+	board.addIntersection({x: 0, y: 0, z: 0}, {x: 0, y: 0, z: 1}, {x: 1, y: 0, z: 1});
+	
+	// Add intersections: middle ring
 	board.addIntersection({x: 0, y: 2, z: 0}, {x: 0, y: 1, z: 0}, {x: 0, y: 2, z: 1});
-	board.addIntersection({x: 0, y: 1, z: 1}, {x: 0, y: 1, z: 2}, {x: 0, y: 0, z: 2});
+	board.addIntersection({x: 0, y: 2, z: 0}, {x: 0, y: 1, z: 0}, {x: 1, y: 2, z: 0});
+	board.addIntersection({x: 1, y: 2, z: 0}, {x: 0, y: 1, z: 0}, {x: 1, y: 1, z: 0});
+	board.addIntersection({x: 1, y: 1, z: 0}, {x: 1, y: 2, z: 0}, {x: 2, y: 2, z: 0});
+	board.addIntersection({x: 1, y: 1, z: 0}, {x: 2, y: 1, z: 0}, {x: 2, y: 2, z: 0});
+	board.addIntersection({x: 2, y: 0, z: 0}, {x: 1, y: 0, z: 0}, {x: 2, y: 1, z: 0});
+	board.addIntersection({x: 0, y: 2, z: 0}, {x: 0, y: 1, z: 0}, {x: 0, y: 2, z: 1});
+	board.addIntersection({x: 1, y: 0, z: 0}, {x: 1, y: 0, z: 1}, {x: 2, y: 0, z: 1});
+	board.addIntersection({x: 1, y: 0, z: 0}, {x: 2, y: 0, z: 0}, {x: 2, y: 0, z: 1});
+	board.addIntersection({x: 1, y: 0, z: 1}, {x: 2, y: 0, z: 1}, {x: 2, y: 0, z: 2});
+	board.addIntersection({x: 1, y: 0, z: 1}, {x: 1, y: 0, z: 2}, {x: 0, y: 0, z: 1});
+	board.addIntersection({x: 1, y: 0, z: 1}, {x: 2, y: 0, z: 2}, {x: 1, y: 0, z: 2});
+	board.addIntersection({x: 1, y: 0, z: 2}, {x: 0, y: 0, z: 1}, {x: 0, y: 0, z: 2});
+	board.addIntersection({x: 0, y: 0, z: 1}, {x: 0, y: 0, z: 2}, {x: 0, y: 1, z: 2});	
+	board.addIntersection({x: 1, y: 0, z: 0}, {x: 1, y: 1, z: 0}, {x: 2, y: 1, z: 0});
+	board.addIntersection({x: 0, y: 1, z: 1}, {x: 0, y: 1, z: 2}, {x: 0, y: 0, z: 1});
+	board.addIntersection({x: 0, y: 1, z: 1}, {x: 0, y: 1, z: 2}, {x: 0, y: 2, z: 2});
+	board.addIntersection({x: 0, y: 1, z: 1}, {x: 0, y: 1, z: 0}, {x: 0, y: 2, z: 1});
+	board.addIntersection({x: 0, y: 2, z: 1}, {x: 0, y: 1, z: 1}, {x: 0, y: 2, z: 2});
 
 	// Create players
 	players.push(new Player(1, "#FF0000"));

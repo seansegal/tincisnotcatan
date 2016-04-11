@@ -35,7 +35,7 @@ Board.prototype.draw = function() {
 	}
 	
 	for (var i = 0; i < this.intersections.length; i++) {
-//		this.intersections[i].draw(this.transX, this.transY, this.scaleFactor);
+		this.intersections[i].draw(this.transX, this.transY, this.scaleFactor);
 	}
 }
 
