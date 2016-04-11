@@ -1,6 +1,5 @@
 var INITIAL_HEX_SIZE = 100;
 var TILE_SCALE = 0.95;
-var ROAD_SCALE = 0.05;
 var MIN_SCALE = 50;
 var MAX_SCALE = 300;
 
@@ -11,6 +10,7 @@ function Board() {
 
 	this.tiles = [];
 	this.intersections = [];
+	this.roads = [];
 
 	setupHexagonSizes(this.scaleFactor);
 }
@@ -37,6 +37,9 @@ Board.prototype.draw = function() {
 	for (var i = 0; i < this.intersections.length; i++) {
 		this.intersections[i].draw(this.transX, this.transY, this.scaleFactor);
 	}
+	for (var i = 0; i < this.roads.length; i++) {
+		this.roads[i].draw(this.transX, this.transY, this.scaleFactor);
+	}
 }
 
 Board.prototype.addTile = function(coordinates) {
@@ -46,6 +49,11 @@ Board.prototype.addTile = function(coordinates) {
 
 Board.prototype.addIntersection = function(c1, c2, c3) {
 	this.intersections.push(new Intersection(c1, c2, c3));
+	this.draw();
+}
+
+Board.prototype.addRoad = function(s1, s2, s3, e1, e2, e3) {
+	this.roads.push(new Road(s1, s2, s3, e1, e2, e3));
 	this.draw();
 }
 

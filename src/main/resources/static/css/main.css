@@ -1,3 +1,5 @@
+/* Main board window */
+
 #board-viewport {
 	background-color: #DDDDDD;
 	height: 100vh;
@@ -6,6 +8,31 @@
 	z-index: 0;
 	overflow: hidden;
 }
+
+#end-turn-btn {
+	margin-left: 15px;
+	margin-top: 15px;
+}
+
+.circle {
+	border-radius: 50%;
+}
+
+.card-circle {
+	background-color: #BBBBBB;
+	height: 30px;
+	width: 30px;
+}
+
+.above-board {
+	z-index: 10;
+}
+
+.below-board {
+	z-index: -1;
+}
+
+/* Right menu */
 
 .right-tab-content {
 	padding-right: 0px;
@@ -25,35 +52,6 @@
 	background-color: #FFFFFF;
 }
 
-.mover {
-	height: 50px;
-	width: 50px;
-	background-color: #0000FF;
-}
-
-.circle {
-	border-radius: 50%;
-}
-
-.card-circle {
-	background-color: #BBBBBB;
-	height: 30px;
-	width: 30px;
-}
-
-.player-circle {
-	height: 100px;
-	width: 100px;
-}
-
-.above-board {
-	z-index: 10;
-}
-
-.below-board {
-	z-index: -1;
-}
-
 .navbar-right {
 	padding-right: 15px;
 }
@@ -62,6 +60,35 @@
 	padding-left: 2px;
 	padding-right: 2px;
 }
+
+.right-inner-tabs:first-child {
+	padding-left: 10px;
+}
+
+#right-menu-container {
+	padding-right: 0px;
+}
+
+/* Player tab */
+
+.player-circle {
+	height: 100px;
+	width: 100px;
+}
+
+#p1-tab, #p2-tab, #p3-tab, #p4-tab {
+	padding-left: 10px;
+}
+
+/* Trade tab */
+
+.trade-row > div {
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 10px;
+}
+
+/* Board */
 
 .hexagon {
 	position: absolute;
@@ -86,25 +113,10 @@
 	width: 0;
 }
 
-.right-inner-tabs:first-child {
-	padding-left: 10px;
+.intersection {
+	position: absolute;
 }
 
-#right-menu-container {
-	padding-right: 0px;
-}
-
-.trade-row > div {
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 10px;
-}
-
-#p1-tab, #p2-tab, #p3-tab, #p4-tab {
-	padding-left: 10px;
-}
-
-#end-turn-btn {
-	margin-left: 15px;
-	margin-top: 15px;
+.road {
+	position: absolute;
 }

@@ -57,6 +57,10 @@ $(window).load(function() {
 	board.addIntersection({x: 0, y: 1, z: 1}, {x: 0, y: 1, z: 0}, {x: 0, y: 2, z: 1});
 	board.addIntersection({x: 0, y: 2, z: 1}, {x: 0, y: 1, z: 1}, {x: 0, y: 2, z: 2});
 
+	// Add roads
+	board.addRoad({x: 0, y: 0, z: 0}, {x: 0, y: 1, z: 0}, {x: 1, y: 1, z: 0},
+			{x: 0, y: 0, z: 0}, {x: 1, y: 0, z: 0}, {x: 1, y: 1, z: 0});
+	
 	// Create players
 	players.push(new Player(1, "#FF4747"));
 	players.push(new Player(2, "#1995D5"));

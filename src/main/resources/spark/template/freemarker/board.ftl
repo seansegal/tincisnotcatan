@@ -156,6 +156,11 @@
 		    					<h5>4:1</h5>
 		    				</div>
 		    			</div>
+		    			<div class="row trade-row">
+		    				<div class="col-xs-12 text-center">
+		    					<input type="button" class="btn btn-primary" value="Propose Trade">
+		    				</div>
+		    			</div>
 		    		</div>
 				    <div role="tabpanel" class="tab-pane" id="bank-trade-tab"></div>
 		    	</div>

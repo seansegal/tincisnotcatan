@@ -11,6 +11,7 @@
 	<script src="js/player.js"></script>
 	<script src="js/tile.js"></script>
 	<script src="js/intersection.js"></script>
+	<script src="js/road.js"></script>
 	<script src="js/board.js"></script>
 	<script src="js/main.js"></script>
   </head>
