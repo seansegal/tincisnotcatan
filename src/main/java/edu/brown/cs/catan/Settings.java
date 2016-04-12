@@ -11,13 +11,17 @@ public abstract class Settings {
   public final static int INITIAL_SETTLEMENTS = 6;
   public final static int INITIAL_CITIES = 4;
 
+
+  // Numbers on the board:
+  private final static int[] ROLL_NUMS = {5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5 ,6, 3, 10, 11};
+
   // Number of each tile type on the board:
-  public final static int NUM_WOOD_TILE = 0;
-  public final static int NUM_BRICK_TILE = 0;
-  public final static int NUM_WHEAT_TILE = 0;
-  public final static int NUM_SHEEP_TILE = 0;
-  public final static int NUM_ORE_TILE = 0;
-  public final static int NUM_DESERT_TILE = 0;
+  public final static int NUM_WOOD_TILE = 3;
+  public final static int NUM_BRICK_TILE = 3;
+  public final static int NUM_WHEAT_TILE = 4;
+  public final static int NUM_SHEEP_TILE = 4;
+  public final static int NUM_ORE_TILE = 4;
+  public final static int NUM_DESERT_TILE = 1;
 
   // How many resources should players start with:
   public final static double INITIAL_RESOURCES = 0.0;
