@@ -12,11 +12,16 @@ public class Tile {
   private HexCoordinate _coordinate;
   
   public Tile(int tileID, int rollNum, HexCoordinate coordinate,
-      Collection<Intersection> intersections) {
+      Collection<Intersection> intersections, TileType type) {
+    _type = type.getType();
     _tileID = tileID;
     _rollNum = rollNum;
     _coordinate = coordinate;
     _intersections = intersections;
+  }
+
+  public int getID() {
+    return _tileID;
   }
 
   public int getRollNum() {

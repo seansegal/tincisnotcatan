@@ -1,5 +1,7 @@
 package edu.brown.cs.board;
 
+import static java.lang.Math.sqrt;
+
 public class HexCoordinate {
   private int _x;
   private int _y;
@@ -32,11 +34,11 @@ public class HexCoordinate {
     if (getClass() != obj.getClass())
       return false;
     HexCoordinate other = (HexCoordinate) obj;
-    if (_x != other._x)
+    if ((sqrt(3) / 2 * _x + _y + sqrt(3) / 2 * _z) != (sqrt(3) / 2
+        * other.getX() + other.getY() + sqrt(3) / 2 * other.getZ()))
       return false;
-    if (_y != other._y)
-      return false;
-    if (_z != other._z)
+    if ((1 / 2 * _x + 1 / 2 * _z) != 
+        (1 / 2 * other.getX() + 1 / 2 * other.getZ()))
       return false;
     return true;
   }
