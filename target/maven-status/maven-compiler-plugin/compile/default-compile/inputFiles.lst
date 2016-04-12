@@ -1,3 +1,4 @@
+/Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/HexCoordinate.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/catan/Referee.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/PlayMonopoly.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/graph/DummyGraph.java
@@ -13,12 +14,15 @@
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/PlayYearOfPlenty.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/Tile.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/Building.java
+/Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/StandardPort.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/BuildRoad.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/AddCard.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/Port.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/Road.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/Trade.java
+/Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/catan/MasterReferee.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/Path.java
+/Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/TileType.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/MoveRobber.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/Intersection.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/BuildCity.java
@@ -37,7 +41,6 @@
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/graph/Node.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/graph/package-info.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/catan/Bank.java
-/Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/GraphComponent.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/catan/Player.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/graph/DummyNode.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/networking/SparkServer.java
