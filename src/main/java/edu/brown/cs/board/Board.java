@@ -24,6 +24,7 @@ public class Board {
 
   public Board() {
     List<TileType> availTiles = new ArrayList<TileType>();
+    List<HexCoordinate> coords = new ArrayList<HexCoordinate>();
     int i;
     for (i = 0; i < NUM_WOOD_TILE; i++) {
       availTiles.add(WOOD);
@@ -44,6 +45,71 @@ public class Board {
       availTiles.add(DESERT);
     }
     Collections.shuffle(availTiles);
+    coords.add(new HexCoordinate(0, 0, 0));
+    int[] oneOne = { 0, 0, 1 };
+    int[] twoOne = { 0, 1, 1 };
+    int[] oneTwo = { 0, 0, 2 };
+    int[] oneTwoOneOne = { 0, 1, 2 };
+    int[] twoTwo = { 0, 2, 2 };
+
+    coords.add(new HexCoordinate(oneOne[0], oneOne[1], oneOne[2]));
+    while (permute(oneOne)) {
+      coords.add(new HexCoordinate(oneOne[0], oneOne[1], oneOne[2]));
+    }
+
+    coords.add(new HexCoordinate(twoOne[0], twoOne[1], twoOne[2]));
+    while (permute(twoOne)) {
+      coords.add(new HexCoordinate(twoOne[0], twoOne[1], twoOne[2]));
+    }
+
+    coords.add(new HexCoordinate(oneTwo[0], oneTwo[1], oneTwo[2]));
+    while (permute(oneTwo)) {
+      coords.add(new HexCoordinate(oneTwo[0], oneTwo[1], oneTwo[2]));
+    }
+
+    coords.add(new HexCoordinate(oneTwoOneOne[0], oneTwoOneOne[1],
+        oneTwoOneOne[2]));
+    while (permute(oneTwoOneOne)) {
+      coords.add(new HexCoordinate(oneTwoOneOne[0], oneTwoOneOne[1],
+          oneTwoOneOne[2]));
+    }
+
+    coords.add(new HexCoordinate(twoTwo[0], twoTwo[1], twoTwo[2]));
+    while (permute(twoTwo)) {
+      coords.add(new HexCoordinate(twoTwo[0], twoTwo[1], twoTwo[2]));
+    }
+
+    // System.out.println(Arrays.toString(coords.toArray()));
+  }
+
+  // public static void main(String[] args) {
+  // Board b = new Board();
+  // }
+
+  private boolean permute(int[] data) {
+    int k = data.length - 2;
+    while (data[k] >= data[k + 1]) {
+      k--;
+      if (k < 0) {
+        return false;
+      }
+    }
+    int l = data.length - 1;
+    while (data[k] >= data[l]) {
+      l--;
+    }
+    swap(data, k, l);
+    int length = data.length - (k + 1);
+    for (int i = 0; i < length / 2; i++) {
+      swap(data, k + 1 + i, data.length - i - 1);
+    }
+    return true;
+  }
+
+  private void swap(int[] data, int idx1, int idx2) {
+    int tmp = data[idx1];
+    data[idx1] = data[idx2];
+    data[idx2] = tmp;
   }
 
   public void notifyTiles(int roll) {

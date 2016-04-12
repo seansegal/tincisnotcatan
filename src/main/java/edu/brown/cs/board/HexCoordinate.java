@@ -52,4 +52,9 @@ public class HexCoordinate {
     result = prime * result + _z;
     return result;
   }
+
+  @Override
+  public String toString() {
+    return String.format("( %d, %d, %d)", _x, _y, _z);
+  }
 }
