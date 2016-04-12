@@ -11,9 +11,9 @@ public abstract class Settings {
   public final static int INITIAL_SETTLEMENTS = 6;
   public final static int INITIAL_CITIES = 4;
 
-
   // Numbers on the board:
-  private final static int[] ROLL_NUMS = {5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5 ,6, 3, 10, 11};
+  private final static int[] ROLL_NUMS = { 5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8,
+      10, 9, 4, 5, 6, 3, 10, 11 };
 
   // Number of each tile type on the board:
   public final static int NUM_WOOD_TILE = 3;
@@ -33,18 +33,21 @@ public abstract class Settings {
       Resource.BRICK, 1.0, Resource.WOOD, 1.0);
   public final static Map<Resource, Double> DEV_COST = ImmutableMap.of(
       Resource.WHEAT, 1.0, Resource.SHEEP, 1.0, Resource.ORE, 1.0);
-  public final static Map<Resource, Double> SETTLEMENT_COST = ImmutableMap
-      .of(Resource.BRICK, 1.0, Resource.SHEEP, 1.0, Resource.WHEAT, 1.0,
-          Resource.WOOD, 1.0);
+  public final static Map<Resource, Double> SETTLEMENT_COST = ImmutableMap.of(
+      Resource.BRICK, 1.0, Resource.SHEEP, 1.0, Resource.WHEAT, 1.0,
+      Resource.WOOD, 1.0);
 
   // Bank rate for trading in basic game:
   public final static double BANK_RATE = 4.00;
 
-  //Development Card Deck:
+  // Development Card Deck:
   public final static int NUM_KNIGHTS = 14;
   public final static int NUM_POINTS = 5;
   public final static int NUM_YOP = 2;
   public final static int NUM_MONOPOLY = 2;
   public final static int NUM_ROADBUILDING = 2;
+
+  // Default number of players
+  public static final int DEFAULT_NUM_PLAYERS = 4;
 
 }
