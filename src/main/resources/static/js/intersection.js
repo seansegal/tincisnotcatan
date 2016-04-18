@@ -1,4 +1,4 @@
-var SETTLEMENT_SCALE = 0.1;
+var SETTLEMENT_SCALE = 0.2;
 var SETTLEMENT_SVG_WIDTH = 16;
 
 var BUILDING = {
@@ -10,7 +10,7 @@ var BUILDING = {
 function Intersection(coord1, coord2, coord3) {
 	this.coordinates = findCenter(coord1, coord2, coord3);
 	this.id = ("intersection-x-" + this.coordinates.x + "y-" + this.coordinates.y + "z-" + this.coordinates.z).replace(/[.]/g, "_");
-	this.building = BUILDING.SETTLEMENT;
+	this.building = BUILDING.EMPTY_INTERSECTION;
 	this.player;
 	
 	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
@@ -20,7 +20,7 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 	var size = scale * SETTLEMENT_SCALE;
 
 	var displacement = hexToCartesian(this.coordinates);
-	var x = transX + displacement.x * scale + Math.sqrt(3) * scale / 4;
+	var x = transX + displacement.x * scale + Math.sqrt(3) * scale / 4 - size / 4;
 	var y = transY + displacement.y * scale + scale / 4 - size / 2;
 		
 	var element = $("#" + this.id);
@@ -41,7 +41,7 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 		svg2.css("height", size);
 		svg2.width(size);
 		svg2.css("width", size);
-//		svg.css("fill", this.player.color);
+		svg2.css("fill", this.player.color);
 		break;
 	case BUILDING.CITY:
 		break;
@@ -49,6 +49,12 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 		break;
 	}
 	
+}
+
+Intersection.prototype.addSettlement = function(player) {
+	this.building = BUILDING.SETTLEMENT;
+	this.player = player;
+	this.draw();
 }
 
 findCenter = function(c1, c2, c3) {

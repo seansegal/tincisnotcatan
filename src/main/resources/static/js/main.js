@@ -62,10 +62,21 @@ $(window).load(function() {
 			{x: 0, y: 0, z: 0}, {x: 1, y: 0, z: 0}, {x: 1, y: 1, z: 0});
 	
 	// Create players
-	players.push(new Player(1, "#FF4747"));
-	players.push(new Player(2, "#1995D5"));
-	players.push(new Player(3, "#F6F3EA"));
-	players.push(new Player(4, "#FEB33C"));
+	var p1 = new Player(1, "#FF4747");
+	var p2 = new Player(2, "#1995D5");
+	var p3 = new Player(3, "#F6F3EA");
+	var p4 = new Player(4, "#FEB33C");
+
+	players.push(p1, p2, p3, p4);
+
+	// Add settlements
+	board.intersections[0].addSettlement(p1);
+	board.intersections[2].addSettlement(p1);
+	board.intersections[24].addSettlement(p2);
+	board.intersections[8].addSettlement(p2);
+	board.intersections[10].addSettlement(p3);
+	board.intersections[18].addSettlement(p4);
+
 
 	redrawCatan();
 });
