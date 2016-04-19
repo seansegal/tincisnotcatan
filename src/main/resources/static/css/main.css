@@ -32,6 +32,14 @@
 	z-index: -1;
 }
 
+.unselectable {
+	-moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
 /* Right menu */
 
 .right-tab-content {
@@ -90,11 +98,15 @@
 
 /* Board */
 
+.hexagon-wrapper {
+	position: absolute;
+}
+
 .hexagon {
 	position: absolute;
-	/*background-color: #64C7CC;*/
-	transform: rotate(30deg);
+	border-color: inherit;
 	margin: 0px;
+	z-index: 1;
 }
 
 .hexagon:before,
@@ -102,6 +114,7 @@
 	content: "";
 	position: absolute;
 	width: 0;
+	z-index: 1;
 }
 
 .hexagon:before {
@@ -113,11 +126,21 @@
 	width: 0;
 }
 
+.number-circle {
+	position: absolute;
+	background-color: white;
+	text-align: center;
+	vertical-align: middle;
+	z-index: 2;
+}
+
 .intersection {
 	position: absolute;
+	z-index: 4;
 }
 
 .road {
 	position: absolute;
 	border-radius: 5px;
+	z-index: 3;
 }

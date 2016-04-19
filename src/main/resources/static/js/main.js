@@ -4,29 +4,29 @@ var players = [];
 $(window).load(function() {
 	board = new Board();
 	// Center
-	board.addTile({x: 0, y: 0, z: 0}, RESOURCE.WOOD);
+	board.addTile({x: 0, y: 0, z: 0}, TILE_TYPE.WOOD, 11);
 
 	// First ring
-	board.addTile({x: 1, y: 0, z: 0}, RESOURCE.SHEEP);
-	board.addTile({x: 0, y: 1, z: 0}, RESOURCE.WHEAT);
-	board.addTile({x: 0, y: 0, z: 1}, RESOURCE.BRICK);
-	board.addTile({x: 1, y: 1, z: 0}, RESOURCE.SHEEP);
-	board.addTile({x: 0, y: 1, z: 1}, RESOURCE.WOOD);
-	board.addTile({x: 1, y: 0, z: 1}, RESOURCE.ORE);
+	board.addTile({x: 1, y: 0, z: 0}, TILE_TYPE.SHEEP, 4);
+	board.addTile({x: 0, y: 1, z: 0}, TILE_TYPE.WHEAT, 6);
+	board.addTile({x: 0, y: 0, z: 1}, TILE_TYPE.BRICK, 10);
+	board.addTile({x: 1, y: 1, z: 0}, TILE_TYPE.SHEEP, 5);
+	board.addTile({x: 0, y: 1, z: 1}, TILE_TYPE.WOOD, 3);
+	board.addTile({x: 1, y: 0, z: 1}, TILE_TYPE.ORE, 9);
 
 	// Outer ring
-	board.addTile({x: 2, y: 0, z: 0}, RESOURCE.SHEEP);
-	board.addTile({x: 0, y: 2, z: 0}, RESOURCE.WHEAT);
-	board.addTile({x: 0, y: 0, z: 2}, RESOURCE.ORE);
-	board.addTile({x: 2, y: 2, z: 0}, RESOURCE.WHEAT);
-	board.addTile({x: 2, y: 1, z: 0}, RESOURCE.BRICK);
-	board.addTile({x: 1, y: 2, z: 0}, RESOURCE.WOOD);
-	board.addTile({x: 0, y: 2, z: 2}, RESOURCE.DESERT);
-	board.addTile({x: 0, y: 2, z: 1}, RESOURCE.BRICK);
-	board.addTile({x: 0, y: 1, z: 2}, RESOURCE.ORE);
-	board.addTile({x: 2, y: 0, z: 2}, RESOURCE.SHEEP);
-	board.addTile({x: 2, y: 0, z: 1}, RESOURCE.WHEAT);
-	board.addTile({x: 1, y: 0, z: 2}, RESOURCE.WOOD);
+	board.addTile({x: 2, y: 0, z: 0}, TILE_TYPE.SHEEP, 8);
+	board.addTile({x: 0, y: 2, z: 0}, TILE_TYPE.WHEAT, 11);
+	board.addTile({x: 0, y: 0, z: 2}, TILE_TYPE.ORE, 5);
+	board.addTile({x: 2, y: 2, z: 0}, TILE_TYPE.WHEAT, 9);
+	board.addTile({x: 2, y: 1, z: 0}, TILE_TYPE.BRICK, 10);
+	board.addTile({x: 1, y: 2, z: 0}, TILE_TYPE.WOOD, 12);
+	board.addTile({x: 0, y: 2, z: 2}, TILE_TYPE.DESERT, -1);
+	board.addTile({x: 0, y: 2, z: 1}, TILE_TYPE.BRICK, 4);
+	board.addTile({x: 0, y: 1, z: 2}, TILE_TYPE.ORE, 8);
+	board.addTile({x: 2, y: 0, z: 2}, TILE_TYPE.SHEEP, 6);
+	board.addTile({x: 2, y: 0, z: 1}, TILE_TYPE.WHEAT, 3);
+	board.addTile({x: 1, y: 0, z: 2}, TILE_TYPE.WOOD, 2);
 	
 	// Add intersections: inner ring
 	board.addIntersection({x: 0, y: 0, z: 0}, {x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 1});

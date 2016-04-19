@@ -43,8 +43,8 @@ Board.prototype.draw = function() {
 	}
 }
 
-Board.prototype.addTile = function(coordinates, resource) {
-	this.tiles.push(new Tile(coordinates, resource));
+Board.prototype.addTile = function(coordinates, resource, number) {
+	this.tiles.push(new Tile(coordinates, resource, number));
 	this.draw();
 }
 
@@ -75,11 +75,11 @@ function setHexagonSizes(scale) {
 	var width = TILE_SCALE * scale;
 
 	document.styleSheets[0].insertRule(".hexagon { width: " + width + "px; height: " 
-		+ (width * 1 / Math.sqrt(3)) + "px; margin: " +  (width * 0.5 / Math.sqrt(3)) + "px }", 0);
+		+ (width * 1 / Math.sqrt(3)) + "px; margin: " +  (width * 0.5 / Math.sqrt(3)) + "px; }", 0);
 	document.styleSheets[0].insertRule(".hexagon:before, .hexagon:after { border-left: " 
 		+ (width / 2) + "px solid transparent; border-right: " + (width / 2) + "px solid transparent; }", 0);
 	document.styleSheets[0].insertRule(".hexagon:before { border-bottom: " + (width * 0.5 / Math.sqrt(3)) 
-		+ "px solid #64C7CC; }", 0);
+		+ "px solid; border-bottom-color: inherit; }", 0);
 	document.styleSheets[0].insertRule(".hexagon:after { border-top: " + (width * 0.5 / Math.sqrt(3)) 
-		+ "px solid #64C7CC; }", 0);
+		+ "px solid; border-top-color: inherit; }", 0);
 }
