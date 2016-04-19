@@ -92,7 +92,7 @@
 
 .hexagon {
 	position: absolute;
-	background-color: #64C7CC;
+	/*background-color: #64C7CC;*/
 	transform: rotate(30deg);
 	margin: 0px;
 }

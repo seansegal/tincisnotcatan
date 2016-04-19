@@ -43,8 +43,8 @@ Board.prototype.draw = function() {
 	}
 }
 
-Board.prototype.addTile = function(coordinates) {
-	this.tiles.push(new Tile(coordinates));
+Board.prototype.addTile = function(coordinates, resource) {
+	this.tiles.push(new Tile(coordinates, resource));
 	this.draw();
 }
 

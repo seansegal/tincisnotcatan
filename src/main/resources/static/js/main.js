@@ -4,29 +4,29 @@ var players = [];
 $(window).load(function() {
 	board = new Board();
 	// Center
-	board.addTile({x: 0, y: 0, z: 0});
+	board.addTile({x: 0, y: 0, z: 0}, RESOURCE.WOOD);
 
 	// First ring
-	board.addTile({x: 1, y: 0, z: 0});
-	board.addTile({x: 0, y: 1, z: 0});
-	board.addTile({x: 0, y: 0, z: 1});
-	board.addTile({x: 1, y: 1, z: 0});
-	board.addTile({x: 0, y: 1, z: 1});
-	board.addTile({x: 1, y: 0, z: 1});
+	board.addTile({x: 1, y: 0, z: 0}, RESOURCE.SHEEP);
+	board.addTile({x: 0, y: 1, z: 0}, RESOURCE.WHEAT);
+	board.addTile({x: 0, y: 0, z: 1}, RESOURCE.BRICK);
+	board.addTile({x: 1, y: 1, z: 0}, RESOURCE.SHEEP);
+	board.addTile({x: 0, y: 1, z: 1}, RESOURCE.WOOD);
+	board.addTile({x: 1, y: 0, z: 1}, RESOURCE.ORE);
 
 	// Outer ring
-	board.addTile({x: 2, y: 0, z: 0});
-	board.addTile({x: 0, y: 2, z: 0});
-	board.addTile({x: 0, y: 0, z: 2});
-	board.addTile({x: 2, y: 2, z: 0});
-	board.addTile({x: 2, y: 1, z: 0});
-	board.addTile({x: 1, y: 2, z: 0});
-	board.addTile({x: 0, y: 2, z: 2});
-	board.addTile({x: 0, y: 2, z: 1});
-	board.addTile({x: 0, y: 1, z: 2});
-	board.addTile({x: 2, y: 0, z: 2});
-	board.addTile({x: 2, y: 0, z: 1});
-	board.addTile({x: 1, y: 0, z: 2});
+	board.addTile({x: 2, y: 0, z: 0}, RESOURCE.SHEEP);
+	board.addTile({x: 0, y: 2, z: 0}, RESOURCE.WHEAT);
+	board.addTile({x: 0, y: 0, z: 2}, RESOURCE.ORE);
+	board.addTile({x: 2, y: 2, z: 0}, RESOURCE.WHEAT);
+	board.addTile({x: 2, y: 1, z: 0}, RESOURCE.BRICK);
+	board.addTile({x: 1, y: 2, z: 0}, RESOURCE.WOOD);
+	board.addTile({x: 0, y: 2, z: 2}, RESOURCE.DESERT);
+	board.addTile({x: 0, y: 2, z: 1}, RESOURCE.BRICK);
+	board.addTile({x: 0, y: 1, z: 2}, RESOURCE.ORE);
+	board.addTile({x: 2, y: 0, z: 2}, RESOURCE.SHEEP);
+	board.addTile({x: 2, y: 0, z: 1}, RESOURCE.WHEAT);
+	board.addTile({x: 1, y: 0, z: 2}, RESOURCE.WOOD);
 	
 	// Add intersections: inner ring
 	board.addIntersection({x: 0, y: 0, z: 0}, {x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 1});
