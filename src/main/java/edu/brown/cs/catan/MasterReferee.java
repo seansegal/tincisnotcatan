@@ -18,7 +18,7 @@ public class MasterReferee implements Referee {
   private Set<Player> _hasDiscarded;
   private boolean _devHasBeenPlayed;
 
-  public MasterReferee(){
+  public MasterReferee() {
     _board = new Board();
     _players = initializePlayers(Settings.DEFAULT_NUM_PLAYERS);
     _turn = 1;
@@ -28,7 +28,7 @@ public class MasterReferee implements Referee {
   }
 
   public MasterReferee(int numPlayers, boolean smartBank) {
-     _board = new Board();
+    _board = new Board();
     _players = initializePlayers(numPlayers);
     _turn = 1;
     _bank = initializeBank(smartBank);
@@ -46,6 +46,12 @@ public class MasterReferee implements Referee {
   @Override
   public boolean devHasBeenPlayed() {
     return _devHasBeenPlayed;
+  }
+
+  @Override
+  public Player currentPlayer() {
+    // Should there be a better order?
+    return _players.get(_turn % _players.size());
   }
 
   @Override
@@ -108,8 +114,7 @@ public class MasterReferee implements Referee {
 
   @Override
   public Board getBoard() {
-    // TODO Auto-generated method stub
-    return null;
+    return _board; //Read only?
   }
 
   @Override
@@ -120,13 +125,12 @@ public class MasterReferee implements Referee {
 
   @Override
   public List<Player> getPlayers() {
-    // TODO Auto-generated method stub
-    return null;
+    return Collections.unmodifiableList(_players);
   }
 
   @Override
-  public void playDevCard(Player p) {
-    // TODO Auto-generated method stub
+  public void playDevCard() {
+    _devHasBeenPlayed = true;
 
   }
 
@@ -204,21 +208,32 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public void playDevCard(Player p) {
-      throw new UnsupportedOperationException("ReadOnlyReferee cannot play development cards.");
+    public void playDevCard() {
+      throw new UnsupportedOperationException(
+          "ReadOnlyReferee cannot play development cards.");
 
     }
 
     @Override
     public void playerDiscarded(Player player) {
-      throw new UnsupportedOperationException("ReadOnlyReferee cannot set discard flag.");
+      throw new UnsupportedOperationException(
+          "ReadOnlyReferee cannot set discard flag.");
 
     }
 
     @Override
     public void playerMustDiscard(Player player) {
-      throw new UnsupportedOperationException("ReadOnlyReferee cannot set discard flag.");
+      throw new UnsupportedOperationException(
+          "ReadOnlyReferee cannot set discard flag.");
 
     }
+
+    @Override
+    public Player currentPlayer() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
   }
+
 }

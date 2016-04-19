@@ -8,11 +8,12 @@ public interface Referee {
 
   void startNextTurn();
   int getTurn();
+  Player currentPlayer();
 
+  //Development Card
   boolean devHasBeenPlayed();
-  void playDevCard(Player p);
+  void playDevCard();
   DevelopmentCard getDevCard();
-
 
   Referee getReadOnlyReferee();
 
