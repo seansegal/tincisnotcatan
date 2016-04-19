@@ -1,9 +1,9 @@
 package edu.brown.cs.board;
 
 public class IntersectionCoordinate {
-  private HexCoordinate _coord1;
-  private HexCoordinate _coord2;
-  private HexCoordinate _coord3;
+  private final HexCoordinate _coord1;
+  private final HexCoordinate _coord2;
+  private final HexCoordinate _coord3;
 
   public IntersectionCoordinate(HexCoordinate coord1, HexCoordinate coord2,
       HexCoordinate coord3) {
@@ -28,8 +28,8 @@ public class IntersectionCoordinate {
   public int hashCode() {
     int result;
     result = ((_coord1 == null) ? 0 : _coord1.hashCode());
-    result = ((_coord2 == null) ? 0 : _coord2.hashCode());
-    result = ((_coord3 == null) ? 0 : _coord3.hashCode());
+    result += ((_coord2 == null) ? 0 : _coord2.hashCode());
+    result += ((_coord3 == null) ? 0 : _coord3.hashCode());
     return result;
   }
 
