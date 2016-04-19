@@ -119,4 +119,5 @@
 
 .road {
 	position: absolute;
+	border-radius: 5px;
 }

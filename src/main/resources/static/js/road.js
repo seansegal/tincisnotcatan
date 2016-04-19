@@ -1,9 +1,18 @@
 var ROAD_WIDTH_SCALE = 0.05;
-var ROAD_LENGTH_SCALE = 1.0;
+var ROAD_LENGTH_SCALE = 0.95;
 
 function Road(start1, start2, start3, end1, end2, end3) {
-	this.start = findCenter(start1, start2, start3);
-	this.end = findCenter(end1, end2, end3);
+	// Force start to be leftmost intersection and end to be rightmost intersection
+	var first = findCenter(start1, start2, start3);
+	var second = findCenter(end1, end2, end3);
+	if (hexToCartesian(first).x < hexToCartesian(second).x) {
+		this.start = first;
+		this.end = second;
+	} else {
+		this.start = second;
+		this.end = first;
+	}
+
 	this.id = ("road-x-" + this.start.x + "y-" + this.start.y + "z-" + this.start.z
 				+ "-to-x-" + this.end.x + "y-" + this.end.y + "z-" + this.end.z).replace(/[.]/g, "_");
 	this.containsRoad = false;
@@ -14,6 +23,7 @@ function Road(start1, start2, start3, end1, end2, end3) {
 
 Road.prototype.draw = function(transX, transY, scale) {
 	if (this.containsRoad) {
+		// Move road to correct section of board
 		var cartesianStart = hexToCartesian(this.start);
 		var cartesianEnd = hexToCartesian(this.end);
 		var x = transX + cartesianStart.x * scale + Math.sqrt(3) * scale / 4;
@@ -25,45 +35,31 @@ Road.prototype.draw = function(transX, transY, scale) {
 		var deltaX = cartesianEnd.x - cartesianStart.x;
 		var deltaY = cartesianEnd.y - cartesianStart.y;
 		
+		// Find angle of road
 		var angle = Math.atan(deltaY / deltaX);
 		if (deltaX < 0) {
 			angle = angle + Math.PI;
 		}
 		
+		// Find exact size of road div
 		var length = scale / Math.sqrt(3) * ROAD_LENGTH_SCALE;
 		var height = scale * ROAD_WIDTH_SCALE;
-
-		var diag = Math.sqrt(Math.pow(length, 2) + Math.pow(height, 2)) / 2;
-		var diagAngle = Math.atan(height / length);
 		
+		// Offset road to be centered based on its angle
 		x = x + 0.04 * scale;
-//		x = x + (scale / Math.sqrt(3)) - (length / 2);
+		x = x + (scale / Math.sqrt(3)) - (length / 2);
 		
 		if (angle == 0 || angle == Math.PI || angle == -Math.PI) {
-//			x = x - ((scale / Math.sqrt(3)) - (length / 2));
-			console.log(angle);
-		} else if (angle == Math.PI / 3) {
-			console.log(angle);
-		} else if (angle == -Math.PI / 3) {
-			console.log(angle);
+			x = x - ((scale / Math.sqrt(3)) - (length / 2));
+			x = x + (1 - ROAD_LENGTH_SCALE) * scale / (2 * Math.sqrt(3));
+			y = y + 0.025 * scale - height / 2;
+		} else if (Math.abs(angle - Math.PI / 3) < 0.0001) {
+			x = x - scale * Math.sqrt(3) / 4;
+			y = y + scale / 4;
+		} else if (Math.abs(angle + Math.PI / 3) < 0.0001) {
+			x = x - scale * Math.sqrt(3) / 4;
+			y = y - scale / 4;
 		}
-		console.log(angle - Math.PI / 3);
-
-		// Account for rotation
-//		x = x - (diag * Math.cos(diagAngle) - diag * Math.cos(diagAngle + angle));
-//		y = y - (diag * Math.sin(diagAngle) - diag * Math.sin(diagAngle + angle));
-		
-		// Center between hexagons
-		// if (angle !== 0 && angle !== Math.PI && angle !== -Math.PI) {
-		// 	x = x + (height / (2 * Math.sin(angle)));
-		// }
-
-		// Account for rotation
-		// x = x - (length / 2) * (1 - Math.cos(-Math.atan(height / length) + angle));
-		// y = y + (length / 2) * Math.sin(-Math.atan(height / length) + angle);
-		
-		// Center between hexagons
-		// x = x + (height * Math.sqrt(3) / 2);
 		
 		var element = $("#" + this.id);
 		
