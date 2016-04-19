@@ -37,6 +37,7 @@ Board.prototype.draw = function() {
 	for (var i = 0; i < this.intersections.length; i++) {
 		this.intersections[i].draw(this.transX, this.transY, this.scaleFactor);
 	}
+	
 	for (var i = 0; i < this.roads.length; i++) {
 		this.roads[i].draw(this.transX, this.transY, this.scaleFactor);
 	}

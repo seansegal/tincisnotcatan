@@ -25,7 +25,7 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 		
 	var element = $("#" + this.id);
 	element.empty();
-			
+	
 	switch(this.building) {
 	case BUILDING.SETTLEMENT:
 		element.append("<svg><path class='path1' d='M16 9.5l-3-3v-4.5h-2v2.5l-3-3-8 8v0.5h2v5h5v-3h2v3h5v-5h2z'></path></svg>");
@@ -54,7 +54,6 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 Intersection.prototype.addSettlement = function(player) {
 	this.building = BUILDING.SETTLEMENT;
 	this.player = player;
-	this.draw();
 }
 
 findCenter = function(c1, c2, c3) {

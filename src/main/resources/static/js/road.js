@@ -1,4 +1,4 @@
-var ROAD_WIDTH_SCALE = 0.05;
+var ROAD_WIDTH_SCALE = 0.20;
 var ROAD_LENGTH_SCALE = 1.0;
 
 function Road(start1, start2, start3, end1, end2, end3) {
@@ -22,9 +22,6 @@ Road.prototype.draw = function(transX, transY, scale) {
 		var cartesianStart = hexToCartesian(this.start);
 		var cartesianEnd = hexToCartesian(this.end);
 		
-		console.log(cartesianStart);
-		console.log(cartesianEnd);
-		
 		var deltaX = cartesianEnd.x - cartesianStart.x;
 		var deltaY = cartesianEnd.y - cartesianStart.y;
 		
@@ -33,11 +30,23 @@ Road.prototype.draw = function(transX, transY, scale) {
 			angle = angle + Math.PI;
 		}
 		
+		console.log(angle);
+		
+		var length = scale / Math.sqrt(3) * ROAD_LENGTH_SCALE;
+		var height = scale * ROAD_WIDTH_SCALE;
+		
+		// Account for rotation
+		x = x - (length / 2) * (1 - Math.cos(angle));
+		y = y + (length / 2) * Math.sin(angle);
+		
+		// Center between hexagons
+//		x = x + (height * Math.sqrt(3) / 2);
+		
 		var element = $("#" + this.id);
 		
-//		element.css("transform", "translate(" + x + "px, " + y + "px)");
-		element.css("transform", "translate(" + x + "px, " + y + "px) rotate(" + angle + "rad)");
-		element.css("width", scale / Math.sqrt(3) * ROAD_LENGTH_SCALE);
-		element.css("height", scale * ROAD_WIDTH_SCALE);
+		element.css("transform", "translate(" + x + "px, " + y + "px) "
+				+ "rotate(" + angle + "rad)");
+		element.css("width", length);
+		element.css("height", height);
 	}
 }
