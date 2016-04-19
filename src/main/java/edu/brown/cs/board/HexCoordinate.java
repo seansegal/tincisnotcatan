@@ -2,6 +2,8 @@ package edu.brown.cs.board;
 
 import static java.lang.Math.sqrt;
 
+import java.util.Arrays;
+
 public class HexCoordinate {
   private int _x;
   private int _y;
@@ -27,30 +29,37 @@ public class HexCoordinate {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     HexCoordinate other = (HexCoordinate) obj;
-    if ((sqrt(3) / 2 * _x + _y + sqrt(3) / 2 * _z) != (sqrt(3) / 2
-        * other.getX() + other.getY() + sqrt(3) / 2 * other.getZ()))
+    if (this.cartesianX() != other.cartesianX()) {
       return false;
-    if ((1 / 2 * _x + 1 / 2 * _z) != 
-        (1 / 2 * other.getX() + 1 / 2 * other.getZ()))
+    }
+    if (this.cartesianY() != other.cartesianY()) {
       return false;
+    }
     return true;
+  }
+
+  public double cartesianX() {
+    return -1 / 2 * _x + _y + -1 / 2 * _z;
+  }
+  
+  public double cartesianY() {
+    return -sqrt(3) / 2 * _x + sqrt(3) / 2 * _z;
   }
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + _x;
-    result = prime * result + _y;
-    result = prime * result + _z;
-    return result;
+    double[] coords = { this.cartesianX(), this.cartesianY() };
+    return Arrays.hashCode(coords);
   }
 
   @Override

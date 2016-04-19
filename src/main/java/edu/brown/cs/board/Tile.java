@@ -1,6 +1,7 @@
 package edu.brown.cs.board;
 
 import java.util.Collection;
+import java.util.Map;
 
 import edu.brown.cs.catan.Resource;
 
@@ -12,12 +13,12 @@ public class Tile {
   private HexCoordinate _coordinate;
   
   public Tile(int tileID, int rollNum, HexCoordinate coordinate,
-      Collection<Intersection> intersections, TileType type) {
+      Map<IntersectionCoordinate, Intersection> intersections, TileType type) {
     _type = type.getType();
     _tileID = tileID;
     _rollNum = rollNum;
     _coordinate = coordinate;
-    _intersections = intersections;
+    _intersections = intersections.values();
   }
 
   public int getID() {

@@ -16,7 +16,9 @@ import static edu.brown.cs.catan.Settings.NUM_WOOD_TILE;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Board {
   private Collection<Tile> _tiles;
@@ -24,27 +26,27 @@ public class Board {
 
   public Board() {
     List<TileType> availTiles = new ArrayList<TileType>();
-    List<HexCoordinate> coords = new ArrayList<HexCoordinate>();
-    int i;
-    for (i = 0; i < NUM_WOOD_TILE; i++) {
-      availTiles.add(WOOD);
-    }
-    for (i = 0; i < NUM_BRICK_TILE; i++) {
-      availTiles.add(BRICK);
-    }
-    for (i = 0; i < NUM_SHEEP_TILE; i++) {
-      availTiles.add(SHEEP);
-    }
-    for (i = 0; i < NUM_WHEAT_TILE; i++) {
-      availTiles.add(WHEAT);
-    }
-    for (i = 0; i < NUM_ORE_TILE; i++) {
-      availTiles.add(ORE);
-    }
-    for (i = 0; i < NUM_DESERT_TILE; i++) {
-      availTiles.add(DESERT);
-    }
+    List<HexCoordinate> coords = getCoordPermutations();
+    addTiles(availTiles, WOOD, NUM_WOOD_TILE);
+    addTiles(availTiles, BRICK, NUM_BRICK_TILE);
+    addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
+    addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
+    addTiles(availTiles, ORE, NUM_ORE_TILE);
+    addTiles(availTiles, DESERT, NUM_DESERT_TILE);
     Collections.shuffle(availTiles);
+
+    Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
+
+  }
+
+  private void addTiles(List<TileType> availTiles, TileType type, int numTiles) {
+    for (int i = 0; i < numTiles; i++) {
+      availTiles.add(type);
+    }
+  }
+
+  private List<HexCoordinate> getCoordPermutations() {
+    List<HexCoordinate> coords = new ArrayList<HexCoordinate>();
     coords.add(new HexCoordinate(0, 0, 0));
     int[] oneOne = { 0, 0, 1 };
     int[] twoOne = { 0, 1, 1 };
@@ -78,13 +80,12 @@ public class Board {
     while (permute(twoTwo)) {
       coords.add(new HexCoordinate(twoTwo[0], twoTwo[1], twoTwo[2]));
     }
-
-    // System.out.println(Arrays.toString(coords.toArray()));
+    return coords;
   }
 
-  // public static void main(String[] args) {
-  // Board b = new Board();
-  // }
+  public static void main(String[] args) {
+    Board b = new Board();
+  }
 
   private boolean permute(int[] data) {
     int k = data.length - 2;
@@ -128,6 +129,4 @@ public class Board {
     assert (tileID != _robberTile);
     _robberTile = tileID;
   }
-
-
 }

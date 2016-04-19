@@ -13,10 +13,10 @@ public class Intersection {
   private int _intersectionID;
   private Port _port;
   private Collection<Path> _paths;
-  private Collection<HexCoordinate> _position;
+  private IntersectionCoordinate _position;
   
   public Intersection(int intersectionID, Collection<Path> paths,
-      Collection<HexCoordinate> position) {
+      IntersectionCoordinate position) {
     _intersectionID = intersectionID;
     _paths = paths;
     _position = position;
@@ -24,7 +24,7 @@ public class Intersection {
     _port = null;
   }
   
-  public Intersection(int intersectionID, Collection<HexCoordinate> position) {
+  public Intersection(int intersectionID, IntersectionCoordinate position) {
     _intersectionID = intersectionID;
     _paths = new ArrayList<Path>();
     _position = position;
@@ -33,7 +33,7 @@ public class Intersection {
   }
 
   public Intersection(int intersectionID, Collection<Path> paths,
-      Collection<HexCoordinate> position, Port port) {
+      IntersectionCoordinate position, Port port) {
     _intersectionID = intersectionID;
     _paths = paths;
     _position = position;
@@ -41,7 +41,7 @@ public class Intersection {
     _port = port;
   }
 
-  public Intersection(int intersectionID, Collection<HexCoordinate> position,
+  public Intersection(int intersectionID, IntersectionCoordinate position,
       Port port) {
     _intersectionID = intersectionID;
     _paths = new ArrayList<Path>();
