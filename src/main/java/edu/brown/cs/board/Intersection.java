@@ -53,6 +53,10 @@ public class Intersection {
     return _port;
   }
 
+  public IntersectionCoordinate getPosition() {
+    return _position;
+  }
+
   public void notifyBuilding(Resource res) {
     if (_building != null) {
       _building.collectResource(res);

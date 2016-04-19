@@ -13,16 +13,17 @@ public class Tile {
   private HexCoordinate _coordinate;
   
   public Tile(int rollNum, HexCoordinate coordinate,
-      Map<IntersectionCoordinate, Intersection> intersections, TileType type) {
+      Map<IntersectionCoordinate, Intersection> intersections,
+      Map<PathCoordinate, Path> paths, TileType type) {
     _type = type.getType();
     _rollNum = rollNum;
     _coordinate = coordinate;
-    fillIntersections(intersections);
+    fillEdges(intersections, paths);
 
   }
 
-  private void fillIntersections(
-      Map<IntersectionCoordinate, Intersection> intersections) {
+  private void fillEdges(
+      Map<IntersectionCoordinate, Intersection> intersections, Map<PathCoordinate, Path> paths) {
     _intersections = new ArrayList<Intersection>();
     HexCoordinate upLeftTile = new HexCoordinate(_coordinate.getX(),
         _coordinate.getY(), _coordinate.getZ() + 1);
@@ -56,6 +57,14 @@ public class Tile {
     fillIntersections(intersections, bottom);
     fillIntersections(intersections, lowerLeft);
     fillIntersections(intersections, upLeft);
+    
+    fillPaths(intersections.get(top), intersections.get(upRight), paths);
+    fillPaths(intersections.get(upRight), intersections.get(lowerRight), paths);
+    fillPaths(intersections.get(lowerRight), intersections.get(bottom), paths);
+    fillPaths(intersections.get(bottom), intersections.get(lowerLeft), paths);
+    fillPaths(intersections.get(lowerLeft), intersections.get(upLeft), paths);
+    fillPaths(intersections.get(upLeft), intersections.get(top), paths);
+
   }
 
   private void fillIntersections(
@@ -67,6 +76,14 @@ public class Tile {
       Intersection newIntersect = new Intersection(coord);
       intersections.put(coord, newIntersect);
       _intersections.add(newIntersect);
+    }
+  }
+
+  private void fillPaths(Intersection start, Intersection end,
+      Map<PathCoordinate, Path> paths) {
+    PathCoordinate path = new PathCoordinate(start.getPosition(), end.getPosition());
+    if(!paths.containsKey(path)) {
+      paths.put(path, new Path(start, end));
     }
   }
 

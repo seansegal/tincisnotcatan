@@ -23,6 +23,8 @@ import java.util.Map;
 
 public class Board {
   private Collection<Tile> _tiles;
+  private Map<IntersectionCoordinate, Intersection> _intersections;
+  private Map<PathCoordinate, Path> _paths;
   private int _robberTile;
 
   public Board() {
@@ -38,13 +40,15 @@ public class Board {
 
     Map<IntersectionCoordinate, Intersection> intersections =
         new HashMap<IntersectionCoordinate, Intersection>();
+    Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
 
     _tiles = new ArrayList<>();
     for (int i = 0; i < availTiles.size(); i++) {
-      _tiles.add(new Tile(ROLL_NUMS[i], coords.get(i), intersections,
+      _tiles.add(new Tile(ROLL_NUMS[i], coords.get(i), intersections, paths,
           availTiles.get(i)));
     }
-
+    _intersections = intersections;
+    _paths = paths;
   }
 
   private void addTiles(List<TileType> availTiles, TileType type, int numTiles) {

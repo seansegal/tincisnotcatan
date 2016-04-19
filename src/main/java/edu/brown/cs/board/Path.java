@@ -7,6 +7,12 @@ public class Path {
   private Intersection _end;
   private Road _road;
 
+  public Path(Intersection start, Intersection end) {
+    _start = start;
+    _end = end;
+    _road = null;
+  }
+
   public boolean canPlaceRoad(Player p) {
     return _road == null;
   }
