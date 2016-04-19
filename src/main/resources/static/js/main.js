@@ -57,13 +57,15 @@ $(window).load(function() {
 	board.addIntersection({x: 0, y: 1, z: 1}, {x: 0, y: 1, z: 0}, {x: 0, y: 2, z: 1});
 	board.addIntersection({x: 0, y: 2, z: 1}, {x: 0, y: 1, z: 1}, {x: 0, y: 2, z: 2});
 
-	// Add roads
+	// Add paths
 	board.addRoad({x: 0, y: 0, z: 0}, {x: 0, y: 1, z: 0}, {x: 1, y: 1, z: 0},
 			{x: 0, y: 0, z: 0}, {x: 1, y: 0, z: 0}, {x: 1, y: 1, z: 0});
 	board.addRoad({x: 1, y: 1, z: 0}, {x: 1, y: 2, z: 0}, {x: 2, y: 2, z: 0},
 			{x: 1, y: 2, z: 0}, {x: 2, y: 2, z: 0}, {x: 2, y: 3, z: 0});
 	board.addRoad({x: 1, y: 0, z: 0}, {x: 2, y: 0, z: 0}, {x: 2, y: 0, z: 1},
 			{x: 1, y: 0, z: 0}, {x: 1, y: 0, z: 1}, {x: 2, y: 0, z: 1});
+	board.addRoad({x: 0, y: 0, z: 0}, {x: 1, y: 0, z: 0}, {x: 1, y: 1, z: 0},
+			{x: 0, y: 0, z: 0}, {x: 1, y: 0, z: 0}, {x: 1, y: 0, z: 1});
 	
 	// Create players
 	var p1 = new Player(1, "#FF4747");
@@ -80,6 +82,12 @@ $(window).load(function() {
 	board.intersections[8].addSettlement(p2);
 	board.intersections[10].addSettlement(p3);
 	board.intersections[18].addSettlement(p4);
+
+	// Add roads
+	board.roads[0].addRoad(p1);
+	board.roads[1].addRoad(p1);
+	board.roads[2].addRoad(p2);
+	board.roads[3].addRoad(p1);
 
 	redrawCatan();
 });

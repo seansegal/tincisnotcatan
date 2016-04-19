@@ -1,4 +1,4 @@
-var ROAD_WIDTH_SCALE = 0.20;
+var ROAD_WIDTH_SCALE = 0.25;
 var ROAD_LENGTH_SCALE = 1.0;
 
 function Road(start1, start2, start3, end1, end2, end3) {
@@ -6,7 +6,7 @@ function Road(start1, start2, start3, end1, end2, end3) {
 	this.end = findCenter(end1, end2, end3);
 	this.id = ("road-x-" + this.start.x + "y-" + this.start.y + "z-" + this.start.z
 				+ "-to-x-" + this.end.x + "y-" + this.end.y + "z-" + this.end.z).replace(/[.]/g, "_");
-	this.containsRoad = true;
+	this.containsRoad = false;
 	this.player = null;
 	
 	$("#board-viewport").append("<div class='road' id='" + this.id + "'></div>");
@@ -34,13 +34,26 @@ Road.prototype.draw = function(transX, transY, scale) {
 		
 		var length = scale / Math.sqrt(3) * ROAD_LENGTH_SCALE;
 		var height = scale * ROAD_WIDTH_SCALE;
-		
+
+		var diag = Math.sqrt(Math.pow(length, 2) + Math.pow(height, 2)) / 2;
+		var diagAngle = Math.atan(height / length);
+
 		// Account for rotation
-		x = x - (length / 2) * (1 - Math.cos(angle));
-		y = y + (length / 2) * Math.sin(angle);
+		x = x - (diag * Math.cos(diagAngle) - diag * Math.cos(diagAngle + angle));
+		y = y - (diag * Math.sin(diagAngle) - diag * Math.sin(diagAngle + angle));
 		
 		// Center between hexagons
-//		x = x + (height * Math.sqrt(3) / 2);
+		// x = x + scale * 0.04;
+		// if (angle !== 0 && angle !== Math.PI && angle !== -Math.PI) {
+		// 	x = x + (height / (2 * Math.sin(angle)));
+		// }
+
+		// Account for rotation
+		// x = x - (length / 2) * (1 - Math.cos(-Math.atan(height / length) + angle));
+		// y = y + (length / 2) * Math.sin(-Math.atan(height / length) + angle);
+		
+		// Center between hexagons
+		// x = x + (height * Math.sqrt(3) / 2);
 		
 		var element = $("#" + this.id);
 		
@@ -48,5 +61,11 @@ Road.prototype.draw = function(transX, transY, scale) {
 				+ "rotate(" + angle + "rad)");
 		element.css("width", length);
 		element.css("height", height);
+		element.css("background-color", this.player.color);
 	}
+}
+
+Road.prototype.addRoad = function(player) {
+	this.containsRoad = true;
+	this.player = player;
 }
