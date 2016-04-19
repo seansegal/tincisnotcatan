@@ -1,4 +1,4 @@
-var ROAD_WIDTH_SCALE = 0.25;
+var ROAD_WIDTH_SCALE = 0.05;
 var ROAD_LENGTH_SCALE = 1.0;
 
 function Road(start1, start2, start3, end1, end2, end3) {
@@ -30,20 +30,30 @@ Road.prototype.draw = function(transX, transY, scale) {
 			angle = angle + Math.PI;
 		}
 		
-		console.log(angle);
-		
 		var length = scale / Math.sqrt(3) * ROAD_LENGTH_SCALE;
 		var height = scale * ROAD_WIDTH_SCALE;
 
 		var diag = Math.sqrt(Math.pow(length, 2) + Math.pow(height, 2)) / 2;
 		var diagAngle = Math.atan(height / length);
+		
+		x = x + 0.04 * scale;
+//		x = x + (scale / Math.sqrt(3)) - (length / 2);
+		
+		if (angle == 0 || angle == Math.PI || angle == -Math.PI) {
+//			x = x - ((scale / Math.sqrt(3)) - (length / 2));
+			console.log(angle);
+		} else if (angle == Math.PI / 3) {
+			console.log(angle);
+		} else if (angle == -Math.PI / 3) {
+			console.log(angle);
+		}
+		console.log(angle - Math.PI / 3);
 
 		// Account for rotation
-		x = x - (diag * Math.cos(diagAngle) - diag * Math.cos(diagAngle + angle));
-		y = y - (diag * Math.sin(diagAngle) - diag * Math.sin(diagAngle + angle));
+//		x = x - (diag * Math.cos(diagAngle) - diag * Math.cos(diagAngle + angle));
+//		y = y - (diag * Math.sin(diagAngle) - diag * Math.sin(diagAngle + angle));
 		
 		// Center between hexagons
-		// x = x + scale * 0.04;
 		// if (angle !== 0 && angle !== Math.PI && angle !== -Math.PI) {
 		// 	x = x + (height / (2 * Math.sin(angle)));
 		// }
