@@ -6,13 +6,20 @@ import java.util.Map;
 
 public class HumanPlayer implements Player {
 
-  private Map<Resource, Double> resources;
-  private Map<DevelopmentCard, Integer> devCards; // TODO
+  private final Map<Resource, Double> resources;
+  private final Map<DevelopmentCard, Integer> devCards; // TODO
+  private int numPlayedKnights;
   private int numRoads;
   private int numSettlements;
   private int numCities;
+  private final String name;
+  private final int id;
+  private final String color;
 
-  public HumanPlayer() {
+  public HumanPlayer(int id) {
+    this.name = ""; //Change to be customizable
+    this.id = id;
+    this.color = "#000000"; //Custimomize later
     this.numRoads = Settings.INITIAL_ROADS;
     this.numSettlements = Settings.INITIAL_SETTLEMENTS;
     this.numCities = Settings.INITIAL_CITIES;
@@ -131,6 +138,11 @@ public class HumanPlayer implements Player {
   }
 
   @Override
+  public int numPlayedKnights() {
+    return numPlayedKnights;
+  }
+
+  @Override
   public String toString() {
     return "Player [resources=" + resources + "]";
   }
@@ -165,6 +177,17 @@ public class HumanPlayer implements Player {
       count += entry.getValue();
     }
     return count;
+  }
+
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public int getID() {
+    return id;
   }
 
   private class ReadOnlyPlayer implements Player {
@@ -266,8 +289,21 @@ public class HumanPlayer implements Player {
       return _player.getNumResourceCards();
     }
 
+    @Override
+    public String getName() {
+      return _player.getName();
+    }
+
+    @Override
+    public int getID() {
+      return _player.getID();
+    }
+
+    @Override
+    public int numPlayedKnights() {
+      return _player.numPlayedKnights();
+    }
+
   }
-
-
 
 }

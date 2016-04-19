@@ -62,7 +62,7 @@ public class MasterReferee implements Referee {
   private List<Player> initializePlayers(int numPlayers) {
     List<Player> toReturn = new ArrayList<>();
     for (int i = 0; i < numPlayers; i++) {
-      toReturn.add(new HumanPlayer());
+      toReturn.add(new HumanPlayer(i));
     }
     return Collections.unmodifiableList(toReturn);
   }

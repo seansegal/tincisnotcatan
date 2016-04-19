@@ -40,4 +40,10 @@ public interface Player {
 
   Player getImmutableCopy();
 
+  String getName();
+
+  int getID();
+
+  int numPlayedKnights();
+
 }
