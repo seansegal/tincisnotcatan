@@ -12,6 +12,7 @@ import static edu.brown.cs.catan.Settings.NUM_ORE_TILE;
 import static edu.brown.cs.catan.Settings.NUM_SHEEP_TILE;
 import static edu.brown.cs.catan.Settings.NUM_WHEAT_TILE;
 import static edu.brown.cs.catan.Settings.NUM_WOOD_TILE;
+import static edu.brown.cs.catan.Settings.ROLL_NUMS;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +36,13 @@ public class Board {
     addTiles(availTiles, DESERT, NUM_DESERT_TILE);
     Collections.shuffle(availTiles);
 
-    Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
+    Map<IntersectionCoordinate, Intersection> intersections =
+        new HashMap<IntersectionCoordinate, Intersection>();
+    
+    for (int i = 0; i < availTiles.size(); i++) {
+      _tiles.add(new Tile(ROLL_NUMS[i], coords.get(i), intersections,
+          availTiles.get(i)));
+    }
 
   }
 

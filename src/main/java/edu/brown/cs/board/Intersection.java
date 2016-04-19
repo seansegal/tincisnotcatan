@@ -10,40 +10,35 @@ import edu.brown.cs.catan.Resource;
 public class Intersection {
 
   private Building _building;
-  private int _intersectionID;
   private Port _port;
   private Collection<Path> _paths;
   private IntersectionCoordinate _position;
   
-  public Intersection(int intersectionID, Collection<Path> paths,
+  public Intersection(Collection<Path> paths,
       IntersectionCoordinate position) {
-    _intersectionID = intersectionID;
     _paths = paths;
     _position = position;
     _building = null;
     _port = null;
   }
   
-  public Intersection(int intersectionID, IntersectionCoordinate position) {
-    _intersectionID = intersectionID;
+  public Intersection(IntersectionCoordinate position) {
     _paths = new ArrayList<Path>();
     _position = position;
     _building = null;
     _port = null;
   }
 
-  public Intersection(int intersectionID, Collection<Path> paths,
+  public Intersection(Collection<Path> paths,
       IntersectionCoordinate position, Port port) {
-    _intersectionID = intersectionID;
     _paths = paths;
     _position = position;
     _building = null;
     _port = port;
   }
 
-  public Intersection(int intersectionID, IntersectionCoordinate position,
+  public Intersection(IntersectionCoordinate position,
       Port port) {
-    _intersectionID = intersectionID;
     _paths = new ArrayList<Path>();
     _position = position;
     _building = null;
@@ -52,10 +47,6 @@ public class Intersection {
 
   public void addPath(Path path) {
     _paths.add(path);
-  }
-
-  public int getID() {
-    return _intersectionID;
   }
 
   public Port getPort() {

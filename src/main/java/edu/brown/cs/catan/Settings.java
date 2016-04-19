@@ -12,7 +12,7 @@ public abstract class Settings {
   public final static int INITIAL_CITIES = 4;
 
   // Numbers on the board:
-  private final static int[] ROLL_NUMS = { 5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8,
+  public final static int[] ROLL_NUMS = { 5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8,
       10, 9, 4, 5, 6, 3, 10, 11 };
 
   // Number of each tile type on the board:
