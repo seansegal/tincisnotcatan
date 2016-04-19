@@ -5,10 +5,10 @@ import static java.lang.Math.sqrt;
 import java.util.Arrays;
 
 public class HexCoordinate {
-  private int _x;
-  private int _y;
-  private int _z;
-  
+  private final int _x;
+  private final int _y;
+  private final int _z;
+
   public HexCoordinate(int x, int y, int z) {
     _x = x;
     _y = y;
@@ -49,11 +49,11 @@ public class HexCoordinate {
   }
 
   public double cartesianX() {
-    return -1 / 2 * _x + _y + -1 / 2 * _z;
+    return (-0.5) * _x + _y + (-0.5) * _z;
   }
-  
+
   public double cartesianY() {
-    return -sqrt(3) / 2 * _x + sqrt(3) / 2 * _z;
+    return -(sqrt(3)/ 2) * _x + (sqrt(3)/ 2) * _z;
   }
 
   @Override

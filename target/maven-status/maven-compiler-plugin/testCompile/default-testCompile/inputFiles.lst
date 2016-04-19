@@ -3,5 +3,6 @@
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/test/java/edu/brown/cs/graph/GraphsTest.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/test/java/edu/brown/cs/actions/AddCardActionTest.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/test/java/edu/brown/cs/catan/MasterRefereeTest.java
+/Users/seansegal/Dropbox/Brown/CS32/catan/src/test/java/edu/brown/cs/board/HexCoordinateTest.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/test/java/edu/brown/cs/graph/EdgeTest.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/test/java/edu/brown/cs/catan/SimpleBankTest.java

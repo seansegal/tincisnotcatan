@@ -18,6 +18,7 @@
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/BuildRoad.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/AddCard.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/Port.java
+/Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/IntersectionCoordinate.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/board/Road.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/actions/Trade.java
 /Users/seansegal/Dropbox/Brown/CS32/catan/src/main/java/edu/brown/cs/catan/MasterReferee.java
