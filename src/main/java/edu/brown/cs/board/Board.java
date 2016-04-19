@@ -38,7 +38,8 @@ public class Board {
 
     Map<IntersectionCoordinate, Intersection> intersections =
         new HashMap<IntersectionCoordinate, Intersection>();
-    
+
+    _tiles = new ArrayList<>();
     for (int i = 0; i < availTiles.size(); i++) {
       _tiles.add(new Tile(ROLL_NUMS[i], coords.get(i), intersections,
           availTiles.get(i)));
@@ -131,7 +132,7 @@ public class Board {
   public Collection<Tile> getTiles() {
     return _tiles;
   }
-  
+
   public void moveRobber(int tileID) {
     assert (tileID != _robberTile);
     _robberTile = tileID;
