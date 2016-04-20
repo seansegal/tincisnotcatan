@@ -2,8 +2,10 @@ var X_UNIT_VEC = {x: Math.sqrt(3) / 2, y: 0.5};
 var Y_UNIT_VEC = {x: 0, y: -1};
 var Z_UNIT_VEC = {x: -Math.sqrt(3) / 2, y: 0.5};
 
-var NUMBER_SCALE = 0.2;
+var TILE_SCALE = 0.95;
+var NUMBER_SCALE = 0.175;
 var NUMBER_CIRCLE_SCALE = 0.3;
+var NUMBER_CIRCLE_DOTS_SCALE = 0.025;
 
 var TILE_TYPE = {
 	BRICK: 1,
@@ -25,18 +27,27 @@ function Tile(coordinates, tileType, number) {
 	this.coordinates = coordinates;
 	this.tileType = tileType;
 	this.number = number;
+	this.numDots = 6 - Math.abs(this.number - 7);
 
 	this.id = "tile-x-" + this.coordinates.x + "y-" + this.coordinates.y + "z-" + this.coordinates.z;
 
 	$("#board-viewport").append("<div class='hexagon-wrapper' id='" + this.id + "-wrapper'>"
-			+ "<div class='hexagon' id='" + this.id + "'></div>"
-			+ "<div class='circle number-circle'><span class='unselectable'>" + this.number + "</span></div></div>");
+			+ "<div class='hexagon' id='" + this.id + "'></div></div>");
+	
+	if (!(this.tileType === TILE_TYPE.DESERT)) {
+		$("#" + this.id).parent().append("<div class='circle number-circle'><span class='unselectable'>" + this.number + "</span>"
+				+ "<br><div class='dots-container'></div></div>");
+	} else {
+		$("#" + this.id).parent().append("<div class='circle number-circle desert-circle'</div>");
+	}
 }
 
 Tile.prototype.draw = function(transX, transY, scale) {
 	var displacement = hexToCartesian(this.coordinates);
 	var tileX = transX + displacement.x * scale;
 	var tileY = transY + displacement.y * scale;
+	
+	tileY = tileY - scale * (1 - 1 / Math.sqrt(3)) / 2;
 
 	var wrapper = $("#" + this.id + "-wrapper");
 	var element = $("#" + this.id);
@@ -69,24 +80,46 @@ Tile.prototype.draw = function(transX, transY, scale) {
 	element.css("background-color", color);
 	wrapper.css("border-color", color);
 	
-	// Translate tile to correct location
-	element.css("transform", "translate(" + tileX + "px , " + tileY + "px) rotate(-30deg)");
-	
+	// Translate and scale tile
+	wrapper.css("transform", "translate(" + tileX + "px , " + tileY + "px)");
+	wrapper.css("width", TILE_SCALE * scale);
+	wrapper.css("height", TILE_SCALE * scale);
+		
+	// Translate number circle to correct location
+	var circleX = -(Math.sqrt(Math.pow(scale / Math.sqrt(3), 2)
+			+ Math.pow(scale, 2)) - scale) / 2 - 0.015 * scale;
+	var circleY = -scale / (2 * Math.sqrt(3));
+		
+	// Center number circle inside tile
+	circleX = circleX - NUMBER_CIRCLE_SCALE * scale / 2 + scale / Math.sqrt(3);
+	circleY = circleY - NUMBER_CIRCLE_SCALE * scale / 2 - scale * (1 - 1 / Math.sqrt(3)) / 2;
+		
+	numberCircle.css("transform", "translate(" + circleX + "px , " + circleY + "px)");
+		
+	// Scale number circle
+	numberCircle.css("width", (scale * NUMBER_CIRCLE_SCALE) + "px");
+	numberCircle.css("height", (scale * NUMBER_CIRCLE_SCALE) + "px");
+		
 	if (!(this.tileType === TILE_TYPE.DESERT)) {
-		// Translate number circle to correct location
-		var circleX = tileX - (Math.sqrt(Math.pow(scale / Math.sqrt(3), 2)
-				+ Math.pow(scale, 2)) - scale) / 2 - 0.025 * scale;
-		var circleY = tileY + scale / (2 * Math.sqrt(3)) - 0.025 * scale;
-		
-		// Center number circle inside tile
-		circleX = circleX - NUMBER_CIRCLE_SCALE * scale / 2 + scale / Math.sqrt(3);
-		circleY = circleY - NUMBER_CIRCLE_SCALE * scale / 2;
-		
-		numberCircle.css("transform", "translate(" + circleX + "px , " + circleY + "px)");
+		// Scale and center tile number
 		numberCircle.css("font-size", (scale * NUMBER_SCALE) + "px");
-		numberCircle.css("width", (scale * NUMBER_CIRCLE_SCALE) + "px");
-		numberCircle.css("height", (scale * NUMBER_CIRCLE_SCALE) + "px");
-		numberCircle.children("span").css("line-height", (scale * NUMBER_CIRCLE_SCALE) + "px");
+		numberCircle.children("span").css("line-height", (scale * NUMBER_CIRCLE_SCALE) + "px");		
+	
+		// Add dots
+		var dotsContainer = numberCircle.children(".dots-container");
+		dotsContainer.empty();
+		
+		for (var i = 0; i < this.numDots; i++) {
+			dotsContainer.append("<div class='circle number-dot'></div>");
+		}
+		
+		// Move dots below number
+		dotsContainer.css("transform", "translate(0px, " + (-scale * NUMBER_CIRCLE_SCALE) * 3 / 4 + "px)");
+		
+		// Set size of dots
+		dotsContainer.children().css("height", scale * NUMBER_CIRCLE_DOTS_SCALE);
+		dotsContainer.children().css("width", scale * NUMBER_CIRCLE_DOTS_SCALE);
+		dotsContainer.children().not(":first").css("margin-left", scale * NUMBER_CIRCLE_DOTS_SCALE / 3);
 	}
 }
 

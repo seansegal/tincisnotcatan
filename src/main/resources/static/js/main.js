@@ -77,7 +77,6 @@ $(window).load(function() {
 
 	// Add settlements
 	board.intersections[0].addSettlement(p1);
-//	board.intersections[2].addSettlement(p1);
 	board.intersections[24].addSettlement(p2);
 	board.intersections[8].addSettlement(p2);
 	board.intersections[10].addSettlement(p3);

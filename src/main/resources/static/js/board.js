@@ -1,6 +1,5 @@
-var INITIAL_HEX_SIZE = 100;
-var TILE_SCALE = 0.95;
-var MIN_SCALE = 50;
+var INITIAL_HEX_SIZE = 130;
+var MIN_SCALE = 100;
 var MAX_SCALE = 300;
 
 function Board() {
@@ -11,21 +10,31 @@ function Board() {
 	this.tiles = [];
 	this.intersections = [];
 	this.roads = [];
-
-	setupHexagonSizes(this.scaleFactor);
 }
 
 Board.prototype.translate = function(deltaX, deltaY) {
 	this.transX = this.transX + deltaX;
 	this.transY = this.transY + deltaY;
+	
+	// Cap translation to bounding box
+	this.transX = Math.max(-this.scaleFactor / 2, this.transX);
+	this.transX = Math.min($("#board-viewport").width() * 5 / 6 - this.scaleFactor / 2, this.transX);
+	this.transY = Math.max(-this.scaleFactor / (2 * Math.sqrt(3)), this.transY);
+	this.transY = Math.min($("#board-viewport").height() - this.scaleFactor / (2 * Math.sqrt(3)), this.transY);
+	
 	this.draw();
 }
 
 Board.prototype.scale = function(deltaScale) {
 	this.scaleFactor = this.scaleFactor + deltaScale;
+	
+	// Cap scale factor between MIN_SCALE and MAX_SCALE
 	this.scaleFactor = Math.max(MIN_SCALE, this.scaleFactor);
 	this.scaleFactor = Math.min(MAX_SCALE, this.scaleFactor);
-	setHexagonSizes(this.scaleFactor);
+
+	// Clip edges if they go too far over border
+	this.translate(0, 0);
+	
 	this.draw();
 }
 
@@ -56,30 +65,4 @@ Board.prototype.addIntersection = function(c1, c2, c3) {
 Board.prototype.addRoad = function(s1, s2, s3, e1, e2, e3) {
 	this.roads.push(new Road(s1, s2, s3, e1, e2, e3));
 	this.draw();
-}
-
-function setupHexagonSizes(scale) {
-	document.styleSheets[0].insertRule(".hexagon { color: #fff; }", 0);
-	document.styleSheets[0].insertRule(".hexagon { color: #fff; }", 0);
-	document.styleSheets[0].insertRule(".hexagon { color: #fff; }", 0);
-	document.styleSheets[0].insertRule(".hexagon { color: #fff; }", 0);
-	setHexagonSizes(scale);
-}
-
-function setHexagonSizes(scale) {
-	document.styleSheets[0].deleteRule(0);
-	document.styleSheets[0].deleteRule(0);
-	document.styleSheets[0].deleteRule(0);
-	document.styleSheets[0].deleteRule(0);
-
-	var width = TILE_SCALE * scale;
-
-	document.styleSheets[0].insertRule(".hexagon { width: " + width + "px; height: " 
-		+ (width * 1 / Math.sqrt(3)) + "px; margin: " +  (width * 0.5 / Math.sqrt(3)) + "px; }", 0);
-	document.styleSheets[0].insertRule(".hexagon:before, .hexagon:after { border-left: " 
-		+ (width / 2) + "px solid transparent; border-right: " + (width / 2) + "px solid transparent; }", 0);
-	document.styleSheets[0].insertRule(".hexagon:before { border-bottom: " + (width * 0.5 / Math.sqrt(3)) 
-		+ "px solid; border-bottom-color: inherit; }", 0);
-	document.styleSheets[0].insertRule(".hexagon:after { border-top: " + (width * 0.5 / Math.sqrt(3)) 
-		+ "px solid; border-top-color: inherit; }", 0);
 }

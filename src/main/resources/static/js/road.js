@@ -1,4 +1,4 @@
-var ROAD_WIDTH_SCALE = 0.05;
+var ROAD_WIDTH_SCALE = 0.055;
 var ROAD_LENGTH_SCALE = 0.95;
 
 function Road(start1, start2, start3, end1, end2, end3) {
@@ -52,13 +52,13 @@ Road.prototype.draw = function(transX, transY, scale) {
 		if (angle == 0 || angle == Math.PI || angle == -Math.PI) {
 			x = x - ((scale / Math.sqrt(3)) - (length / 2));
 			x = x + (1 - ROAD_LENGTH_SCALE) * scale / (2 * Math.sqrt(3));
-			y = y + 0.025 * scale - height / 2;
+			y = y + 0.015 * scale - height / 2;
 		} else if (Math.abs(angle - Math.PI / 3) < 0.0001) {
 			x = x - scale * Math.sqrt(3) / 4;
-			y = y + scale / 4;
+			y = y - 0.015 * scale + scale / 4;
 		} else if (Math.abs(angle + Math.PI / 3) < 0.0001) {
 			x = x - scale * Math.sqrt(3) / 4;
-			y = y - scale / 4;
+			y = y - 0.015 * scale - scale / 4;
 		}
 		
 		var element = $("#" + this.id);
