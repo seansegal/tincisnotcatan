@@ -81,6 +81,11 @@ $(window).load(function() {
 	board.intersections[8].addSettlement(p2);
 	board.intersections[10].addSettlement(p3);
 	board.intersections[18].addSettlement(p4);
+	
+	// Add citys
+	board.intersections[3].addCity(p1);
+	board.intersections[22].addCity(p2);
+	board.intersections[15].addCity(p3);
 
 	// Add roads
 	board.roads[0].addRoad(p1);
