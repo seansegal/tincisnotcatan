@@ -41,6 +41,8 @@ public class HumanPlayerTest {
   @Test
   public void testBuildCity() {
     Player player = new HumanPlayer(0);
+    // Must first use a settlement
+    player.useSettlement();
     player.addResource(Resource.ORE);
     player.addResource(Resource.ORE);
     player.addResource(Resource.ORE);
@@ -48,7 +50,6 @@ public class HumanPlayerTest {
     player.addResource(Resource.WHEAT);
     player.buildCity();
     assertTrue(playerOutOfResources(player));
-
   }
 
   @Test
@@ -85,9 +86,9 @@ public class HumanPlayerTest {
     }
   }
 
-  //Test hashCode and equals:
+  // Test hashCode and equals:
   @Test
-  public void testHashCode(){
+  public void testHashCode() {
     Player p1 = new HumanPlayer(0);
     Player p2 = new HumanPlayer(1);
     assertTrue(p1.hashCode() == p1.hashCode());
@@ -96,7 +97,7 @@ public class HumanPlayerTest {
   }
 
   @Test
-  public void testEquals(){
+  public void testEquals() {
     Player p1 = new HumanPlayer(2);
     Player p2 = new HumanPlayer(3);
     assertTrue(p1.equals(p1));

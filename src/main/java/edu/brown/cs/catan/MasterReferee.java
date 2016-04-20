@@ -1,9 +1,19 @@
 package edu.brown.cs.catan;
 
+import static edu.brown.cs.catan.Settings.CITY_POINT_VAL;
+import static edu.brown.cs.catan.Settings.INITIAL_CITIES;
+import static edu.brown.cs.catan.Settings.INITIAL_SETTLEMENTS;
+import static edu.brown.cs.catan.Settings.LARGEST_ARMY_POINT_VAL;
+import static edu.brown.cs.catan.Settings.LONGEST_ROAD_POINT_VAL;
+import static edu.brown.cs.catan.Settings.SETTLEMENT_POINT_VAL;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import edu.brown.cs.board.Board;
@@ -11,7 +21,7 @@ import edu.brown.cs.board.Board;
 public class MasterReferee implements Referee {
 
   private final Board _board;
-  private final List<Player> _players; // PlayerIDs --> Players?
+  private final Map<Integer, Player> _players; // PlayerIDs --> Players?
   private int _turn;
   private final Bank _bank;
   private final List<DevelopmentCard> _devCardDeck;
@@ -59,17 +69,17 @@ public class MasterReferee implements Referee {
     return _devCardDeck.remove(0);
   }
 
-  private List<Player> initializePlayers(int numPlayers) {
-    List<Player> toReturn = new ArrayList<>();
+  private Map<Integer, Player> initializePlayers(int numPlayers) {
+    Map<Integer, Player> toReturn = new HashMap<>();
     for (int i = 0; i < numPlayers; i++) {
-      toReturn.add(new HumanPlayer(i));
+      toReturn.put(i, new HumanPlayer(i));
     }
-    return Collections.unmodifiableList(toReturn);
+    return Collections.unmodifiableMap(toReturn);
   }
 
   private Bank initializeBank(boolean isSmart) {
     if (isSmart) {
-      assert false; // Not yet implemented
+      assert false; // TODO: Not yet implemented
       return null;
     } else {
       return new SimpleBank();
@@ -114,18 +124,18 @@ public class MasterReferee implements Referee {
 
   @Override
   public Board getBoard() {
-    return _board; //Read only?
+    return _board; // Read only?
   }
 
   @Override
-  public Player getPlayerByID(String id) {
+  public Player getPlayerByID(int id) {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public List<Player> getPlayers() {
-    return Collections.unmodifiableList(_players);
+  public Collection<Player> getPlayers() {
+    return Collections.unmodifiableCollection(_players.values());
   }
 
   @Override
@@ -144,6 +154,46 @@ public class MasterReferee implements Referee {
   public void playerMustDiscard(Player player) {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  public boolean hasLongestRoad(Player player) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean hasLargestArmy(Player player) {
+    int maxArmy = 0;
+    Player maxPlayer = null;
+    for (Player p : _players.values()) {
+      if (p.numPlayedKnights() > maxArmy) {
+        maxArmy = p.numPlayedKnights();
+        maxPlayer = p;
+      }
+    }
+    if (maxArmy >= Settings.LARGEST_ARMY_THRESH && maxPlayer != null
+        && maxPlayer.equals(player)) {
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public int getNumPublicPoints(Player player) {
+    int settlementPoints = SETTLEMENT_POINT_VAL
+        * (INITIAL_SETTLEMENTS - player.numSettlements());
+    int cityPoints = CITY_POINT_VAL * (INITIAL_CITIES - player.numCities());
+    int roadArmyPts = hasLargestArmy(player) ? LARGEST_ARMY_POINT_VAL : 0;
+    roadArmyPts += hasLongestRoad(player) ? LONGEST_ROAD_POINT_VAL : 0;
+    return settlementPoints + cityPoints + roadArmyPts;
+  }
+
+  @Override
+  public int getNumTotalPoints(Player player) {
+    int publicPoints = getNumPublicPoints(player);
+    // TODO: addVictoryPOints
+    return 0;
   }
 
   private class ReadOnlyReferee implements Referee {
@@ -193,9 +243,8 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public Player getPlayerByID(String id) {
-      // TODO Auto-generated method stub
-      return null;
+    public Player getPlayerByID(int id) {
+      return _referee.getPlayerByID(id).getImmutableCopy();
     }
 
     @Override
@@ -218,7 +267,6 @@ public class MasterReferee implements Referee {
     public void playerDiscarded(Player player) {
       throw new UnsupportedOperationException(
           "ReadOnlyReferee cannot set discard flag.");
-
     }
 
     @Override
@@ -234,6 +282,25 @@ public class MasterReferee implements Referee {
       return null;
     }
 
+    @Override
+    public boolean hasLongestRoad(Player player) {
+      return _referee.hasLongestRoad(player);
+    }
+
+    @Override
+    public boolean hasLargestArmy(Player player) {
+      return _referee.hasLargestArmy(player);
+    }
+
+    @Override
+    public int getNumPublicPoints(Player player) {
+      return _referee.getNumPublicPoints(player);
+    }
+
+    @Override
+    public int getNumTotalPoints(Player player) {
+      return _referee.getNumTotalPoints(player);
+    }
   }
 
 }

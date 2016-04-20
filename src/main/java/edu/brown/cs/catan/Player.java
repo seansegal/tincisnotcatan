@@ -46,4 +46,7 @@ public interface Player {
 
   int numPlayedKnights();
 
+  String getColor();
+
+
 }
