@@ -14,8 +14,6 @@ public class ChatWebSocketHandler {
   private final int NUM_USERS = 2;
   private final GameServer gs = GameServer.getInstance();
 
-
-
   @OnWebSocketConnect
   public void onConnect(Session user) throws Exception {
     System.out.println("Connected " + user);

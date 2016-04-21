@@ -1,6 +1,6 @@
 //Establish the WebSocket connection and set up event handlers
-var webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/chat/");
-var actionSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/action/");
+var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat/");
+var actionSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
 // when we get a message from the server, we execute the following.
 webSocket.onmessage = function (msg) { updateChat(msg); };
 // when we get a closed connection from the server, we execute the following:
@@ -33,6 +33,7 @@ function sendMessage(message) {
 //Update the chat-panel, and the list of connected users
 function updateChat(msg) {
     var data = JSON.parse(msg.data);
+    console.log(msg);
     console.log(data.ERROR);
     if(data.hasOwnProperty('ERROR')) {
     	alert(data.ERROR);

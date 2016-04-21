@@ -1,12 +1,8 @@
-* {
+#chat-container > * {
     box-sizing: border-box;
 }
 
-html {
-    overflow-y: scroll;
-}
-
-body {
+#chat-container {
     font-family: monospace;
     font-size: 14px;
     max-width: 480px;
@@ -14,17 +10,17 @@ body {
     padding: 20px
 }
 
-input {
+#chat-container > input {
     width: 100%;
     padding: 5px;
     margin: 5px 0;
 }
 
-button {
+#chat-container > button {
     float: right;
 }
 
-li {
+#chat-container > li {
     margin: 5px 0;
 }
 
