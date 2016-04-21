@@ -1,5 +1,6 @@
 package edu.brown.cs.networking;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,7 +45,13 @@ public class ActionWebSocketHandler {
     if(activeUsers.contains(user)) {
       System.out.println("Received message from " + user.getLocalAddress());
       System.out.println("Message : " + message);
-      gs.handleAction(message);
+
+      try {
+        user.getRemote().sendString(gs.handleAction(message));
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
       // do something with that action.
     } else {
       System.out.println("Received invalid message from non-player");

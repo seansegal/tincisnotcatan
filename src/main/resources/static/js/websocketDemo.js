@@ -7,13 +7,17 @@ webSocket.onmessage = function (msg) { updateChat(msg); };
 webSocket.onclose = function () { alert("WebSocket connection closed") };
 //webSocket.onopen = function () {alert("Websocket Connection opened")};
 
+actionSocket.onmessage = function (msg) {console.log(JSON.parse(msg.data))};
+
 //Send message if "Send" is clicked
 id("send").addEventListener("click", function () {
     sendMessage(id("message").value);
 });
 
 id("fireAction").addEventListener("click", function () {
-	actionSocket.send("Hi I made an action.");
+	var req = {"action" : "getBoard"};
+	console.log(req);
+	actionSocket.send(JSON.stringify(req));
 	console.log("fired");
 });
 

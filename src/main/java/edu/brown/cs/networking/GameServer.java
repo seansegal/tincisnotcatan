@@ -10,6 +10,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
 
 import freemarker.template.Configuration;
 import spark.ModelAndView;
@@ -25,12 +26,15 @@ final class GameServer {
   // use the singleton pattern! This server should only ever have
   // one connection to the web / queries, etc.
   private static GameServer    sharedInstance = new GameServer();
+  private ServerHook serverHook;
 
   // all of the Sessions that are connected to this server.
   private Map<Session, String> userIds        = new HashMap<>();
 
   // a simple counter for userIDs - to remove?
   private int                  nextUserID     = 1;
+
+  private static Gson GSON = new Gson();
 
 
   // initialize the game server
@@ -39,10 +43,11 @@ final class GameServer {
   }
 
 
-  private GameServer() {}
+  public GameServer() {}
 
 
-  public void launch() {
+  public void launch(ServerHook sh) {
+    this.serverHook = sh;
     try {
       Spark.externalStaticFileLocation("src/main/resources/static");
       Spark.port(getHerokuAssignedPort());
@@ -101,7 +106,9 @@ final class GameServer {
 
   public String handleAction(String json) {
     System.out.println("wouldn't a handler be nice? received : " + json);
-    return "";
+    Map<String, String> map = GSON.fromJson(json, Map.class);
+    System.out.println(map.get("action"));
+    return serverHook.request(map.get("action"));
   }
 
 
@@ -164,6 +171,12 @@ final class GameServer {
           "Play Catan");
       return new ModelAndView(variables, "board.ftl");
     }
+  }
+
+  @FunctionalInterface
+  public interface ServerHook {
+
+    String request(String req);
   }
 
 }

@@ -72,13 +72,6 @@ public class AttentivePlayer implements Attentive, Player {
 
 
   @Override
-  public Map<Resource, Integer> getResources() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-  @Override
   public Map<DevelopmentCard, Integer> getDevCards() {
     // TODO Auto-generated method stub
     return null;
@@ -89,6 +82,104 @@ public class AttentivePlayer implements Attentive, Player {
   public void addResource(Resource resource) {
     // TODO Auto-generated method stub
 
+  }
+
+
+  @Override
+  public void buyDevelopmentCard() {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void useRoad() {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void useCity() {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void useSettlement() {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void playDevelopmentCard(DevelopmentCard card) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void removeResource(Resource resource) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public double getNumResourceCards() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+
+  @Override
+  public void addDevelopmentCard(DevelopmentCard card) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public Player getImmutableCopy() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public String getName() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public int getID() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+
+  @Override
+  public int numPlayedKnights() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+
+  @Override
+  public String getColor() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public Map<Resource, Double> getResources() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
