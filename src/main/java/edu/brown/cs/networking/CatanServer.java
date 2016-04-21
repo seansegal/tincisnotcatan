@@ -9,13 +9,11 @@ import edu.brown.cs.catan.Player;
 // holds reference to GameServer
 public final class CatanServer {
 
+	public CatanServer() {
+		GameServer.getInstance().launch();
+	}
 
-  public static void main(String[] args) {
-    GameServer.getInstance().launch();
-  }
-
-
-  public List<Player> getPlayers() {
-    return Collections.emptyList();
-  }
+	public List<Player> getPlayers() {
+		return Collections.emptyList();
+	}
 }

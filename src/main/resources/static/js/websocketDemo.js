@@ -33,6 +33,7 @@ function sendMessage(message) {
 //Update the chat-panel, and the list of connected users
 function updateChat(msg) {
     var data = JSON.parse(msg.data);
+    console.log(msg);
     console.log(data.ERROR);
     if(data.hasOwnProperty('ERROR')) {
     	alert(data.ERROR);
