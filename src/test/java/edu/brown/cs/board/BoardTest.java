@@ -13,17 +13,17 @@ public class BoardTest {
   @Test
   public void InitializationTest() {
     Board b = new Board();
-    
-    assertTrue(b.get_tiles().size() == 19);
-    assertTrue(b.get_intersections().size() == 54);
-    assertTrue(b.get_paths().size() == 72);
+
+    assertTrue(b.getTiles().size() == 19);
+    assertTrue(b.getIntersections().size() == 54);
+    assertTrue(b.getPaths().size() == 72);
   }
 
   @Test
   public void TileTest() {
     Board b = new Board();
 
-    Collection<Tile> tiles = b.get_tiles();
+    Collection<Tile> tiles = b.getTiles();
     Map<IntersectionCoordinate, Intersection> ints = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
 
@@ -72,28 +72,28 @@ public class BoardTest {
     Board b = new Board();
 
     Map<IntersectionCoordinate, Intersection> intersections = b
-        .get_intersections();
+        .getIntersections();
     Map<IntersectionCoordinate, Intersection> ints = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
 
     //Random Place on Board
     assertTrue(intersections.containsKey(
         new IntersectionCoordinate(
-        new HexCoordinate(0, 0, 2), 
+        new HexCoordinate(0, 0, 2),
         new HexCoordinate(0, 0, 1),
         new HexCoordinate(1, 0, 2))));
-    
+
     //Edge of Board
     assertTrue(intersections.containsKey(
         new IntersectionCoordinate(
-        new HexCoordinate(2, 2, 0), 
+        new HexCoordinate(2, 2, 0),
         new HexCoordinate(1, 2, 0),
         new HexCoordinate(2, 3, 0))));
-    
+
     //Center of Board
     assertTrue(intersections.containsKey(
         new IntersectionCoordinate(
-        new HexCoordinate(0, 0, 0), 
+        new HexCoordinate(0, 0, 0),
         new HexCoordinate(1, 0, 0),
         new HexCoordinate(1, 1, 0))));
   }

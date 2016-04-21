@@ -20,7 +20,7 @@ public class CatanAPI {
   }
 
   public String getBoard() {
-    return null;
+    return _converter.getBoard(_referee);
   }
 
   public String getHand(int playerID) {

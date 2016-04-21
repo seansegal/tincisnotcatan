@@ -47,7 +47,7 @@ public class Board {
             res));
       } else {
         _tiles.add(new Tile(0, coords.get(i), intersections, paths,
-            res));
+            res, true));
         j -= 1;
       }
 
@@ -138,10 +138,6 @@ public class Board {
     }
   }
 
-  public Collection<Tile> getTiles() {
-    return _tiles;
-  }
-
   @Override
   public String toString() {
     StringBuilder toRet = new StringBuilder();
@@ -153,15 +149,15 @@ public class Board {
     return toRet.toString();
   }
 
-  public Collection<Tile> get_tiles() {
+  public Collection<Tile> getTiles() {
     return Collections.unmodifiableCollection(_tiles);
   }
 
-  public Map<IntersectionCoordinate, Intersection> get_intersections() {
+  public Map<IntersectionCoordinate, Intersection> getIntersections() {
     return Collections.unmodifiableMap(_intersections);
   }
 
-  public Map<PathCoordinate, Path> get_paths() {
+  public Map<PathCoordinate, Path> getPaths() {
     return Collections.unmodifiableMap(_paths);
   }
 

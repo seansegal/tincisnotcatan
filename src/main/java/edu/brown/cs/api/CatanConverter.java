@@ -7,10 +7,12 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
+import edu.brown.cs.board.Board;
 import edu.brown.cs.board.BoardTile;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.Path;
+import edu.brown.cs.board.Tile;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
@@ -22,6 +24,10 @@ public class CatanConverter {
 
   public CatanConverter(){
     _gson = new Gson();
+  }
+
+  public String getBoard(Referee referee){
+    return _gson.toJson(new BoardRaw(referee.getBoard()));
   }
 
   public String getPlayers(Referee referee) {
@@ -38,6 +44,15 @@ public class CatanConverter {
     private Collection<TileRaw> tiles;
     private Collection<Intersection> intersections;
     private Collection<Path> paths;
+
+    public BoardRaw(Board board){
+      intersections = board.getIntersections().values();
+      paths = board.getPaths().values();
+      tiles = new ArrayList<>();
+      for(Tile tile : board.getTiles()){
+        tiles.add(new TileRaw(tile));
+      }
+    }
   }
 
   private static class TileRaw {
@@ -47,9 +62,11 @@ public class CatanConverter {
     private int number;
 
     public TileRaw(BoardTile tile){
-
+      hexCoordinate = tile.getCoordinate();
+      type = tile.getType();
+      hasRobber = tile.hasRobber();
+      number = tile.getRollNumber();
     }
-
   }
 
 
