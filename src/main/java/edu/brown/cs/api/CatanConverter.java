@@ -13,6 +13,7 @@ import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.Path;
 import edu.brown.cs.board.Tile;
+import edu.brown.cs.board.TileType;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
@@ -57,7 +58,7 @@ public class CatanConverter {
 
   private static class TileRaw {
     private HexCoordinate hexCoordinate;
-    private Resource type;
+    private TileType type;
     private boolean hasRobber;
     private int number;
 
