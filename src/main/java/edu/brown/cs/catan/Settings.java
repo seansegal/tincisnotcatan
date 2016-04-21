@@ -23,7 +23,8 @@ public abstract class Settings {
   public final static int NUM_ORE_TILE = 4;
   public final static int NUM_DESERT_TILE = 1;
 
-  // How many resources should players start with:
+  // How many resources should players start with (Beware of changing this.
+  // Wildcards!):
   public final static double INITIAL_RESOURCES = 0.0;
 
   // Building costs:
@@ -37,8 +38,16 @@ public abstract class Settings {
       Resource.BRICK, 1.0, Resource.SHEEP, 1.0, Resource.WHEAT, 1.0,
       Resource.WOOD, 1.0);
 
-  // Bank rate for trading in basic game:
-  public final static double BANK_RATE = 4.00;
+  // Bank rates for trading in basic game:
+  public final static double BANK_RATE = 4.0;
+  public final static Map<Resource, Double> PORT_RATES = new ImmutableMap.Builder<Resource, Double>()
+      .put(Resource.BRICK, 2.0)
+      .put(Resource.ORE, 2.0)
+      .put(Resource.SHEEP, 2.0)
+      .put(Resource.WHEAT, 2.0)
+      .put(Resource.WOOD, 2.0)
+      .put(Resource.WILDCARD, 3.0)
+      .build();
 
   // Development Card Deck:
   public final static int NUM_KNIGHTS = 14;
@@ -54,7 +63,7 @@ public abstract class Settings {
   public static final int LARGEST_ARMY_THRESH = 3;
   public static final int LONGEST_ROAD_THRESH = 5;
 
-  //Point values
+  // Point values
   public static final int SETTLEMENT_POINT_VAL = 1;
   public static final int CITY_POINT_VAL = 2;
   public static final int LONGEST_ROAD_POINT_VAL = 2;

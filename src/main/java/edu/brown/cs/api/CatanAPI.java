@@ -1,14 +1,20 @@
-package edu.brown.cs.catan;
+package edu.brown.cs.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
+
+import edu.brown.cs.catan.MasterReferee;
+import edu.brown.cs.catan.Player;
+import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Resource;
 
 public class CatanAPI {
 
   public static void main(String[] args) {
-    System.out.println(new CatanAPI().getPlayers());
+    System.out.println(new CatanAPI().getBoard());
   }
 
   private Referee _referee;
@@ -21,8 +27,7 @@ public class CatanAPI {
   }
 
   public String getBoard() {
-    // TODO
-    return null;
+    return _gson.toJson(_referee.getBoard());
   }
 
   public String getHand(int playerID) {
@@ -38,6 +43,8 @@ public class CatanAPI {
     return _gson.toJson(players);
   }
 
+
+
   private static class PublicPlayerRaw {
     private String name;
     private int id;
@@ -49,8 +56,7 @@ public class CatanAPI {
     private boolean longestRoad;
     private boolean largestArmy;
     private int victoryPoints;
-
-    // TODO: add Rates
+    private Map<Resource, Double> rates;
 
     public PublicPlayerRaw(Player p, Referee r) {
       name = p.getName();
@@ -63,6 +69,7 @@ public class CatanAPI {
       longestRoad = r.hasLongestRoad(p);
       largestArmy = r.hasLargestArmy(p);
       victoryPoints = r.getNumPublicPoints(p);
+      rates = r.getBankRates(p);
     }
 
     @Override
@@ -72,8 +79,9 @@ public class CatanAPI {
           + numCities + ", numPlayedKnights=" + numPlayedKnights
           + ", numRoads=" + numRoads + ", longestRoad=" + longestRoad
           + ", largestArmy=" + largestArmy + ", victoryPoints=" + victoryPoints
-          + "]";
+          + ", rates=" + rates + "]";
     }
+
   }
 
 }

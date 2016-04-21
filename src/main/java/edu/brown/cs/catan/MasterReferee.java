@@ -124,7 +124,7 @@ public class MasterReferee implements Referee {
 
   @Override
   public Board getBoard() {
-    return _board; // Read only?
+    return _board;
   }
 
   @Override
@@ -192,8 +192,21 @@ public class MasterReferee implements Referee {
   @Override
   public int getNumTotalPoints(Player player) {
     int publicPoints = getNumPublicPoints(player);
-    // TODO: addVictoryPOints
+    // TODO: add private victory points
     return 0;
+  }
+
+  @Override
+  public Map<Resource, Double> getBankRates(Player player) {
+    Map<Resource, Double> rates = new HashMap<>();
+    for (Resource r : Resource.values()) {
+      rates.put(r, _bank.getBankRate());
+    }
+    for (Map.Entry<Resource, Double> r : _bank.getPortRates().entrySet()) {
+      // TODO: check if player has port
+    }
+
+    return rates;
   }
 
   private class ReadOnlyReferee implements Referee {
@@ -238,8 +251,7 @@ public class MasterReferee implements Referee {
 
     @Override
     public Board getBoard() {
-      // TODO: return ReadOnly board?
-      return null;
+      return _referee.getBoard(); //Change to unmodifiable?
     }
 
     @Override
@@ -301,6 +313,12 @@ public class MasterReferee implements Referee {
     public int getNumTotalPoints(Player player) {
       return _referee.getNumTotalPoints(player);
     }
+
+    @Override
+    public Map<Resource, Double> getBankRates(Player player) {
+      return _referee.getBankRates(player);
+    }
+
   }
 
 }

@@ -28,7 +28,12 @@ public class SimpleBank implements Bank {
   }
 
   @Override
-  public double getBankRate() {
+  public double getBankRate(){
     return Settings.BANK_RATE;
+  }
+
+  @Override
+  public Map<Resource, Double> getPortRates() {
+    return Settings.PORT_RATES;
   }
 }

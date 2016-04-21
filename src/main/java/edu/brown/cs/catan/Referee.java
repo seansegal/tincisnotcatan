@@ -1,6 +1,7 @@
 package edu.brown.cs.catan;
 
 import java.util.Collection;
+import java.util.Map;
 
 import edu.brown.cs.board.Board;
 
@@ -26,6 +27,8 @@ public interface Referee {
   void playerDiscarded(Player player); // Writes
 
   void playerMustDiscard(Player player);
+
+  Map<Resource, Double> getBankRates(Player player);
 
   Board getBoard();
 
