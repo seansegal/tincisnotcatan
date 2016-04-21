@@ -24,7 +24,7 @@ public class BuildSettlement implements Action {
   }
 
   @Override
-  public void execute() {
+  public ActionResponse execute() {
     if(_mustPay) {
       Map<Resource, Double> resources = _player.getResources();
      Settings.SETTLEMENT_COST.forEach((res, amount) -> {
@@ -37,6 +37,10 @@ public class BuildSettlement implements Action {
     //TODO: add turn validation, add graph validation
     _player.useSettlement();
     _intersection.placeSettlement(_player);
+
+    return null;
   }
+
+
 
 }
