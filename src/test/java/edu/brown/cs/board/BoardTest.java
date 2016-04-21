@@ -23,47 +23,47 @@ public class BoardTest {
   public void TileTest() {
     Board b = new Board();
 
-    Collection<ResourceTile> tiles = b.get_tiles();
+    Collection<Tile> tiles = b.get_tiles();
     Map<IntersectionCoordinate, Intersection> ints = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
 
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 0, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 0, 0), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(1, 0, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(1, 0, 0), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 1, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 1, 0), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 0, 1), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 0, 1), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(2, 0, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(2, 0, 0), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 2, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 2, 0), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 0, 2), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 0, 2), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(1, 1, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(1, 1, 0), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(1, 0, 1), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(1, 0, 1), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 1, 1), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 1, 1), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(2, 2, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(2, 2, 0), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 2, 2), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 2, 2), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(2, 0, 2), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(2, 0, 2), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 1, 2), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 1, 2), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(1, 0, 2), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(1, 0, 2), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(2, 0, 1), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(2, 0, 1), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(0, 2, 1), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(0, 2, 1), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(2, 1, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(2, 1, 0), ints,
         paths, TileType.DESERT)));
-    assertTrue(tiles.contains(new ResourceTile(0, new HexCoordinate(1, 2, 0), ints,
+    assertTrue(tiles.contains(new Tile(0, new HexCoordinate(1, 2, 0), ints,
         paths, TileType.DESERT)));
   }
 

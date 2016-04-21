@@ -6,14 +6,14 @@ import java.util.Map;
 
 import edu.brown.cs.catan.Resource;
 
-public class ResourceTile implements BoardTile {
+public class Tile implements BoardTile {
   private final Collection<Intersection> _intersections;
   private final int _rollNum;
   private final Resource _type;
   private final HexCoordinate _coordinate;
   private boolean _hasRobber;
   
-  public ResourceTile(int rollNum, HexCoordinate coordinate,
+  public Tile(int rollNum, HexCoordinate coordinate,
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, TileType type) {
     _type = type.getType();
@@ -89,10 +89,7 @@ public class ResourceTile implements BoardTile {
     }
   }
 
-  public int getRollNum() {
-    return _rollNum;
-  }
-
+  @Override
   public Resource getType() {
     return _type;
   }
@@ -103,6 +100,7 @@ public class ResourceTile implements BoardTile {
     }
   }
 
+  @Override
   public HexCoordinate getCoordinate() {
     return _coordinate;
   }
@@ -113,8 +111,8 @@ public class ResourceTile implements BoardTile {
   
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof ResourceTile) {
-      ResourceTile other = (ResourceTile) obj;
+    if (obj instanceof Tile) {
+      Tile other = (Tile) obj;
       if (other.getCoordinate().equals(_coordinate)) {
         return true;
       } else {
@@ -138,12 +136,18 @@ public class ResourceTile implements BoardTile {
     return toRet.toString();
   }
 
+  @Override
   public boolean hasRobber() {
     return _hasRobber;
   }
 
   public void hasRobber(boolean _hasRobber) {
     this._hasRobber = _hasRobber;
+  }
+
+  @Override
+  public int getRollNumber() {
+    return _rollNum;
   }
 
 }

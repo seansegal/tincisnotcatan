@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-  private Collection<ResourceTile> _tiles;
+  private Collection<Tile> _tiles;
   private Map<IntersectionCoordinate, Intersection> _intersections;
   private Map<PathCoordinate, Path> _paths;
 
@@ -43,10 +43,10 @@ public class Board {
     for (int i = 0, j = 0; i < availTiles.size(); i++, j++) {
       TileType res = availTiles.get(i);
       if (res != DESERT) {
-        _tiles.add(new ResourceTile(ROLL_NUMS[j], coords.get(i), intersections, paths,
+        _tiles.add(new Tile(ROLL_NUMS[j], coords.get(i), intersections, paths,
             res));
       } else {
-        _tiles.add(new ResourceTile(0, coords.get(i), intersections, paths,
+        _tiles.add(new Tile(0, coords.get(i), intersections, paths,
             res));
         j -= 1;
       }
@@ -131,14 +131,14 @@ public class Board {
   }
 
   public void notifyTiles(int roll) {
-    for (ResourceTile t : _tiles) {
-      if (t.getRollNum() == roll) {
+    for (Tile t : _tiles) {
+      if (t.getRollNumber() == roll) {
         t.notifyIntersections();
       }
     }
   }
 
-  public Collection<ResourceTile> getTiles() {
+  public Collection<Tile> getTiles() {
     return _tiles;
   }
 
@@ -153,7 +153,7 @@ public class Board {
     return toRet.toString();
   }
 
-  public Collection<ResourceTile> get_tiles() {
+  public Collection<Tile> get_tiles() {
     return Collections.unmodifiableCollection(_tiles);
   }
 

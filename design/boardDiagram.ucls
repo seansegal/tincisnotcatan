@@ -37,8 +37,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="edu.brown.cs.board.ResourceTile" project="catan" 
-    file="/catan/src/main/java/edu/brown/cs/board/ResourceTile.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="edu.brown.cs.board.Tile" project="catan" 
+    file="/catan/src/main/java/edu/brown/cs/board/Tile.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="138" y="404"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -74,11 +74,11 @@
     </display>  
   </class>  
   <realization id="9">    
-    <end type="SOURCE" refId="1"/>    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
   <realization id="10">    
-    <end type="SOURCE" refId="4"/>    
+    <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
