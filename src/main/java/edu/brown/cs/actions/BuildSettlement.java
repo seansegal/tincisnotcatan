@@ -3,7 +3,9 @@ package edu.brown.cs.actions;
 import java.util.Map;
 
 import edu.brown.cs.board.Intersection;
+import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
+import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 import edu.brown.cs.catan.Settings;
 
@@ -12,10 +14,12 @@ public class BuildSettlement implements Action {
   private Player _player;
   private Intersection _intersection;
   private boolean _mustPay;
+  private Referee _ref;
 
-  public BuildSettlement(Player p, Intersection i, boolean mustPay) {
-    _player = p;
-    _intersection = i;
+  public BuildSettlement(Referee ref, int playerID, IntersectionCoordinate i, boolean mustPay) {
+    _ref = ref;
+    _player = ref.getPlayerByID(playerID);
+    _intersection = ref.getBoard().getIntersections().get(i);
     _mustPay = mustPay;
   }
 
@@ -30,9 +34,9 @@ public class BuildSettlement implements Action {
      });
      _player.buildSettlement();
     }
+    //TODO: add turn validation, add graph validation
     _player.useSettlement();
-    //TODO: add settlement to the board
-
+    _intersection.placeSettlement(_player);
   }
 
 }

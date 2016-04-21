@@ -16,10 +16,10 @@ public class HumanPlayer implements Player {
   private final int id;
   private final String color;
 
-  public HumanPlayer(int id) {
-    this.name = ""; // Change to be customizable
+  public HumanPlayer(int id, String name, String color) {
+    this.name = name;
     this.id = id;
-    this.color = "#000000"; // Custimomize later
+    this.color = color;
     this.numRoads = Settings.INITIAL_ROADS;
     this.numSettlements = Settings.INITIAL_SETTLEMENTS;
     this.numCities = Settings.INITIAL_CITIES;
@@ -157,6 +157,9 @@ public class HumanPlayer implements Player {
   public void playDevelopmentCard(DevelopmentCard card) {
     int numCards = devCards.get(card);
     if (numCards > 0) {
+      if(card == DevelopmentCard.KNIGHT){
+        numPlayedKnights++;
+      }
       devCards.put(card, --numCards);
     } else {
       String message = String.format(
@@ -184,6 +187,16 @@ public class HumanPlayer implements Player {
     }
     return count;
   }
+
+  @Override
+  public int getNumDevelopmentCards() {
+    int count = 0;
+    for (Integer num : devCards.values()) {
+      count += num;
+    }
+    return count;
+  }
+
 
   @Override
   public String getName() {
@@ -323,6 +336,11 @@ public class HumanPlayer implements Player {
     @Override
     public String getColor() {
       return _player.getColor();
+    }
+
+    @Override
+    public int getNumDevelopmentCards() {
+      return _player.getNumDevelopmentCards();
     }
 
   }

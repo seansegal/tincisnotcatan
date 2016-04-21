@@ -8,7 +8,7 @@ public class Intersection {
   private Building _building;
   private Port _port;
   private IntersectionCoordinate _position;
-  
+
   public Intersection(IntersectionCoordinate position) {
     _position = position;
     _building = null;
@@ -64,6 +64,10 @@ public class Intersection {
 
   public void setPort(Port p) {
     _port = p;
+  }
+
+  public Building getBuilding() {
+    return _building;
   }
 
 }
