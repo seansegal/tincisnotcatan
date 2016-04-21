@@ -3,10 +3,21 @@
 <div id="board-viewport"></div>
 
 <div class="row above-board">
-	<div class="col-xs-1">
+	<div class="col-xs-3">
 		<input type="button" class="btn btn-primary" id="end-turn-btn" value="End Turn">
+		<div id="chat-container">
+			<div id="chatControls">
+        		<input id="message" placeholder="Type your message">
+        		<button id="send">Send</button>
+    		</div>
+    		<ul id="userList"> <!-- Built by JS --> </ul>
+    		<div id="chat">    <!-- Built by JS --> </div>
+    		<div id="testActions">
+    			<button id="fireAction">Action!</button>
+    		</div>
+		</div>
 	</div>
-	<div class="col-xs-8"></div>
+	<div class="col-xs-6"></div>
 	<div class="col-xs-3" id="right-menu-container">
 		<ul class="nav nav-pills nav-stacked col-xs-3" role="tablist">
 	    	<li role="presentation" class="active right-tab"><a href="#players-tab" aria-controls="players-tab" role="tab" data-toggle="tab">Players</a></li>

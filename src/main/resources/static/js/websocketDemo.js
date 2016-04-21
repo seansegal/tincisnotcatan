@@ -1,6 +1,6 @@
 //Establish the WebSocket connection and set up event handlers
-var webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/chat/");
-var actionSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/action/");
+var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat/");
+var actionSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
 // when we get a message from the server, we execute the following.
 webSocket.onmessage = function (msg) { updateChat(msg); };
 // when we get a closed connection from the server, we execute the following:
