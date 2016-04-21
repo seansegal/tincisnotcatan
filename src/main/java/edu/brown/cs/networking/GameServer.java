@@ -9,16 +9,15 @@ import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 
+import com.google.common.collect.ImmutableMap;
+
+import freemarker.template.Configuration;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
 import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
-
-import com.google.common.collect.ImmutableMap;
-
-import freemarker.template.Configuration;
 
 // arbitrary server class for N users that have to register, etc.
 final class GameServer {
@@ -28,7 +27,7 @@ final class GameServer {
 	private static GameServer sharedInstance = new GameServer();
 
 	// all of the Sessions that are connected to this server.
-	private Map<TimestampedSession, String> userIds = new HashMap<>();
+	private Map<Session, String> userIds = new HashMap<>();
 
 	// a simple counter for userIDs - to remove?
 	private int nextUserID = 1;
@@ -120,7 +119,7 @@ final class GameServer {
 	}
 
 	public boolean add(Session toAdd, String id) {
-		return userIds.put(new TimestampedSession(toAdd), id) != id;
+		return userIds.put(toAdd, id) != id;
 	}
 
 	public String get(Session toGet) {
