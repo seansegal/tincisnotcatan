@@ -17,9 +17,9 @@ public class HumanPlayer implements Player {
   private final String color;
 
   public HumanPlayer(int id, String name, String color) {
-    this.name = name; // Change to be customizable
+    this.name = name;
     this.id = id;
-    this.color = color; // Custimomize later
+    this.color = color;
     this.numRoads = Settings.INITIAL_ROADS;
     this.numSettlements = Settings.INITIAL_SETTLEMENTS;
     this.numCities = Settings.INITIAL_CITIES;
@@ -157,6 +157,9 @@ public class HumanPlayer implements Player {
   public void playDevelopmentCard(DevelopmentCard card) {
     int numCards = devCards.get(card);
     if (numCards > 0) {
+      if(card == DevelopmentCard.KNIGHT){
+        numPlayedKnights++;
+      }
       devCards.put(card, --numCards);
     } else {
       String message = String.format(

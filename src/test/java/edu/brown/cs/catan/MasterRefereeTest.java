@@ -55,17 +55,70 @@ public class MasterRefereeTest {
 
   @Test
   public void testHasLargestArmy() {
+    Referee ref = new MasterReferee();
+    int id = ref.addPlayer("p1", "color");
+    Player player = ref.getPlayerByID(id);
+    assertFalse(ref.hasLargestArmy(id));
+    player.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    player.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    player.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertFalse(ref.hasLargestArmy(id));
+    player.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    player.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    player.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertTrue(ref.hasLargestArmy(id));
 
   }
 
   @Test
   public void testHasLargestArmyComplicated() {
-
+    Referee ref = new MasterReferee();
+    int id1 = ref.addPlayer("p1", "color");
+    int id2 = ref.addPlayer("p2", "color");
+    Player p1 = ref.getPlayerByID(id1);
+    Player p2 = ref.getPlayerByID(id2);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertTrue(ref.hasLargestArmy(id2));
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertTrue(ref.hasLargestArmy(id1));
   }
 
   @Test
   public void testHasLargestArmyTie() {
-
+    Referee ref = new MasterReferee();
+    int id1 = ref.addPlayer("p1", "color");
+    int id2 = ref.addPlayer("p2", "color");
+    Player p1 = ref.getPlayerByID(id1);
+    Player p2 = ref.getPlayerByID(id2);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p2.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertTrue(ref.hasLargestArmy(id2));
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertFalse(ref.hasLargestArmy(id1));
+    assertTrue(ref.hasLargestArmy(id2));
   }
 
 }

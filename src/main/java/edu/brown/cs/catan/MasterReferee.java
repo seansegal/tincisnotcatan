@@ -162,6 +162,9 @@ public class MasterReferee implements Referee {
         && maxPlayer.equals(player)) {
       return true;
     }
+    if(_largestArmy != null && player.equals(_largestArmy)) {
+      return true;
+    }
     return false;
   }
 
