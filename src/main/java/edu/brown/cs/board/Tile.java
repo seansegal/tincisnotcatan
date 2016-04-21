@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
 public class Tile implements BoardTile {
   private final Collection<Intersection> _intersections;
@@ -23,7 +22,6 @@ public class Tile implements BoardTile {
     _hasRobber = false;
     _intersections = new ArrayList<Intersection>();
     fillEdges(intersections, paths);
-
   }
 
   public Tile(int rollNum, HexCoordinate coordinate,
@@ -37,25 +35,82 @@ public class Tile implements BoardTile {
     fillEdges(intersections, paths);
   }
 
-  public Tile(HexCoordinate coordinate, TileType type) {
+  public Tile(HexCoordinate coordinate, TileType type,
+      Map<IntersectionCoordinate, Intersection> intersections) {
     _type = type;
     _rollNum = 0;
     _coordinate = coordinate;
     _hasRobber = false;
     _intersections = new ArrayList<Intersection>();
-    fillSeaTile();
+    fillSeaTile(intersections);
   }
 
-  private void fillSeaTile() {
-    Queue<IntersectionCoordinate> closestIntersections = new PriorityQueue<IntersectionCoordinate>();
+  private void fillSeaTile(Map<IntersectionCoordinate, Intersection> intersections) {
+    PriorityQueue<IntersectionCoordinate> closestIntersections = 
+        new PriorityQueue<>(6, new IntersectionComparator());
+
+    HexCoordinate upLeftTile = new HexCoordinate(_coordinate.getX(),
+        _coordinate.getY(), _coordinate.getZ() + 1);
+    HexCoordinate upRightTile = new HexCoordinate(_coordinate.getX(),
+        _coordinate.getY() + 1, _coordinate.getZ() + 1);
+    HexCoordinate rightTile = new HexCoordinate(_coordinate.getX(),
+        _coordinate.getY() + 1, _coordinate.getZ());
+    HexCoordinate lowerRightTile = new HexCoordinate(_coordinate.getX() + 1,
+        _coordinate.getY() + 1, _coordinate.getZ());
+    HexCoordinate lowerLeftTile = new HexCoordinate(_coordinate.getX() + 1,
+        _coordinate.getY(), _coordinate.getZ());
+    HexCoordinate leftTile = new HexCoordinate(_coordinate.getX() + 1,
+        _coordinate.getY(), _coordinate.getZ() + 1);
+
+    closestIntersections.add(new IntersectionCoordinate(_coordinate,
+        upLeftTile, upRightTile));
+    closestIntersections.add(new IntersectionCoordinate(_coordinate,
+        upRightTile, rightTile));
+    closestIntersections.add(new IntersectionCoordinate(_coordinate,
+        rightTile, lowerRightTile));
+    closestIntersections.add(new IntersectionCoordinate(_coordinate,
+        lowerRightTile, lowerLeftTile));
+    closestIntersections.add(new IntersectionCoordinate(_coordinate,
+        lowerLeftTile, leftTile));
+    closestIntersections.add(new IntersectionCoordinate(_coordinate,
+        leftTile, upLeftTile));
+
+    // Add the two intersections closest to the origin
+    IntersectionCoordinate toAdd = closestIntersections.poll();
+    assert (intersections.containsKey(toAdd));
+    _intersections.add(intersections.get(toAdd));
+
+    toAdd = closestIntersections.poll();
+    assert (intersections.containsKey(toAdd));
+    _intersections.add(intersections.get(toAdd));
   }
 
-  private static class IntersectionComparator implements Comparator {
+  private static class IntersectionComparator implements
+      Comparator<IntersectionCoordinate> {
 
     @Override
-    public int compare(Object o1, Object o2) {
-      // TODO Auto-generated method stub
-      return 0;
+    public int compare(IntersectionCoordinate o1, IntersectionCoordinate o2) {
+      double o1X = averagePositionX(o1);
+      double o2X = averagePositionX(o2);
+      double o1Y = averagePositionY(o1);
+      double o2Y = averagePositionY(o2);
+      
+      return Double.compare(Math.pow(o1X, 2) + Math.pow(o1Y, 2),
+          Math.pow(o2X, 2) + Math.pow(o2Y, 2));
+    }
+
+    private double averagePositionX(IntersectionCoordinate coord) {
+      double x1 = coord.getCoord1().cartesianX();
+      double x2 = coord.getCoord2().cartesianX();
+      double x3 = coord.getCoord3().cartesianX();
+      return (x1 + x2 + x3) / 3.0;
+    }
+
+    private double averagePositionY(IntersectionCoordinate coord) {
+      double y1 = coord.getCoord1().cartesianY();
+      double y2 = coord.getCoord2().cartesianY();
+      double y3 = coord.getCoord3().cartesianY();
+      return (y1 + y2 + y3) / 3.0;
     }
 
   }
@@ -133,6 +188,13 @@ public class Tile implements BoardTile {
     assert (_type.getType() != null);
     for (Intersection i : _intersections) {
       i.notifyBuilding(_type.getType());
+    }
+  }
+
+  public void setPorts(Port p) {
+    assert (_type == TileType.SEA);
+    for (Intersection i : _intersections) {
+      i.setPort(p);
     }
   }
 

@@ -3,6 +3,7 @@ package edu.brown.cs.board;
 import static edu.brown.cs.board.TileType.BRICK;
 import static edu.brown.cs.board.TileType.DESERT;
 import static edu.brown.cs.board.TileType.ORE;
+import static edu.brown.cs.board.TileType.SEA;
 import static edu.brown.cs.board.TileType.SHEEP;
 import static edu.brown.cs.board.TileType.WHEAT;
 import static edu.brown.cs.board.TileType.WOOD;
@@ -18,17 +19,31 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import edu.brown.cs.catan.Settings;
 
 public class Board {
   private Collection<Tile> _tiles;
   private Map<IntersectionCoordinate, Intersection> _intersections;
   private Map<PathCoordinate, Path> _paths;
+  private final Collection<HexCoordinate> PORT_LOCATION;
 
   public Board() {
     List<TileType> availTiles = new ArrayList<TileType>();
-    List<HexCoordinate> coords = getCoordPermutations();
+    List<HexCoordinate> coords = getResourcePermutations();
+    PORT_LOCATION = new HashSet<HexCoordinate>();
+    PORT_LOCATION.add(new HexCoordinate(0, 0, 3));
+    PORT_LOCATION.add(new HexCoordinate(0, 2, 3));
+    PORT_LOCATION.add(new HexCoordinate(0, 3, 2));
+    PORT_LOCATION.add(new HexCoordinate(0, 3, 0));
+    PORT_LOCATION.add(new HexCoordinate(2, 3, 0));
+    PORT_LOCATION.add(new HexCoordinate(3, 2, 0));
+    PORT_LOCATION.add(new HexCoordinate(3, 0, 0));
+    PORT_LOCATION.add(new HexCoordinate(3, 0, 2));
+    PORT_LOCATION.add(new HexCoordinate(2, 0, 3));
     addTiles(availTiles, WOOD, NUM_WOOD_TILE);
     addTiles(availTiles, BRICK, NUM_BRICK_TILE);
     addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
@@ -54,6 +69,16 @@ public class Board {
     }
     _intersections = intersections;
     _paths = paths;
+    int i = 0;
+    List<HexCoordinate> seaCoords = getSeaPermutations();
+    for (HexCoordinate hc : seaCoords) {
+      Tile seaTile = new Tile(hc, SEA, _intersections);
+      if(PORT_LOCATION.contains(hc)) {
+        seaTile.setPorts(new Port(Settings.PORT_ORDER[i]));
+        i++;
+      }
+      _tiles.add(new Tile(hc, SEA, _intersections));
+    }
   }
 
   private void addTiles(List<TileType> availTiles, TileType type, int numTiles) {
@@ -62,7 +87,7 @@ public class Board {
     }
   }
 
-  private List<HexCoordinate> getCoordPermutations() {
+  private List<HexCoordinate> getResourcePermutations() {
     List<HexCoordinate> coords = new ArrayList<HexCoordinate>();
     coords.add(new HexCoordinate(0, 0, 0));
     int[] oneOne = { 0, 0, 1 };
@@ -96,6 +121,39 @@ public class Board {
     coords.add(new HexCoordinate(twoTwo[0], twoTwo[1], twoTwo[2]));
     while (permute(twoTwo)) {
       coords.add(new HexCoordinate(twoTwo[0], twoTwo[1], twoTwo[2]));
+    }
+    return coords;
+  }
+
+  private List<HexCoordinate> getSeaPermutations() {
+    List<HexCoordinate> coords = new ArrayList<HexCoordinate>();
+    int[] oneThree = { 0, 0, 3 };
+    int[] oneThreeOneTwo = { 0, 2, 3 };
+    int[] oneThreeOneOne = { 0, 1, 3 };
+    int[] twoThree = { 0, 3, 3 };
+
+    coords.add(new HexCoordinate(oneThree[0], oneThree[1], oneThree[2]));
+    while (permute(oneThree)) {
+      coords.add(new HexCoordinate(oneThree[0], oneThree[1], oneThree[2]));
+    }
+
+    coords.add(new HexCoordinate(oneThreeOneTwo[0], oneThreeOneTwo[1],
+        oneThreeOneTwo[2]));
+    while (permute(oneThreeOneTwo)) {
+      coords.add(new HexCoordinate(oneThreeOneTwo[0], oneThreeOneTwo[1],
+          oneThreeOneTwo[2]));
+    }
+
+    coords.add(new HexCoordinate(oneThreeOneOne[0], oneThreeOneOne[1],
+        oneThreeOneOne[2]));
+    while (permute(oneThreeOneOne)) {
+      coords.add(new HexCoordinate(oneThreeOneOne[0], oneThreeOneOne[1],
+          oneThreeOneOne[2]));
+    }
+
+    coords.add(new HexCoordinate(twoThree[0], twoThree[1], twoThree[2]));
+    while (permute(twoThree)) {
+      coords.add(new HexCoordinate(twoThree[0], twoThree[1], twoThree[2]));
     }
     return coords;
   }
