@@ -30,57 +30,59 @@ public class Board {
   private Map<IntersectionCoordinate, Intersection> _intersections;
   private Map<PathCoordinate, Path> _paths;
   private final Collection<HexCoordinate> PORT_LOCATION;
+  private final static int DEPTH = 2;
 
-  public Board() {
-    List<TileType> availTiles = new ArrayList<TileType>();
-    List<HexCoordinate> coords = getResourcePermutations();
-    PORT_LOCATION = new HashSet<HexCoordinate>();
-    PORT_LOCATION.add(new HexCoordinate(0, 0, 3));
-    PORT_LOCATION.add(new HexCoordinate(0, 2, 3));
-    PORT_LOCATION.add(new HexCoordinate(0, 3, 2));
-    PORT_LOCATION.add(new HexCoordinate(0, 3, 0));
-    PORT_LOCATION.add(new HexCoordinate(2, 3, 0));
-    PORT_LOCATION.add(new HexCoordinate(3, 2, 0));
-    PORT_LOCATION.add(new HexCoordinate(3, 0, 0));
-    PORT_LOCATION.add(new HexCoordinate(3, 0, 2));
-    PORT_LOCATION.add(new HexCoordinate(2, 0, 3));
-    addTiles(availTiles, WOOD, NUM_WOOD_TILE);
-    addTiles(availTiles, BRICK, NUM_BRICK_TILE);
-    addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
-    addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
-    addTiles(availTiles, ORE, NUM_ORE_TILE);
-    addTiles(availTiles, DESERT, NUM_DESERT_TILE);
-    Collections.shuffle(availTiles);
-
-    Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
-    Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
-    _tiles = new ArrayList<>();
-    for (int i = 0, j = 0; i < availTiles.size(); i++, j++) {
-      TileType res = availTiles.get(i);
-      if (res != DESERT) {
-        _tiles.add(new Tile(ROLL_NUMS[j], coords.get(i), intersections, paths,
-            res));
-      } else {
-        _tiles.add(new Tile(0, coords.get(i), intersections, paths,
-            res, true));
-        j -= 1;
-      }
-
-    }
-    _intersections = intersections;
-    _paths = paths;
-    int i = 0;
-    List<HexCoordinate> seaCoords = getSeaPermutations();
-    for (HexCoordinate hc : seaCoords) {
-      Tile seaTile = new Tile(hc, SEA, _intersections);
-      if(PORT_LOCATION.contains(hc)) {
-        seaTile.setPorts(new Port(Settings.PORT_ORDER[i]));
-        i++;
-      }
-      _tiles.add(new Tile(hc, SEA, _intersections));
-    }
-  }
-
+  // public Board() {
+  // List<TileType> availTiles = new ArrayList<TileType>();
+  // List<HexCoordinate> coords = getResourcePermutations();
+  // PORT_LOCATION = new HashSet<HexCoordinate>();
+  // PORT_LOCATION.add(new HexCoordinate(0, 0, 3));
+  // PORT_LOCATION.add(new HexCoordinate(0, 2, 3));
+  // PORT_LOCATION.add(new HexCoordinate(0, 3, 2));
+  // PORT_LOCATION.add(new HexCoordinate(0, 3, 0));
+  // PORT_LOCATION.add(new HexCoordinate(2, 3, 0));
+  // PORT_LOCATION.add(new HexCoordinate(3, 2, 0));
+  // PORT_LOCATION.add(new HexCoordinate(3, 0, 0));
+  // PORT_LOCATION.add(new HexCoordinate(3, 0, 2));
+  // PORT_LOCATION.add(new HexCoordinate(2, 0, 3));
+  // addTiles(availTiles, WOOD, NUM_WOOD_TILE);
+  // addTiles(availTiles, BRICK, NUM_BRICK_TILE);
+  // addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
+  // addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
+  // addTiles(availTiles, ORE, NUM_ORE_TILE);
+  // addTiles(availTiles, DESERT, NUM_DESERT_TILE);
+  // Collections.shuffle(availTiles);
+  //
+  // Map<IntersectionCoordinate, Intersection> intersections = new
+  // HashMap<IntersectionCoordinate, Intersection>();
+  // Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
+  // _tiles = new ArrayList<>();
+  // for (int i = 0, j = 0; i < availTiles.size(); i++, j++) {
+  // TileType res = availTiles.get(i);
+  // if (res != DESERT) {
+  // _tiles.add(new Tile(ROLL_NUMS[j], coords.get(i), intersections, paths,
+  // res));
+  // } else {
+  // _tiles.add(new Tile(0, coords.get(i), intersections, paths,
+  // res, true));
+  // j -= 1;
+  // }
+  //
+  // }
+  // _intersections = intersections;
+  // _paths = paths;
+  // int i = 0;
+  // List<HexCoordinate> seaCoords = getSeaPermutations();
+  // for (HexCoordinate hc : seaCoords) {
+  // Tile seaTile = new Tile(hc, SEA, _intersections);
+  // if(PORT_LOCATION.contains(hc)) {
+  // seaTile.setPorts(new Port(Settings.PORT_ORDER[i]));
+  // i++;
+  // }
+  // _tiles.add(new Tile(hc, SEA, _intersections));
+  // }
+  // }
+  //
   private void addTiles(List<TileType> availTiles, TileType type, int numTiles) {
     for (int i = 0; i < numTiles; i++) {
       availTiles.add(type);
@@ -219,4 +221,135 @@ public class Board {
     return Collections.unmodifiableMap(_paths);
   }
 
+  public Board() {
+    List<TileType> availTiles = new ArrayList<TileType>();
+    PORT_LOCATION = new HashSet<HexCoordinate>();
+    PORT_LOCATION.add(new HexCoordinate(0, 0, 3));
+    PORT_LOCATION.add(new HexCoordinate(0, 2, 3));
+    PORT_LOCATION.add(new HexCoordinate(0, 3, 2));
+    PORT_LOCATION.add(new HexCoordinate(0, 3, 0));
+    PORT_LOCATION.add(new HexCoordinate(2, 3, 0));
+    PORT_LOCATION.add(new HexCoordinate(3, 2, 0));
+    PORT_LOCATION.add(new HexCoordinate(3, 0, 0));
+    PORT_LOCATION.add(new HexCoordinate(3, 0, 2));
+    PORT_LOCATION.add(new HexCoordinate(2, 0, 3));
+
+    addTiles(availTiles, WOOD, NUM_WOOD_TILE);
+    addTiles(availTiles, BRICK, NUM_BRICK_TILE);
+    addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
+    addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
+    addTiles(availTiles, ORE, NUM_ORE_TILE);
+    addTiles(availTiles, DESERT, NUM_DESERT_TILE);
+    Collections.shuffle(availTiles);
+
+    Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
+    Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
+    _tiles = new ArrayList<>();
+    int currRoll = 0;
+    int currTile = 0;
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    // (0,0,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    z++; // (0,0,1)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    x++; // (1,0,1)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    z--; // // (1,0,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    y++; // (1,1,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    x--; // (0,1,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    z++; // (0,1,1)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    y--; // (0,0,1)
+    z++; // (0,0,2)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    x++; // (1,0,2)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    x++; // (2,0,2)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    z--; // (2,0,1)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    z--; // (2,0,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    y++; // (2,1,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    y++; // (2,2,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    x--; // (1,2,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    x--; // (0,2,0)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    z++; // (0,2,1)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    z++; // (0,2,2)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+    y--; // (0,1,2)
+    addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+        intersections, paths, currRoll, currTile);
+    currTile ++; currRoll++;
+
+    _intersections = intersections;
+    _paths = paths;
+    int i = 0;
+    List<HexCoordinate> seaCoords = getSeaPermutations();
+    for (HexCoordinate hc : seaCoords) {
+      Tile seaTile = new Tile(hc, SEA, _intersections);
+      if (PORT_LOCATION.contains(hc)) {
+        seaTile.setPorts(new Port(Settings.PORT_ORDER[i]));
+        i++;
+      }
+      _tiles.add(new Tile(hc, SEA, _intersections));
+    }
+  }
+
+  private void addTile(TileType tileType, HexCoordinate coord,
+      Map<IntersectionCoordinate, Intersection> intersections,
+      Map<PathCoordinate, Path> paths, int currRoll, int currTile) {
+    if (tileType != DESERT) {
+      _tiles.add(new Tile(ROLL_NUMS[currRoll], coord, intersections,
+          paths,tileType));
+    } else {
+      _tiles.add(new Tile(0, coord, intersections, paths, tileType, true));
+    }
+  }
 }
