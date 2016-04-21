@@ -11,6 +11,8 @@ public final class CatanServer {
       switch(req) {
         case "getBoard" :
           return api.getBoard();
+        case "getPlayers" :
+          return api.getPlayers();
         default :
           throw new IllegalArgumentException("Unsupported action : " + req);
       }
