@@ -5,12 +5,12 @@ $(window).load(function() {
 	board = new Board();
 	
 	// Create players
-	var p1 = new Player(1, "#FF4747");
-	var p2 = new Player(2, "#1995D5");
-	var p3 = new Player(3, "#F6F3EA");
-	var p4 = new Player(4, "#FEB33C");
+	// var p1 = new Player(1, "Hans", "#FF4747");
+	// var p2 = new Player(2, "Ansel", "#1995D5");
+	// var p3 = new Player(3, "Sean", "#F6F3EA");
+	// var p4 = new Player(4, "Nick", "#FEB33C");
 
-	players.push(p1, p2, p3, p4);
+	// players.push(p1, p2, p3, p4);
 
 	redrawCatan();
 });

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
 import edu.brown.cs.board.Board;
@@ -31,7 +32,7 @@ public class CatanConverter {
     return _gson.toJson(new BoardRaw(referee.getBoard()));
   }
 
-  public String getHand(int playerID, Referee referee){
+  public String getHand(int playerID, Referee referee) {
     return _gson.toJson(new Hand(referee.getPlayerByID(playerID)));
   }
 
@@ -40,19 +41,18 @@ public class CatanConverter {
     for (Player p : referee.getPlayers()) {
       players.add(new PublicPlayerRaw(p, referee.getReadOnlyReferee()));
     }
-    return _gson.toJson(players);
+    return _gson.toJson(ImmutableMap.of("players", players));
   }
 
   public static class Hand {
     private final Map<Resource, Double> resources;
     private final Map<DevelopmentCard, Integer> devCards;
 
-    public Hand(Player player){
+    public Hand(Player player) {
       resources = player.getResources();
       devCards = player.getDevCards();
     }
   }
-
 
   private static class BoardRaw {
     private final Collection<TileRaw> tiles;

@@ -1,7 +1,8 @@
-function Player(id, color) {
+function Player(id, name, color) {
 	this.id = id;
+	this.name = name;
 	this.color = color;
-	
+
 	this.victoryPoints = 4;
 	this.resourceCards = 6;
 	this.developmentCards = 3;
@@ -9,10 +10,12 @@ function Player(id, color) {
 	this.roads = 3;
 	this.settlements = 2;
 	this.cities = 0;
+	this.largestArmy = false;
+	this.longestRoad = false;
 }
 
 Player.prototype.fillPlayerTab = function() {
-	var tab = $("#p" + this.id + "-tab");
+	var tab = $("#p" + (this.id + 1) + "-tab");
 	tab.empty();
 	
 	tab.append("<div class='circle player-circle' style='background-color: " + this.color + "'></div>");
@@ -23,5 +26,26 @@ Player.prototype.fillPlayerTab = function() {
 	tab.append("<p><strong>Roads:</strong> " + this.roads + "</p>");
 	tab.append("<p><strong>Settlements:</strong> " + this.settlements + "</p>");
 	tab.append("<p><strong>Cities:</strong> " + this.cities + "</p>");
+}
+
+function parsePlayers(playersData) {
+	var players = [];
+
+	for (var i = 0; i < playersData.length; i++) {
+		var playerData = playersData[i];
+
+		var player = new Player(playerData.id, playerData.name, playerData.color);
+		player.victoryPoints = playerData.victoryPoints;
+		player.playedKnights = playerData.numPlayedKnights;
+		player.roads = playerData.numRoads;
+		player.settlements = playerData.numSettlements;
+		player.cities = playerData.numCities;
+		player.largestArmy = playerData.largestArmy;
+		player.longestRoad = playerData.longestRoad;
+
+		players.push(player);
+	}
+
+	return players;
 }
 

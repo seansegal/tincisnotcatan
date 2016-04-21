@@ -18,13 +18,12 @@ import com.google.gson.Gson;
 @WebSocket
 public class ActionWebSocketHandler {
 
-  private final GameServer          gs          = GameServer.getInstance();
+  private final GameServer gs = GameServer.getInstance();
   private static final Set<Session> activeUsers = new HashSet<>();
 
-  private static final int          NUM_PLAYERS = 4;
+  private static final int NUM_PLAYERS = 4;
 
-  private static final Gson         GSON        = new Gson();
-
+  private static final Gson GSON = new Gson();
 
   @OnWebSocketConnect
   synchronized public void onConnect(Session user) throws Exception {
@@ -34,10 +33,8 @@ public class ActionWebSocketHandler {
     }
   }
 
-
   @OnWebSocketClose
-  synchronized public void onClose(Session user, int statusCode,
-      String reason) {
+  synchronized public void onClose(Session user, int statusCode, String reason) {
     System.out.println("Disconnected from " + user.getLocalAddress());
     if (activeUsers.remove(user)) {
       System.out.println("PLAYER CLOSED: " + user.getLocalAddress());
@@ -45,7 +42,6 @@ public class ActionWebSocketHandler {
       System.out.println("WITNESS CLOSED: " + user.getLocalAddress());
     }
   }
-
 
   @OnWebSocketMessage
   synchronized public void onMessage(Session user, String message) {
@@ -55,7 +51,7 @@ public class ActionWebSocketHandler {
       System.out.println("Message : " + message);
       Map<String, String> map = GSON.fromJson(message, Map.class);
       String returnMessage = "";
-      if(!map.containsKey("action")){
+      if (!map.containsKey("action")) {
         returnMessage = "Unsupported command : " + map.toString();
       } else {
 

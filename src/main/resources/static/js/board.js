@@ -87,6 +87,4 @@ Board.prototype.createBoard = function(boardData) {
 				parseHexCoordinates(start._coord3), parseHexCoordinates(end._coord1),
 				parseHexCoordinates(end._coord2), parseHexCoordinates(end._coord3));
 	}
-
-	this.draw();
 }
