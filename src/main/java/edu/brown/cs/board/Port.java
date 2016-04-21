@@ -4,7 +4,6 @@ import edu.brown.cs.catan.Resource;
 
 public interface Port {
 
-  double getExchangeRate();
   Resource getResource();
 
 }
