@@ -1,5 +1,6 @@
 //Establish the WebSocket connection and set up event handlers
 var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat/");
+var actionSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
 // when we get a message from the server, we execute the following.
 webSocket.onmessage = function (msg) { updateChat(msg); };
 // when we get a closed connection from the server, we execute the following:
@@ -9,6 +10,11 @@ webSocket.onclose = function () { alert("WebSocket connection closed") };
 //Send message if "Send" is clicked
 id("send").addEventListener("click", function () {
     sendMessage(id("message").value);
+});
+
+id("fireAction").addEventListener("click", function () {
+	actionSocket.send("Hi I made an action.");
+	console.log("fired");
 });
 
 //Send message if enter is pressed in the input field

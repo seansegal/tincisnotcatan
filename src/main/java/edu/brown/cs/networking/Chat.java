@@ -12,7 +12,7 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Chat {
+class Chat {
 
   private Chat() {}
 

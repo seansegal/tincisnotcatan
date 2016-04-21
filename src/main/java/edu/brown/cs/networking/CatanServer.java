@@ -7,12 +7,11 @@ import edu.brown.cs.catan.Player;
 
 // Catan-specific logic for game
 // holds reference to GameServer
-public class CatanServer {
+public final class CatanServer {
 
 
   public static void main(String[] args) {
     GameServer.getInstance().launch();
-
   }
 
 

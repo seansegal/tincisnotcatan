@@ -12,14 +12,14 @@ import spark.Spark;
 
 
 // arbitrary server class for N users that have to register, etc.
-public class GameServer {
+final class GameServer {
 
   // use the singleton pattern! This server should only ever have
   // one connection to the web / queries, etc.
   private static GameServer    sharedInstance = new GameServer();
 
-  // all of the Sessions that have connected to this server.
-  private Map<Session, String> userIds        = new HashMap<>();
+  // all of the Sessions that are connected to this server.
+  private Map<TimestampedSession, String> userIds        = new HashMap<>();
 
   // a simple counter for userIDs - to remove?
   private int                  nextUserID     = 1;
@@ -39,6 +39,7 @@ public class GameServer {
     Spark.port(getHerokuAssignedPort());
     // set up chat
     Spark.webSocket("/chat", ChatWebSocketHandler.class);
+    Spark.webSocket("/action", ActionWebSocketHandler.class);
     // secure("", "", "", ""); // use this for https!
     Spark.init();
   }
@@ -57,6 +58,7 @@ public class GameServer {
         RemoteEndpoint remEnd = session.getRemote();
 
         // create the JSONObject we want to send.
+        // this could be anything!
         JSONObject toSend =
             Chat.createMessage(sender, message, userIds.values());
 
@@ -100,7 +102,7 @@ public class GameServer {
 
 
   public boolean add(Session toAdd, String id) {
-    return userIds.put(toAdd, id) != id;
+    return userIds.put(new TimestampedSession(toAdd), id) != id;
   }
 
 
