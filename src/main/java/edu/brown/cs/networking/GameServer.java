@@ -55,6 +55,7 @@ final class GameServer {
 
       // set up chat
       Spark.webSocket("/chat", ChatWebSocketHandler.class);
+      // set up action handler
       Spark.webSocket("/action", ActionWebSocketHandler.class);
 
       // Set up board
@@ -96,6 +97,11 @@ final class GameServer {
         }
       }
     }
+  }
+
+  public String handleAction(String json) {
+    System.out.println("wouldn't a handler be nice? received : " + json);
+    return "";
   }
 
 

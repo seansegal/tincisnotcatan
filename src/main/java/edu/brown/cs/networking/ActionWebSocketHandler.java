@@ -44,6 +44,7 @@ public class ActionWebSocketHandler {
     if(activeUsers.contains(user)) {
       System.out.println("Received message from " + user.getLocalAddress());
       System.out.println("Message : " + message);
+      gs.handleAction(message);
       // do something with that action.
     } else {
       System.out.println("Received invalid message from non-player");
