@@ -115,12 +115,35 @@ Tile.prototype.draw = function(transX, transY, scale) {
 	}
 }
 
+function parseTileType(tileType) {
+	switch (tileType) {
+		case "BRICK":
+			return TILE_TYPE.BRICK;
+		case "WOOD":
+			return TILE_TYPE.WOOD;
+		case "ORE":
+			return TILE_TYPE.ORE;
+		case "WHEAT":
+			return TILE_TYPE.WHEAT;
+		case "SHEEP":
+			return TILE_TYPE.SHEEP;
+		case "DESERT":
+			return TILE_TYPE.DESERT;
+		default:
+			return;
+	}
+}
+
 function hexToCartesian(hexCoordinates) {
 	var x = X_UNIT_VEC.x * hexCoordinates.x + Y_UNIT_VEC.x * hexCoordinates.y 
 			+ Z_UNIT_VEC.x * hexCoordinates.z;
 	var y = X_UNIT_VEC.y * hexCoordinates.x + Y_UNIT_VEC.y * hexCoordinates.y 
 			+ Z_UNIT_VEC.y * hexCoordinates.z;
 	return {x: x, y: y};
+}
+
+function parseHexCoordinates(hexCoordinates) {
+	return {x: hexCoordinates._x, y: hexCoordinates._y, z: hexCoordinates._z};
 }
 
 
