@@ -16,10 +16,10 @@ public class HumanPlayer implements Player {
   private final int id;
   private final String color;
 
-  public HumanPlayer(int id) {
-    this.name = ""; // Change to be customizable
+  public HumanPlayer(int id, String name, String color) {
+    this.name = name; // Change to be customizable
     this.id = id;
-    this.color = "#000000"; // Custimomize later
+    this.color = color; // Custimomize later
     this.numRoads = Settings.INITIAL_ROADS;
     this.numSettlements = Settings.INITIAL_SETTLEMENTS;
     this.numCities = Settings.INITIAL_CITIES;

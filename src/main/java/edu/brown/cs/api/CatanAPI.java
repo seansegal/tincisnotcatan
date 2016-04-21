@@ -15,10 +15,8 @@ public class CatanAPI {
   private CatanConverter _converter;
 
   public CatanAPI() {
-    // TODO: How are we setting up the players here?
     _referee = new MasterReferee();
     _converter = new CatanConverter();
-
   }
 
   public String getBoard() {
@@ -31,6 +29,14 @@ public class CatanAPI {
 
   public String getPlayers() {
     return _converter.getPlayers(_referee);
+  }
+
+  public int addPlayer(String name, String color) {
+    return _referee.addPlayer(name, color);
+  }
+
+  public void preformAction(String action) {
+    // TODO: implement & what does this return, String?
   }
 
 }

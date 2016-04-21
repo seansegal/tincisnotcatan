@@ -18,6 +18,8 @@ public interface Referee {
 
   void playDevCard();
 
+  int addPlayer(String name, String color);
+
   DevelopmentCard getDevCard();
 
   Referee getReadOnlyReferee();

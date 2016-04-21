@@ -23,6 +23,7 @@ public class CatanConverter {
 
   private Gson _gson;
 
+
   public CatanConverter() {
     _gson = new Gson();
   }

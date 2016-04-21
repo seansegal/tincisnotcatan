@@ -27,21 +27,13 @@ public class MasterReferee implements Referee {
   private final List<DevelopmentCard> _devCardDeck;
   private Set<Player> _hasDiscarded;
   private boolean _devHasBeenPlayed;
+  private Player _largestArmy = null;
 
   public MasterReferee() {
     _board = new Board();
-    _players = initializePlayers(Settings.DEFAULT_NUM_PLAYERS);
+    _players = new HashMap<Integer, Player>();
     _turn = 1;
     _bank = initializeBank(false);
-    _devCardDeck = initializeDevDeck();
-    _hasDiscarded = new HashSet<>();
-  }
-
-  public MasterReferee(int numPlayers, boolean smartBank) {
-    _board = new Board();
-    _players = initializePlayers(numPlayers);
-    _turn = 1;
-    _bank = initializeBank(smartBank);
     _devCardDeck = initializeDevDeck();
     _hasDiscarded = new HashSet<>();
   }
@@ -67,14 +59,6 @@ public class MasterReferee implements Referee {
   @Override
   public DevelopmentCard getDevCard() {
     return _devCardDeck.remove(0);
-  }
-
-  private Map<Integer, Player> initializePlayers(int numPlayers) {
-    Map<Integer, Player> toReturn = new HashMap<>();
-    for (int i = 0; i < numPlayers; i++) {
-      toReturn.put(i, new HumanPlayer(i));
-    }
-    return Collections.unmodifiableMap(toReturn);
   }
 
   private Bank initializeBank(boolean isSmart) {
@@ -165,12 +149,13 @@ public class MasterReferee implements Referee {
   @Override
   public boolean hasLargestArmy(int id) {
     Player player = getPlayerByID(id);
-    int maxArmy = 0;
+    int maxArmy = _largestArmy != null ? _largestArmy.numPlayedKnights() : 0;
     Player maxPlayer = null;
     for (Player p : _players.values()) {
       if (p.numPlayedKnights() > maxArmy) {
         maxArmy = p.numPlayedKnights();
         maxPlayer = p;
+        _largestArmy = maxPlayer;
       }
     }
     if (maxArmy >= Settings.LARGEST_ARMY_THRESH && maxPlayer != null
@@ -200,7 +185,7 @@ public class MasterReferee implements Referee {
 
   @Override
   public Map<Resource, Double> getBankRates(int id) {
-    Player player = getPlayerByID(id);
+    // Player player = getPlayerByID(id);
     Map<Resource, Double> rates = new HashMap<>();
     for (Resource r : Resource.values()) {
       rates.put(r, _bank.getBankRate());
@@ -210,6 +195,17 @@ public class MasterReferee implements Referee {
     }
 
     return rates;
+  }
+
+  @Override
+  public int addPlayer(String name, String color) {
+    if (_turn == 1) {
+      int id = _players.size();
+      _players.put(id, new HumanPlayer(id, name, color));
+      return id;
+    }
+    throw new UnsupportedOperationException(
+        "Cannot currently add players during a game.");
   }
 
   private class ReadOnlyReferee implements Referee {
@@ -320,6 +316,12 @@ public class MasterReferee implements Referee {
     @Override
     public Map<Resource, Double> getBankRates(int player) {
       return _referee.getBankRates(player);
+    }
+
+    @Override
+    public int addPlayer(String name, String color) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot add players.");
     }
 
   }
