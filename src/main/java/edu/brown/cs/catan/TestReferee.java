@@ -9,7 +9,7 @@ public class TestReferee extends MasterReferee {
 
   public TestReferee(){
     super();
-    Player sean = this.getPlayerByID(this.addPlayer("Sean", "##FF0000"));
+    Player sean = this.getPlayerByID(this.addPlayer("Sean", "#FF0000"));
     Player nick = this.getPlayerByID(this.addPlayer("Nick", "#00FF00"));
     Player hans = this.getPlayerByID(this.addPlayer("Hans", "#00FFFF"));
     Player ansel = this.getPlayerByID(this.addPlayer("Ansel", "#FF00FF"));
