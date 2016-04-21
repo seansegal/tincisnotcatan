@@ -13,7 +13,8 @@ var TILE_TYPE = {
 	ORE: 3,
 	WHEAT: 4,
 	SHEEP: 5,
-	DESERT: 6
+	DESERT: 6,
+	SEA: 7
 }
 
 function Tile(coordinates, tileType, number) {
@@ -27,7 +28,7 @@ function Tile(coordinates, tileType, number) {
 	$("#board-viewport").append("<div class='hexagon-wrapper' id='" + this.id + "-wrapper'>"
 			+ "<div class='hexagon' id='" + this.id + "'></div></div>");
 	
-	if (!(this.tileType === TILE_TYPE.DESERT)) {
+	if (!(this.tileType === TILE_TYPE.DESERT || this.tileType === TILE_TYPE.SEA)) {
 		$("#" + this.id).parent().append("<div class='circle number-circle'><span class='unselectable'>" + this.number + "</span>"
 				+ "<br><div class='dots-container'></div></div>");
 	} else {
@@ -66,6 +67,9 @@ Tile.prototype.draw = function(transX, transY, scale) {
 			break;
 		case TILE_TYPE.DESERT:
 			element.addClass("desert-color");
+			break;
+		case TILE_TYPE.SEA:
+			element.addClass("sea-color");
 		default:
 			break;
 	}
@@ -92,7 +96,7 @@ Tile.prototype.draw = function(transX, transY, scale) {
 	numberCircle.css("width", (scale * NUMBER_CIRCLE_SCALE) + "px");
 	numberCircle.css("height", (scale * NUMBER_CIRCLE_SCALE) + "px");
 		
-	if (!(this.tileType === TILE_TYPE.DESERT)) {
+	if (!(this.tileType === TILE_TYPE.DESERT || this.tileType === TILE_TYPE.SEA)) {
 		// Scale and center tile number
 		numberCircle.css("font-size", (scale * NUMBER_SCALE) + "px");
 		numberCircle.children("span").css("line-height", (scale * NUMBER_CIRCLE_SCALE) + "px");		
@@ -129,6 +133,8 @@ function parseTileType(tileType) {
 			return TILE_TYPE.SHEEP;
 		case "DESERT":
 			return TILE_TYPE.DESERT;
+		case "SEA":
+			return TILE_TYPE.SEA;
 		default:
 			return;
 	}

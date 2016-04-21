@@ -16,12 +16,25 @@ var BUILDING = {
 	CITY: 3
 }
 
+var PORT = {
+	NONE: 0,
+	BRICK: 1,
+	WOOD: 2,
+	WHEAT: 3,
+	ORE: 4,
+	SHEEP: 5,
+	WILDCARD: 6
+}
+
 function Intersection(coord1, coord2, coord3) {
 	this.coordinates = findCenter(coord1, coord2, coord3);
 	this.id = ("intersection-x-" + this.coordinates.x + "y-" 
 			+ this.coordinates.y + "z-" + this.coordinates.z).replace(/[.]/g, "_");
+
 	this.building = BUILDING.NONE;
 	this.player;
+
+	this.port = PORT.NONE;
 	
 	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
 }
@@ -95,4 +108,23 @@ findCenter = function(c1, c2, c3) {
 	var z = (c1.z + c2.z + c3.z) / 3;
 	
 	return {x: x, y: y, z: z};
+}
+
+function parseIntersection(data) {
+	var position = data.coordinate;
+	var intersect = new Intersection(parseHexCoordinates(position._coord1),
+			parseHexCoordinates(position._coord2),
+			parseHexCoordinates(position._coord3))
+
+	if (data.hasOwnProperty("building")) {
+		if (data.building.type === "settlement") {
+			intersect.building = BUILDING.SETTLEMENT;
+		} else if (data.building.type === "city") {
+			intersect.building = BUILDING.CITY;
+		}
+
+		intersect.player = playersById[data.building.player];
+	}
+
+	return intersect;
 }

@@ -104,6 +104,29 @@
 	padding-left: 10px;
 }
 
+/* Build tab */
+
+.build-circle {
+	background-color: #BBBBBB;
+	height: 20px;
+	width: 20px;
+	margin-bottom: 5px;
+	float: left;
+	margin-right: 3px;
+}
+
+.build-circle > img {
+	margin-top: 1.3px;
+	height: 100%;
+	width: 100%;
+	z-index: 6;
+}
+
+.build-circle-list {
+	float: left;
+	margin-right: 3px;
+}
+
 /* Trade tab */
 
 .trade-row > div {
@@ -136,6 +159,10 @@
 
 .desert-color {
 	background-color: #C5BA96;
+}
+
+.sea-color {
+	background-color: #B5D7E5;
 }
 
 .hexagon-wrapper {

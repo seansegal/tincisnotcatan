@@ -11,9 +11,9 @@ actionSocket.onmessage = function (msg) {
     var data = JSON.parse(msg.data);
     console.log(data);
 
-    if (data.getBoard !== undefined) {
+    if (data.hasOwnProperty("getBoard")) {
         handleGetBoard(data.getBoard);
-    } else if (data.getPlayers !== undefined) {
+    } else if (data.hasOwnProperty("getPlayers")) {
         handleGetPlayers(data.getPlayers);
     }
 };
@@ -24,8 +24,10 @@ function handleGetBoard(boardData) {
 }
 
 function handleGetPlayers(playersData) {
+    playersById = {};
     players = parsePlayers(playersData.players);
     for (var i = 0; i < players.length; i++) {
+        playersById[players[i].id] = players[i];
         players[i].fillPlayerTab();
     }
 }
@@ -36,11 +38,11 @@ id("send").addEventListener("click", function () {
 });
 
 id("fireAction").addEventListener("click", function () {
-	var boardReq = {"action" : "getBoard"};
-	actionSocket.send(JSON.stringify(boardReq));
-
     var playersReq = {"action": "getPlayers"};
     actionSocket.send(JSON.stringify(playersReq));
+
+	var boardReq = {"action" : "getBoard"};
+	actionSocket.send(JSON.stringify(boardReq));
 });
 
 //Send message if enter is pressed in the input field

@@ -45,11 +45,19 @@
 			    		<div class="row">
 			    			<div class="col-xs-6">
 				    			<h4>Settlement</h3>
-				    			<p>1 Brick</p>
-				    			<p>1 Wood</p>
-				    			<p>1 Wheat</p>
-				    			<p>1 Sheep</p>
-			    			</div>
+				    			<div class="circle build-circle brick-color">
+									<img src="images/icon-brick.svg" alt="Brick">
+								</div>
+				    			<div class="circle build-circle wood-color">
+									<img src="images/icon-wood.svg" alt="Wood">
+								</div>
+				    			<div class="circle build-circle wheat-color">
+									<img src="images/icon-wheat.svg" alt="Wheat">
+								</div>
+				    			<div class="circle build-circle sheep-color">
+									<img src="images/icon-sheep.svg" alt="Sheep">
+								</div>
+							</div>
 			    			<div class="col-xs-6">
 		    					<input type="button" class="btn btn-primary" id="settlement-build-btn" value="Build">
 		    				</div>
@@ -59,8 +67,22 @@
 		    			<div class="row">
 			    			<div class="col-xs-6">
 			    				<h4>City</h3>
-			    				<p>3 Ore</p>
-			    				<p>2 Wheat</p>
+			    				<div class="circle build-circle ore-color build-circle-list">
+									<img src="images/icon-ore.svg" alt="Ore">
+								</div>
+			    				<div class="circle build-circle ore-color build-circle-list">
+									<img src="images/icon-ore.svg" alt="Ore">
+								</div>
+								<div class="circle build-circle ore-color build-circle-list">
+									<img src="images/icon-ore.svg" alt="Ore">
+								</div>
+								<br>
+								<div class="circle build-circle wheat-color build-circle-list">
+									<img src="images/icon-wheat.svg" alt="Wheat">
+								</div>
+								<div class="circle build-circle wheat-color build-circle-list">
+									<img src="images/icon-wheat.svg" alt="Wheat">
+								</div>
 		    				</div>
 			    			<div class="col-xs-6">
 		    					<input type="button" class="btn btn-primary" id="city-build-btn" value="Build">
@@ -71,8 +93,12 @@
 		    			<div class="row">
 			    			<div class="col-xs-6">
 				    			<h4>Road</h3>
-				    			<p>1 Brick</p>
-				    			<p>1 Wood</p>
+				    			<div class="circle build-circle brick-color">
+									<img src="images/icon-brick.svg" alt="Brick">
+								</div>
+				    			<div class="circle build-circle wood-color">
+									<img src="images/icon-wood.svg" alt="Wood">
+								</div>
 				    		</div>
 					    	<div class="col-xs-6">
 				    			<input type="button" class="btn btn-primary" id="road-build-btn" value="Build">
@@ -83,9 +109,15 @@
 		    			<div class="row">
 			    			<div class="col-xs-6">
 				    			<h4>Development Card</h3>
-				    			<p>1 Ore</p>
-				    			<p>1 Wheat</p>
-				    			<p>1 Sheep</p>
+				    			<div class="circle build-circle ore-color">
+									<img src="images/icon-ore.svg" alt="Ore">
+								</div>
+				    			<div class="circle build-circle wheat-color">
+									<img src="images/icon-wheat.svg" alt="Wheat">
+								</div>
+				    			<div class="circle build-circle sheep-color">
+									<img src="images/icon-sheep.svg" alt="Sheep">
+								</div>
 		    				</div>
 			    			<div class="col-xs-6">
 		    					<input type="button" class="btn btn-primary" id="dev-card-build-btn" value="Build">
@@ -185,12 +217,10 @@
 	<div class="col-xs-6 panel panel-default text-center">
 		<ul class="nav navbar-nav navbar-left" id="hand-resources">
 			<li class="navbar-btn">
-				<div class="card-container">
-					<div class="circle card-circle brick-color">
-						<img src="images/icon-brick.svg" alt="Brick">
-					</div>
-					<div class="card-number">1.05</div>
+				<div class="circle card-circle brick-color">
+					<img src="images/icon-brick.svg" alt="Brick">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle wood-color">
