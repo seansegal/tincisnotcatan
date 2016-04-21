@@ -22,13 +22,13 @@ public interface Referee {
 
   Referee getReadOnlyReferee();
 
-  boolean playerHasDiscarded(Player player); // Read
+  boolean playerHasDiscarded(int playerID); // Read
 
-  void playerDiscarded(Player player); // Writes
+  void playerDiscarded(int playerID); // Writes
 
-  void playerMustDiscard(Player player);
+  void playerMustDiscard(int player);
 
-  Map<Resource, Double> getBankRates(Player player);
+  Map<Resource, Double> getBankRates(int playerID);
 
   Board getBoard();
 
@@ -36,12 +36,12 @@ public interface Referee {
 
   Collection<Player> getPlayers();
 
-  boolean hasLongestRoad(Player player);
+  boolean hasLongestRoad(int playerID);
 
-  boolean hasLargestArmy(Player player);
+  boolean hasLargestArmy(int playerID);
 
-  int getNumPublicPoints(Player player);
+  int getNumPublicPoints(int playerID);
 
-  int getNumTotalPoints(Player player);
+  int getNumTotalPoints(int playerID);
 
 }

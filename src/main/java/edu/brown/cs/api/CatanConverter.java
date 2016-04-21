@@ -14,21 +14,25 @@ import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.Path;
 import edu.brown.cs.board.Tile;
 import edu.brown.cs.board.TileType;
+import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
 public class CatanConverter {
 
-
   private Gson _gson;
 
-  public CatanConverter(){
+  public CatanConverter() {
     _gson = new Gson();
   }
 
-  public String getBoard(Referee referee){
+  public String getBoard(Referee referee) {
     return _gson.toJson(new BoardRaw(referee.getBoard()));
+  }
+
+  public String getHand(int playerID, Referee referee){
+    return _gson.toJson(new Hand(referee.getPlayerByID(playerID)));
   }
 
   public String getPlayers(Referee referee) {
@@ -39,38 +43,45 @@ public class CatanConverter {
     return _gson.toJson(players);
   }
 
+  public static class Hand {
+    private final Map<Resource, Double> resources;
+    private final Map<DevelopmentCard, Integer> devCards;
+
+    public Hand(Player player){
+      resources = player.getResources();
+      devCards = player.getDevCards();
+    }
+  }
 
 
   private static class BoardRaw {
-    private Collection<TileRaw> tiles;
-    private Collection<Intersection> intersections;
-    private Collection<Path> paths;
+    private final Collection<TileRaw> tiles;
+    private final Collection<Intersection> intersections;
+    private final Collection<Path> paths;
 
-    public BoardRaw(Board board){
+    public BoardRaw(Board board) {
       intersections = board.getIntersections().values();
       paths = board.getPaths().values();
       tiles = new ArrayList<>();
-      for(Tile tile : board.getTiles()){
+      for (Tile tile : board.getTiles()) {
         tiles.add(new TileRaw(tile));
       }
     }
   }
 
   private static class TileRaw {
-    private HexCoordinate hexCoordinate;
-    private TileType type;
-    private boolean hasRobber;
-    private int number;
+    private final HexCoordinate hexCoordinate;
+    private final TileType type;
+    private final boolean hasRobber;
+    private final int number;
 
-    public TileRaw(BoardTile tile){
+    public TileRaw(BoardTile tile) {
       hexCoordinate = tile.getCoordinate();
       type = tile.getType();
       hasRobber = tile.hasRobber();
       number = tile.getRollNumber();
     }
   }
-
-
 
   private static class PublicPlayerRaw {
     private String name;
@@ -93,10 +104,10 @@ public class CatanConverter {
       numCities = p.numCities();
       numPlayedKnights = p.numPlayedKnights();
       numRoads = p.numRoads();
-      longestRoad = r.hasLongestRoad(p);
-      largestArmy = r.hasLargestArmy(p);
-      victoryPoints = r.getNumPublicPoints(p);
-      rates = r.getBankRates(p);
+      longestRoad = r.hasLongestRoad(p.getID());
+      largestArmy = r.hasLargestArmy(p.getID());
+      victoryPoints = r.getNumPublicPoints(p.getID());
+      rates = r.getBankRates(p.getID());
     }
 
     @Override
