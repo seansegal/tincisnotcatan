@@ -2,26 +2,61 @@ package edu.brown.cs.board;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
-
-import edu.brown.cs.catan.Resource;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Tile implements BoardTile {
   private final Collection<Intersection> _intersections;
   private final int _rollNum;
-  private final Resource _type;
+  private final TileType _type;
   private final HexCoordinate _coordinate;
   private boolean _hasRobber;
   
   public Tile(int rollNum, HexCoordinate coordinate,
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, TileType type) {
-    _type = type.getType();
+    _type = type;
     _rollNum = rollNum;
     _coordinate = coordinate;
     _hasRobber = false;
     _intersections = new ArrayList<Intersection>();
     fillEdges(intersections, paths);
+
+  }
+
+  public Tile(int rollNum, HexCoordinate coordinate,
+      Map<IntersectionCoordinate, Intersection> intersections,
+      Map<PathCoordinate, Path> paths, TileType type, boolean hasRobber) {
+    _type = type;
+    _rollNum = rollNum;
+    _coordinate = coordinate;
+    _hasRobber = hasRobber;
+    _intersections = new ArrayList<Intersection>();
+    fillEdges(intersections, paths);
+  }
+
+  public Tile(HexCoordinate coordinate, TileType type) {
+    _type = type;
+    _rollNum = 0;
+    _coordinate = coordinate;
+    _hasRobber = false;
+    _intersections = new ArrayList<Intersection>();
+    fillSeaTile();
+  }
+
+  private void fillSeaTile() {
+    Queue<IntersectionCoordinate> closestIntersections = new PriorityQueue<IntersectionCoordinate>();
+  }
+
+  private static class IntersectionComparator implements Comparator {
+
+    @Override
+    public int compare(Object o1, Object o2) {
+      // TODO Auto-generated method stub
+      return 0;
+    }
 
   }
 
@@ -90,13 +125,14 @@ public class Tile implements BoardTile {
   }
 
   @Override
-  public Resource getType() {
+  public TileType getType() {
     return _type;
   }
 
   public void notifyIntersections() {
+    assert (_type.getType() != null);
     for (Intersection i : _intersections) {
-      i.notifyBuilding(_type);
+      i.notifyBuilding(_type.getType());
     }
   }
 
