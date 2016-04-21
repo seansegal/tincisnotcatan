@@ -4,10 +4,13 @@ var actionSocket = new WebSocket("ws://" + location.hostname + ":" + location.po
 // when we get a message from the server, we execute the following.
 webSocket.onmessage = function (msg) { updateChat(msg); };
 // when we get a closed connection from the server, we execute the following:
-webSocket.onclose = function () { alert("WebSocket connection closed") };
+// webSocket.onclose = function () { alert("WebSocket connection closed") };
 //webSocket.onopen = function () {alert("Websocket Connection opened")};
 
-actionSocket.onmessage = function (msg) {console.log(JSON.parse(msg.data))};
+actionSocket.onmessage = function (msg) {
+    console.log(JSON.parse(msg.data));
+    board.createBoard(JSON.parse(msg.data));
+};
 
 //Send message if "Send" is clicked
 id("send").addEventListener("click", function () {
@@ -16,9 +19,7 @@ id("send").addEventListener("click", function () {
 
 id("fireAction").addEventListener("click", function () {
 	var req = {"action" : "getBoard"};
-	console.log(req);
 	actionSocket.send(JSON.stringify(req));
-	console.log("fired");
 });
 
 //Send message if enter is pressed in the input field
@@ -43,10 +44,6 @@ function updateChat(msg) {
     	alert(data.ERROR);
     } else {
         insert("chat", data.userMessage);
-        id("userList").innerHTML = "";
-        data.userList.forEach(function (user) {
-            insert("userList", "<li>" + user + "</li>");
-        });
     }
 
 }

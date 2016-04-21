@@ -54,15 +54,39 @@ Board.prototype.draw = function() {
 
 Board.prototype.addTile = function(coordinates, resource, number) {
 	this.tiles.push(new Tile(coordinates, resource, number));
-	this.draw();
 }
 
 Board.prototype.addIntersection = function(c1, c2, c3) {
 	this.intersections.push(new Intersection(c1, c2, c3));
-	this.draw();
 }
 
 Board.prototype.addRoad = function(s1, s2, s3, e1, e2, e3) {
 	this.roads.push(new Road(s1, s2, s3, e1, e2, e3));
+}
+
+Board.prototype.createBoard = function(boardData) {
+	var tiles = boardData.tiles;
+	var intersections = boardData.intersections;
+	var paths = boardData.paths;
+
+	for (var i = 0; i < tiles.length; i++) {
+		var tile = tiles[i];
+		this.addTile(parseHexCoordinates(tile.hexCoordinate), parseTileType(tile.type), tile.number);
+	}
+
+	for (var i = 0; i < intersections.length; i++) {
+		var positions = intersections[i]._position;
+		this.addIntersection(parseHexCoordinates(positions._coord1), parseHexCoordinates(positions._coord2),
+				parseHexCoordinates(positions._coord3));
+	}
+
+	for (var i = 0; i < paths.length; i++) {
+		var start = paths[i]._start._position;
+		var end = paths[i]._end._position;
+		this.addRoad(parseHexCoordinates(start._coord1), parseHexCoordinates(start._coord2),
+				parseHexCoordinates(start._coord3), parseHexCoordinates(end._coord1),
+				parseHexCoordinates(end._coord2), parseHexCoordinates(end._coord3));
+	}
+
 	this.draw();
 }
