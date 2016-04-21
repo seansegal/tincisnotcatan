@@ -167,15 +167,6 @@ public class CatanConverter {
       numDevelopmentCards = p.getNumDevelopmentCards();
     }
 
-    @Override
-    public String toString() {
-      return "PublicPlayerRaw [name=" + name + ", id=" + id + ", color="
-          + color + ", numSettlements=" + numSettlements + ", numCities="
-          + numCities + ", numPlayedKnights=" + numPlayedKnights
-          + ", numRoads=" + numRoads + ", longestRoad=" + longestRoad
-          + ", largestArmy=" + largestArmy + ", victoryPoints=" + victoryPoints
-          + ", rates=" + rates + "]";
-    }
 
   }
 
