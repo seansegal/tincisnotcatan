@@ -6,25 +6,27 @@ import java.util.Map;
 
 import edu.brown.cs.catan.Resource;
 
-public class Tile {
-  private Collection<Intersection> _intersections;
-  private int _rollNum;
-  private Resource _type;
-  private HexCoordinate _coordinate;
+public class ResourceTile implements BoardTile {
+  private final Collection<Intersection> _intersections;
+  private final int _rollNum;
+  private final Resource _type;
+  private final HexCoordinate _coordinate;
+  private boolean _hasRobber;
   
-  public Tile(int rollNum, HexCoordinate coordinate,
+  public ResourceTile(int rollNum, HexCoordinate coordinate,
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, TileType type) {
     _type = type.getType();
     _rollNum = rollNum;
     _coordinate = coordinate;
+    _hasRobber = false;
+    _intersections = new ArrayList<Intersection>();
     fillEdges(intersections, paths);
 
   }
 
   private void fillEdges(
       Map<IntersectionCoordinate, Intersection> intersections, Map<PathCoordinate, Path> paths) {
-    _intersections = new ArrayList<Intersection>();
     HexCoordinate upLeftTile = new HexCoordinate(_coordinate.getX(),
         _coordinate.getY(), _coordinate.getZ() + 1);
     HexCoordinate upRightTile = new HexCoordinate(_coordinate.getX(),
@@ -111,8 +113,8 @@ public class Tile {
   
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof Tile) {
-      Tile other = (Tile) obj;
+    if (obj instanceof ResourceTile) {
+      ResourceTile other = (ResourceTile) obj;
       if (other.getCoordinate().equals(_coordinate)) {
         return true;
       } else {
@@ -126,6 +128,22 @@ public class Tile {
   @Override
   public int hashCode() {
     return _coordinate.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder toRet = new StringBuilder();
+    toRet.append("TILETYPE: " + _type);
+    toRet.append(" ROLL NUM: " + _rollNum + "\n");
+    return toRet.toString();
+  }
+
+  public boolean hasRobber() {
+    return _hasRobber;
+  }
+
+  public void hasRobber(boolean _hasRobber) {
+    this._hasRobber = _hasRobber;
   }
 
 }

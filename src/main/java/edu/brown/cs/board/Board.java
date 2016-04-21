@@ -22,10 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-  private Collection<Tile> _tiles;
+  private Collection<ResourceTile> _tiles;
   private Map<IntersectionCoordinate, Intersection> _intersections;
   private Map<PathCoordinate, Path> _paths;
-  private int _robberTile;
 
   public Board() {
     List<TileType> availTiles = new ArrayList<TileType>();
@@ -38,14 +37,20 @@ public class Board {
     addTiles(availTiles, DESERT, NUM_DESERT_TILE);
     Collections.shuffle(availTiles);
 
-    Map<IntersectionCoordinate, Intersection> intersections =
-        new HashMap<IntersectionCoordinate, Intersection>();
+    Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
-
     _tiles = new ArrayList<>();
-    for (int i = 0; i < availTiles.size(); i++) {
-      _tiles.add(new Tile(ROLL_NUMS[i], coords.get(i), intersections, paths,
-          availTiles.get(i)));
+    for (int i = 0, j = 0; i < availTiles.size(); i++, j++) {
+      TileType res = availTiles.get(i);
+      if (res != DESERT) {
+        _tiles.add(new ResourceTile(ROLL_NUMS[j], coords.get(i), intersections, paths,
+            res));
+      } else {
+        _tiles.add(new ResourceTile(0, coords.get(i), intersections, paths,
+            res));
+        j -= 1;
+      }
+
     }
     _intersections = intersections;
     _paths = paths;
@@ -126,19 +131,38 @@ public class Board {
   }
 
   public void notifyTiles(int roll) {
-    for (Tile t : _tiles) {
+    for (ResourceTile t : _tiles) {
       if (t.getRollNum() == roll) {
         t.notifyIntersections();
       }
     }
   }
 
-  public Collection<Tile> getTiles() {
+  public Collection<ResourceTile> getTiles() {
     return _tiles;
   }
 
-  public void moveRobber(int tileID) {
-    assert (tileID != _robberTile);
-    _robberTile = tileID;
+  @Override
+  public String toString() {
+    StringBuilder toRet = new StringBuilder();
+    toRet.append(_tiles.toString());
+    toRet.append("\n");
+    toRet.append(_intersections.keySet().size());
+    toRet.append("\n");
+    toRet.append(_paths.keySet().size());
+    return toRet.toString();
   }
+
+  public Collection<ResourceTile> get_tiles() {
+    return Collections.unmodifiableCollection(_tiles);
+  }
+
+  public Map<IntersectionCoordinate, Intersection> get_intersections() {
+    return Collections.unmodifiableMap(_intersections);
+  }
+
+  public Map<PathCoordinate, Path> get_paths() {
+    return Collections.unmodifiableMap(_paths);
+  }
+
 }

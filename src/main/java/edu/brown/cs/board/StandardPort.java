@@ -12,11 +12,6 @@ public class StandardPort implements Port {
   }
 
   @Override
-  public double getExchangeRate() {
-    return _exchangeRate;
-  }
-
-  @Override
   public Resource getResource() {
     return _resource;
   }

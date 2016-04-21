@@ -2,9 +2,8 @@ package edu.brown.cs.board;
 
 import static java.lang.Math.sqrt;
 
-import java.util.Arrays;
-
 public class HexCoordinate {
+  private static final double TOLERANCE = .001;
   private final int _x;
   private final int _y;
   private final int _z;
@@ -39,10 +38,10 @@ public class HexCoordinate {
       return false;
     }
     HexCoordinate other = (HexCoordinate) obj;
-    if (this.cartesianX() != other.cartesianX()) {
+    if (!(Math.abs(this.cartesianX() - other.cartesianX()) < TOLERANCE)) {
       return false;
     }
-    if (this.cartesianY() != other.cartesianY()) {
+    if (!(Math.abs(this.cartesianY() - other.cartesianY()) < TOLERANCE)) {
       return false;
     }
     return true;
@@ -58,8 +57,9 @@ public class HexCoordinate {
 
   @Override
   public int hashCode() {
-    double[] coords = { this.cartesianX(), this.cartesianY() };
-    return Arrays.hashCode(coords);
+    // double[] coords = { this.cartesianX(), this.cartesianY() };
+    // return Arrays.hashCode(coords);
+    return 1;
   }
 
   @Override

@@ -42,4 +42,14 @@ public class PathCoordinate {
     return _startCoord.hashCode() + _endCoord.hashCode();
   }
 
+  @Override
+  public String toString() {
+    StringBuilder toRet = new StringBuilder();
+    toRet.append("START: ");
+    toRet.append(_startCoord.toString());
+    toRet.append(" END: ");
+    toRet.append(_endCoord.toString());
+    return toRet.toString();
+  }
+
 }

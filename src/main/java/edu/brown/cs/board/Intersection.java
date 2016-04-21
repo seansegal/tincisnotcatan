@@ -1,9 +1,5 @@
 package edu.brown.cs.board;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Resource;
 
@@ -11,42 +7,12 @@ public class Intersection {
 
   private Building _building;
   private Port _port;
-  private Collection<Path> _paths;
   private IntersectionCoordinate _position;
   
-  public Intersection(Collection<Path> paths,
-      IntersectionCoordinate position) {
-    _paths = paths;
-    _position = position;
-    _building = null;
-    _port = null;
-  }
-  
   public Intersection(IntersectionCoordinate position) {
-    _paths = new ArrayList<Path>();
     _position = position;
     _building = null;
     _port = null;
-  }
-
-  public Intersection(Collection<Path> paths,
-      IntersectionCoordinate position, Port port) {
-    _paths = paths;
-    _position = position;
-    _building = null;
-    _port = port;
-  }
-
-  public Intersection(IntersectionCoordinate position,
-      Port port) {
-    _paths = new ArrayList<Path>();
-    _position = position;
-    _building = null;
-    _port = port;
-  }
-
-  public void addPath(Path path) {
-    _paths.add(path);
   }
 
   public Port getPort() {
@@ -94,6 +60,10 @@ public class Intersection {
     }
 
     return false;
+  }
+
+  public void setPort(Port p) {
+    _port = p;
   }
 
 }

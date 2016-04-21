@@ -73,5 +73,16 @@ public class IntersectionCoordinate {
     return false;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder toRet = new StringBuilder();
+    toRet.append(_coord1.toString());
+    toRet.append(" ");
+    toRet.append(_coord2.toString());
+    toRet.append(" ");
+    toRet.append(_coord3.toString());
+    toRet.append("\n");
+    return toRet.toString();
+  }
 
 }
