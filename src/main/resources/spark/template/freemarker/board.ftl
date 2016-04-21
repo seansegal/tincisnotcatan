@@ -10,7 +10,7 @@
         		<input id="message" placeholder="Type your message">
         		<button id="send">Send</button>
     		</div>
-    		<ul id="userList"> <!-- Built by JS --> </ul>
+    		<!-- Probably not needed <ul id="userList"></ul> -->
     		<div id="chat">    <!-- Built by JS --> </div>
     		<div id="testActions">
     			<button id="fireAction">Action!</button>
@@ -183,58 +183,70 @@
 <div class="navbar navbar-fixed-bottom above-board">
 	<div class="col-xs-3"></div>
 	<div class="col-xs-6 panel panel-default text-center">
-		<ul class="nav navbar-nav navbar-left">
+		<ul class="nav navbar-nav navbar-left" id="hand-resources">
 			<li class="navbar-btn">
-				<div class="circle card-circle brick-color">
-					<img src="images/icon-brick.svg" alt="Brick">
+				<div class="card-container">
+					<div class="circle card-circle brick-color">
+						<img src="images/icon-brick.svg" alt="Brick">
+					</div>
+					<div class="card-number">1.05</div>
 				</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle wood-color">
 					<img src="images/icon-wood.svg" alt="Wood">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle ore-color">
 					<img src="images/icon-ore.svg" alt="Ore">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle wheat-color">
 					<img src="images/icon-wheat.svg" alt="Wheat">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle sheep-color">
 					<img src="images/icon-sheep.svg" alt="Sheep">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 		</ul>
-		<ul class="nav navbar-nav navbar-right">
+		<ul class="nav navbar-nav navbar-right" id="hand-dev-cards">
 			<li class="navbar-btn">
 				<div class="circle card-circle">
 					<img src="images/icon-knight.svg" alt="Knight">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle">
 					<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle">
 					<img src="images/icon-monopoly.svg" alt="Monopoly">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle">
 					<img src="images/icon-road-building.svg" alt="Road Building">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle">
 					<img src="images/icon-victory-point.svg" alt="Victory Point">
 				</div>
+				<div class="card-number">1.05</div>
 			</li>
 		</ul>
 	</div>
