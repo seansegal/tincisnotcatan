@@ -16,13 +16,6 @@ var TILE_TYPE = {
 	DESERT: 6
 }
 
-var BRICK_COLOR = "#945D3F";
-var WOOD_COLOR = "#408754";
-var WHEAT_COLOR = "#C9BA56";
-var ORE_COLOR = "#A1AFDA";
-var SHEEP_COLOR = "#83B94E";
-var DESERT_COLOR = "#C5BA96"
-
 function Tile(coordinates, tileType, number) {
 	this.coordinates = coordinates;
 	this.tileType = tileType;
@@ -57,28 +50,27 @@ Tile.prototype.draw = function(transX, transY, scale) {
 	var color = "";
 	switch (this.tileType) {
 		case TILE_TYPE.BRICK:
-			color = BRICK_COLOR;
+			element.addClass("brick-color");
 			break;
 		case TILE_TYPE.WOOD:
-			color = WOOD_COLOR;
+			element.addClass("wood-color");
 			break;
 		case TILE_TYPE.ORE:
-			color = ORE_COLOR;
+			element.addClass("ore-color");
 			break;
 		case TILE_TYPE.WHEAT:
-			color = WHEAT_COLOR;
+			element.addClass("wheat-color");
 			break;
 		case TILE_TYPE.SHEEP:
-			color = SHEEP_COLOR;
+			element.addClass("sheep-color");
 			break;
 		case TILE_TYPE.DESERT:
-			color = DESERT_COLOR;
+			element.addClass("desert-color");
 		default:
 			break;
 	}
 
-	element.css("background-color", color);
-	wrapper.css("border-color", color);
+	// element.css("background-color", color);
 	
 	// Translate and scale tile
 	wrapper.css("transform", "translate(" + tileX + "px , " + tileY + "px)");

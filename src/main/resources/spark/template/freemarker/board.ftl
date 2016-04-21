@@ -174,19 +174,29 @@
 	<div class="col-xs-6 panel panel-default text-center">
 		<ul class="nav navbar-nav navbar-left">
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle brick-color">
+					<img src="images/icon-brick.svg" alt="Brick">
+				</div>
 			</li>
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle wood-color">
+					<img src="images/icon-wood.svg" alt="Wood">
+				</div>
 			</li>
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle ore-color">
+					<img src="images/icon-ore.svg" alt="Ore">
+				</div>
 			</li>
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle wheat-color">
+					<img src="images/icon-wheat.svg" alt="Wheat">
+				</div>
 			</li>
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle sheep-color">
+					<img src="images/icon-sheep.svg" alt="Sheep">
+				</div>
 			</li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">

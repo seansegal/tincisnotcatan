@@ -20,8 +20,14 @@
 
 .card-circle {
 	background-color: #BBBBBB;
-	height: 30px;
-	width: 30px;
+	height: 40px;
+	width: 40px;
+}
+
+.card-circle > img {
+	margin-top: 2.5px;
+	height: 100%;
+	width: 100%;
 }
 
 .above-board {
@@ -97,6 +103,30 @@
 }
 
 /* Board */
+
+.brick-color {
+	background-color: #945D3F;
+}
+
+.wood-color {
+	background-color: #408754;
+}
+
+.wheat-color {
+	background-color: #C9BA56;
+}
+
+.ore-color {
+	background-color: #A1AFDA;
+}
+
+.sheep-color {
+	background-color: #83B94E;
+}
+
+.desert-color {
+	background-color: #C5BA96;
+}
 
 .hexagon-wrapper {
   text-align: center;
