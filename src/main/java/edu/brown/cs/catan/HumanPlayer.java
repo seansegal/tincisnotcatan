@@ -189,6 +189,16 @@ public class HumanPlayer implements Player {
   }
 
   @Override
+  public int getNumDevelopmentCards() {
+    int count = 0;
+    for (Integer num : devCards.values()) {
+      count += num;
+    }
+    return count;
+  }
+
+
+  @Override
   public String getName() {
     return name;
   }
@@ -326,6 +336,11 @@ public class HumanPlayer implements Player {
     @Override
     public String getColor() {
       return _player.getColor();
+    }
+
+    @Override
+    public int getNumDevelopmentCards() {
+      return _player.getNumDevelopmentCards();
     }
 
   }

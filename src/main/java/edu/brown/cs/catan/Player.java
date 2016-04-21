@@ -36,6 +36,8 @@ public interface Player {
 
   double getNumResourceCards();
 
+  int getNumDevelopmentCards();
+
   void addDevelopmentCard(DevelopmentCard card);
 
   Player getImmutableCopy();

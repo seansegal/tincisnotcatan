@@ -1,21 +1,21 @@
 package edu.brown.cs.api;
 
-import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.TestReferee;
 
 public class CatanAPI {
 
   public static void main(String[] args) {
     System.out.println(new CatanAPI().getHand(0));
-    System.out.println(new CatanAPI().getBoard());
     System.out.println(new CatanAPI().getPlayers());
+    System.out.println(new CatanAPI().getBoard());
   }
 
   private Referee _referee;
   private CatanConverter _converter;
 
   public CatanAPI() {
-    _referee = new MasterReferee();
+    _referee = new TestReferee();
     _converter = new CatanConverter();
   }
 
