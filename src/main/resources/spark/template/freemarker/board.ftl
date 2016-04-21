@@ -201,19 +201,29 @@
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle">
+					<img src="images/icon-knight.svg" alt="Knight">
+				</div>
 			</li>
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle">
+					<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
+				</div>
 			</li>
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle">
+					<img src="images/icon-monopoly.svg" alt="Monopoly">
+				</div>
 			</li>
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle">
+					<img src="images/icon-road-building.svg" alt="Road Building">
+				</div>
 			</li>
 			<li class="navbar-btn">
-				<div class="circle card-circle"></div>
+				<div class="circle card-circle">
+					<img src="images/icon-victory-point.svg" alt="Victory Point">
+				</div>
 			</li>
 		</ul>
 	</div>
