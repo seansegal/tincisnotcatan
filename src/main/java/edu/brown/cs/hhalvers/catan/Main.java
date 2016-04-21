@@ -6,6 +6,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
+import edu.brown.cs.networking.CatanServer;
+import freemarker.template.Configuration;
 import spark.ExceptionHandler;
 import spark.ModelAndView;
 import spark.Request;
@@ -13,10 +17,6 @@ import spark.Response;
 import spark.Spark;
 import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
-
-import com.google.common.collect.ImmutableMap;
-
-import freemarker.template.Configuration;
 
 public class Main {
 
@@ -71,6 +71,7 @@ public class Main {
   }
 
   public static void main(String[] args) {
+    new CatanServer();
     try {
       runSparkServer();
     } catch (IOException e) {

@@ -10,7 +10,7 @@ import edu.brown.cs.catan.Player;
 public final class CatanServer {
 
 
-  public static void main(String[] args) {
+  public CatanServer() {
     GameServer.getInstance().launch();
   }
 
