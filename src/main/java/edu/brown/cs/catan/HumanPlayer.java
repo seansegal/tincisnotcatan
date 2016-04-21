@@ -6,13 +6,20 @@ import java.util.Map;
 
 public class HumanPlayer implements Player {
 
-  private Map<Resource, Double> resources;
-  private Map<DevelopmentCard, Integer> devCards; // TODO
+  private final Map<Resource, Double> resources;
+  private final Map<DevelopmentCard, Integer> devCards; // TODO
+  private int numPlayedKnights;
   private int numRoads;
   private int numSettlements;
   private int numCities;
+  private final String name;
+  private final int id;
+  private final String color;
 
-  public HumanPlayer() {
+  public HumanPlayer(int id) {
+    this.name = ""; // Change to be customizable
+    this.id = id;
+    this.color = "#000000"; // Custimomize later
     this.numRoads = Settings.INITIAL_ROADS;
     this.numSettlements = Settings.INITIAL_SETTLEMENTS;
     this.numCities = Settings.INITIAL_CITIES;
@@ -26,6 +33,11 @@ public class HumanPlayer implements Player {
     for (DevelopmentCard card : DevelopmentCard.values()) {
       devCards.put(card, 0);
     }
+  }
+
+  @Override
+  public String getColor() {
+    return color;
   }
 
   @Override
@@ -120,14 +132,20 @@ public class HumanPlayer implements Player {
   @Override
   public void useCity() {
     assert numCities > 0;
+    assert numSettlements != Settings.INITIAL_SETTLEMENTS;
     numCities--;
-
+    numSettlements++;
   }
 
   @Override
   public void useSettlement() {
     assert numSettlements > 0;
     numSettlements--;
+  }
+
+  @Override
+  public int numPlayedKnights() {
+    return numPlayedKnights;
   }
 
   @Override
@@ -161,17 +179,27 @@ public class HumanPlayer implements Player {
   @Override
   public double getNumResourceCards() {
     double count = 0;
-    for(Map.Entry<Resource, Double> entry : resources.entrySet()){
+    for (Map.Entry<Resource, Double> entry : resources.entrySet()) {
       count += entry.getValue();
     }
     return count;
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public int getID() {
+    return id;
   }
 
   private class ReadOnlyPlayer implements Player {
 
     private final HumanPlayer _player;
 
-    public ReadOnlyPlayer(HumanPlayer player){
+    public ReadOnlyPlayer(HumanPlayer player) {
       _player = player;
     }
 
@@ -192,42 +220,50 @@ public class HumanPlayer implements Player {
 
     @Override
     public void buildRoad() {
-      throw new UnsupportedOperationException("Player is immutable and cannot build.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot build.");
     }
 
     @Override
     public void buildSettlement() {
-      throw new UnsupportedOperationException("Player is immutable and cannot build.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot build.");
     }
 
     @Override
     public void buildCity() {
-      throw new UnsupportedOperationException("Player is immutable and cannot build.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot build.");
     }
 
     @Override
     public void buyDevelopmentCard() {
-      throw new UnsupportedOperationException("Player is immutable and cannot build.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot build.");
     }
 
     @Override
     public void useRoad() {
-      throw new UnsupportedOperationException("Player is immutable and cannot build.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot build.");
     }
 
     @Override
     public void useCity() {
-      throw new UnsupportedOperationException("Player is immutable and cannot build.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot build.");
     }
 
     @Override
     public void useSettlement() {
-      throw new UnsupportedOperationException("Player is immutable and cannot build.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot build.");
     }
 
     @Override
     public void playDevelopmentCard(DevelopmentCard card) {
-      throw new UnsupportedOperationException("Player is immutable and cannot use development card.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot use development card.");
     }
 
     @Override
@@ -242,17 +278,20 @@ public class HumanPlayer implements Player {
 
     @Override
     public void addResource(Resource resource) {
-      throw new UnsupportedOperationException("Player is immutable and cannot add resource cards.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot add resource cards.");
     }
 
     @Override
     public void removeResource(Resource resource) {
-      throw new UnsupportedOperationException("Player is immutable and cannot remove resource cards.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot remove resource cards.");
     }
 
     @Override
     public void addDevelopmentCard(DevelopmentCard card) {
-      throw new UnsupportedOperationException("Player is immutable and cannot add development cards.");
+      throw new UnsupportedOperationException(
+          "Player is immutable and cannot add development cards.");
 
     }
 
@@ -266,8 +305,26 @@ public class HumanPlayer implements Player {
       return _player.getNumResourceCards();
     }
 
+    @Override
+    public String getName() {
+      return _player.getName();
+    }
+
+    @Override
+    public int getID() {
+      return _player.getID();
+    }
+
+    @Override
+    public int numPlayedKnights() {
+      return _player.numPlayedKnights();
+    }
+
+    @Override
+    public String getColor() {
+      return _player.getColor();
+    }
+
   }
-
-
 
 }

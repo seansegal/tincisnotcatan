@@ -10,7 +10,7 @@ public class HumanPlayerTest {
 
   @Test
   public void testConstruction() {
-    Player player = new HumanPlayer();
+    Player player = new HumanPlayer(0);
     assertTrue(player != null);
     assertTrue(player.numRoads() == Settings.INITIAL_ROADS);
     assertTrue(player.numCities() == Settings.INITIAL_CITIES);
@@ -20,7 +20,7 @@ public class HumanPlayerTest {
   // These build test assume normal costs for buildings:
   @Test
   public void testBuildRoad() {
-    Player player = new HumanPlayer();
+    Player player = new HumanPlayer(0);
     player.addResource(Resource.BRICK);
     player.addResource(Resource.WOOD);
     player.buildRoad();
@@ -29,7 +29,7 @@ public class HumanPlayerTest {
 
   @Test
   public void testBuildSettlement() {
-    Player player = new HumanPlayer();
+    Player player = new HumanPlayer(0);
     player.addResource(Resource.BRICK);
     player.addResource(Resource.WHEAT);
     player.addResource(Resource.SHEEP);
@@ -40,7 +40,9 @@ public class HumanPlayerTest {
 
   @Test
   public void testBuildCity() {
-    Player player = new HumanPlayer();
+    Player player = new HumanPlayer(0);
+    // Must first use a settlement
+    player.useSettlement();
     player.addResource(Resource.ORE);
     player.addResource(Resource.ORE);
     player.addResource(Resource.ORE);
@@ -48,12 +50,11 @@ public class HumanPlayerTest {
     player.addResource(Resource.WHEAT);
     player.buildCity();
     assertTrue(playerOutOfResources(player));
-
   }
 
   @Test
   public void testBuyDevelopment() {
-    Player player = new HumanPlayer();
+    Player player = new HumanPlayer(0);
     player.addResource(Resource.WHEAT);
     player.addResource(Resource.SHEEP);
     player.addResource(Resource.ORE);
@@ -73,7 +74,7 @@ public class HumanPlayerTest {
   // Development Card Tests:
   @Test
   public void testDevelopmentCard() {
-    Player player = new HumanPlayer();
+    Player player = new HumanPlayer(0);
     for (DevelopmentCard dev : DevelopmentCard.values()) {
       player.addDevelopmentCard(dev);
       assertTrue(player.getDevCards().get(dev) == 1);
@@ -85,20 +86,20 @@ public class HumanPlayerTest {
     }
   }
 
-  //Test hashCode and equals:
+  // Test hashCode and equals:
   @Test
-  public void testHashCode(){
-    Player p1 = new HumanPlayer();
-    Player p2 = new HumanPlayer();
+  public void testHashCode() {
+    Player p1 = new HumanPlayer(0);
+    Player p2 = new HumanPlayer(1);
     assertTrue(p1.hashCode() == p1.hashCode());
     assertTrue(p2.hashCode() == p2.hashCode());
     assertTrue(p1.hashCode() != p2.hashCode());
   }
 
   @Test
-  public void testEquals(){
-    Player p1 = new HumanPlayer();
-    Player p2 = new HumanPlayer();
+  public void testEquals() {
+    Player p1 = new HumanPlayer(2);
+    Player p2 = new HumanPlayer(3);
     assertTrue(p1.equals(p1));
     assertTrue(p2.equals(p2));
     assertTrue(!p1.equals(p2));
@@ -108,7 +109,7 @@ public class HumanPlayerTest {
 
   @Test
   public void testImmutablePlayer() {
-    Player player = new HumanPlayer();
+    Player player = new HumanPlayer(2);
     player.addResource(Resource.BRICK);
     player.addResource(Resource.WHEAT);
     player.addResource(Resource.SHEEP);

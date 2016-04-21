@@ -50,4 +50,14 @@ public abstract class Settings {
   // Default number of players
   public static final int DEFAULT_NUM_PLAYERS = 4;
 
+  // Largest Army & Longest Road Threshold
+  public static final int LARGEST_ARMY_THRESH = 3;
+  public static final int LONGEST_ROAD_THRESH = 5;
+
+  //Point values
+  public static final int SETTLEMENT_POINT_VAL = 1;
+  public static final int CITY_POINT_VAL = 2;
+  public static final int LONGEST_ROAD_POINT_VAL = 2;
+  public static final int LARGEST_ARMY_POINT_VAL = 2;
+
 }
