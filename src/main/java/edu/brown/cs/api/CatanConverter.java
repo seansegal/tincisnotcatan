@@ -10,9 +10,12 @@ import com.google.gson.Gson;
 
 import edu.brown.cs.board.Board;
 import edu.brown.cs.board.BoardTile;
+import edu.brown.cs.board.Building;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.Intersection;
+import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.board.Path;
+import edu.brown.cs.board.Port;
 import edu.brown.cs.board.Tile;
 import edu.brown.cs.board.TileType;
 import edu.brown.cs.catan.DevelopmentCard;
@@ -23,6 +26,7 @@ import edu.brown.cs.catan.Resource;
 public class CatanConverter {
 
   private Gson _gson;
+
 
   public CatanConverter() {
     _gson = new Gson();
@@ -56,17 +60,66 @@ public class CatanConverter {
 
   private static class BoardRaw {
     private final Collection<TileRaw> tiles;
-    private final Collection<Intersection> intersections;
+    private final Collection<IntersectionRaw> intersections;
     private final Collection<Path> paths;
 
     public BoardRaw(Board board) {
-      intersections = board.getIntersections().values();
+      intersections = new ArrayList<>();
+      for(Intersection intersection : board.getIntersections().values()){
+        intersections.add(new IntersectionRaw(intersection));
+      }
       paths = board.getPaths().values();
       tiles = new ArrayList<>();
       for (Tile tile : board.getTiles()) {
         tiles.add(new TileRaw(tile));
       }
     }
+  }
+
+  private static class BuildingRaw implements Building {
+
+    private int player;
+    private final String type;
+
+    BuildingRaw(Building building){
+      if(building.getPlayer() != null){
+        player = building.getPlayer().getID();
+      }
+      type = building.getClass().getSimpleName().toLowerCase();
+//      if(building instanceof Settlement){
+//        type = "settlement";
+//      }
+//      else if(building instanceof City){
+//        type = "city";
+//      }
+    }
+
+    @Override
+    public void collectResource(Resource resource) {
+      assert false; //Should never be called!
+    }
+
+    @Override
+    public Player getPlayer() {
+      assert false; //Should never be called!
+      return null;
+    }
+
+
+  }
+
+  private static class IntersectionRaw {
+
+    private final BuildingRaw building;
+    private final Port port;
+    private final IntersectionCoordinate coordinate;
+
+    IntersectionRaw(Intersection i){
+      building = i.getBuilding() != null ? new BuildingRaw(i.getBuilding()) : null;
+      port = i.getPort();
+      coordinate = i.getPosition();
+    }
+
   }
 
   private static class TileRaw {
@@ -94,6 +147,8 @@ public class CatanConverter {
     private boolean longestRoad;
     private boolean largestArmy;
     private int victoryPoints;
+    private double numResourceCards;
+    private int numDevelopmentCards;
     private Map<Resource, Double> rates;
 
     public PublicPlayerRaw(Player p, Referee r) {
@@ -108,17 +163,10 @@ public class CatanConverter {
       largestArmy = r.hasLargestArmy(p.getID());
       victoryPoints = r.getNumPublicPoints(p.getID());
       rates = r.getBankRates(p.getID());
+      numResourceCards = p.getNumResourceCards();
+      numDevelopmentCards = p.getNumDevelopmentCards();
     }
 
-    @Override
-    public String toString() {
-      return "PublicPlayerRaw [name=" + name + ", id=" + id + ", color="
-          + color + ", numSettlements=" + numSettlements + ", numCities="
-          + numCities + ", numPlayedKnights=" + numPlayedKnights
-          + ", numRoads=" + numRoads + ", longestRoad=" + longestRoad
-          + ", largestArmy=" + largestArmy + ", victoryPoints=" + victoryPoints
-          + ", rates=" + rates + "]";
-    }
 
   }
 
