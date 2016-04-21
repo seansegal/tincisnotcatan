@@ -1,7 +1,9 @@
 package edu.brown.cs.networking;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -10,6 +12,8 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
+import com.google.gson.Gson;
+
 @WebSocket
 public class ActionWebSocketHandler {
 
@@ -17,6 +21,8 @@ public class ActionWebSocketHandler {
   private static final Set<Session> activeUsers = new HashSet<>();
 
   private static final int NUM_PLAYERS = 4;
+
+  private static final Gson GSON = new Gson();
 
 
   @OnWebSocketConnect
@@ -47,7 +53,9 @@ public class ActionWebSocketHandler {
       System.out.println("Message : " + message);
 
       try {
-        user.getRemote().sendString(gs.handleAction(message));
+        Map<String, String> resp = new HashMap<>();
+        resp.put(message, gs.handleAction(message));
+        user.getRemote().sendString(GSON.toJson(resp));
       } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
