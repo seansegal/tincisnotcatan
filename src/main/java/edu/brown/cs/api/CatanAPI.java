@@ -6,7 +6,9 @@ import edu.brown.cs.catan.Referee;
 public class CatanAPI {
 
   public static void main(String[] args) {
+    System.out.println(new CatanAPI().getHand(0));
     System.out.println(new CatanAPI().getBoard());
+    System.out.println(new CatanAPI().getPlayers());
   }
 
   private Referee _referee;
@@ -20,19 +22,15 @@ public class CatanAPI {
   }
 
   public String getBoard() {
-    return null;
+    return _converter.getBoard(_referee);
   }
 
   public String getHand(int playerID) {
-    // TODO
-    return null;
+    return _converter.getHand(playerID, _referee);
   }
 
   public String getPlayers() {
     return _converter.getPlayers(_referee);
   }
-
-
-
 
 }

@@ -23,6 +23,11 @@ public class MasterRefereeTest {
     assertTrue(ref.getTurn() == 2);
   }
 
+  @Test
+  public void devHasBeenPlayedTest(){
+
+  }
+
 
 
 }

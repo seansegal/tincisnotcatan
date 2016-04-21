@@ -118,7 +118,8 @@ public class MasterReferee implements Referee {
   }
 
   @Override
-  public boolean playerHasDiscarded(Player player) {
+  public boolean playerHasDiscarded(int id) {
+    Player player = getPlayerByID(id);
     return _hasDiscarded.contains(player);
   }
 
@@ -129,8 +130,7 @@ public class MasterReferee implements Referee {
 
   @Override
   public Player getPlayerByID(int id) {
-    // TODO Auto-generated method stub
-    return null;
+    return _players.get(id);
   }
 
   @Override
@@ -145,25 +145,26 @@ public class MasterReferee implements Referee {
   }
 
   @Override
-  public void playerDiscarded(Player player) {
+  public void playerDiscarded(int id) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void playerMustDiscard(Player player) {
+  public void playerMustDiscard(int id) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public boolean hasLongestRoad(Player player) {
+  public boolean hasLongestRoad(int id) {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean hasLargestArmy(Player player) {
+  public boolean hasLargestArmy(int id) {
+    Player player = getPlayerByID(id);
     int maxArmy = 0;
     Player maxPlayer = null;
     for (Player p : _players.values()) {
@@ -180,24 +181,26 @@ public class MasterReferee implements Referee {
   }
 
   @Override
-  public int getNumPublicPoints(Player player) {
+  public int getNumPublicPoints(int id) {
+    Player player = getPlayerByID(id);
     int settlementPoints = SETTLEMENT_POINT_VAL
         * (INITIAL_SETTLEMENTS - player.numSettlements());
     int cityPoints = CITY_POINT_VAL * (INITIAL_CITIES - player.numCities());
-    int roadArmyPts = hasLargestArmy(player) ? LARGEST_ARMY_POINT_VAL : 0;
-    roadArmyPts += hasLongestRoad(player) ? LONGEST_ROAD_POINT_VAL : 0;
+    int roadArmyPts = hasLargestArmy(id) ? LARGEST_ARMY_POINT_VAL : 0;
+    roadArmyPts += hasLongestRoad(id) ? LONGEST_ROAD_POINT_VAL : 0;
     return settlementPoints + cityPoints + roadArmyPts;
   }
 
   @Override
-  public int getNumTotalPoints(Player player) {
-    int publicPoints = getNumPublicPoints(player);
+  public int getNumTotalPoints(int id) {
+    int publicPoints = getNumPublicPoints(id);
     // TODO: add private victory points
     return 0;
   }
 
   @Override
-  public Map<Resource, Double> getBankRates(Player player) {
+  public Map<Resource, Double> getBankRates(int id) {
+    Player player = getPlayerByID(id);
     Map<Resource, Double> rates = new HashMap<>();
     for (Resource r : Resource.values()) {
       rates.put(r, _bank.getBankRate());
@@ -245,13 +248,13 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public boolean playerHasDiscarded(Player player) {
+    public boolean playerHasDiscarded(int player) {
       return _referee.playerHasDiscarded(player);
     }
 
     @Override
     public Board getBoard() {
-      return _referee.getBoard(); //Change to unmodifiable?
+      return _referee.getBoard(); // Change to unmodifiable?
     }
 
     @Override
@@ -276,13 +279,13 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public void playerDiscarded(Player player) {
+    public void playerDiscarded(int player) {
       throw new UnsupportedOperationException(
           "ReadOnlyReferee cannot set discard flag.");
     }
 
     @Override
-    public void playerMustDiscard(Player player) {
+    public void playerMustDiscard(int player) {
       throw new UnsupportedOperationException(
           "ReadOnlyReferee cannot set discard flag.");
 
@@ -295,27 +298,27 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public boolean hasLongestRoad(Player player) {
+    public boolean hasLongestRoad(int player) {
       return _referee.hasLongestRoad(player);
     }
 
     @Override
-    public boolean hasLargestArmy(Player player) {
+    public boolean hasLargestArmy(int player) {
       return _referee.hasLargestArmy(player);
     }
 
     @Override
-    public int getNumPublicPoints(Player player) {
+    public int getNumPublicPoints(int player) {
       return _referee.getNumPublicPoints(player);
     }
 
     @Override
-    public int getNumTotalPoints(Player player) {
+    public int getNumTotalPoints(int player) {
       return _referee.getNumTotalPoints(player);
     }
 
     @Override
-    public Map<Resource, Double> getBankRates(Player player) {
+    public Map<Resource, Double> getBankRates(int player) {
       return _referee.getBankRates(player);
     }
 
