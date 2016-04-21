@@ -4,4 +4,6 @@ target/
 .project
 .settings/
 .metadata
+.settings
+.jar
 
