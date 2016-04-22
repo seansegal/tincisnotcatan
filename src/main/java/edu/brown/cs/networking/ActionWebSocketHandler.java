@@ -34,6 +34,7 @@ public class ActionWebSocketHandler {
   }
 
   @OnWebSocketClose
+
   synchronized public void onClose(Session user, int statusCode, String reason) {
     System.out.println("Disconnected from " + user.getLocalAddress());
     if (activeUsers.remove(user)) {
