@@ -82,7 +82,8 @@ public class CatanAPI {
   }
 
   /**
-   * Performs Catan Actions.
+   * Performs Catan Actions. See the README for specific Action JSON
+   * documentation.
    *
    * @param action
    *          A JSON String with parameters for a given Catan action.
