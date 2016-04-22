@@ -46,8 +46,6 @@ public class HexCoordinateTest {
 
     HexCoordinate p3 = new HexCoordinate(2, 1, 3);
     HexCoordinate p4 = new HexCoordinate(1, 0, 2);
-    System.out.println("X : " + p3.cartesianX() + " Y: " + p3.cartesianY());
-    System.out.println("X : " + p4.cartesianX() + " Y: " + p4.cartesianY());
     assertTrue(p4.equals(p3));
     assertTrue(p3.equals(p4));
   }

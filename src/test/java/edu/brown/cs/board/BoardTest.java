@@ -16,7 +16,6 @@ public class BoardTest {
   @Test
   public void InitializationTest() {
     Board b = new Board();
-    System.out.println(b);
     assertTrue(b.getTiles().size() == 37);
     assertTrue(b.getIntersections().size() == 54);
     assertTrue(b.getPaths().size() == 72);
