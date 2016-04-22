@@ -42,87 +42,82 @@
 		    <div role="tabpanel" class="tab-pane right-tab-pane" id="build-tab">
 		    	<ul class="list-group">
 			    	<li class="list-group-item">
-			    		<div class="row">
-			    			<div class="col-xs-6">
-				    			<h4>Settlement</h3>
-				    			<div class="circle build-circle brick-color">
-									<img src="images/icon-brick.svg" alt="Brick">
-								</div>
-				    			<div class="circle build-circle wood-color">
-									<img src="images/icon-wood.svg" alt="Wood">
-								</div>
-				    			<div class="circle build-circle wheat-color">
-									<img src="images/icon-wheat.svg" alt="Wheat">
-								</div>
-				    			<div class="circle build-circle sheep-color">
-									<img src="images/icon-sheep.svg" alt="Sheep">
-								</div>
-							</div>
-			    			<div class="col-xs-6">
-		    					<input type="button" class="btn btn-primary" id="settlement-build-btn" value="Build">
-		    				</div>
-		    			</div>
+		    			<input type="button" class="btn btn-default build-btn" id="settlement-build-btn" value="Build Settlement">
+				    	<br>
+				    	<span>1</span>
+				    	<div class="circle build-circle brick-color">
+							<img src="images/icon-brick.svg" alt="Brick">
+						</div>
+						<br>
+						<span>1</span>
+				    	<div class="circle build-circle wood-color">
+							<img src="images/icon-wood.svg" alt="Wood">
+						</div>
+						<br>
+						<span>1</span>
+				    	<div class="circle build-circle wheat-color">
+							<img src="images/icon-wheat.svg" alt="Wheat">
+						</div>
+						<br>
+						<span>1</span>
+				    	<div class="circle build-circle sheep-color">
+							<img src="images/icon-sheep.svg" alt="Sheep">
+						</div>
 			    	</li>
 		    		<li class="list-group-item">
-		    			<div class="row">
-			    			<div class="col-xs-6">
-			    				<h4>City</h3>
-			    				<div class="circle build-circle ore-color build-circle-list">
-									<img src="images/icon-ore.svg" alt="Ore">
-								</div>
-			    				<div class="circle build-circle ore-color build-circle-list">
-									<img src="images/icon-ore.svg" alt="Ore">
-								</div>
-								<div class="circle build-circle ore-color build-circle-list">
-									<img src="images/icon-ore.svg" alt="Ore">
-								</div>
-								<br>
-								<div class="circle build-circle wheat-color build-circle-list">
-									<img src="images/icon-wheat.svg" alt="Wheat">
-								</div>
-								<div class="circle build-circle wheat-color build-circle-list">
-									<img src="images/icon-wheat.svg" alt="Wheat">
-								</div>
-		    				</div>
-			    			<div class="col-xs-6">
-		    					<input type="button" class="btn btn-primary" id="city-build-btn" value="Build">
-		    				</div>
-		    			</div>
+		    			<input type="button" class="btn btn-default build-btn" id="city-build-btn" value="Build City">
+			    		<div class="row">
+				    		<span class="build-circle-list-number">3</span>
+				    		<div class="circle build-circle ore-color build-circle-list">
+								<img src="images/icon-ore.svg" alt="Ore">
+							</div>
+				    		<div class="circle build-circle ore-color build-circle-list">
+								<img src="images/icon-ore.svg" alt="Ore">
+							</div>
+							<div class="circle build-circle ore-color build-circle-list">
+								<img src="images/icon-ore.svg" alt="Ore">
+							</div>
+						</div>
+						<div class="row">
+							<span class="build-circle-list-number">2</span>
+							<div class="circle build-circle wheat-color build-circle-list">
+								<img src="images/icon-wheat.svg" alt="Wheat">
+							</div>
+							<div class="circle build-circle wheat-color build-circle-list">
+								<img src="images/icon-wheat.svg" alt="Wheat">
+							</div>
+						</div>
 		    		</li>
 		    		<li class="list-group-item">
-		    			<div class="row">
-			    			<div class="col-xs-6">
-				    			<h4>Road</h3>
-				    			<div class="circle build-circle brick-color">
-									<img src="images/icon-brick.svg" alt="Brick">
-								</div>
-				    			<div class="circle build-circle wood-color">
-									<img src="images/icon-wood.svg" alt="Wood">
-								</div>
-				    		</div>
-					    	<div class="col-xs-6">
-				    			<input type="button" class="btn btn-primary" id="road-build-btn" value="Build">
-				    		</div>
-				    	</div>
+				    	<input type="button" class="btn btn-default build-btn" id="road-build-btn" value="Build Road">
+				    	</br>
+				    	<span>1</span>
+				    	<div class="circle build-circle brick-color">
+							<img src="images/icon-brick.svg" alt="Brick">
+						</div>
+						</br>
+						<span>1</span>
+				    	<div class="circle build-circle wood-color">
+							<img src="images/icon-wood.svg" alt="Wood">
+						</div>
 		    		</li>
 		    		<li class="list-group-item">
-		    			<div class="row">
-			    			<div class="col-xs-6">
-				    			<h4>Development Card</h3>
-				    			<div class="circle build-circle ore-color">
-									<img src="images/icon-ore.svg" alt="Ore">
-								</div>
-				    			<div class="circle build-circle wheat-color">
-									<img src="images/icon-wheat.svg" alt="Wheat">
-								</div>
-				    			<div class="circle build-circle sheep-color">
-									<img src="images/icon-sheep.svg" alt="Sheep">
-								</div>
-		    				</div>
-			    			<div class="col-xs-6">
-		    					<input type="button" class="btn btn-primary" id="dev-card-build-btn" value="Build">
-		    				</div>
-		    			</div>
+				    	<input type="button" class="btn btn-default build-btn" id="dev-card-build-btn" value="Build Development Card">
+				    	</br>
+				    	<span>1</span>
+				    	<div class="circle build-circle ore-color">
+							<img src="images/icon-ore.svg" alt="Ore">
+						</div>
+						</br>
+						<span>1</span>
+				    	<div class="circle build-circle wheat-color">
+							<img src="images/icon-wheat.svg" alt="Wheat">
+						</div>
+						</br>
+						<span>1</span>
+				    	<div class="circle build-circle sheep-color">
+							<img src="images/icon-sheep.svg" alt="Sheep">
+						</div>
 		    		</li>
 		    	</ul>
 		    </div>
@@ -134,69 +129,79 @@
 		    	<div class="tab-content">
 		    		<div role="tabpanel" class="tab-pane active" id="player-trade-tab">
 		    			<div class="row trade-row">
-		    				<div class="col-xs-5 text-center">
-		    					<h5>Brick</h5>
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle brick-color">
+									<img src="images/icon-brick.svg" alt="Brick">
+								</div>
 		    				</div>
-		    				<div class="col-xs-3 text-center">
+		    				<div class="col-xs-4 text-center">
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5> </h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
-		    				<div class="col-xs-5 text-center">
-		    					<h5>Wood</h5>
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle wood-color">
+									<img src="images/icon-wood.svg" alt="Wood">
+								</div>
 		    				</div>
-		    				<div class="col-xs-3 text-center">
+		    				<div class="col-xs-4 text-center">
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5> </h5>
 		    				</div>
 		    			</div>
-		    			<div class="row trade-row">
-		    				<div class="col-xs-5 text-center">
-		    					<h5>Ore</h5>
+		    			<div class="row trade-row text">
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle ore-color">
+									<img src="images/icon-ore.svg" alt="Ore">
+								</div>
 		    				</div>
-		    				<div class="col-xs-3 text-center">
+		    				<div class="col-xs-4 text-center">
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5> </h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
-		    				<div class="col-xs-5 text-center">
-		    					<h5>Wheat</h5>
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle wheat-color">
+									<img src="images/icon-wheat.svg" alt="Wheat">
+								</div>
 		    				</div>
-		    				<div class="col-xs-3 text-center">
+		    				<div class="col-xs-4 text-center">
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5> </h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
-		    				<div class="col-xs-5 text-center">
-		    					<h5>Sheep</h5>
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle sheep-color">
+									<img src="images/icon-sheep.svg" alt="Sheep">
+								</div>
 		    				</div>
-		    				<div class="col-xs-3 text-center">
+		    				<div class="col-xs-4 text-center">
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5> </h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
-		    				<div class="col-xs-5 text-center">
+		    				<div class="col-xs-4 text-right">
 		    					<h5>Anything</h5>
 		    				</div>
-		    				<div class="col-xs-3 text-center">
+		    				<div class="col-xs-4 text-center">
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5> </h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
@@ -205,7 +210,89 @@
 		    				</div>
 		    			</div>
 		    		</div>
-				    <div role="tabpanel" class="tab-pane" id="bank-trade-tab"></div>
+				    <div role="tabpanel" class="tab-pane" id="bank-trade-tab">
+				    	<div class="row trade-row">
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle brick-color">
+									<img src="images/icon-brick.svg" alt="Brick">
+								</div>
+		    				</div>
+		    				<div class="col-xs-4 text-center">
+		    					<input type="number" class="form-control">
+		    				</div>
+		    				<div class="col-xs-4 text-left">
+		    					<h5>4:1</h5>
+		    				</div>
+		    			</div>
+		    			<div class="row trade-row">
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle wood-color">
+									<img src="images/icon-wood.svg" alt="Wood">
+								</div>
+		    				</div>
+		    				<div class="col-xs-4 text-center">
+		    					<input type="number" class="form-control">
+		    				</div>
+		    				<div class="col-xs-4 text-left">
+		    					<h5>4:1</h5>
+		    				</div>
+		    			</div>
+		    			<div class="row trade-row text">
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle ore-color">
+									<img src="images/icon-ore.svg" alt="Ore">
+								</div>
+		    				</div>
+		    				<div class="col-xs-4 text-center">
+		    					<input type="number" class="form-control">
+		    				</div>
+		    				<div class="col-xs-4 text-left">
+		    					<h5>4:1</h5>
+		    				</div>
+		    			</div>
+		    			<div class="row trade-row">
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle wheat-color">
+									<img src="images/icon-wheat.svg" alt="Wheat">
+								</div>
+		    				</div>
+		    				<div class="col-xs-4 text-center">
+		    					<input type="number" class="form-control">
+		    				</div>
+		    				<div class="col-xs-4 text-left">
+		    					<h5>4:1</h5>
+		    				</div>
+		    			</div>
+		    			<div class="row trade-row">
+		    				<div class="col-xs-4 text-right">
+		    					<div class="circle trade-circle sheep-color">
+									<img src="images/icon-sheep.svg" alt="Sheep">
+								</div>
+		    				</div>
+		    				<div class="col-xs-4 text-center">
+		    					<input type="number" class="form-control">
+		    				</div>
+		    				<div class="col-xs-4 text-left">
+		    					<h5>4:1</h5>
+		    				</div>
+		    			</div>
+		    			<div class="row trade-row">
+		    				<div class="col-xs-4 text-right">
+		    					<h5>Anything</h5>
+		    				</div>
+		    				<div class="col-xs-4 text-center">
+		    					<input type="number" class="form-control">
+		    				</div>
+		    				<div class="col-xs-4 text-left">
+		    					<h5>4:1</h5>
+		    				</div>
+		    			</div>
+		    			<div class="row trade-row">
+		    				<div class="col-xs-12 text-center">
+		    					<input type="button" class="btn btn-primary" value="Trade With Bank">
+		    				</div>
+		    			</div>
+		    		</div>
 		    	</div>
 		    </div>
 	    </div>

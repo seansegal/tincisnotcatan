@@ -106,13 +106,16 @@
 
 /* Build tab */
 
+.build-btn {
+	margin-bottom: 15px;
+}
+
 .build-circle {
 	background-color: #BBBBBB;
 	height: 20px;
 	width: 20px;
 	margin-bottom: 5px;
-	float: left;
-	margin-right: 3px;
+	display: inline-block;
 }
 
 .build-circle > img {
@@ -120,6 +123,12 @@
 	height: 100%;
 	width: 100%;
 	z-index: 6;
+}
+
+.build-circle-list-number {
+	float: left;
+	margin-right: 4px;
+	margin-left: 15px;
 }
 
 .build-circle-list {
@@ -133,6 +142,19 @@
 	padding-left: 5px;
 	padding-right: 5px;
 	padding-top: 10px;
+}
+
+.trade-circle {
+	display: inline-block;
+	height: 35px;
+	width: 35px;
+	margin-right: 5px;
+}
+
+.trade-circle > img {
+	margin-top: 2.2px;
+	height: 100%;
+	width: 100%;
 }
 
 /* Board */
