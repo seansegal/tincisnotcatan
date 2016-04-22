@@ -156,7 +156,7 @@ public class MasterRefereeTest {
   }
 
   @Test
-  public void getNumTotalPointsTest(){
+  public void getNumTotalPointsTest() {
     Referee ref = new MasterReferee();
     int id1 = ref.addPlayer("", "");
     Player p1 = ref.getPlayerByID(id1);

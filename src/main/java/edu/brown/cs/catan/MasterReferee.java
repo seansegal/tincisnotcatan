@@ -21,7 +21,7 @@ import edu.brown.cs.board.Board;
 public class MasterReferee implements Referee {
 
   private final Board _board;
-  private final Map<Integer, Player> _players; // PlayerIDs --> Players?
+  private final Map<Integer, Player> _players;
   private int _turn;
   private final Bank _bank;
   private final List<DevelopmentCard> _devCardDeck;
@@ -215,7 +215,7 @@ public class MasterReferee implements Referee {
 
     private final Referee _referee;
 
-    protected ReadOnlyReferee(Referee referee) {
+    public ReadOnlyReferee(Referee referee) {
       _referee = referee;
     }
 
@@ -292,8 +292,7 @@ public class MasterReferee implements Referee {
 
     @Override
     public Player currentPlayer() {
-      // TODO Auto-generated method stub
-      return null;
+      return _referee.currentPlayer().getImmutableCopy();
     }
 
     @Override
