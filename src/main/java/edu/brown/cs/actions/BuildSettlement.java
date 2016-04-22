@@ -24,7 +24,7 @@ public class BuildSettlement implements Action {
   }
 
   @Override
-  public ActionResponse execute() {
+  public Map<Integer, ActionResponse> execute() {
     if(_mustPay) {
       Map<Resource, Double> resources = _player.getResources();
      Settings.SETTLEMENT_COST.forEach((res, amount) -> {

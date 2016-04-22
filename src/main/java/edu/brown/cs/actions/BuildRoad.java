@@ -1,5 +1,7 @@
 package edu.brown.cs.actions;
 
+import java.util.Map;
+
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -15,7 +17,7 @@ public class BuildRoad implements Action {
   }
 
   @Override
-  public ActionResponse execute() {
+  public Map<Integer, ActionResponse> execute() {
     // TODO Auto-generated method stub
     return null;
 

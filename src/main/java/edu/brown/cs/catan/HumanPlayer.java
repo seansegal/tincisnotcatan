@@ -159,7 +159,7 @@ public class HumanPlayer implements Player {
   public void playDevelopmentCard(DevelopmentCard card) {
     int numCards = devCards.get(card);
     if (numCards > 0) {
-      if(card == DevelopmentCard.KNIGHT){
+      if (card == DevelopmentCard.KNIGHT) {
         numPlayedKnights++;
       }
       devCards.put(card, --numCards);
@@ -172,7 +172,7 @@ public class HumanPlayer implements Player {
 
   @Override
   public void addDevelopmentCard(DevelopmentCard card) {
-    if(card == DevelopmentCard.POINT){
+    if (card == DevelopmentCard.POINT) {
       _numVictoryPoints++;
     }
     int newVal = devCards.get(card) + 1;
@@ -202,7 +202,6 @@ public class HumanPlayer implements Player {
     return count;
   }
 
-
   @Override
   public String getName() {
     return name;
@@ -216,6 +215,15 @@ public class HumanPlayer implements Player {
   @Override
   public int numVictoryPoints() {
     return _numVictoryPoints;
+  }
+
+  @Override
+  public void addResource(Resource resource, int count) {
+    assert count >= 0;
+    for(int i=0; i<count; i++){
+      addResource(resource);
+    }
+
   }
 
   private class ReadOnlyPlayer implements Player {
@@ -358,7 +366,12 @@ public class HumanPlayer implements Player {
       return _player.numVictoryPoints();
     }
 
-  }
+    @Override
+    public void addResource(Resource resource, int count) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot add resource cards.");
+    }
 
+  }
 
 }

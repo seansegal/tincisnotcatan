@@ -1,5 +1,8 @@
 package edu.brown.cs.api;
 
+import java.util.Map;
+
+import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.TestReferee;
 
@@ -13,6 +16,7 @@ public class CatanAPI {
 
   private Referee _referee;
   private CatanConverter _converter;
+  private ActionFactory _actionFactory;
 
   public CatanAPI() {
     _referee = new TestReferee();
@@ -20,23 +24,38 @@ public class CatanAPI {
   }
 
   public String getBoard() {
-    return _converter.getBoard(_referee);
+    return _converter.getBoard(_referee.getBoard());
   }
 
   public String getHand(int playerID) {
-    return _converter.getHand(playerID, _referee);
+    return _converter.getHand(_referee.getPlayerByID(playerID));
   }
 
   public String getPlayers() {
-    return _converter.getPlayers(_referee);
+    return _converter.getPlayers(_referee.getReadOnlyReferee());
   }
 
   public int addPlayer(String name, String color) {
+    if(name == null || color == null){
+      throw new IllegalArgumentException("Inputs cannot be null.");
+    }
     return _referee.addPlayer(name, color);
   }
 
-  public void preformAction(String action) {
-    // TODO: implement & what does this return, String?
+  /**
+   * Performs Catan Actions.
+   *
+   * @param action
+   *          A JSON String with parameters for a given Catan action.
+   * @return A Map from Player IDs to JSON Strings that should be sent as a
+   *         response.
+   */
+  public Map<Integer, String> performAction(String action) {
+    if(action == null){
+      throw new IllegalArgumentException("Input cannot be null.");
+    }
+    Map<Integer, ActionResponse> response = _actionFactory.createAction(action).execute();
+    return _converter.responseToJSON(response);
   }
 
 }

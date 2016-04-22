@@ -1,11 +1,13 @@
 package edu.brown.cs.actions;
 
+import java.util.Map;
+
 
 public class AddCard implements Action {
 
 
   @Override
-  public ActionResponse execute() {
+  public Map<Integer, ActionResponse> execute() {
     //TODO
     return null;
   }
