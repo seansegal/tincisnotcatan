@@ -65,7 +65,7 @@ public class HumanPlayer implements Player {
       assert result >= 0;
       resources.put(price.getKey(), result);
     }
-    useRoad();
+//    useRoad();
   }
 
   @Override
@@ -77,7 +77,7 @@ public class HumanPlayer implements Player {
       assert result >= 0;
       resources.put(price.getKey(), result);
     }
-    useSettlement();
+//    useSettlement();
 
   }
 
@@ -89,7 +89,7 @@ public class HumanPlayer implements Player {
       assert result >= 0;
       resources.put(price.getKey(), result);
     }
-    useCity();
+//    useCity();
   }
 
   @Override
