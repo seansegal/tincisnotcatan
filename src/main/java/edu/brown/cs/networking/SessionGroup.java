@@ -10,12 +10,14 @@ class SessionGroup implements Timestamped {
   private List<Session> sessions;
   private int           size;
   private long          timestamp;
+  private String id;
 
 
-  public SessionGroup(int size) {
+  public SessionGroup(int size, String id) {
     sessions = new ArrayList<>();
     this.size = size;
     this.timestamp = System.currentTimeMillis();
+    this.id = id;
   }
 
 
@@ -32,23 +34,32 @@ class SessionGroup implements Timestamped {
   // currently just add to list, can add notification functionality.
   public boolean add(Session s) {
     if (!isFull()) {
+      System.out.format("Session %s was added to SessionGroup %s%n", s.getLocalAddress(), id);
       return sessions.add(s);
     }
+    System.out.format("Session %s was not added to %s, it is full%n", s, id);
     return false;
   }
 
 
   // currently just removes from list, can add notification functionality.
   public boolean remove(Session s) {
-    return sessions.remove(s);
+    System.out.format("Session %s was removed from SessionGroup %s%n", s.getLocalAddress(), id);
+    boolean toReturn = sessions.remove(s);
+    if(isEmpty()){
+      System.out.format("SessionGroup %s is now empty.%n", id);
+    }
+    return toReturn;
   }
 
 
   public boolean message(Session s, String message) {
     if (!sessions.contains(s)) {
+      System.out.format("Error : attempted to handle message from %s by SessionGroup %s, not contained.%n", s.getLocalAddress(), id);
       return false;
     }
     // handle a message from s! TODO
+    System.out.format("Session %s sent a message through SessionGroup %s%n", s.getLocalAddress(), id);
     return true;
   }
 

@@ -28,6 +28,9 @@ public class GCT {
 
   private static final int                         NEED_TO_GENERALIZE_THIS = 2;
 
+  private static int GROUP_ID = 1;
+  private static int SESSION_ID = 1;
+
 
   public static GCT getInstance() {
     return instance;
@@ -43,7 +46,7 @@ public class GCT {
     SessionGroup candidate = pending.poll();
 
     if (candidate == null) {
-      candidate = new SessionGroup(NEED_TO_GENERALIZE_THIS);
+      candidate = new SessionGroup(NEED_TO_GENERALIZE_THIS, String.valueOf(GROUP_ID++));
       candidate.add(s);
       groupMap.put(s, candidate);
     } else if (candidate.isFull()) {
