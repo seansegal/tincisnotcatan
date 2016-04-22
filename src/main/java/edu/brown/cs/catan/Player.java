@@ -48,6 +48,8 @@ public interface Player {
 
   int numPlayedKnights();
 
+  int numVictoryPoints();
+
   String getColor();
 
 
