@@ -1,5 +1,6 @@
 var SETTLEMENT_SCALE = 0.2;
 var CITY_SCALE = 0.25;
+var SELECTABLE_AREA_SCALE = 0.25;
 var SETTLEMENT_SVG_WIDTH = 16;
 var CITY_SVG_WIDTH = 100;
 
@@ -36,7 +37,10 @@ function Intersection(coord1, coord2, coord3) {
 
 	this.port = PORT.NONE;
 	
+	this.highlighted = false;
+	
 	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
+	$("#board-viewport").append("<div class='intersection-select circle' id='" + this.id + "-select'></div>");
 }
 
 Intersection.prototype.draw = function(transX, transY, scale) {
@@ -44,7 +48,7 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 		
 	var element = $("#" + this.id);
 	element.empty();
-	
+		
 	switch(this.building) {
 	case BUILDING.SETTLEMENT:
 		var size = scale * SETTLEMENT_SCALE;
@@ -90,6 +94,16 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 		break;
 	}
 	
+	// Calculate size and displacement of selectable area
+	var size = scale * SELECTABLE_AREA_SCALE;
+	var x = transX + displacement.x * scale + Math.sqrt(3) * scale / 4 - size / 4 - 0.020 * scale;
+	var y = transY + displacement.y * scale + scale / 4 - size / 2;
+	
+	// Add selectable area to intersection
+	var select = $("#" + this.id + "-select");
+	select.css("transform", "translate(" + x + "px, " + y + "px)");
+	select.css("height", size);
+	select.css("width", size);
 }
 
 Intersection.prototype.addSettlement = function(player) {
@@ -100,6 +114,22 @@ Intersection.prototype.addSettlement = function(player) {
 Intersection.prototype.addCity = function(player) {
 	this.building = BUILDING.CITY;
 	this.player = player;
+}
+
+Intersection.prototype.highlight = function() {
+	if (!(this.highlighted)) {
+		this.highlighted = true;
+		
+		var select = $("#" + this.id + "-select");
+		select.addClass("highlighted");
+	
+		var that = this;
+		select.click(function() {
+			console.log(that.coordinates);
+		});
+		
+		this.draw();	
+	}
 }
 
 findCenter = function(c1, c2, c3) {

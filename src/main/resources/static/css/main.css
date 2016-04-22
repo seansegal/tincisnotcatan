@@ -157,6 +157,11 @@
 	width: 100%;
 }
 
+.wildcard-circle {
+	background-color: white;
+	border: 2px solid black;
+}
+
 /* Board */
 
 .brick-color {
@@ -264,11 +269,19 @@
 .settlement-icon {
 	stroke: black;
 	stroke-width: 0.5px;
+	position: absolute;
  }
  
 .city-icon {
 	stroke: black;
 	stroke-width: 3px;
+	position: absolute;
+}
+
+.intersection-select {
+	background-color: transparent;
+	position: absolute;
+	z-index: 7;
 }
 
 .road {
@@ -277,4 +290,8 @@
 	border-left: 1px solid black;
 	border-right: 1px solid black;
 	z-index: 0;
+}
+
+.highlighted {
+	background-color: rgba(255, 255, 0, 0.5);
 }

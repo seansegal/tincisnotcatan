@@ -47,3 +47,22 @@ $(document).on("wheel", "#board-viewport", function(event) {
 	var deltaScale = event.originalEvent.deltaY > 0 ? 10 : -10;
 	board.scale(deltaScale);
 });
+
+$("#settlement-build-btn").click(function() {
+	board.intersections[5].highlight();
+	board.intersections[11].highlight();
+	board.intersections[21].highlight();
+	board.intersections[15].highlight();
+});
+
+$("#city-build-btn").click(function() {
+	console.log("city clicked");
+});
+
+$("#road-build-btn").click(function() {
+	console.log("road clicked");
+});
+
+$("#dev-card-build-btn").click(function() {
+	console.log("dev card clicked");
+});

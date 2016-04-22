@@ -195,7 +195,9 @@
 		    			</div>
 		    			<div class="row trade-row">
 		    				<div class="col-xs-4 text-right">
-		    					<h5>Anything</h5>
+		    					<div class="circle trade-circle wildcard-circle">
+									<img src="images/icon-wildcard.svg" alt="Anything">
+								</div>
 		    				</div>
 		    				<div class="col-xs-4 text-center">
 		    					<input type="number" class="form-control">
@@ -278,7 +280,9 @@
 		    			</div>
 		    			<div class="row trade-row">
 		    				<div class="col-xs-4 text-right">
-		    					<h5>Anything</h5>
+		    					<div class="circle trade-circle wildcard-circle">
+									<img src="images/icon-wildcard.svg" alt="Anything">
+								</div>
 		    				</div>
 		    				<div class="col-xs-4 text-center">
 		    					<input type="number" class="form-control">

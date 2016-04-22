@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="css/chat.css">
 	<script src="js/jquery-2.1.1.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/player.js"></script>
+  </head>
+  <body>
+  	${content}
+  	<script src="js/player.js"></script>
 	<script src="js/tile.js"></script>
 	<script src="js/intersection.js"></script>
 	<script src="js/road.js"></script>
 	<script src="js/board.js"></script>
 	<script src="js/main.js"></script>
-  </head>
-  <body>
-  	${content}
   	<script src="js/websocketDemo.js"></script>
   </body>
 </html>
