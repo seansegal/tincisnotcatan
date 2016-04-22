@@ -1,7 +1,9 @@
 package edu.brown.cs.actions;
 
+import java.util.Map;
+
 public interface Action {
 
-  void execute(); // what to return/does it throw ActionException?
+  Map<Integer, ActionResponse> execute(); // what to return/does it throw ActionException?
 
 }

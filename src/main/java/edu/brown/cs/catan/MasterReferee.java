@@ -21,7 +21,7 @@ import edu.brown.cs.board.Board;
 public class MasterReferee implements Referee {
 
   private final Board _board;
-  private final Map<Integer, Player> _players; // PlayerIDs --> Players?
+  private final Map<Integer, Player> _players;
   private int _turn;
   private final Bank _bank;
   private final List<DevelopmentCard> _devCardDeck;
@@ -155,14 +155,14 @@ public class MasterReferee implements Referee {
       if (p.numPlayedKnights() > maxArmy) {
         maxArmy = p.numPlayedKnights();
         maxPlayer = p;
-        _largestArmy = maxPlayer;
       }
     }
     if (maxArmy >= Settings.LARGEST_ARMY_THRESH && maxPlayer != null
         && maxPlayer.equals(player)) {
+      _largestArmy = maxPlayer;
       return true;
     }
-    if(_largestArmy != null && player.equals(_largestArmy)) {
+    if (_largestArmy != null && player.equals(_largestArmy)) {
       return true;
     }
     return false;
@@ -182,8 +182,8 @@ public class MasterReferee implements Referee {
   @Override
   public int getNumTotalPoints(int id) {
     int publicPoints = getNumPublicPoints(id);
-    // TODO: add private victory points
-    return 0;
+    publicPoints += getPlayerByID(id).numVictoryPoints();
+    return publicPoints;
   }
 
   @Override
@@ -215,7 +215,7 @@ public class MasterReferee implements Referee {
 
     private final Referee _referee;
 
-    protected ReadOnlyReferee(Referee referee) {
+    public ReadOnlyReferee(Referee referee) {
       _referee = referee;
     }
 
@@ -292,8 +292,7 @@ public class MasterReferee implements Referee {
 
     @Override
     public Player currentPlayer() {
-      // TODO Auto-generated method stub
-      return null;
+      return _referee.currentPlayer().getImmutableCopy();
     }
 
     @Override

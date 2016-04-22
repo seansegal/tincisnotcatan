@@ -32,6 +32,8 @@ public interface Player {
 
   void addResource(Resource resource);
 
+  void addResource(Resource resource, int count);
+
   void removeResource(Resource resource);
 
   double getNumResourceCards();
@@ -47,6 +49,8 @@ public interface Player {
   int getID();
 
   int numPlayedKnights();
+
+  int numVictoryPoints();
 
   String getColor();
 

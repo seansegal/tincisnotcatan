@@ -15,6 +15,7 @@ public class HumanPlayer implements Player {
   private final String name;
   private final int id;
   private final String color;
+  private int _numVictoryPoints;
 
   public HumanPlayer(int id, String name, String color) {
     this.name = name;
@@ -23,6 +24,7 @@ public class HumanPlayer implements Player {
     this.numRoads = Settings.INITIAL_ROADS;
     this.numSettlements = Settings.INITIAL_SETTLEMENTS;
     this.numCities = Settings.INITIAL_CITIES;
+    _numVictoryPoints = 0;
     // Initialize Resource card hand:
     this.resources = new HashMap<>();
     for (Resource r : Resource.values()) {
@@ -157,7 +159,7 @@ public class HumanPlayer implements Player {
   public void playDevelopmentCard(DevelopmentCard card) {
     int numCards = devCards.get(card);
     if (numCards > 0) {
-      if(card == DevelopmentCard.KNIGHT){
+      if (card == DevelopmentCard.KNIGHT) {
         numPlayedKnights++;
       }
       devCards.put(card, --numCards);
@@ -170,6 +172,9 @@ public class HumanPlayer implements Player {
 
   @Override
   public void addDevelopmentCard(DevelopmentCard card) {
+    if (card == DevelopmentCard.POINT) {
+      _numVictoryPoints++;
+    }
     int newVal = devCards.get(card) + 1;
     devCards.put(card, newVal);
   }
@@ -197,7 +202,6 @@ public class HumanPlayer implements Player {
     return count;
   }
 
-
   @Override
   public String getName() {
     return name;
@@ -206,6 +210,20 @@ public class HumanPlayer implements Player {
   @Override
   public int getID() {
     return id;
+  }
+
+  @Override
+  public int numVictoryPoints() {
+    return _numVictoryPoints;
+  }
+
+  @Override
+  public void addResource(Resource resource, int count) {
+    assert count >= 0;
+    for(int i=0; i<count; i++){
+      addResource(resource);
+    }
+
   }
 
   private class ReadOnlyPlayer implements Player {
@@ -341,6 +359,17 @@ public class HumanPlayer implements Player {
     @Override
     public int getNumDevelopmentCards() {
       return _player.getNumDevelopmentCards();
+    }
+
+    @Override
+    public int numVictoryPoints() {
+      return _player.numVictoryPoints();
+    }
+
+    @Override
+    public void addResource(Resource resource, int count) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot add resource cards.");
     }
 
   }

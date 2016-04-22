@@ -1,12 +1,14 @@
 package edu.brown.cs.actions;
 
+import java.util.Map;
+
 public class PlayKnight implements Action {
 
 
   @Override
-  public void execute() {
+  public Map<Integer, ActionResponse> execute() {
     // TODO Auto-generated method stub
-
+    return null;
   }
 
 }

@@ -121,4 +121,52 @@ public class MasterRefereeTest {
     assertTrue(ref.hasLargestArmy(id2));
   }
 
+  @Test
+  public void largestArmyEdgeTooEarly() {
+    Referee ref = new MasterReferee();
+    int id1 = ref.addPlayer("player1", "color");
+    Player p1 = ref.getPlayerByID(id1);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertFalse(ref.hasLargestArmy(p1.getID()));
+  }
+
+  @Test
+  public void getNumPublicPointsTest() {
+    Referee ref = new MasterReferee();
+    int id1 = ref.addPlayer("player1", "color");
+    Player p1 = ref.getPlayerByID(id1);
+    assertTrue(ref.getNumPublicPoints(id1) == 0);
+    p1.useSettlement();
+    assertTrue(ref.getNumPublicPoints(id1) == Settings.SETTLEMENT_POINT_VAL);
+    p1.useCity();
+    assertTrue(ref.getNumPublicPoints(id1) == Settings.CITY_POINT_VAL);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.addDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertTrue(ref.getNumPublicPoints(id1) == Settings.CITY_POINT_VAL);
+    p1.playDevelopmentCard(DevelopmentCard.KNIGHT);
+    assertTrue(ref.getNumPublicPoints(id1) == Settings.CITY_POINT_VAL
+        + Settings.LARGEST_ARMY_POINT_VAL);
+  }
+
+  @Test
+  public void getNumTotalPointsTest() {
+    Referee ref = new MasterReferee();
+    int id1 = ref.addPlayer("", "");
+    Player p1 = ref.getPlayerByID(id1);
+    assertTrue(ref.getNumTotalPoints(id1) == 0);
+    p1.addDevelopmentCard(DevelopmentCard.POINT);
+    assertTrue(ref.getNumTotalPoints(id1) == 1);
+    p1.addDevelopmentCard(DevelopmentCard.POINT);
+    assertTrue(ref.getNumTotalPoints(id1) == 2);
+    p1.useSettlement();
+    assertTrue(ref.getNumTotalPoints(id1) == 2 + Settings.SETTLEMENT_POINT_VAL);
+  }
+
 }
