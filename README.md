@@ -9,3 +9,14 @@ https://docs.google.com/forms/u/0/d/1O8lxl-nhlunTfGOnSRq8g2ccZLpLsR5VHq3jRVlTUEs
 
 # Icons
 https://thenounproject.com/term/catan/
+
+# CatanAPI JSON Documentation
+
+### Game Settings Object
+```javascript
+{numPlayers: "int corresponding to number of players", dynamicRates: "boolean corresponding to whether dynamic rates should be implemented"}
+```
+
+### Actions
+TODO: Write outline for all Action JSON objects here...
+
