@@ -73,7 +73,7 @@ public class CatanAPI {
    * @return A boolean indicating that the game is full.
    */
   public boolean gameIsFull() {
-    return false;
+    return _referee.gameIsFull();
   }
 
   /**
