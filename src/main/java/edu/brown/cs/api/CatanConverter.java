@@ -62,10 +62,12 @@ public class CatanConverter {
     private int playerID;
     private Hand hand;
     private BoardRaw board;
+    private int currentTurn;
     private Collection<PublicPlayerRaw> players;
 
     public GameState(Referee ref, int playerID) {
       this.playerID = playerID;
+      this.currentTurn = ref.currentPlayer().getID();
       this.hand = new Hand(ref.getPlayerByID(playerID));
       this.board = new BoardRaw(ref.getBoard());
       this.players = new ArrayList<>();

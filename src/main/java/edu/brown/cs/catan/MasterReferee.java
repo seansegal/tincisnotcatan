@@ -22,6 +22,7 @@ public class MasterReferee implements Referee {
 
   private final Board _board;
   private final Map<Integer, Player> _players;
+  private final Map<Integer, Integer> _turnOrder;
   private int _turn;
   private final Bank _bank;
   private final List<DevelopmentCard> _devCardDeck;
@@ -34,10 +35,25 @@ public class MasterReferee implements Referee {
     _board = new Board();
     _numFullPlayers = 4; // TODO: take in as parameter
     _players = new HashMap<Integer, Player>();
+    _turnOrder = initializeTurnOrder(_numFullPlayers);
     _turn = 1;
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
     _hasDiscarded = new HashSet<>();
+  }
+
+  private Map<Integer, Integer> initializeTurnOrder(int numFullPlayers) {
+    Map<Integer, Integer> toReturn = new HashMap<>();
+    List<Integer> players = new ArrayList<>(_players.keySet());
+    for (int i = 0; i < numFullPlayers; i++) {
+      players.add(i);
+    }
+    Collections.shuffle(players);
+    System.out.println(players);
+    for (int i = 1; i <= numFullPlayers; i++) {
+      toReturn.put(i, players.get(i - 1));
+    }
+    return toReturn;
   }
 
   @Override
@@ -54,8 +70,9 @@ public class MasterReferee implements Referee {
 
   @Override
   public Player currentPlayer() {
-    // Should there be a better order?
-    return _players.get(_turn % _players.size());
+    System.out.println(_turn % _players.size());
+    System.out.println(_turnOrder.get(_turn % _players.size()));
+    return _players.get(_turnOrder.get(_turn % _players.size()));
   }
 
   @Override
