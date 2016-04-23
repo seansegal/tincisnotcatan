@@ -1,10 +1,11 @@
 package edu.brown.cs.networking;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import org.eclipse.jetty.websocket.api.Session;
 
@@ -13,23 +14,26 @@ import spark.Spark;
 // Grand Central Terminal - Routes all of the inputs to appropriate groups
 public class GCT {
 
-  private static final GCT                         instance                =
+  private static final GCT                                 instance                =
       new GCT();
 
-  private static final PriorityQueue<SessionGroup> pending                 =
-      new PriorityQueue<>();
+  private static final PriorityBlockingQueue<SessionGroup> pending                 =
+      new PriorityBlockingQueue<>();
 
-  private static final List<SessionGroup>          full                    =
-      new ArrayList<>();
+  private static final List<SessionGroup>                  full                    =
+      Collections.synchronizedList(new ArrayList<>());
 
-  private static final Map<Session, SessionGroup>  groupMap                =
-      new HashMap<>();
+  private static final Map<Session, SessionGroup>          groupMap                =
+      new ConcurrentHashMap<>();
 
 
-  private static final int                         NEED_TO_GENERALIZE_THIS = 2;
+  private static final int                                 NEED_TO_GENERALIZE_THIS =
+      2;
 
-  private static int GROUP_ID = 1;
-  private static int SESSION_ID = 1;
+  private static int                                       GROUP_ID                =
+      1;
+  private static int                                       SESSION_ID              =
+      1;
 
 
   public static GCT getInstance() {
@@ -42,11 +46,13 @@ public class GCT {
     Spark.init();
   }
 
+
   public boolean register(Session s) {
     SessionGroup candidate = pending.poll();
 
     if (candidate == null) {
-      candidate = new SessionGroup(NEED_TO_GENERALIZE_THIS, String.valueOf(GROUP_ID++));
+      candidate =
+          new SessionGroup(NEED_TO_GENERALIZE_THIS, String.valueOf(GROUP_ID++));
       candidate.add(s);
       groupMap.put(s, candidate);
     } else if (candidate.isFull()) {
@@ -99,5 +105,7 @@ public class GCT {
     }
     return sg.message(s, message);
   }
+
+
 
 }

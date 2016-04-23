@@ -1,20 +1,26 @@
 //Establish the WebSocket connection and set up event handlers
-var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat/");
-var actionSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
-// when we get a message from the server, we execute the following.
-webSocket.onmessage = function (msg) { updateChat(msg); };
-// when we get a closed connection from the server, we execute the following:
-// webSocket.onclose = function () { alert("WebSocket connection closed") };
-// webSocket.onopen = function () {alert("Websocket Connection opened")};
 
-actionSocket.onmessage = function (msg) {
+var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
+
+webSocket.onmessage = function (msg) {
+	
     var data = JSON.parse(msg.data);
-    console.log(data);
-
-    if (data.hasOwnProperty("getBoard")) {
-        handleGetBoard(data.getBoard);
-    } else if (data.hasOwnProperty("getPlayers")) {
-        handleGetPlayers(data.getPlayers);
+    
+    if(data.hasOwnProperty("responseType")) {
+    	switch(data.responseType) {
+    	case "chat":
+    		updateChat(data);
+    		return;
+    	case "getBoard":
+    		handleGetBoard(data);
+    		return;
+    	case "getPlayers":
+    		handleGetPlayers(data);
+    		return;
+    	default:
+    		console.log("unsupported response type");
+    		return;
+    	}
     }
 };
 
@@ -37,36 +43,37 @@ id("send").addEventListener("click", function () {
     sendMessage(id("message").value);
 });
 
-id("fireAction").addEventListener("click", function () {
-    var playersReq = {"action": "getPlayers"};
-    actionSocket.send(JSON.stringify(playersReq));
-
-	var boardReq = {"action" : "getBoard"};
-	actionSocket.send(JSON.stringify(boardReq));
-});
-
 //Send message if enter is pressed in the input field
 id("message").addEventListener("keypress", function (e) {
     if (e.keyCode === 13) { sendMessage(e.target.value); }
 });
 
+id("fireAction").addEventListener("click", function () {
+    var playersReq = {"action": "getPlayers"};
+    webSocket.send(JSON.stringify(playersReq));
+
+	var boardReq = {"action" : "getBoard"};
+	webSocket.send(JSON.stringify(boardReq));
+});
+
+
+
 //Send a message if it's not empty, then clear the input field
 function sendMessage(message) {
     if (message !== "") {
-        webSocket.send(message);
+    	var pack = {"chat" : message}
+        webSocket.send(JSON.stringify(pack));
         id("message").value = "";
     }
 }
 
 //Update the chat-panel, and the list of connected users
 function updateChat(msg) {
-    var data = JSON.parse(msg.data);
     console.log(msg);
-    console.log(data.ERROR);
-    if(data.hasOwnProperty('ERROR')) {
-    	alert(data.ERROR);
+    if(msg.hasOwnProperty('ERROR')) {
+    	alert(msg.ERROR);
     } else {
-        insert("chat", data.userMessage);
+        insert("chat", msg.userMessage);
     }
 
 }
