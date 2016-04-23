@@ -49,7 +49,6 @@ public class MasterReferee implements Referee {
       players.add(i);
     }
     Collections.shuffle(players);
-    System.out.println(players);
     for (int i = 1; i <= numFullPlayers; i++) {
       toReturn.put(i, players.get(i - 1));
     }
@@ -70,8 +69,6 @@ public class MasterReferee implements Referee {
 
   @Override
   public Player currentPlayer() {
-    System.out.println(_turn % _players.size());
-    System.out.println(_turnOrder.get(_turn % _players.size()));
     return _players.get(_turnOrder.get(_turn % _players.size()));
   }
 
