@@ -9,6 +9,7 @@ import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
+import edu.brown.cs.catan.Settings;
 
 public class BuildSettlementTest {
 
@@ -62,6 +63,18 @@ public class BuildSettlementTest {
     assertTrue(ref.getPlayerByID(0).getResources().get(Resource.BRICK) == 0);
     assertTrue(ref.getPlayerByID(0).getResources().get(Resource.WOOD) == 0);
     assertTrue(ref.getPlayerByID(0).getResources().get(Resource.SHEEP) == 0);
+  }
+
+  @Test
+  public void testBuildSettlementNoPay(){
+    Referee ref = new MasterReferee();
+    ref.addPlayer("Sean", "Red");
+    HexCoordinate h1 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h2 = new HexCoordinate(0, 1, 0);
+    HexCoordinate h3 = new HexCoordinate(0, 1, 1);
+    IntersectionCoordinate i = new IntersectionCoordinate(h1, h2, h3);
+    new BuildSettlement(ref, 0, i, false).execute();
+    assertTrue(ref.getPlayerByID(0).numSettlements() == Settings.INITIAL_SETTLEMENTS - 1);
 
   }
 

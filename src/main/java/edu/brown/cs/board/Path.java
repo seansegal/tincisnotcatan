@@ -64,10 +64,6 @@ public class Path {
     return _end;
   }
 
-  public Road getRoad() {
-    return _road;
-  }
-
   public Intersection getOtherEnd(Intersection end) {
     if (end.equals(_start)) {
       return _end;

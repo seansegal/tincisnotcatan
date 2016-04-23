@@ -96,11 +96,9 @@ public class CatanConverter {
         intersections.add(new IntersectionRaw(intersection));
       }
       paths = new ArrayList<>();
-      for(Path path: board.getPaths().values()){
+      for (Path path : board.getPaths().values()) {
         paths.add(new PathRaw(path));
       }
-
-
 
       tiles = new ArrayList<>();
       for (Tile tile : board.getTiles()) {
@@ -117,7 +115,7 @@ public class CatanConverter {
     public PathRaw(Path path) {
       start = path.getStart().getPosition();
       end = path.getEnd().getPosition();
-      road = path.getRoad() != null ?new RoadRaw(path.getRoad()) : null;
+      road = path.getRoad() != null ? new RoadRaw(path.getRoad()) : null;
     }
 
   }
@@ -216,5 +214,4 @@ public class CatanConverter {
     }
 
   }
-
 }
