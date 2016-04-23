@@ -27,10 +27,12 @@ public class MasterReferee implements Referee {
   private final List<DevelopmentCard> _devCardDeck;
   private Set<Player> _hasDiscarded;
   private boolean _devHasBeenPlayed;
+  private int _numFullPlayers;
   private Player _largestArmy = null;
 
   public MasterReferee() {
     _board = new Board();
+    _numFullPlayers = 4; // TODO: take in as parameter
     _players = new HashMap<Integer, Player>();
     _turn = 1;
     _bank = initializeBank(false);
@@ -211,6 +213,11 @@ public class MasterReferee implements Referee {
         "Cannot currently add players during a game.");
   }
 
+  @Override
+  public boolean gameIsFull() {
+    return _numFullPlayers == _players.size();
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -324,6 +331,11 @@ public class MasterReferee implements Referee {
     public int addPlayer(String name, String color) {
       throw new UnsupportedOperationException(
           "A ReadOnlyReferee cannot add players.");
+    }
+
+    @Override
+    public boolean gameIsFull() {
+      return _referee.gameIsFull();
     }
 
   }
