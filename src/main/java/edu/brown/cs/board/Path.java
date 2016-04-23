@@ -40,10 +40,12 @@ public class Path {
       if (other._end != null  || other._start != null) {
         return false;
       }
-    } else if (!((_end.equals(other._end) && _start.equals(other._start))) || (_end.equals(other._start) && _start.equals(other._end))) {
-      return false;
     }
-    return true;
+    if (((_end.equals(other._end) && _start.equals(other._start)))
+        || (_end.equals(other._start) && _start.equals(other._end))) {
+      return true;
+    }
+    return false;
   }
 
   public boolean canPlaceRoad(Player p) {
