@@ -9,9 +9,7 @@ import edu.brown.cs.catan.TestReferee;
 public class CatanAPI {
 
   public static void main(String[] args) {
-    System.out.println(new CatanAPI().getHand(0));
-    System.out.println(new CatanAPI().getPlayers());
-    System.out.println(new CatanAPI().getBoard());
+    System.out.println(new CatanAPI().getGameState(0));
   }
 
   private Referee _referee;
@@ -27,6 +25,10 @@ public class CatanAPI {
     // TODO: parse and set settings
     _referee = new TestReferee();
     _converter = new CatanConverter();
+  }
+
+  public String getGameState(int playerID) {
+    return _converter.getGameState(_referee, playerID);
   }
 
   public String getBoard() {

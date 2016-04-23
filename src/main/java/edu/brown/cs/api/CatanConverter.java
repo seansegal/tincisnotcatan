@@ -17,6 +17,7 @@ import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.board.Path;
 import edu.brown.cs.board.Port;
+import edu.brown.cs.board.Road;
 import edu.brown.cs.board.Tile;
 import edu.brown.cs.board.TileType;
 import edu.brown.cs.catan.DevelopmentCard;
@@ -28,9 +29,12 @@ public class CatanConverter {
 
   private Gson _gson;
 
-
   public CatanConverter() {
     _gson = new Gson();
+  }
+
+  public String getGameState(Referee ref, int playerID) {
+    return _gson.toJson(new GameState(ref, playerID));
   }
 
   public String getBoard(Board board) {
@@ -49,8 +53,26 @@ public class CatanConverter {
     return _gson.toJson(ImmutableMap.of("players", players));
   }
 
-  public Map<Integer, String> responseToJSON(Map<Integer, ActionResponse> response){
+  public Map<Integer, String> responseToJSON(
+      Map<Integer, ActionResponse> response) {
     return null;
+  }
+
+  private static class GameState {
+    private int playerID;
+    private Hand hand;
+    private BoardRaw board;
+    private Collection<PublicPlayerRaw> players;
+
+    public GameState(Referee ref, int playerID) {
+      this.playerID = playerID;
+      this.hand = new Hand(ref.getPlayerByID(playerID));
+      this.board = new BoardRaw(ref.getBoard());
+      this.players = new ArrayList<>();
+      for (Player p : ref.getPlayers()) {
+        players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));
+      }
+    }
   }
 
   public static class Hand {
@@ -66,18 +88,45 @@ public class CatanConverter {
   private static class BoardRaw {
     private final Collection<TileRaw> tiles;
     private final Collection<IntersectionRaw> intersections;
-    private final Collection<Path> paths;
+    private final Collection<PathRaw> paths;
 
     public BoardRaw(Board board) {
       intersections = new ArrayList<>();
-      for(Intersection intersection : board.getIntersections().values()){
+      for (Intersection intersection : board.getIntersections().values()) {
         intersections.add(new IntersectionRaw(intersection));
       }
-      paths = board.getPaths().values();
+      paths = new ArrayList<>();
+      for(Path path: board.getPaths().values()){
+        paths.add(new PathRaw(path));
+      }
+
+
+
       tiles = new ArrayList<>();
       for (Tile tile : board.getTiles()) {
         tiles.add(new TileRaw(tile));
       }
+    }
+  }
+
+  public static class PathRaw {
+    private IntersectionCoordinate start;
+    private IntersectionCoordinate end;
+    private RoadRaw road;
+
+    public PathRaw(Path path) {
+      start = path.getStart().getPosition();
+      end = path.getEnd().getPosition();
+      road = path.getRoad() != null ?new RoadRaw(path.getRoad()) : null;
+    }
+
+  }
+
+  private static class RoadRaw {
+    private int player;
+
+    public RoadRaw(Road road) {
+      player = road.getPlayer().getID();
     }
   }
 
@@ -86,30 +135,23 @@ public class CatanConverter {
     private int player;
     private final String type;
 
-    BuildingRaw(Building building){
-      if(building.getPlayer() != null){
+    BuildingRaw(Building building) {
+      if (building.getPlayer() != null) {
         player = building.getPlayer().getID();
       }
       type = building.getClass().getSimpleName().toLowerCase();
-//      if(building instanceof Settlement){
-//        type = "settlement";
-//      }
-//      else if(building instanceof City){
-//        type = "city";
-//      }
     }
 
     @Override
     public void collectResource(Resource resource) {
-      assert false; //Should never be called!
+      assert false; // Should never be called!
     }
 
     @Override
     public Player getPlayer() {
-      assert false; //Should never be called!
+      assert false; // Should never be called!
       return null;
     }
-
 
   }
 
@@ -119,8 +161,9 @@ public class CatanConverter {
     private final Port port;
     private final IntersectionCoordinate coordinate;
 
-    IntersectionRaw(Intersection i){
-      building = i.getBuilding() != null ? new BuildingRaw(i.getBuilding()) : null;
+    IntersectionRaw(Intersection i) {
+      building = i.getBuilding() != null ? new BuildingRaw(i.getBuilding())
+          : null;
       port = i.getPort();
       coordinate = i.getPosition();
     }
@@ -171,7 +214,6 @@ public class CatanConverter {
       numResourceCards = p.getNumResourceCards();
       numDevelopmentCards = p.getNumDevelopmentCards();
     }
-
 
   }
 

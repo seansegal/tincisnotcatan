@@ -4,26 +4,26 @@ import static java.lang.Math.sqrt;
 
 public class HexCoordinate {
   private static final double TOLERANCE = .001;
-  private final int _x;
-  private final int _y;
-  private final int _z;
+  private final int x;
+  private final int y;
+  private final int z;
 
   public HexCoordinate(int x, int y, int z) {
-    _x = x;
-    _y = y;
-    _z = z;
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
 
   public int getX() {
-    return _x;
+    return x;
   }
 
   public int getY() {
-    return _y;
+    return y;
   }
 
   public int getZ() {
-    return _z;
+    return z;
   }
 
   @Override
@@ -48,11 +48,11 @@ public class HexCoordinate {
   }
 
   public double cartesianX() {
-    return (-0.5) * _x + _y + (-0.5) * _z;
+    return (-0.5) * x + y + (-0.5) * z;
   }
 
   public double cartesianY() {
-    return -(sqrt(3)/ 2) * _x + (sqrt(3)/ 2) * _z;
+    return -(sqrt(3) / 2) * x + (sqrt(3) / 2) * z;
   }
 
   @Override
@@ -64,6 +64,6 @@ public class HexCoordinate {
 
   @Override
   public String toString() {
-    return String.format("( %d, %d, %d)", _x, _y, _z);
+    return String.format("( %d, %d, %d)", x, y, z);
   }
 }
