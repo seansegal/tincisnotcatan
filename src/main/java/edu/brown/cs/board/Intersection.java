@@ -1,10 +1,13 @@
 package edu.brown.cs.board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Resource;
 
 public class Intersection {
-
+  private List<Path> _paths;
   private Building _building;
   private Port _port;
   private IntersectionCoordinate _position;
@@ -13,6 +16,7 @@ public class Intersection {
     _position = position;
     _building = null;
     _port = null;
+    _paths = new ArrayList<Path>();
   }
 
   public Port getPort() {
@@ -62,12 +66,46 @@ public class Intersection {
     return false;
   }
 
+  public void addPath(Path p) {
+    _paths.add(p);
+  }
+
+  public List<Path> getPaths() {
+    return _paths;
+  }
+
   public void setPort(Port p) {
     _port = p;
   }
 
   public Building getBuilding() {
     return _building;
+  }
+
+  @Override
+  public int hashCode() {
+    return _position.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Intersection other = (Intersection) obj;
+    if (_position == null) {
+      if (other._position != null)
+        return false;
+    } else if (!_position.equals(other._position)) {
+      return false;
+    }
+    return true;
   }
 
 }
