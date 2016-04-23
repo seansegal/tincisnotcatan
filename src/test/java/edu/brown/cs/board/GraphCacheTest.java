@@ -17,7 +17,6 @@ public class GraphCacheTest {
     Intersection inter = new Intersection(i);
 
     CatanNode cn = new CatanNode(inter);
-    assertTrue(GraphCache.nodes.get(inter) == null);
     GraphCache.nodes.put(inter, cn);
     assertTrue(GraphCache.nodes.containsKey(inter));
     assertTrue(GraphCache.nodes.get(inter).equals(cn));
@@ -42,7 +41,6 @@ public class GraphCacheTest {
     Node<Path, Intersection> cn2 = new CatanNode(end);
 
     CatanEdge ce = new CatanEdge(cn, cn2, p, 1.0);
-    assertTrue(GraphCache.edges.get(p) == null);
     GraphCache.edges.put(p, ce);
     assertTrue(GraphCache.edges.containsKey(p));
     assertTrue(GraphCache.edges.get(p).equals(ce));
