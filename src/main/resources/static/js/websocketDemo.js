@@ -54,22 +54,12 @@ function sendBuildRoadAction(start, end) {
     webSocket.send(JSON.stringify(buildReq));
 }
 
-function parseBoard(boardData) {
-    board = new Board();
-    board.createBoard(boardData);
-    board.draw();
-}
-
-function parsePlayers(playersData) {
-    playersById = {};
-    players = parsePlayers(playersData.players);
-    for (var i = 0; i < 4; i++) {
-        playersById[players[i].id] = players[i];
-        players[i].fillPlayerTab();
-    }
-}
-
 function handleGetGameState(gameStateData) {
+    // Set global data
+    playerId = gameStateData.playerID;
+    currentTurn = gameStateData.currentTurn;
+
+    // Create players
     playersById = {};
     players = parsePlayers(gameStateData.players);
     for (var i = 0; i < 4; i++) {
@@ -77,6 +67,10 @@ function handleGetGameState(gameStateData) {
         players[i].fillPlayerTab();
     }
 
+    // Draw hand
+
+
+    // Create board
     board = new Board();
     board.createBoard(gameStateData.board);
     board.draw();

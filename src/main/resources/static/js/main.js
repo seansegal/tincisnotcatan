@@ -1,7 +1,8 @@
 var board = undefined;
 var players = [];
 var playersById = {};
-var userId = -1;
+var playerId = -1;
+var currentPlayerTurn = -2;
 
 $(window).load(function() {
 	board = new Board();

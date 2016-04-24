@@ -308,31 +308,31 @@
 				<div class="circle card-circle brick-color">
 					<img src="images/icon-brick.svg" alt="Brick">
 				</div>
-				<div class="card-number">1.05</div>
+				<div class="card-number" id="brick-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle wood-color">
 					<img src="images/icon-wood.svg" alt="Wood">
 				</div>
-				<div class="card-number">1.05</div>
+				<div class="card-number" id="wood-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle ore-color">
 					<img src="images/icon-ore.svg" alt="Ore">
 				</div>
-				<div class="card-number">1.05</div>
+				<div class="card-number" id="ore-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle wheat-color">
 					<img src="images/icon-wheat.svg" alt="Wheat">
 				</div>
-				<div class="card-number">1.05</div>
+				<div class="card-number" id="wheat-number">1.05</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle sheep-color">
 					<img src="images/icon-sheep.svg" alt="Sheep">
 				</div>
-				<div class="card-number">1.05</div>
+				<div class="card-number" id="sheep-number">1.05</div>
 			</li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right" id="hand-dev-cards">
@@ -342,7 +342,7 @@
 						<img src="images/icon-knight.svg" alt="Knight">
 					</div>
 				</div>
-				<div class="card-number">1</div>
+				<div class="card-number" id="knight-number">1</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle" data-toggle="modal" data-target="#year-of-plenty-modal">
@@ -350,7 +350,7 @@
 						<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
 					</div>
 				</div>
-				<div class="card-number">1</div>
+				<div class="card-number" id="year-of-plenty-number">1</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle" data-toggle="modal" data-target="#monopoly-modal">
@@ -358,7 +358,7 @@
 						<img src="images/icon-monopoly.svg" alt="Monopoly">
 					</div>
 				</div>
-				<div class="card-number">1</div>
+				<div class="card-number" id="monopoly-number">1</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle">
@@ -366,7 +366,7 @@
 						<img src="images/icon-road-building.svg" alt="Road Building">
 					</div>
 				</div>
-				<div class="card-number">1</div>
+				<div class="card-number" id="road-building-number">1</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle">
@@ -374,7 +374,7 @@
 						<img src="images/icon-victory-point.svg" alt="Victory Point">
 					</div>
 				</div>
-				<div class="card-number">1</div>
+				<div class="card-number" id="victory-point-number">1</div>
 			</li>
 		</ul>
 	</div>
