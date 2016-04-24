@@ -28,6 +28,7 @@ var PORT = {
 }
 
 function Intersection(coord1, coord2, coord3) {
+	this.intersectCoordinates = {coord1: coord1, coord2: coord2, coord3: coord3};
 	this.coordinates = findCenter(coord1, coord2, coord3);
 	this.id = ("intersection-x-" + this.coordinates.x + "y-" 
 			+ this.coordinates.y + "z-" + this.coordinates.z).replace(/[.]/g, "_");
@@ -124,7 +125,11 @@ Intersection.prototype.addCity = function(player) {
 Intersection.prototype.createIntersectionClickHandler = function() {
 	var that = this;
 	return function(event) {
-		console.log(that.coordinates);
+		if (that.building === BUILDING.NONE) {
+			sendBuildSettlementAction(that.intersectCoordinates);
+		} else if (that.building === BUILDING.SETTLEMENT) {
+			sendBuildCityAction(that.intersectCoordinates);
+		}
 	};
 }
 

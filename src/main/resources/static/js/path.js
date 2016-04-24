@@ -2,6 +2,9 @@ var ROAD_WIDTH_SCALE = 0.055;
 var ROAD_LENGTH_SCALE = 0.95;
 
 function Path(start1, start2, start3, end1, end2, end3) {
+	this.originalStart = {coord1: start1, coord2: start2, coord3: start3};
+	this.originalEnd = {coord1: end1, coord2: end2, coord3: end3};
+
 	// Force start to be leftmost intersection and end to be rightmost intersection
 	var first = findCenter(start1, start2, start3);
 	var second = findCenter(end1, end2, end3);
@@ -92,7 +95,7 @@ Path.prototype.addRoad = function(player) {
 Path.prototype.createPathClickHandler = function() {
 	var that = this;
 	return function(event) {
-		console.log({start: that.start, end: that.end});
+		sendBuildRoadAction(that.originalStart, that.originalEnd);
 	};
 }
 
