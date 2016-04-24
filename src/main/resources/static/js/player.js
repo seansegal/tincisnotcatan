@@ -53,3 +53,7 @@ function parsePlayers(playersData) {
 	return players;
 }
 
+function fillPlayerHand(handData) {
+	
+}
+
