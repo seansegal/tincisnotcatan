@@ -75,8 +75,6 @@ public class BoardTest {
 
     Map<IntersectionCoordinate, Intersection> intersections = b
         .getIntersections();
-    Map<IntersectionCoordinate, Intersection> ints = new HashMap<IntersectionCoordinate, Intersection>();
-    Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
 
     // Random Place on Board
     assertTrue(intersections.containsKey(new IntersectionCoordinate(

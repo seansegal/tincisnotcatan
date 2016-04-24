@@ -16,7 +16,6 @@ public class TileTest {
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
 
     Tile t = new Tile(1, h1, intersections, paths, TileType.WHEAT);
-    Tile t2 = new Tile(2, h1, intersections, paths, TileType.WHEAT, true);
     assertTrue(t != null);
     assertTrue(t.getRollNumber() == 1);
     assertTrue(t.getCoordinate().equals(h1));

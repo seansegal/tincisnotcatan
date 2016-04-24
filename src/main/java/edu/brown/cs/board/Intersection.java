@@ -1,7 +1,9 @@
 package edu.brown.cs.board;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Resource;
@@ -27,10 +29,13 @@ public class Intersection {
     return _position;
   }
 
-  public void notifyBuilding(Resource res) {
+  public Map<Integer, Map<Resource, Integer>> notifyBuilding(Resource res) {
+    Map<Integer, Map<Resource, Integer>> toRet = 
+        new HashMap<Integer, Map<Resource, Integer>>();
     if (_building != null) {
-      _building.collectResource(res);
+      toRet = _building.collectResource(res);
     }
+    return toRet;
   }
 
   public void placeSettlement(Player p) {
