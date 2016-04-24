@@ -6,7 +6,6 @@ import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.api.CatanConverter.CatanSettings;
 import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
-import edu.brown.cs.catan.TestReferee;
 
 public class CatanAPI {
 
@@ -19,7 +18,8 @@ public class CatanAPI {
   private ActionFactory _actionFactory;
 
   public CatanAPI() {
-    _referee = new TestReferee();
+    _referee = new MasterReferee();
+    //_referee = new TestReferee();
     _converter = new CatanConverter();
   }
 
