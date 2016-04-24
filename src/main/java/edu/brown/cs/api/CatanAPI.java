@@ -13,9 +13,11 @@ public class CatanAPI {
     System.out.println(new CatanAPI().getGameState(0));
   }
 
-  private Referee _referee;
+
+  private Referee        _referee;
   private CatanConverter _converter;
-  private ActionFactory _actionFactory;
+  private ActionFactory  _actionFactory;
+
 
   public CatanAPI() {
     _referee = new MasterReferee();
@@ -39,10 +41,12 @@ public class CatanAPI {
     return _converter.getBoard(_referee.getBoard());
   }
 
+
   @Deprecated
   public String getHand(int playerID) {
     return _converter.getHand(_referee.getPlayerByID(playerID));
   }
+
 
   @Deprecated
   public String getPlayers() {
@@ -80,6 +84,7 @@ public class CatanAPI {
     return _referee.gameIsFull();
   }
 
+
   /**
    * Performs Catan Actions. See the README for specific Action JSON
    * documentation.
@@ -99,7 +104,9 @@ public class CatanAPI {
     }
     Map<Integer, ActionResponse> response = _actionFactory.createAction(action)
         .execute();
+
     return _converter.responseToJSON(response);
   }
+
 
 }

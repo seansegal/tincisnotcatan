@@ -21,6 +21,7 @@ class Chat {
     try {
       // build the values
       toSend
+          .put("responseType", "chat")
           .put("userMessage", createHtmlMessageFromSender(sender, message))
           .put("userList", userIds);
     } catch (JSONException e) {

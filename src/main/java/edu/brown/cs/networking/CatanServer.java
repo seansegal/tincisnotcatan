@@ -12,16 +12,16 @@ public final class CatanServer {
 
 
   public CatanServer(CatanAPI api) {
-    GameServer.getInstance().launch((req) -> {
-      switch (req) {
-        case "getBoard":
-          return api.getBoard();
-        case "getPlayers":
-          return api.getPlayers();
-        default:
-          throw new IllegalArgumentException("Unsupported action : " + req);
-      }
-    });
+//    GameServer.getInstance().launch((req) -> {
+//      switch (req) {
+//        case "getBoard":
+//          return api.getBoard();
+//        case "getPlayers":
+//          return api.getPlayers();
+//        default:
+//          throw new IllegalArgumentException("Unsupported action : " + req);
+//      }
+//    });
   }
 
 
