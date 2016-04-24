@@ -14,12 +14,6 @@ webSocket.onmessage = function (msg) {
     	case "chat":
     		updateChat(data);
     		return;
-    	case "getBoard":
-    		handleGetBoard(data.content);
-    		return;
-    	case "getPlayers":
-    		handleGetPlayers(data.content);
-    		return;
     	case "getGameState":
     		handleGetGameState(data.content);
     		return;
@@ -32,48 +26,60 @@ webSocket.onmessage = function (msg) {
     }
 };
 
-function sendGetBoardAction() {
-	var playersReq = {"requestType": "action", "content" : {"action" : "getBoard", "params" : []}};
-    webSocket.send(JSON.stringify(playersReq));
-}
-
-function sendGetPlayersAction() {
-	var playersReq = {"requestType": "action", "content" : {"action" : "getPlayers", "params" : []}};
-    webSocket.send(JSON.stringify(playersReq));
-}
-
 function sendGetGameStateAction() {
     var playersReq = {"requestType": "getGameState", "content": {}};
     webSocket.send(JSON.stringify(playersReq));
 }
 
 function sendRollDiceAction() {
-    var rollDiceReq  = {"requestType": "action", "content": {"action": "rollDice", "params": []}};
+    var rollDiceReq  = {"requestType": "action", "content": {"action": "rollDice"}};
     webSocket.send(JSON.stringify(rollDiceReq));
 }
 
-function sendBuildSettlementAction() {
-    var buildReq  = {"requestType": "action", "content": {"action": "buildSettlement", "params": []}};
+function sendBuildSettlementAction(intersectCoordinates) {
+    console.log(intersectCoordinates);
+    var buildReq  = {"requestType": "action", "content": {"action": "buildSettlement", "coordinate": intersectCoordinates}};
     webSocket.send(JSON.stringify(buildReq));
 }
 
-function handleGetBoard(boardData) {
+function sendBuildCityAction(intersectCoordinates) {
+    console.log(intersectCoordinates);
+    var buildReq  = {"requestType": "action", "content": {"action": "buildCity"}};
+    webSocket.send(JSON.stringify(buildReq));
+}
+
+function sendBuildRoadAction(start, end) {
+    console.log({start: start, end: end});
+    var buildReq  = {"requestType": "action", "content": {"action": "buildRoad"}};
+    webSocket.send(JSON.stringify(buildReq));
+}
+
+function parseBoard(boardData) {
     board = new Board();
     board.createBoard(boardData);
     board.draw();
 }
 
-function handleGetPlayers(playersData) {
+function parsePlayers(playersData) {
     playersById = {};
     players = parsePlayers(playersData.players);
-    for (var i = 0; i < players.length; i++) {
+    for (var i = 0; i < 4; i++) {
         playersById[players[i].id] = players[i];
         players[i].fillPlayerTab();
     }
 }
 
 function handleGetGameState(gameStateData) {
+    playersById = {};
+    players = parsePlayers(gameStateData.players);
+    for (var i = 0; i < 4; i++) {
+        playersById[players[i].id] = players[i];
+        players[i].fillPlayerTab();
+    }
 
+    board = new Board();
+    board.createBoard(gameStateData.board);
+    board.draw();
 }
 
 //Send message if "Send" is clicked

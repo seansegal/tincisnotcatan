@@ -1,6 +1,7 @@
 var board = undefined;
 var players = [];
 var playersById = {};
+var userId = -1;
 
 $(window).load(function() {
 	board = new Board();
@@ -8,6 +9,8 @@ $(window).load(function() {
     $(function () {
   		$('[data-toggle="popover"]').popover()
 	});
+
+    $("#end-turn-btn").click(sendRollDiceAction);
 });
 
 function redrawCatan() {
