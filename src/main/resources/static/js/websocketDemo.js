@@ -27,30 +27,30 @@ webSocket.onmessage = function (msg) {
 };
 
 function sendGetGameStateAction() {
-    var playersReq = {"requestType": "getGameState", "content": {}};
+    var playersReq = {requestType: "getGameState", content: {}};
     webSocket.send(JSON.stringify(playersReq));
 }
 
 function sendRollDiceAction() {
-    var rollDiceReq  = {"requestType": "action", "content": {"action": "rollDice"}};
+    var rollDiceReq  = {requestType: "action", content: {action: "rollDice", player: playerId}};
     webSocket.send(JSON.stringify(rollDiceReq));
 }
 
 function sendBuildSettlementAction(intersectCoordinates) {
     console.log(intersectCoordinates);
-    var buildReq  = {"requestType": "action", "content": {"action": "buildSettlement", "coordinate": intersectCoordinates}};
+    var buildReq  = {requestType: "action", content: {action: "buildSettlement", coordinate: intersectCoordinates, player: playerId}};
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuildCityAction(intersectCoordinates) {
     console.log(intersectCoordinates);
-    var buildReq  = {"requestType": "action", "content": {"action": "buildCity"}};
+    var buildReq  = {requestType: "action", content: {action: "buildCity"}};
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuildRoadAction(start, end) {
     console.log({start: start, end: end});
-    var buildReq  = {"requestType": "action", "content": {"action": "buildRoad"}};
+    var buildReq  = {requestType: "action", content: {action: "buildRoad"}};
     webSocket.send(JSON.stringify(buildReq));
 }
 
@@ -68,7 +68,10 @@ function handleGetGameState(gameStateData) {
     }
 
     // Draw hand
+    fillPlayerHand(gameStateData.hand);
 
+    // Draw trade rates
+    fillPlayerTradeRates(gameStateData.players[1].rates); // TODO: change to reflect current player
 
     // Create board
     board = new Board();

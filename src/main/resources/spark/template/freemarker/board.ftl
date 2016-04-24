@@ -220,7 +220,7 @@
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5 id="brick-trade-rate">1:1</h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
@@ -233,7 +233,7 @@
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5 id="wood-trade-rate">1:1</h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row text">
@@ -246,7 +246,7 @@
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5 id="ore-trade-rate">1:1</h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
@@ -259,7 +259,7 @@
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5 id="wheat-trade-rate">1:1</h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
@@ -272,7 +272,7 @@
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5 id="sheep-trade-rate">1:1</h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
@@ -285,7 +285,7 @@
 		    					<input type="number" class="form-control">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
-		    					<h5>4:1</h5>
+		    					<h5 id="wildcard-trade-rate">1:1</h5>
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
