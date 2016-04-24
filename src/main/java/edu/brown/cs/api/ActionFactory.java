@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 
 import edu.brown.cs.actions.Action;
 import edu.brown.cs.actions.BuildSettlement;
+import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Referee;
@@ -30,10 +31,9 @@ public class ActionFactory {
     try {
       JsonObject actionJSON = new Gson().fromJson(json, JsonObject.class);
       String action = actionJSON.get("action").getAsString();
-
+      int playerID = actionJSON.get("player").getAsInt();
       switch (action) {
       case "buildSettlement":
-        int playerID = actionJSON.get("player").getAsInt();
         JsonObject coord1 = actionJSON.get("coordinate").getAsJsonObject()
             .get("coord1").getAsJsonObject();
         JsonObject coord2 = actionJSON.get("coordinate").getAsJsonObject()
@@ -50,8 +50,11 @@ public class ActionFactory {
             new IntersectionCoordinate(h1, h2, h3), false); // TODO: change so
                                                             // that referee says
                                                             // if they pay.
+      case "rollDice":
+        return new RollDice(_referee, playerID);
       default:
-        throw new IllegalArgumentException("The action does not exist.");
+        String err = String.format("The action %s does not exist.", action);
+        throw new IllegalArgumentException(err);
       }
 
     } catch (Exception e) {
