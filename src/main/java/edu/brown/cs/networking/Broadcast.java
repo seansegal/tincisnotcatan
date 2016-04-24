@@ -7,14 +7,18 @@ import org.eclipse.jetty.websocket.api.Session;
 
 public class Broadcast {
 
-  public static void message(Collection<Session> col, String message) {
+  public static void toAll(Collection<Session> col, String message) {
     for(Session sesh : col) {
-      if(sesh.isOpen()) {
-        try {
-          sesh.getRemote().sendString(message);
-        } catch (IOException e) {
-          System.out.format("Failed to send message to Session %s : %s%n", sesh.getLocalAddress(), message);
-        }
+      toSession(sesh, message);
+    }
+  }
+
+  public static void toSession(Session s, String message) {
+    if(s.isOpen()) {
+      try {
+        s.getRemote().sendString(message);
+      } catch (IOException e) {
+        System.out.format("Failed to send message to Session %s : %s%n", s.getLocalAddress(), message);
       }
     }
   }

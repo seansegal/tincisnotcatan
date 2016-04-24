@@ -39,7 +39,12 @@ public class Main {
     // secure("", "", "", ""); // use this for https!
     Spark.init();
 
+//    List<Object> list = new ArrayList<>();
+//    list.add(1);
+//    APIReflector.invoke("printInt", new CatanAPI(), list);
+
   }
+
 
   // used for heroku hosting - environment variables are set by heroku.
   private static int getHerokuAssignedPort() {
@@ -50,6 +55,7 @@ public class Main {
     return 4567; // return default port if heroku-port isn't set (i.e. on
     // localhost)
   }
+
 
   /**
    * A class which controls the initial page for maps.

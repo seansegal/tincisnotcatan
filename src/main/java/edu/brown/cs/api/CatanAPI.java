@@ -14,33 +14,40 @@ public class CatanAPI {
     System.out.println(new CatanAPI().getBoard());
   }
 
-  private Referee _referee;
+
+  private Referee        _referee;
   private CatanConverter _converter;
-  private ActionFactory _actionFactory;
+  private ActionFactory  _actionFactory;
+
 
   public CatanAPI() {
     _referee = new TestReferee();
     _converter = new CatanConverter();
   }
 
+
   public String getBoard() {
     return _converter.getBoard(_referee.getBoard());
   }
+
 
   public String getHand(int playerID) {
     return _converter.getHand(_referee.getPlayerByID(playerID));
   }
 
+
   public String getPlayers() {
     return _converter.getPlayers(_referee.getReadOnlyReferee());
   }
 
+
   public int addPlayer(String name, String color) {
-    if(name == null || color == null){
+    if (name == null || color == null) {
       throw new IllegalArgumentException("Inputs cannot be null.");
     }
     return _referee.addPlayer(name, color);
   }
+
 
   /**
    * Performs Catan Actions.
@@ -51,11 +58,13 @@ public class CatanAPI {
    *         response.
    */
   public Map<Integer, String> performAction(String action) {
-    if(action == null){
+    if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");
     }
-    Map<Integer, ActionResponse> response = _actionFactory.createAction(action).execute();
+    Map<Integer, ActionResponse> response =
+        _actionFactory.createAction(action).execute();
     return _converter.responseToJSON(response);
   }
+
 
 }

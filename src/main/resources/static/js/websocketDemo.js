@@ -49,10 +49,10 @@ id("message").addEventListener("keypress", function (e) {
 });
 
 id("fireAction").addEventListener("click", function () {
-    var playersReq = {"action": "getPlayers"};
+    var playersReq = {"requestType": "action", "content" : "test"};
     webSocket.send(JSON.stringify(playersReq));
 
-	var boardReq = {"action" : "getBoard"};
+	var boardReq = {"requestType": "action", "content" : {"methodName" : "getBoard", "args" : []}};	
 	webSocket.send(JSON.stringify(boardReq));
 });
 
@@ -61,7 +61,7 @@ id("fireAction").addEventListener("click", function () {
 //Send a message if it's not empty, then clear the input field
 function sendMessage(message) {
     if (message !== "") {
-    	var pack = {"chat" : message}
+    	var pack = {"requestType" : "chat", "content" : message}
         webSocket.send(JSON.stringify(pack));
         id("message").value = "";
     }

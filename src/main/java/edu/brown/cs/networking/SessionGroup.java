@@ -24,6 +24,11 @@ class SessionGroup implements Timestamped {
     this.size = size;
     this.timestamp = System.currentTimeMillis();
     this.id = id;
+    // for(Method m : CatanAPI.class.getMethods()) {
+    // System.out.println(m);
+    // System.out.println(m.getParameterCount());
+    // System.out.println(m.getParameters());
+    // }
   }
 
 
@@ -74,44 +79,52 @@ class SessionGroup implements Timestamped {
 
     @SuppressWarnings("unchecked")
     Map<String, Object> rawMap = GSON.fromJson(message, Map.class);
-
-    String typeOfRequest = SetExtractor.getSingleElement(rawMap.keySet());
-    switch (typeOfRequest) {
-      case "chat":
-        return handleChatMessage(s, rawMap.get("chat"));
-      case "action":
-        System.out.format("Action requested : %s", rawMap.get("action"));
-        return true;
-      default:
-        System.out.format("Session %s made an illegal request : %s%n",
-            s.getLocalAddress(), message);
-        return false;
+    Request req = new Request(rawMap);
+    if (req.isValid()) {
+      switch (req.type()) {
+        case CHAT:
+          return handleChatMessage(s, req.content());
+        case ACTION:
+          System.out.format("Action requested : %s%n", req.content());
+          return true;
+        default:
+          System.out.format("Session %s made an illegal request : %s%n",
+              s.getLocalAddress(), message);
+          return false;
+      }
     }
-
+    return false;
   }
 
+//  private boolean handleAction(Object content) {
+//
+//  }
 
-  public boolean handleChatMessage(Session s, Object message) {
+
+  private boolean handleChatMessage(Session s, Object message) {
 
     String cast;
     try {
       cast = (String) message;
     } catch (ClassCastException e) {
-      System.out.format("ClassCastException: Session %s sent %s through /chat%n",
+      System.out.format(
+          "ClassCastException: Session %s sent %s through /chat%n",
           s.getLocalAddress(), message);
       return false;
     }
 
     System.out.println("Message processed : " + cast);
-    Broadcast.message(sessions,
-        Chat.createMessage(s.getLocalAddress().toString(), cast, userIds()).toString());
+    Broadcast.toAll(sessions,
+        Chat.createMessage(s.getLocalAddress().toString(), cast, userIds())
+            .toString());
     return true;
   }
+
 
   // TEMPORARY
   public Collection<String> userIds() {
     Collection<String> toRet = new ArrayList<>();
-    for(Session s : sessions) {
+    for (Session s : sessions) {
       toRet.add(s.getLocalAddress().toString());
     }
     return toRet;
@@ -133,8 +146,6 @@ class SessionGroup implements Timestamped {
   public void stampNow() {
     this.timestamp = System.currentTimeMillis();
   }
-
-  // broadcast to whole group
 
   // message specific user
 
