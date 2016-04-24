@@ -2,6 +2,7 @@ package edu.brown.cs.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +65,11 @@ public class CatanConverter {
 
   public Map<Integer, String> responseToJSON(
       Map<Integer, ActionResponse> response) {
-    return null;
+    Map<Integer, String> toReturn = new HashMap<>();
+    for(Map.Entry<Integer, ActionResponse> entry : response.entrySet()){
+      toReturn.put(entry.getKey(), _gson.toJson(entry.getValue(), ActionResponse.class));
+    }
+    return toReturn;
   }
 
   private static class GameState {

@@ -32,7 +32,7 @@ public class RollDice implements Action {
     Random r = new Random();
     PrimitiveIterator.OfInt rolls =  r.ints(1, 7).iterator();
     int diceRoll = rolls.nextInt() + rolls.nextInt();
-    Map<Integer, Map<Resource, Integer>> playerResourceCount = 
+    Map<Integer, Map<Resource, Integer>> playerResourceCount =
         new HashMap<Integer, Map<Resource, Integer>>();
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
 
@@ -107,7 +107,7 @@ public class RollDice implements Action {
       // Unsure how to handle moving the knight yet
     }
     for(int i : toRet.keySet()) {
-      System.out.println(toRet.get(i).toString());
+//      System.out.println(toRet.get(i).toString());
     }
     return toRet;
 
