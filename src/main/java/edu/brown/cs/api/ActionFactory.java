@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 
 import edu.brown.cs.actions.Action;
 import edu.brown.cs.actions.BuildSettlement;
+import edu.brown.cs.actions.EmptyAction;
 import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
@@ -33,6 +34,8 @@ public class ActionFactory {
       String action = actionJSON.get("action").getAsString();
       int playerID = actionJSON.get("player").getAsInt();
       switch (action) {
+      case "getInitialState":
+        return new EmptyAction();
       case "buildSettlement":
         JsonObject coord1 = actionJSON.get("coordinate").getAsJsonObject()
             .get("coord1").getAsJsonObject();

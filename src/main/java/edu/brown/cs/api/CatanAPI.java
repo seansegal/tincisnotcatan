@@ -14,14 +14,12 @@ public class CatanAPI {
     System.out.println(new CatanAPI().getGameState(0));
   }
 
-
-  private Referee        _referee;
+  private Referee _referee;
   private CatanConverter _converter;
-  private ActionFactory  _actionFactory;
-
+  private ActionFactory _actionFactory;
 
   public CatanAPI() {
-    //_referee = new MasterReferee();
+//     _referee = new MasterReferee();
     _referee = new TestReferee();
     _converter = new CatanConverter();
   }
@@ -42,12 +40,10 @@ public class CatanAPI {
     return _converter.getBoard(_referee.getBoard());
   }
 
-
   @Deprecated
   public String getHand(int playerID) {
     return _converter.getHand(_referee.getPlayerByID(playerID));
   }
-
 
   @Deprecated
   public String getPlayers() {
@@ -70,7 +66,7 @@ public class CatanAPI {
    *           When called in the middle of a game.
    */
   public int addPlayer(String playerAttributes) {
-    //TODO: decide on playerAttributes, who is choosing colors?
+    // TODO: decide on playerAttributes, who is choosing colors?
     return _referee.addPlayer("TestName", "#000000");
   }
 
@@ -84,7 +80,6 @@ public class CatanAPI {
   public boolean gameIsFull() {
     return _referee.gameIsFull();
   }
-
 
   /**
    * Performs Catan Actions. See the README for specific Action JSON
@@ -108,6 +103,5 @@ public class CatanAPI {
 
     return _converter.responseToJSON(response);
   }
-
 
 }
