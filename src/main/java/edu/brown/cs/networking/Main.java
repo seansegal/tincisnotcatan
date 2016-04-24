@@ -39,10 +39,6 @@ public class Main {
     // secure("", "", "", ""); // use this for https!
     Spark.init();
 
-//    List<Object> list = new ArrayList<>();
-//    list.add(1);
-//    APIReflector.invoke("printInt", new CatanAPI(), list);
-
   }
 
 
