@@ -1,32 +1,46 @@
 package edu.brown.cs.networking;
 
-import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 class Request {
 
   private RequestType type;
-  private Object content;
+  private JSONObject content;
   private boolean isValid;
 
   private static final String REQUEST_IDENTIFIER = "requestType";
   private static final String CONTENT_IDENTIFIER = "content";
 
-  public Request(Map<String, Object> map) {
+  private static final Gson GSON = new Gson();
+
+  public Request(JSONObject json) {
     isValid = true;
-    if (map.containsKey(REQUEST_IDENTIFIER)) {
-      String key = map.get(REQUEST_IDENTIFIER).toString();
+
+    if (json.has(REQUEST_IDENTIFIER)) {
+
       try {
+        String key = json.get(REQUEST_IDENTIFIER).toString();
         type = RequestType.valueOf(key.toUpperCase());
       } catch (IllegalArgumentException e) {
-        System.out.println("Received invalid request identifier : " + key);
+        System.out.println("Received invalid request identifier");
         isValid = false;
+      } catch (JSONException j) {
+        j.printStackTrace();
       }
     } else {
       System.out.println("Received no request identifier.");
       isValid = false;
     }
-    if(map.containsKey(CONTENT_IDENTIFIER)){
-      content = map.get(CONTENT_IDENTIFIER);
+    if(json.has(CONTENT_IDENTIFIER)){
+      try {
+        content = json.getJSONObject(CONTENT_IDENTIFIER);
+      } catch (JSONException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     } else {
       System.out.println("Received no content in request.");
       isValid = false;
@@ -42,7 +56,7 @@ class Request {
     return isValid;
   }
 
-  public Object content() {
+  public JSONObject content() {
     return content;
   }
 
