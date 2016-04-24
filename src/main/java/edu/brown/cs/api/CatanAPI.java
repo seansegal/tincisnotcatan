@@ -65,12 +65,8 @@ public class CatanAPI {
    *           When called in the middle of a game.
    */
   public int addPlayer(String playerAttributes) {
-
-    // if (name == null || color == null) {
-    // throw new IllegalArgumentException("Inputs cannot be null.");
-    // }
-    // return _referee.addPlayer(name, color);
-    return -1;
+    //TODO: decide on playerAttributes, who is choosing colors?
+    return _referee.addPlayer("TestName", "#000000");
   }
 
   /**
