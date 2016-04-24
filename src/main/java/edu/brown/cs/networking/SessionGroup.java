@@ -133,40 +133,16 @@ class SessionGroup implements Timestamped {
 
   private boolean handleAction(Session s, Object content) {
     Map<?, ?> map = (Map<?, ?>) content;
-    String methodName = (String) map.get("methodName");
-    List<?> argsMaybe = (List<?>) map.get("args");
-    if (argsMaybe.isEmpty()) {
-      System.out.println("No args given,");
-    } else {
-      System.out.println("Args : " + argsMaybe.toString());
-    }
     JSONObject toSend = new JSONObject();
-    Object toRet;
+
     try {
-      toSend.put("responseType", methodName);
-      switch (methodName) {
-        case "getBoard":
-          toRet = GSON.fromJson(api.getBoard(), Map.class);
-          toSend.put("content", toRet);
-          Broadcast.toSession(s, toSend.toString());
-          break;
-        case "getPlayers":
-          toRet = GSON.fromJson(api.getPlayers(), Map.class);
-          toSend.put("content", toRet);
-          Broadcast.toSession(s, toSend.toString());
-          break;
-        case "performAction":
-          // TODO: see how hans sends this info over, react accordingly.
-          Map<Integer, String> resp =
-              api.performAction((String) map.get("content"));
-          for (Integer i : resp.keySet()) {
-            toSend.put("content", resp.get(i));
-            Broadcast.toSession(sessionForInt.get(i), toSend.toString());
-          }
-          break;
-        default:
-          throw new IllegalArgumentException(
-              "Unsupported action : " + methodName);
+      toSend.put("responseType", map.get("action"));
+      // TODO: see how hans sends this info over, react accordingly.
+      Map<Integer, String> resp =
+          api.performAction((String) map.get("content"));
+      for (Integer i : resp.keySet()) {
+        toSend.put("content", resp.get(i));
+        Broadcast.toSession(sessionForInt.get(i), toSend.toString());
       }
     } catch (JSONException j) {
       j.printStackTrace();

@@ -11,7 +11,12 @@ import edu.brown.cs.catan.TestReferee;
 public class CatanAPI {
 
   public static void main(String[] args) {
-    System.out.println(new CatanAPI().getGameState(0));
+    CatanAPI api = new CatanAPI();
+    System.out.println(api.getGameState(0));
+    System.out.println(api.addPlayer(null));
+    System.out.println(api.getGameState(4));
+    String json = "{action: rollDice, player: 4}";
+    System.out.println(api.performAction(json));
   }
 
   private Referee _referee;
@@ -22,6 +27,7 @@ public class CatanAPI {
 //     _referee = new MasterReferee();
     _referee = new TestReferee();
     _converter = new CatanConverter();
+    _actionFactory = new ActionFactory(_referee);
   }
 
   public CatanAPI(String settings) {
@@ -29,6 +35,7 @@ public class CatanAPI {
     CatanSettings catanSettings = _converter.getSettings(settings);
     // TODO: use settings for number of players etc.
     _referee = new MasterReferee();
+    _actionFactory = new ActionFactory(_referee);
   }
 
   public String getGameState(int playerID) {
