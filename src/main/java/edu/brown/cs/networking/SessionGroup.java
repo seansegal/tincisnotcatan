@@ -6,20 +6,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jetty.websocket.api.Session;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
+import edu.brown.cs.api.CatanAPI;
+
 class SessionGroup implements Timestamped {
 
-  private List<Session> sessions;
-  private int           size;
-  private long          timestamp;
-  private String        id;
+  private List<Session>  sessions;
+  private int            size;
+  private long           timestamp;
+  private String         id;
 
-  private final Gson    GSON = new Gson();
+  private final Gson     GSON = new Gson();
+  private final CatanAPI api;
 
 
   public SessionGroup(int size, String id) {
+    api = new CatanAPI();
     sessions = new ArrayList<>();
     this.size = size;
     this.timestamp = System.currentTimeMillis();
@@ -86,6 +92,7 @@ class SessionGroup implements Timestamped {
           return handleChatMessage(s, req.content());
         case ACTION:
           System.out.format("Action requested : %s%n", req.content());
+          handleAction(s, req.content());
           return true;
         default:
           System.out.format("Session %s made an illegal request : %s%n",
@@ -96,9 +103,42 @@ class SessionGroup implements Timestamped {
     return false;
   }
 
-//  private boolean handleAction(Object content) {
-//
-//  }
+
+  private boolean handleAction(Session s, Object content) {
+    Map<?, ?> map = (Map<?, ?>) content;
+    String methodName = (String) map.get("methodName");
+    List<?> argsMaybe = (List<?>) map.get("args");
+    if (argsMaybe.isEmpty()) {
+      System.out.println("No args given,");
+    } else {
+      System.out.println("Args : " + argsMaybe.toString());
+    }
+    JSONObject toSend = new JSONObject();
+    Object toRet;
+    try {
+      toSend.put("responseType", methodName);
+      switch (methodName) {
+        case "getBoard":
+          toRet = GSON.fromJson(api.getBoard(), Map.class);
+          toSend.put("content", toRet);
+          Broadcast.toSession(s, toSend.toString());
+          break;
+        case "getPlayers":
+          toRet = GSON.fromJson(api.getPlayers(), Map.class);
+          toSend.put("content", toRet);
+          Broadcast.toSession(s, toSend.toString());
+          break;
+        default:
+          throw new IllegalArgumentException(
+              "Unsupported action : " + methodName);
+      }
+    } catch (JSONException j) {
+      j.printStackTrace();
+    }
+
+
+    return true;
+  }
 
 
   private boolean handleChatMessage(Session s, Object message) {

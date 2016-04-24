@@ -12,15 +12,17 @@ webSocket.onmessage = function (msg) {
     		updateChat(data);
     		return;
     	case "getBoard":
-    		handleGetBoard(data);
+    		handleGetBoard(data.content);
     		return;
     	case "getPlayers":
-    		handleGetPlayers(data);
+    		handleGetPlayers(data.content);
     		return;
     	default:
     		console.log("unsupported response type");
     		return;
     	}
+    } else {
+    	console.log("No response type indicated");
     }
 };
 
@@ -49,7 +51,7 @@ id("message").addEventListener("keypress", function (e) {
 });
 
 id("fireAction").addEventListener("click", function () {
-    var playersReq = {"requestType": "action", "content" : "test"};
+    var playersReq = {"requestType": "action", "content" : {"methodName" : "getPlayers", "args" : []}};
     webSocket.send(JSON.stringify(playersReq));
 
 	var boardReq = {"requestType": "action", "content" : {"methodName" : "getBoard", "args" : []}};	
