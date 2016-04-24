@@ -102,7 +102,7 @@ function onCityBuildCancel(event) {
 
 	btnElement.removeClass("btn-danger");
 	btnElement.addClass("btn-default");
-	btnElement.val("Build Settlement");
+	btnElement.val("Build City");
 
 	board.intersections[10].unHighlight();
 	board.intersections[23].unHighlight();
@@ -110,9 +110,35 @@ function onCityBuildCancel(event) {
 
 $("#city-build-btn").click(onCityBuild);
 
-$("#road-build-btn").click(function() {
-	console.log("road clicked");
-});
+function onRoadBuild(event) {
+	var btnElement = $(event.target);
+	btnElement.off("click", onRoadBuild);
+	btnElement.click(onRoadBuildCancel);
+
+	btnElement.removeClass("btn-default");
+	btnElement.addClass("btn-danger");
+	btnElement.val("Cancel Build");
+
+	board.paths[5].highlight();
+	board.paths[8].highlight();
+	board.paths[16].highlight();
+}
+
+function onRoadBuildCancel(event) {
+	var btnElement = $(event.target);
+	btnElement.off("click", onRoadBuildCancel);
+	btnElement.click(onRoadBuild);
+
+	btnElement.removeClass("btn-danger");
+	btnElement.addClass("btn-default");
+	btnElement.val("Build Road");
+
+	board.paths[5].unHighlight();
+	board.paths[8].unHighlight();
+	board.paths[16].unHighlight();
+}
+
+$("#road-build-btn").click(onRoadBuild);
 
 $("#dev-card-build-btn").click(function() {
 	console.log("dev card clicked");
