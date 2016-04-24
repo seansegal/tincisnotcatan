@@ -22,7 +22,8 @@ webSocket.onmessage = function (msg) {
     		handleGetPlayers(data.content);
     		return;
     	case "getGameState":
-    		handleGetGameState();
+    		handleGetGameState(data.content);
+    		return;
     	default:
     		console.log("unsupported response type");
     		return;

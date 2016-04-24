@@ -2,6 +2,7 @@ package edu.brown.cs.networking;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,14 +20,17 @@ class SessionGroup implements Timestamped {
   private int            size;
   private long           timestamp;
   private String         id;
+  private Map<Session, Integer> sessionIDs;
 
   private final Gson     GSON = new Gson();
   private final CatanAPI api;
 
 
+
   public SessionGroup(int size, String id) {
     api = new CatanAPI();
     sessions = new ArrayList<>();
+    sessionIDs = new HashMap<>();
     this.size = size;
     this.timestamp = System.currentTimeMillis();
     this.id = id;
@@ -48,6 +52,8 @@ class SessionGroup implements Timestamped {
     if (!isFull()) {
       System.out.format("Session %s was added to SessionGroup %s%n",
           s.getLocalAddress(), id);
+      // TODO: Add player attributes here.
+      sessionIDs.put(s, api.addPlayer(""));
       return sessions.add(s);
     }
     System.out.format("Session %s was not added to %s, it is full%n", s, id);
@@ -120,6 +126,11 @@ class SessionGroup implements Timestamped {
           break;
         case "getPlayers":
           toRet = GSON.fromJson(api.getPlayers(), Map.class);
+          toSend.put("content", toRet);
+          Broadcast.toSession(s, toSend.toString());
+          break;
+        case "getGameState" :
+          toRet = GSON.fromJson(api.getGameState(sessionIDs.get(s)), Map.class);
           toSend.put("content", toRet);
           Broadcast.toSession(s, toSend.toString());
           break;

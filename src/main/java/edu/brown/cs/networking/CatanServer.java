@@ -10,18 +10,9 @@ public final class CatanServer {
 
   private static final Gson gson = new Gson();
 
-
+  @Deprecated
   public CatanServer(CatanAPI api) {
-//    GameServer.getInstance().launch((req) -> {
-//      switch (req) {
-//        case "getBoard":
-//          return api.getBoard();
-//        case "getPlayers":
-//          return api.getPlayers();
-//        default:
-//          throw new IllegalArgumentException("Unsupported action : " + req);
-//      }
-//    });
+
   }
 
 
