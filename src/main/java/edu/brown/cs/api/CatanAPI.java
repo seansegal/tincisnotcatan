@@ -22,6 +22,7 @@ public class CatanAPI {
 //     _referee = new MasterReferee();
     _referee = new TestReferee();
     _converter = new CatanConverter();
+    _actionFactory = new ActionFactory(_referee);
   }
 
   public CatanAPI(String settings) {

@@ -90,7 +90,7 @@ id("message").addEventListener("keypress", function (e) {
 //Send a message if it's not empty, then clear the input field
 function sendMessage(message) {
     if (message !== "") {
-    	var pack = {"requestType" : "chat", "content" : message}
+    	var pack = {"requestType" : "chat", "content" : {"message" : message}}
         webSocket.send(JSON.stringify(pack));
         id("message").value = "";
     }
