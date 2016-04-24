@@ -2,13 +2,12 @@
 var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/"); 
 
 webSocket.onopen = function () {
-    sendGetPlayersAction();
-    sendGetBoardAction();
+    sendGetGameStateAction();
 };
 
 webSocket.onmessage = function (msg) {
-	
     var data = JSON.parse(msg.data);
+    console.log(data);
     
     if(data.hasOwnProperty("responseType")) {
     	switch(data.responseType) {
@@ -34,13 +33,28 @@ webSocket.onmessage = function (msg) {
 };
 
 function sendGetBoardAction() {
-	var playersReq = {"requestType": "action", "content" : {"methodName" : "getBoard", "args" : []}};
+	var playersReq = {"requestType": "action", "content" : {"action" : "getBoard", "params" : []}};
     webSocket.send(JSON.stringify(playersReq));
 }
 
 function sendGetPlayersAction() {
-	var playersReq = {"requestType": "action", "content" : {"methodName" : "getPlayers", "args" : []}};
+	var playersReq = {"requestType": "action", "content" : {"action" : "getPlayers", "params" : []}};
     webSocket.send(JSON.stringify(playersReq));
+}
+
+function sendGetGameStateAction() {
+    var playersReq = {"requestType": "getGameState", "content": {}};
+    webSocket.send(JSON.stringify(playersReq));
+}
+
+function sendRollDiceAction() {
+    var rollDiceReq  = {"requestType": "action", "content": {"action": "rollDice", "params": []}};
+    webSocket.send(JSON.stringify(rollDiceReq));
+}
+
+function sendBuildSettlementAction() {
+    var buildReq  = {"requestType": "action", "content": {"action": "buildSettlement", "params": []}};
+    webSocket.send(JSON.stringify(buildReq));
 }
 
 function handleGetBoard(boardData) {
