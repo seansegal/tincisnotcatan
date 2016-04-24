@@ -53,7 +53,8 @@ public class BuildSettlement implements Action {
     _intersection.placeSettlement(_player);
 
     // TODO: formulate response & send.
-    return null;
+    ActionResponse resp = new ActionResponse(true, "You built a Settlement.", null);
+    return ImmutableMap.of(_player.getID(), resp);
   }
 
 }
