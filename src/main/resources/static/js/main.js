@@ -82,9 +82,33 @@ function onSettlementBuildCancel(event) {
 
 $("#settlement-build-btn").click(onSettlementBuild);
 
-$("#city-build-btn").click(function() {
-	console.log("city clicked");
-});
+function onCityBuild(event) {
+	var btnElement = $(event.target);
+	btnElement.off("click", onCityBuild);
+	btnElement.click(onCityBuildCancel);
+
+	btnElement.removeClass("btn-default");
+	btnElement.addClass("btn-danger");
+	btnElement.val("Cancel Build");
+
+	board.intersections[10].highlight();
+	board.intersections[23].highlight();
+}
+
+function onCityBuildCancel(event) {
+	var btnElement = $(event.target);
+	btnElement.off("click", onCityBuildCancel);
+	btnElement.click(onCityBuild);
+
+	btnElement.removeClass("btn-danger");
+	btnElement.addClass("btn-default");
+	btnElement.val("Build Settlement");
+
+	board.intersections[10].unHighlight();
+	board.intersections[23].unHighlight();
+}
+
+$("#city-build-btn").click(onCityBuild);
 
 $("#road-build-btn").click(function() {
 	console.log("road clicked");

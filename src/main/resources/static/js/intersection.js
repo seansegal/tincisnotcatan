@@ -39,8 +39,8 @@ function Intersection(coord1, coord2, coord3) {
 	
 	this.highlighted = false;
 	
-	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
 	$("#board-viewport").append("<div class='intersection-select circle' id='" + this.id + "-select'></div>");
+	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
 }
 
 Intersection.prototype.draw = function(transX, transY, scale) {
@@ -99,6 +99,11 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 	var x = transX + displacement.x * scale + Math.sqrt(3) * scale / 4 - size / 4 - 0.020 * scale;
 	var y = transY + displacement.y * scale + scale / 4 - size / 2;
 	
+	if (this.building === BUILDING.SETTLEMENT) {
+		x = x + 0.0075 * scale;
+		y = y + 0.015 * scale;
+	}
+
 	// Add selectable area to intersection
 	var select = $("#" + this.id + "-select");
 	select.css("transform", "translate(" + x + "px, " + y + "px)");
@@ -116,8 +121,11 @@ Intersection.prototype.addCity = function(player) {
 	this.player = player;
 }
 
-Intersection.prototype.handleIntersectionClick = function(event) {
-	console.log(this.coordinates);
+Intersection.prototype.createIntersectionClickHandler = function() {
+	var that = this;
+	return function(event) {
+		console.log(that.coordinates);
+	};
 }
 
 Intersection.prototype.highlight = function() {
@@ -127,9 +135,7 @@ Intersection.prototype.highlight = function() {
 		var select = $("#" + this.id + "-select");
 		select.addClass("highlighted");
 	
-		select.click(this.handleIntersectionClick);
-		
-		this.draw();	
+		select.click(this.createIntersectionClickHandler());
 	}
 }
 
@@ -141,9 +147,7 @@ Intersection.prototype.unHighlight = function() {
 		select.removeClass("highlighted");
 	
 		var that = this;
-		select.off("click", this.handleIntersectionClick);
-		
-		this.draw();	
+		select.off("click");
 	}
 }
 
