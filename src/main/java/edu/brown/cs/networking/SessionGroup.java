@@ -16,16 +16,15 @@ import edu.brown.cs.api.CatanAPI;
 
 class SessionGroup implements Timestamped {
 
-  private List<Session>  sessions;
-  private int            size;
-  private long           timestamp;
-  private String         id;
+  private List<Session>         sessions;
+  private int                   size;
+  private long                  timestamp;
+  private String                id;
   private Map<Session, Integer> intForSession;
   private Map<Integer, Session> sessionForInt;
 
-  private final Gson     GSON = new Gson();
-  private final CatanAPI api;
-
+  private final Gson            GSON = new Gson();
+  private final CatanAPI        api;
 
 
   public SessionGroup(int size, String id) {
@@ -98,6 +97,9 @@ class SessionGroup implements Timestamped {
           System.out.format("Action requested : %s%n", req.content());
           handleAction(s, req.content());
           return true;
+        case GETGAMESTATE:
+          handleGetGameState(s, req.content());
+          break;
         default:
           System.out.format("Session %s made an illegal request : %s%n",
               s.getLocalAddress(), message);
@@ -105,6 +107,27 @@ class SessionGroup implements Timestamped {
       }
     }
     return false;
+  }
+
+
+  private boolean handleGetGameState(Session s, Object content) {
+    JSONObject toSend = new JSONObject();
+    Object toRet;
+    toRet = GSON.fromJson(api.getGameState(intForSession.get(s)), Map.class);
+    try {
+      toSend.put("responseType", "getGameState");
+    } catch (JSONException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    try {
+      toSend.put("content", toRet);
+    } catch (JSONException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    Broadcast.toSession(s, toSend.toString());
+    return true;
   }
 
 
@@ -132,15 +155,11 @@ class SessionGroup implements Timestamped {
           toSend.put("content", toRet);
           Broadcast.toSession(s, toSend.toString());
           break;
-        case "getGameState" :
-          toRet = GSON.fromJson(api.getGameState(intForSession.get(s)), Map.class);
-          toSend.put("content", toRet);
-          Broadcast.toSession(s, toSend.toString());
-          break;
-        case "performAction" :
+        case "performAction":
           // TODO: see how hans sends this info over, react accordingly.
-          Map<Integer, String> resp = api.performAction((String) map.get("content"));
-          for(Integer i : resp.keySet()) {
+          Map<Integer, String> resp =
+              api.performAction((String) map.get("content"));
+          for (Integer i : resp.keySet()) {
             toSend.put("content", resp.get(i));
             Broadcast.toSession(sessionForInt.get(i), toSend.toString());
           }
