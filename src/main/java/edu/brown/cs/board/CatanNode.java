@@ -9,9 +9,11 @@ import edu.brown.cs.graph.Node;
 
 public class CatanNode implements Node<Path, Intersection> {
   private Intersection _data;
+  private GraphCache _cache;
 
-  public CatanNode(Intersection data) {
+  public CatanNode(Intersection data, GraphCache cache) {
     _data = data;
+    _cache = cache;
   }
 
   @Override
@@ -20,25 +22,25 @@ public class CatanNode implements Node<Path, Intersection> {
     List<Edge<Path, Intersection>> edges = new ArrayList<Edge<Path, Intersection>>();
     if(paths != null) {
       for(Path p : paths) {
-        if (GraphCache.edges.containsKey(p)) {
-          edges.add(GraphCache.edges.get(p));
+        if (_cache.getEdge(p) != null) {
+          edges.add(_cache.getEdge(p));
         } else {
           CatanNode start;
-          if(GraphCache.nodes.containsKey(p.getStart())) {
-             start = GraphCache.nodes.get(p.getStart());
+          if (_cache.getNode(p.getStart()) != null) {
+             start = _cache.getNode(p.getStart());
           } else {
-            start = new CatanNode(p.getStart());
-            GraphCache.nodes.put(p.getStart(), start);
+            start = new CatanNode(p.getStart(), _cache);
+            _cache.addNode(p.getStart(), start);
           }
           CatanNode end;
-          if(GraphCache.nodes.containsKey(p.getEnd())) {
-            end = GraphCache.nodes.get(p.getEnd());
+          if(_cache.getNode(p.getEnd()) != null) {
+            end = _cache.getNode(p.getEnd());
          } else {
-           end = new CatanNode(p.getEnd());
-           GraphCache.nodes.put(p.getEnd(), end);
+           end = new CatanNode(p.getEnd(), _cache);
+           _cache.addNode(p.getEnd(), end);
          }
           CatanEdge toAdd = new CatanEdge(start, end, p, 1.0);
-          GraphCache.edges.put(p, toAdd);
+          _cache.addEdge(p, toAdd);
           edges.add(toAdd);
         }
       }

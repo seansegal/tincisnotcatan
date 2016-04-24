@@ -23,8 +23,9 @@ public class CatanEdgeTest {
     Intersection end = new Intersection(endIC);
 
     Path p = new Path(start, end);
-    Node<Path, Intersection> cn = new CatanNode(start);
-    Node<Path, Intersection> cn2 = new CatanNode(end);
+    GraphCache cache = new GraphCache();
+    Node<Path, Intersection> cn = new CatanNode(start, cache);
+    Node<Path, Intersection> cn2 = new CatanNode(end, cache);
 
     CatanEdge ce = new CatanEdge(cn, cn2, p, 1.0);
 
@@ -62,11 +63,11 @@ public class CatanEdgeTest {
 
     Path p = new Path(start, end);
     Path p2 = new Path(end2, start2);
-
-    Node<Path, Intersection> cn = new CatanNode(start);
-    Node<Path, Intersection> cn2 = new CatanNode(end);
-    Node<Path, Intersection> cn3 = new CatanNode(end2);
-    Node<Path, Intersection> cn4 = new CatanNode(start2);
+    GraphCache cache = new GraphCache();
+    Node<Path, Intersection> cn = new CatanNode(start, cache);
+    Node<Path, Intersection> cn2 = new CatanNode(end, cache);
+    Node<Path, Intersection> cn3 = new CatanNode(end2, cache);
+    Node<Path, Intersection> cn4 = new CatanNode(start2, cache);
 
     CatanEdge ce = new CatanEdge(cn, cn2, p, 1.0);
     CatanEdge ce2 = new CatanEdge(cn3, cn4, p2, 1.0);
@@ -91,10 +92,10 @@ public class CatanEdgeTest {
     IntersectionCoordinate endIC = new IntersectionCoordinate(h4, h5, h6);
     Intersection start = new Intersection(startIC);
     Intersection end = new Intersection(endIC);
-
+    GraphCache cache = new GraphCache();
     Path p = new Path(start, end);
-    Node<Path, Intersection> cn = new CatanNode(start);
-    Node<Path, Intersection> cn2 = new CatanNode(end);
+    Node<Path, Intersection> cn = new CatanNode(start, cache);
+    Node<Path, Intersection> cn2 = new CatanNode(end, cache);
 
     CatanEdge ce = new CatanEdge(cn, cn2, p, 1.0);
 
@@ -129,11 +130,11 @@ public class CatanEdgeTest {
 
     Path p = new Path(start, end);
     Path p2 = new Path(end2, start2);
-
-    Node<Path, Intersection> cn = new CatanNode(start);
-    Node<Path, Intersection> cn2 = new CatanNode(end);
-    Node<Path, Intersection> cn3 = new CatanNode(end2);
-    Node<Path, Intersection> cn4 = new CatanNode(start2);
+    GraphCache cache = new GraphCache();
+    Node<Path, Intersection> cn = new CatanNode(start, cache);
+    Node<Path, Intersection> cn2 = new CatanNode(end, cache);
+    Node<Path, Intersection> cn3 = new CatanNode(end2, cache);
+    Node<Path, Intersection> cn4 = new CatanNode(start2, cache);
 
     CatanEdge ce = new CatanEdge(cn, cn2, p, 1.0);
     CatanEdge ce2 = new CatanEdge(cn3, cn4, p2, 1.0);

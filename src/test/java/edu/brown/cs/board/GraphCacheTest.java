@@ -15,11 +15,11 @@ public class GraphCacheTest {
     HexCoordinate h3 = new HexCoordinate(0, 0, -1);
     IntersectionCoordinate i = new IntersectionCoordinate(h1, h2, h3);
     Intersection inter = new Intersection(i);
-
-    CatanNode cn = new CatanNode(inter);
-    GraphCache.nodes.put(inter, cn);
-    assertTrue(GraphCache.nodes.containsKey(inter));
-    assertTrue(GraphCache.nodes.get(inter).equals(cn));
+    GraphCache cache = new GraphCache();
+    CatanNode cn = new CatanNode(inter, cache);
+    cache.addNode(inter, cn);
+    assertTrue(cache.getNode(inter) != null);
+    assertTrue(cache.getNode(inter).equals(cn));
   }
 
   @Test
@@ -35,15 +35,15 @@ public class GraphCacheTest {
     IntersectionCoordinate endIC = new IntersectionCoordinate(h4, h5, h6);
     Intersection start = new Intersection(startIC);
     Intersection end = new Intersection(endIC);
-
+    GraphCache cache = new GraphCache();
     Path p = new Path(start, end);
-    Node<Path, Intersection> cn = new CatanNode(start);
-    Node<Path, Intersection> cn2 = new CatanNode(end);
+    Node<Path, Intersection> cn = new CatanNode(start, cache);
+    Node<Path, Intersection> cn2 = new CatanNode(end, cache);
 
     CatanEdge ce = new CatanEdge(cn, cn2, p, 1.0);
-    GraphCache.edges.put(p, ce);
-    assertTrue(GraphCache.edges.containsKey(p));
-    assertTrue(GraphCache.edges.get(p).equals(ce));
+    cache.addEdge(p, ce);
+    assertTrue(cache.getEdge(p) != null);
+    assertTrue(cache.getEdge(p).equals(ce));
   }
 
 }

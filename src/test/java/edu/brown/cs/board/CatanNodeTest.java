@@ -15,8 +15,8 @@ public class CatanNodeTest {
     HexCoordinate h3 = new HexCoordinate(0, 0, -1);
     IntersectionCoordinate i = new IntersectionCoordinate(h1, h2, h3);
     Intersection inter = new Intersection(i);
-
-    CatanNode cn = new CatanNode(inter);
+    GraphCache cache = new GraphCache();
+    CatanNode cn = new CatanNode(inter, cache);
     assertTrue(cn != null);
     assertTrue(cn.getData().equals(inter));
   }
@@ -34,10 +34,10 @@ public class CatanNodeTest {
     IntersectionCoordinate endIC = new IntersectionCoordinate(h4, h5, h6);
     Intersection start = new Intersection(startIC);
     Intersection end = new Intersection(endIC);
-
+    GraphCache cache = new GraphCache();
     Path p = new Path(start, end);
-    Node<Path, Intersection> cn = new CatanNode(start);
-    Node<Path, Intersection> cn2 = new CatanNode(end);
+    Node<Path, Intersection> cn = new CatanNode(start, cache);
+    Node<Path, Intersection> cn2 = new CatanNode(end, cache);
 
     assertTrue(cn.getEdges() != null);
     assertTrue(cn.getEdges().size() == 1);
@@ -60,9 +60,9 @@ public class CatanNodeTest {
     IntersectionCoordinate ic2 = new IntersectionCoordinate(m1, m2, m3);
     Intersection inter = new Intersection(ic1);
     Intersection inter2 = new Intersection(ic2);
-
-    Node<Path, Intersection> cn = new CatanNode(inter);
-    Node<Path, Intersection> cn2 = new CatanNode(inter2);
+    GraphCache cache = new GraphCache();
+    Node<Path, Intersection> cn = new CatanNode(inter, cache);
+    Node<Path, Intersection> cn2 = new CatanNode(inter2, cache);
 
     assertTrue(cn.equals(cn2));
 
@@ -81,9 +81,9 @@ public class CatanNodeTest {
     IntersectionCoordinate ic2 = new IntersectionCoordinate(m1, m2, m3);
     Intersection inter = new Intersection(ic1);
     Intersection inter2 = new Intersection(ic2);
-
-    Node<Path, Intersection> cn = new CatanNode(inter);
-    Node<Path, Intersection> cn2 = new CatanNode(inter2);
+    GraphCache cache = new GraphCache();
+    Node<Path, Intersection> cn = new CatanNode(inter, cache);
+    Node<Path, Intersection> cn2 = new CatanNode(inter2, cache);
 
     assertTrue(cn.hashCode() == cn2.hashCode());
     assertTrue(cn.hashCode() == cn.hashCode());
