@@ -3,8 +3,11 @@ package edu.brown.cs.board;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+
+import edu.brown.cs.catan.Resource;
 
 public class Tile implements BoardTile {
   private final Collection<Intersection> _intersections;
@@ -184,11 +187,30 @@ public class Tile implements BoardTile {
     return _type;
   }
 
-  public void notifyIntersections() {
+  public Map<Integer, Map<Resource, Integer>> notifyIntersections() {
+    Map<Integer, Map<Resource, Integer>> playerResourceCount = new HashMap<Integer, Map<Resource, Integer>>();
     assert (_type.getType() != null);
     for (Intersection i : _intersections) {
-      i.notifyBuilding(_type.getType());
+      Map<Integer, Map<Resource, Integer>> fromInter = i.notifyBuilding(_type
+          .getType());
+      for (int playerID : fromInter.keySet()) {
+        if (!playerResourceCount.containsKey(playerID)) {
+          playerResourceCount.put(playerID, new HashMap<Resource, Integer>());
+        }
+        Map<Resource, Integer> resourceCount = fromInter.get(playerID);
+        Map<Resource, Integer> playerCount = playerResourceCount.get(playerID);
+        for(Resource res : resourceCount.keySet()) {
+          if (playerCount.containsKey(res)) {
+            playerCount.replace(res,
+                playerCount.get(res) + resourceCount.get(res));
+          } else {
+            playerCount.put(res, resourceCount.get(res));
+          }
+        }
+      }
     }
+
+    return playerResourceCount;
   }
 
   public void setPorts(Port p) {

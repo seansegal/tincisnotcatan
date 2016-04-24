@@ -143,8 +143,10 @@ public class CatanConverter {
     }
 
     @Override
-    public void collectResource(Resource resource) {
+    public Map<Integer, Map<Resource, Integer>> collectResource(
+        Resource resource) {
       assert false; // Should never be called!
+      return null;
     }
 
     @Override
