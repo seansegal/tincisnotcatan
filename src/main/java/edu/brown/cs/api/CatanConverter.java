@@ -29,6 +29,15 @@ public class CatanConverter {
 
   private Gson _gson;
 
+  public CatanSettings getSettings(String settings) {
+    try {
+      return _gson.fromJson(settings, CatanSettings.class);
+    } catch (Exception e) { // TODO: change to something better?
+      throw new IllegalArgumentException("Could not parse settings JSON.");
+    }
+
+  }
+
   public CatanConverter() {
     _gson = new Gson();
   }
@@ -77,7 +86,26 @@ public class CatanConverter {
     }
   }
 
-  public static class Hand {
+  public static class CatanSettings {
+    private final int numPlayers;
+    private final boolean decimal;
+
+    public CatanSettings(int numPlayers, boolean decimal) {
+      this.numPlayers = numPlayers;
+      this.decimal = decimal;
+    }
+
+    public int getNumPlayers() {
+      return numPlayers;
+    }
+
+    public boolean isDecimal() {
+      return decimal;
+    }
+
+  }
+
+  private static class Hand {
     private final Map<Resource, Double> resources;
     private final Map<DevelopmentCard, Integer> devCards;
 
