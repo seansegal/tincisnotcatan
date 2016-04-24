@@ -30,11 +30,6 @@ class SessionGroup implements Timestamped {
     this.size = size;
     this.timestamp = System.currentTimeMillis();
     this.id = id;
-    // for(Method m : CatanAPI.class.getMethods()) {
-    // System.out.println(m);
-    // System.out.println(m.getParameterCount());
-    // System.out.println(m.getParameters());
-    // }
   }
 
 
