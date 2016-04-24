@@ -11,10 +11,7 @@
         		<button id="send">Send</button>
     		</div>
     		<!-- Probably not needed <ul id="userList"></ul> -->
-    		<div id="chat">    <!-- Built by JS --> </div>
-    		<div id="testActions">
-    			<button id="fireAction">Action!</button>
-    		</div>
+    		<div id="chat"> <!-- Built by JS --> </div>
 		</div>
 	</div>
 	<div class="col-xs-6"></div>
@@ -341,37 +338,85 @@
 		<ul class="nav navbar-nav navbar-right" id="hand-dev-cards">
 			<li class="navbar-btn">
 				<div class="circle card-circle">
-					<img src="images/icon-knight.svg" alt="Knight">
+					<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Knight" data-content="When you play this card, you move the robber and steal a resource from the owner of an adjacent settlement or city.">
+						<img src="images/icon-knight.svg" alt="Knight">
+					</div>
 				</div>
-				<div class="card-number">1.05</div>
+				<div class="card-number">1</div>
+			</li>
+			<li class="navbar-btn">
+				<div class="circle card-circle" data-toggle="modal" data-target="#year-of-plenty-modal">
+					<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Year of Plenty" data-content="When you play this card, you can select 2 resources of your choice from the bank.">
+						<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
+					</div>
+				</div>
+				<div class="card-number">1</div>
+			</li>
+			<li class="navbar-btn">
+				<div class="circle card-circle" data-toggle="modal" data-target="#monopoly-modal">
+					<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Monopoly" data-content="When you play this card, choose one type of resource. All other players must give you all their resource cards of that type.">
+						<img src="images/icon-monopoly.svg" alt="Monopoly">
+					</div>
+				</div>
+				<div class="card-number">1</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle">
-					<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
+					<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Road Building" data-content="When you play this card, you can build 2 roads free of charge.">
+						<img src="images/icon-road-building.svg" alt="Road Building">
+					</div>
 				</div>
-				<div class="card-number">1.05</div>
+				<div class="card-number">1</div>
 			</li>
 			<li class="navbar-btn">
 				<div class="circle card-circle">
-					<img src="images/icon-monopoly.svg" alt="Monopoly">
+					<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Victory Point" data-content="You obtain an extra Victory Point with this card, which will remain hidden to other players until the end of the game.">
+						<img src="images/icon-victory-point.svg" alt="Victory Point">
+					</div>
 				</div>
-				<div class="card-number">1.05</div>
-			</li>
-			<li class="navbar-btn">
-				<div class="circle card-circle">
-					<img src="images/icon-road-building.svg" alt="Road Building">
-				</div>
-				<div class="card-number">1.05</div>
-			</li>
-			<li class="navbar-btn">
-				<div class="circle card-circle">
-					<img src="images/icon-victory-point.svg" alt="Victory Point">
-				</div>
-				<div class="card-number">1.05</div>
+				<div class="card-number">1</div>
 			</li>
 		</ul>
 	</div>
 	<div class="col-xs-3"></div>
+</div>
+
+<!-- Modals -->
+
+<div class="modal fade" id="year-of-plenty-modal" tabindex="-1" role="dialog" aria-labelledby="yearOfPlentyLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="yearOfPlentyLabel">Play Year of Plenty</h4>
+      		</div>
+      		<div class="modal-body">
+       		 ...
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-primary">Save changes</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="monopoly-modal" tabindex="-1" role="dialog" aria-labelledby="myMonopolyLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="myMonopolyLabel">Play Monopoly</h4>
+      		</div>
+      		<div class="modal-body">
+       		 ...
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-primary">Save changes</button>
+      		</div>
+    	</div>
+	</div>
 </div>
 
 </#assign>

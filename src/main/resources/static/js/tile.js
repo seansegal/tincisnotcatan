@@ -149,7 +149,7 @@ function hexToCartesian(hexCoordinates) {
 }
 
 function parseHexCoordinates(hexCoordinates) {
-	return {x: hexCoordinates._x, y: hexCoordinates._y, z: hexCoordinates._z};
+	return {x: hexCoordinates.x, y: hexCoordinates.y, z: hexCoordinates.z};
 }
 
 

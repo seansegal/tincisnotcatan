@@ -3,6 +3,8 @@ package edu.brown.cs.api;
 import java.util.Map;
 
 import edu.brown.cs.actions.ActionResponse;
+import edu.brown.cs.api.CatanConverter.CatanSettings;
+import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.TestReferee;
 
@@ -22,9 +24,10 @@ public class CatanAPI {
   }
 
   public CatanAPI(String settings) {
-    // TODO: parse and set settings
-    _referee = new TestReferee();
     _converter = new CatanConverter();
+    CatanSettings catanSettings = _converter.getSettings(settings);
+    // TODO: use settings for number of players etc.
+    _referee = new MasterReferee();
   }
 
   public String getGameState(int playerID) {
