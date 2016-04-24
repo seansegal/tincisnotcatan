@@ -5,7 +5,10 @@ var actionSocket = new WebSocket("ws://" + location.hostname + ":" + location.po
 webSocket.onmessage = function (msg) { updateChat(msg); };
 // when we get a closed connection from the server, we execute the following:
 // webSocket.onclose = function () { alert("WebSocket connection closed") };
-// webSocket.onopen = function () {alert("Websocket Connection opened")};
+actionSocket.onopen = function () {
+    sendGetPlayersAction();
+    sendGetBoardAction();
+};
 
 actionSocket.onmessage = function (msg) {
     var data = JSON.parse(msg.data);
@@ -15,10 +18,23 @@ actionSocket.onmessage = function (msg) {
         handleGetBoard(data.getBoard);
     } else if (data.hasOwnProperty("getPlayers")) {
         handleGetPlayers(data.getPlayers);
+    } else if (data.hasOwnProperty("getGameState")) {
+        handleGetGameState();
     }
 };
 
+function sendGetBoardAction() {
+    var playersReq = {"action": "getBoard"};
+    actionSocket.send(JSON.stringify(playersReq));
+}
+
+function sendGetPlayersAction() {
+    var playersReq = {"action": "getPlayers"};
+    actionSocket.send(JSON.stringify(playersReq));
+}
+
 function handleGetBoard(boardData) {
+    board = new Board();
     board.createBoard(boardData);
     board.draw();
 }
@@ -32,17 +48,13 @@ function handleGetPlayers(playersData) {
     }
 }
 
+function handleGetGameState(gameStateData) {
+
+}
+
 //Send message if "Send" is clicked
 id("send").addEventListener("click", function () {
     sendMessage(id("message").value);
-});
-
-id("fireAction").addEventListener("click", function () {
-    var playersReq = {"action": "getPlayers"};
-    actionSocket.send(JSON.stringify(playersReq));
-
-	var boardReq = {"action" : "getBoard"};
-	actionSocket.send(JSON.stringify(boardReq));
 });
 
 //Send message if enter is pressed in the input field

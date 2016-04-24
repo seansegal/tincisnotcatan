@@ -39,8 +39,8 @@ function Intersection(coord1, coord2, coord3) {
 	
 	this.highlighted = false;
 	
-	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
 	$("#board-viewport").append("<div class='intersection-select circle' id='" + this.id + "-select'></div>");
+	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
 }
 
 Intersection.prototype.draw = function(transX, transY, scale) {
@@ -99,6 +99,11 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 	var x = transX + displacement.x * scale + Math.sqrt(3) * scale / 4 - size / 4 - 0.020 * scale;
 	var y = transY + displacement.y * scale + scale / 4 - size / 2;
 	
+	if (this.building === BUILDING.SETTLEMENT) {
+		x = x + 0.0075 * scale;
+		y = y + 0.015 * scale;
+	}
+
 	// Add selectable area to intersection
 	var select = $("#" + this.id + "-select");
 	select.css("transform", "translate(" + x + "px, " + y + "px)");
@@ -116,6 +121,13 @@ Intersection.prototype.addCity = function(player) {
 	this.player = player;
 }
 
+Intersection.prototype.createIntersectionClickHandler = function() {
+	var that = this;
+	return function(event) {
+		console.log(that.coordinates);
+	};
+}
+
 Intersection.prototype.highlight = function() {
 	if (!(this.highlighted)) {
 		this.highlighted = true;
@@ -123,12 +135,19 @@ Intersection.prototype.highlight = function() {
 		var select = $("#" + this.id + "-select");
 		select.addClass("highlighted");
 	
-		var that = this;
-		select.click(function() {
-			console.log(that.coordinates);
-		});
+		select.click(this.createIntersectionClickHandler());
+	}
+}
+
+Intersection.prototype.unHighlight = function() {
+	if (this.highlighted) {
+		this.highlighted = false;
 		
-		this.draw();	
+		var select = $("#" + this.id + "-select");
+		select.removeClass("highlighted");
+	
+		var that = this;
+		select.off("click");
 	}
 }
 
@@ -142,18 +161,42 @@ findCenter = function(c1, c2, c3) {
 
 function parseIntersection(data) {
 	var position = data.coordinate;
-	var intersect = new Intersection(parseHexCoordinates(position._coord1),
-			parseHexCoordinates(position._coord2),
-			parseHexCoordinates(position._coord3))
+	var intersect = new Intersection(parseHexCoordinates(position.coord1),
+			parseHexCoordinates(position.coord2),
+			parseHexCoordinates(position.coord3))
 
 	if (data.hasOwnProperty("building")) {
+		var player = playersById[data.building.player];
 		if (data.building.type === "settlement") {
-			intersect.building = BUILDING.SETTLEMENT;
+			intersect.addSettlement(player);
 		} else if (data.building.type === "city") {
-			intersect.building = BUILDING.CITY;
+			intersect.addCity(player);
 		}
+	}
 
-		intersect.player = playersById[data.building.player];
+	if (data.hasOwnProperty("port")) {
+		switch (data.port._resource) {
+			case "BRICK":
+				this.port = PORT.BRICK;
+				break;
+			case "WOOD":
+				this.port = PORT.WOOD;
+				break;
+			case "ORE":
+				this.port = PORT.ORE;
+				break;
+			case "WHEAT":
+				this.port = PORT.WHEAT;
+				break;
+			case "SHEEP":
+				this.port = PORT.SHEEP;
+				break;
+			case "WILDCARD":
+				this.port = PORT.WILDCARD;
+				break;
+			default:
+				break;
+		}
 	}
 
 	return intersect;
