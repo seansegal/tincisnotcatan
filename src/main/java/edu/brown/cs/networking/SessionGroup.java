@@ -20,7 +20,8 @@ class SessionGroup implements Timestamped {
   private int            size;
   private long           timestamp;
   private String         id;
-  private Map<Session, Integer> sessionIDs;
+  private Map<Session, Integer> intForSession;
+  private Map<Integer, Session> sessionForInt;
 
   private final Gson     GSON = new Gson();
   private final CatanAPI api;
@@ -30,7 +31,8 @@ class SessionGroup implements Timestamped {
   public SessionGroup(int size, String id) {
     api = new CatanAPI();
     sessions = new ArrayList<>();
-    sessionIDs = new HashMap<>();
+    intForSession = new HashMap<>();
+    sessionForInt = new HashMap<>();
     this.size = size;
     this.timestamp = System.currentTimeMillis();
     this.id = id;
@@ -53,7 +55,8 @@ class SessionGroup implements Timestamped {
       System.out.format("Session %s was added to SessionGroup %s%n",
           s.getLocalAddress(), id);
       // TODO: Add player attributes here.
-      sessionIDs.put(s, api.addPlayer(""));
+      intForSession.put(s, api.addPlayer(""));
+      sessionForInt.put(intForSession.get(s), s);
       return sessions.add(s);
     }
     System.out.format("Session %s was not added to %s, it is full%n", s, id);
@@ -130,12 +133,17 @@ class SessionGroup implements Timestamped {
           Broadcast.toSession(s, toSend.toString());
           break;
         case "getGameState" :
-          toRet = GSON.fromJson(api.getGameState(sessionIDs.get(s)), Map.class);
+          toRet = GSON.fromJson(api.getGameState(intForSession.get(s)), Map.class);
           toSend.put("content", toRet);
           Broadcast.toSession(s, toSend.toString());
           break;
         case "performAction" :
           // TODO: see how hans sends this info over, react accordingly.
+          Map<Integer, String> resp = api.performAction((String) map.get("content"));
+          for(Integer i : resp.keySet()) {
+            toSend.put("content", resp.get(i));
+            Broadcast.toSession(sessionForInt.get(i), toSend.toString());
+          }
           break;
         default:
           throw new IllegalArgumentException(
