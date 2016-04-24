@@ -16,9 +16,15 @@ import spark.template.freemarker.FreeMarkerEngine;
 
 public class Main {
 
+  private static final int NUM_THREADS = 8;
+  private static final int MIN_THREADS = 2;
+  private static final int TIMEOUT = 3600000;
+
+
   public static void main(String[] args) {
     Spark.externalStaticFileLocation("src/main/resources/static");
     Spark.port(getHerokuAssignedPort());
+    Spark.threadPool(NUM_THREADS, MIN_THREADS, TIMEOUT);
     // secure("", "", "", ""); // use this for https!
     GCT.getInstance();
 
@@ -37,6 +43,7 @@ public class Main {
     Spark.get("/board", new BoardHandler(), freeMarker);
 
     // secure("", "", "", ""); // use this for https!
+
     Spark.init();
 
   }

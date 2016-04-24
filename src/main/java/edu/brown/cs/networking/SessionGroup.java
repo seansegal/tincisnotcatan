@@ -134,6 +134,9 @@ class SessionGroup implements Timestamped {
           toSend.put("content", toRet);
           Broadcast.toSession(s, toSend.toString());
           break;
+        case "performAction" :
+          // TODO: see how hans sends this info over, react accordingly.
+          break;
         default:
           throw new IllegalArgumentException(
               "Unsupported action : " + methodName);
