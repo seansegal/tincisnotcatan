@@ -284,7 +284,7 @@
 	z-index: 7;
 }
 
-.road {
+.path {
 	position: absolute;
 	border-radius: 5px;
 	border-left: 1px solid black;
@@ -293,5 +293,19 @@
 }
 
 .highlighted {
-	background-color: rgba(255, 255, 0, 0.5);
+/*	animation-duration: 1s;
+	animation-name: highlight-pulse;
+	animation-direction: alternate;
+	animation-iteration-count: infinite;*/
+	background: radial-gradient(closest-side, rgba(255,255,0,1), rgba(255,255,0,0.5) 65%, rgba(255,255,255,0) 100%);
 }
+
+/*@keyframes highlight-pulse {
+	0% {
+		background: rgba(255,255,0,0.75);
+	}
+
+	100% {
+		background: none;
+	}
+}*/

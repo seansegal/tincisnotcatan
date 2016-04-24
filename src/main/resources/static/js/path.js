@@ -1,7 +1,7 @@
 var ROAD_WIDTH_SCALE = 0.055;
 var ROAD_LENGTH_SCALE = 0.95;
 
-function Road(start1, start2, start3, end1, end2, end3) {
+function Path(start1, start2, start3, end1, end2, end3) {
 	// Force start to be leftmost intersection and end to be rightmost intersection
 	var first = findCenter(start1, start2, start3);
 	var second = findCenter(end1, end2, end3);
@@ -13,15 +13,15 @@ function Road(start1, start2, start3, end1, end2, end3) {
 		this.end = first;
 	}
 
-	this.id = ("road-x-" + this.start.x + "y-" + this.start.y + "z-" + this.start.z
+	this.id = ("path-x-" + this.start.x + "y-" + this.start.y + "z-" + this.start.z
 				+ "-to-x-" + this.end.x + "y-" + this.end.y + "z-" + this.end.z).replace(/[.]/g, "_");
 	this.containsRoad = false;
 	this.player = null;
 	
-	$("#board-viewport").append("<div class='road' id='" + this.id + "'></div>");
+	$("#board-viewport").append("<div class='path' id='" + this.id + "'></div>");
 }
 
-Road.prototype.draw = function(transX, transY, scale) {
+Path.prototype.draw = function(transX, transY, scale) {
 	if (this.containsRoad) {
 		// Move road to correct section of board
 		var cartesianStart = hexToCartesian(this.start);
@@ -71,7 +71,21 @@ Road.prototype.draw = function(transX, transY, scale) {
 	}
 }
 
-Road.prototype.addRoad = function(player) {
+Path.prototype.addRoad = function(player) {
 	this.containsRoad = true;
 	this.player = player;
+}
+
+function parsePath(pathData) {
+	var start = pathData.start;
+	var end = pathData.end;
+	var path = new Path(parseHexCoordinates(start.coord1), parseHexCoordinates(start.coord2),
+			parseHexCoordinates(start.coord3), parseHexCoordinates(end.coord1),
+			parseHexCoordinates(end.coord2), parseHexCoordinates(end.coord3));
+
+	if (pathData.hasOwnProperty("road")) {
+		path.addRoad(playersById[pathData.road.player]);
+	}
+
+	return path;
 }

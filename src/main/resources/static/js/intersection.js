@@ -116,6 +116,10 @@ Intersection.prototype.addCity = function(player) {
 	this.player = player;
 }
 
+Intersection.prototype.handleIntersectionClick = function(event) {
+	console.log(this.coordinates);
+}
+
 Intersection.prototype.highlight = function() {
 	if (!(this.highlighted)) {
 		this.highlighted = true;
@@ -123,10 +127,21 @@ Intersection.prototype.highlight = function() {
 		var select = $("#" + this.id + "-select");
 		select.addClass("highlighted");
 	
+		select.click(this.handleIntersectionClick);
+		
+		this.draw();	
+	}
+}
+
+Intersection.prototype.unHighlight = function() {
+	if (this.highlighted) {
+		this.highlighted = false;
+		
+		var select = $("#" + this.id + "-select");
+		select.removeClass("highlighted");
+	
 		var that = this;
-		select.click(function() {
-			console.log(that.coordinates);
-		});
+		select.off("click", this.handleIntersectionClick);
 		
 		this.draw();	
 	}
@@ -142,18 +157,42 @@ findCenter = function(c1, c2, c3) {
 
 function parseIntersection(data) {
 	var position = data.coordinate;
-	var intersect = new Intersection(parseHexCoordinates(position._coord1),
-			parseHexCoordinates(position._coord2),
-			parseHexCoordinates(position._coord3))
+	var intersect = new Intersection(parseHexCoordinates(position.coord1),
+			parseHexCoordinates(position.coord2),
+			parseHexCoordinates(position.coord3))
 
 	if (data.hasOwnProperty("building")) {
+		var player = playersById[data.building.player];
 		if (data.building.type === "settlement") {
-			intersect.building = BUILDING.SETTLEMENT;
+			intersect.addSettlement(player);
 		} else if (data.building.type === "city") {
-			intersect.building = BUILDING.CITY;
+			intersect.addCity(player);
 		}
+	}
 
-		intersect.player = playersById[data.building.player];
+	if (data.hasOwnProperty("port")) {
+		switch (data.port._resource) {
+			case "BRICK":
+				this.port = PORT.BRICK;
+				break;
+			case "WOOD":
+				this.port = PORT.WOOD;
+				break;
+			case "ORE":
+				this.port = PORT.ORE;
+				break;
+			case "WHEAT":
+				this.port = PORT.WHEAT;
+				break;
+			case "SHEEP":
+				this.port = PORT.SHEEP;
+				break;
+			case "WILDCARD":
+				this.port = PORT.WILDCARD;
+				break;
+			default:
+				break;
+		}
 	}
 
 	return intersect;

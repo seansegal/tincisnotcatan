@@ -9,7 +9,7 @@ function Board() {
 
 	this.tiles = [];
 	this.intersections = [];
-	this.roads = [];
+	this.paths = [];
 }
 
 Board.prototype.translate = function(deltaX, deltaY) {
@@ -47,8 +47,8 @@ Board.prototype.draw = function() {
 		this.intersections[i].draw(this.transX, this.transY, this.scaleFactor);
 	}
 	
-	for (var i = 0; i < this.roads.length; i++) {
-		this.roads[i].draw(this.transX, this.transY, this.scaleFactor);
+	for (var i = 0; i < this.paths.length; i++) {
+		this.paths[i].draw(this.transX, this.transY, this.scaleFactor);
 	}
 }
 
@@ -60,8 +60,8 @@ Board.prototype.addIntersection = function(intersection) {
 	this.intersections.push(intersection);
 }
 
-Board.prototype.addRoad = function(s1, s2, s3, e1, e2, e3) {
-	this.roads.push(new Road(s1, s2, s3, e1, e2, e3));
+Board.prototype.addPath = function(path) {
+	this.paths.push(path);
 }
 
 Board.prototype.createBoard = function(boardData) {
@@ -79,10 +79,6 @@ Board.prototype.createBoard = function(boardData) {
 	}
 
 	for (var i = 0; i < paths.length; i++) {
-		var start = paths[i]._start._position;
-		var end = paths[i]._end._position;
-		this.addRoad(parseHexCoordinates(start._coord1), parseHexCoordinates(start._coord2),
-				parseHexCoordinates(start._coord3), parseHexCoordinates(end._coord1),
-				parseHexCoordinates(end._coord2), parseHexCoordinates(end._coord3));
+		this.addPath(parsePath(paths[i]));
 	}
 }

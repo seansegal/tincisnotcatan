@@ -5,7 +5,9 @@ var playersById = {};
 $(window).load(function() {
 	board = new Board();
 
-	redrawCatan();
+    $(function () {
+  		$('[data-toggle="popover"]').popover()
+	});
 });
 
 function redrawCatan() {
@@ -48,12 +50,37 @@ $(document).on("wheel", "#board-viewport", function(event) {
 	board.scale(deltaScale);
 });
 
-$("#settlement-build-btn").click(function() {
+function onSettlementBuild(event) {
+	var btnElement = $(event.target);
+	btnElement.off("click", onSettlementBuild);
+	btnElement.click(onSettlementBuildCancel);
+
+	btnElement.removeClass("btn-default");
+	btnElement.addClass("btn-danger");
+	btnElement.val("Cancel Build");
+
 	board.intersections[5].highlight();
 	board.intersections[11].highlight();
 	board.intersections[21].highlight();
 	board.intersections[15].highlight();
-});
+}
+
+function onSettlementBuildCancel(event) {
+	var btnElement = $(event.target);
+	btnElement.off("click", onSettlementBuildCancel);
+	btnElement.click(onSettlementBuild);
+
+	btnElement.removeClass("btn-danger");
+	btnElement.addClass("btn-default");
+	btnElement.val("Build Settlement");
+
+	board.intersections[5].unHighlight();
+	board.intersections[11].unHighlight();
+	board.intersections[21].unHighlight();
+	board.intersections[15].unHighlight();
+}
+
+$("#settlement-build-btn").click(onSettlementBuild);
 
 $("#city-build-btn").click(function() {
 	console.log("city clicked");
