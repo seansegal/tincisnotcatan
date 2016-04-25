@@ -6,7 +6,9 @@ import com.google.gson.JsonSyntaxException;
 
 import edu.brown.cs.actions.Action;
 import edu.brown.cs.actions.BuildCity;
+import edu.brown.cs.actions.BuildRoad;
 import edu.brown.cs.actions.BuildSettlement;
+import edu.brown.cs.actions.BuyDevelopmentCard;
 import edu.brown.cs.actions.EmptyAction;
 import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.board.HexCoordinate;
@@ -52,21 +54,26 @@ public class ActionFactory {
       case "buildSettlement":
         return new BuildSettlement(_referee, playerID,
             toIntersectionCoordinate(actionJSON.get("coordinate")
-                .getAsJsonObject()), false); // TODO: change so
-        // that referee says
-        // if they pay.
+                .getAsJsonObject()), false); // TODO: Referee
+      case "buildRoad":
+        IntersectionCoordinate start = toIntersectionCoordinate(actionJSON.get(
+            "start").getAsJsonObject());
+        IntersectionCoordinate end = toIntersectionCoordinate(actionJSON.get(
+            "end").getAsJsonObject());
+        return new BuildRoad(_referee, playerID, start, end, true);
+      case "buyDevCard":
+        return new BuyDevelopmentCard(_referee, playerID);
       case "rollDice":
         return new RollDice(_referee, playerID);
+
       default:
         String err = String.format("The action %s does not exist.", action);
         throw new IllegalArgumentException(err);
       }
-
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "The JSON is missing a required parameter. Check documentation for more information.");
     }
-
   }
 
   private IntersectionCoordinate toIntersectionCoordinate(JsonObject object) {

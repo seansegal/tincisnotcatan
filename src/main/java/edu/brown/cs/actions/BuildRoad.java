@@ -1,5 +1,6 @@
 package edu.brown.cs.actions;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import edu.brown.cs.board.Intersection;
@@ -52,6 +53,19 @@ public class BuildRoad implements Action {
     }
     _player.useRoad();
     _path.placeRoad(_player);
-    return null;
+
+    ActionResponse toPlayer = new ActionResponse(true, "You built a Road.", null);
+    String message = String.format("%s built a Road.", _player.getName());
+    ActionResponse toAll = new ActionResponse(true, message, null);
+    Map<Integer, ActionResponse> toReturn = new HashMap<>();
+    for(Player player: _ref.getPlayers()){
+      if(player.equals(_player)){
+        toReturn.put(player.getID(), toPlayer);
+      }
+      else{
+        toReturn.put(player.getID(), toAll);
+      }
+    }
+    return toReturn;
   }
 }

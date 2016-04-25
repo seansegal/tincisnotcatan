@@ -2,11 +2,10 @@ package edu.brown.cs.catan;
 
 public enum DevelopmentCard {
 
-  KNIGHT( "Knight", "Move the robber. Steal 1 resource card from the owner of an adjacent settlement or city."),
-  YEAR_OF_PLENTY( "Year of Plenty", "Take any 2 resource cards from the band and add them to your hand."),
-  MONOPOLY( "Monopoly", "When you play this card, announce one type of resource. All other players must give you all their resource cards of that type."),
-  POINT( "Victory Point", "1 Victory Point!"),
-  ROAD_BUILDING("Road Building", "Build 2 new roads.");
+  KNIGHT("Knight", "a Knight"), YEAR_OF_PLENTY("Year of Plenty",
+      "Year of Plenty"), MONOPOLY("Monopoly", "Monopoly"), POINT(
+      "Victory Point", "a Victory Point."), ROAD_BUILDING("Road Building",
+      "Road Building");
 
   private final String name;
   private final String description;
@@ -16,7 +15,7 @@ public enum DevelopmentCard {
     this.description = description;
   }
 
-  public String getDescription() {
+  public String toFancyString() {
     return this.description;
   }
 
