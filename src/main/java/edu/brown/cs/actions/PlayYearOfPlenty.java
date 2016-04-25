@@ -3,6 +3,7 @@ package edu.brown.cs.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -13,12 +14,14 @@ public class PlayYearOfPlenty implements Action {
   private Player _player;
   private Resource _firstRes;
   private Resource _secondRes;
+  private Bank _bank;
   
   public PlayYearOfPlenty(Referee ref, int playerID, Resource firstRes,
       Resource secondRes) {
     assert ref != null;
     _ref = ref;
     _player = _ref.getPlayerByID(playerID);
+    _bank = _ref.getBank();
     if (_player == null) {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
@@ -41,6 +44,9 @@ public class PlayYearOfPlenty implements Action {
 
     _player.addResource(_firstRes);
     _player.addResource(_secondRes);
+    // Update Bank stats
+    _bank.getResource(_firstRes);
+    _bank.getResource(_secondRes);
     String message = String.format("You gained a %1 and a %2.", _firstRes,
         _secondRes);
     ActionResponse toAdd = new ActionResponse(true, message,

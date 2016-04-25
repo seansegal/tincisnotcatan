@@ -19,6 +19,12 @@ public class SimpleBank implements Bank {
     int newVal = _supply.get(resource) + 1;
     _supply.put(resource, newVal);
   }
+  
+  @Override
+  public void getResource(Resource resource, int count) {
+    int newVal = _supply.get(resource) + count;
+    _supply.put(resource, newVal);
+  }
 
   @Override
   public void discardResource(Resource resource) {

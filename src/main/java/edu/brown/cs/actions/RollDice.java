@@ -7,6 +7,7 @@ import java.util.PrimitiveIterator;
 import java.util.Random;
 
 import edu.brown.cs.board.Tile;
+import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
@@ -15,11 +16,13 @@ public class RollDice implements Action {
 
   private Player _player;
   private Referee _ref;
+  private Bank _bank;
 
   public RollDice(Referee ref, int playerID) {
     assert ref != null;
     _ref = ref;
     _player = _ref.getPlayerByID(playerID);
+    _bank = _ref.getBank();
     if (_player == null) {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
@@ -38,10 +41,14 @@ public class RollDice implements Action {
 
     if (diceRoll != 7) {
       Collection<Tile> tiles = _ref.getBoard().getTiles();
+      // Iterate through tiles on the board
       for (Tile t : tiles) {
+        // If the tile matches the roll and does not have the robber
         if (t.getRollNumber() == diceRoll && !t.hasRobber()) {
+          // Find out who should collect what from the intersections
           Map<Integer, Map<Resource, Integer>> fromTile =
               t.notifyIntersections();
+          // Iterate through this and consolidate collections for each person
           for (int playerID : fromTile.keySet()) {
             if (!playerResourceCount.containsKey(playerID)) {
               playerResourceCount.put(playerID,
@@ -52,11 +59,17 @@ public class RollDice implements Action {
                 .get(playerID);
             for (Resource res : resourceCount.keySet()) {
               if (playerCount.containsKey(res)) {
+                // Update the count
                 playerCount.replace(res,
                     playerCount.get(res) + resourceCount.get(res));
               } else {
                 playerCount.put(res, resourceCount.get(res));
               }
+              // Make sure the player collects the resource
+              _ref.getPlayerByID(playerID).addResource(res,
+                  resourceCount.get(res));
+              // Update Bank stats
+              _bank.getResource(res, resourceCount.get(res));
             }
           }
         }

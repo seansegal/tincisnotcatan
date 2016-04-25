@@ -15,11 +15,6 @@ public class Settlement implements Building {
 
   @Override
   public Map<Integer, Map<Resource, Integer>> collectResource(Resource resource) {
-<<<<<<< HEAD
-=======
-    Action addCard = new AddCard(_player, resource);
-    addCard.execute(); //TODO: change and put in RollDice
->>>>>>> 39761352966c7526df05832110bc8f6bcd4d1b40
     Map<Resource, Integer> resourceCount = new HashMap<Resource, Integer>();
     resourceCount.put(resource, 1);
     Map<Integer, Map<Resource, Integer>> playerResource = new HashMap<Integer, Map<Resource, Integer>>();
