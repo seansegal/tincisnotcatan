@@ -344,3 +344,15 @@
 		background: none;
 	}
 }*/
+
+/* Modal stylings */
+.inline-circle {
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+}
+
+.inline-circle > img {
+	height: 100%;
+	width: 100%;
+}

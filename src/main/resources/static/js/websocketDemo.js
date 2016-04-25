@@ -42,6 +42,8 @@ function handleActionResponse(data) {
 	// add action handlers here!
 	case "buildSettlement":
     case "buildCity":
+    case "buildRoad":
+    case "buyDevCard":
     case "rollDice":
         addMessage(data.content.message);
         break;
@@ -73,6 +75,11 @@ function sendBuildCityAction(intersectCoordinates) {
 function sendBuildRoadAction(start, end) {
     var buildReq  = {requestType: "action", "action": "buildRoad"};
     webSocket.send(JSON.stringify(buildReq));
+}
+
+function sendBuyDevCardAction() {
+    var buyReq = {requestType: "action", "action": "buyDevCard"};
+    webSocket.send(JSON.stringify(buyReq));
 }
 
 function handleGetGameState(gameStateData) {

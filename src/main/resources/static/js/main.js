@@ -157,9 +157,7 @@ function onRoadBuildCancel(event) {
 
 $("#road-build-btn").click(onRoadBuild);
 
-$("#dev-card-build-btn").click(function() {
-	console.log("dev card clicked");
-});
+$("#dev-card-buy-btn").click(sendBuyDevCardAction);
 
 function addMessage(message) {
 	var container = $("#message-container");
@@ -171,3 +169,5 @@ function addMessage(message) {
 	container.append("<h5>" + message + "</h5>");
 
 }
+
+
