@@ -1,5 +1,6 @@
 package edu.brown.cs.actions;
 
+import java.util.Collections;
 import java.util.Map;
 
 import edu.brown.cs.catan.Player;
@@ -8,6 +9,7 @@ import edu.brown.cs.catan.Resource;
 public class AddCard implements Action {
   private Player _player;
   private Resource _resource;
+  //private Bank _bank;
 
   public AddCard(Player player, Resource resource) {
     _player = player;
@@ -21,6 +23,7 @@ public class AddCard implements Action {
   @Override
   public Map<Integer, ActionResponse> execute() {
     _player.addResource(_resource);
-    return null;
+    //_bank.getResource(_resource); // Bank keeps track of resources.
+    return Collections.emptyMap();
   }
 }

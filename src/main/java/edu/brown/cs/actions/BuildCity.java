@@ -1,5 +1,6 @@
 package edu.brown.cs.actions;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import edu.brown.cs.board.Intersection;
@@ -29,12 +30,22 @@ public class BuildCity implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    // TODO: add validation!!!
+    // TODO: Add validation
     _player.buildCity();
     _player.useCity();
     _intersection.placeCity(_player);
-    return null;
-
+    ActionResponse respToPlayer = new ActionResponse(true,
+        "Congratulations! You built a City!", null);
+    String message = String.format("%s built a City.", _player.getName());
+    ActionResponse respToAll = new ActionResponse(true, message, null);
+    Map<Integer, ActionResponse> toReturn = new HashMap<>();
+    for (Player player : _ref.getPlayers()) {
+      if (player.equals(_player)) {
+        toReturn.put(player.getID(), respToPlayer);
+      } else {
+        toReturn.put(player.getID(), respToAll);
+      }
+    }
+    return toReturn;
   }
-
 }

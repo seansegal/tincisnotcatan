@@ -106,7 +106,7 @@ public class IntersectionTest {
     HexCoordinate h3 = new HexCoordinate(0, 0, -1);
     IntersectionCoordinate i = new IntersectionCoordinate(h1, h2, h3);
     Intersection inter = new Intersection(i);
-    Player p = new HumanPlayer(1,"name", "000000");
+    Player p = new HumanPlayer(1, "name", "000000");
 
     assertTrue(inter.canPlaceSettlement());
     assertTrue(!inter.canPlaceCity(p));
