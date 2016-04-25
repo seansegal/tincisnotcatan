@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import edu.brown.cs.actions.Action;
+import edu.brown.cs.actions.BuildCity;
 import edu.brown.cs.actions.BuildSettlement;
 import edu.brown.cs.actions.EmptyAction;
 import edu.brown.cs.actions.RollDice;
@@ -44,23 +45,16 @@ public class ActionFactory {
       switch (action) {
       case "getInitialState":
         return new EmptyAction();
+      case "buildCity":
+        return new BuildCity(_referee, playerID,
+            toIntersectionCoordinate(actionJSON.get("coordinate")
+                .getAsJsonObject()));
       case "buildSettlement":
-        JsonObject coord1 = actionJSON.get("coordinate").getAsJsonObject()
-            .get("coord1").getAsJsonObject();
-        JsonObject coord2 = actionJSON.get("coordinate").getAsJsonObject()
-            .get("coord2").getAsJsonObject();
-        JsonObject coord3 = actionJSON.get("coordinate").getAsJsonObject()
-            .get("coord3").getAsJsonObject();
-        HexCoordinate h1 = new HexCoordinate(coord1.get("x").getAsInt(), coord1
-            .get("y").getAsInt(), coord1.get("z").getAsInt());
-        HexCoordinate h2 = new HexCoordinate(coord2.get("x").getAsInt(), coord2
-            .get("y").getAsInt(), coord2.get("z").getAsInt());
-        HexCoordinate h3 = new HexCoordinate(coord3.get("x").getAsInt(), coord3
-            .get("y").getAsInt(), coord3.get("z").getAsInt());
         return new BuildSettlement(_referee, playerID,
-            new IntersectionCoordinate(h1, h2, h3), false); // TODO: change so
-                                                            // that referee says
-                                                            // if they pay.
+            toIntersectionCoordinate(actionJSON.get("coordinate")
+                .getAsJsonObject()), false); // TODO: change so
+        // that referee says
+        // if they pay.
       case "rollDice":
         return new RollDice(_referee, playerID);
       default:
@@ -73,6 +67,19 @@ public class ActionFactory {
           "The JSON is missing a required parameter. Check documentation for more information.");
     }
 
+  }
+
+  private IntersectionCoordinate toIntersectionCoordinate(JsonObject object) {
+    JsonObject coord1 = object.get("coord1").getAsJsonObject();
+    JsonObject coord2 = object.get("coord2").getAsJsonObject();
+    JsonObject coord3 = object.get("coord3").getAsJsonObject();
+    HexCoordinate h1 = new HexCoordinate(coord1.get("x").getAsInt(), coord1
+        .get("y").getAsInt(), coord1.get("z").getAsInt());
+    HexCoordinate h2 = new HexCoordinate(coord2.get("x").getAsInt(), coord2
+        .get("y").getAsInt(), coord2.get("z").getAsInt());
+    HexCoordinate h3 = new HexCoordinate(coord3.get("x").getAsInt(), coord3
+        .get("y").getAsInt(), coord3.get("z").getAsInt());
+    return new IntersectionCoordinate(h1, h2, h3);
   }
 
 }
