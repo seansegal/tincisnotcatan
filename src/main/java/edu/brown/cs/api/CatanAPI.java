@@ -42,21 +42,6 @@ public class CatanAPI {
     return _converter.getGameState(_referee, playerID);
   }
 
-  @Deprecated
-  public String getBoard() {
-    return _converter.getBoard(_referee.getBoard());
-  }
-
-  @Deprecated
-  public String getHand(int playerID) {
-    return _converter.getHand(_referee.getPlayerByID(playerID));
-  }
-
-  @Deprecated
-  public String getPlayers() {
-    return _converter.getPlayers(_referee.getReadOnlyReferee());
-  }
-
   /**
    * Adds a player to a game of Catan. This should, and can, only be called
    * before a game has started. It is important that gameIsFull() is called
