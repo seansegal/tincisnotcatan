@@ -59,7 +59,7 @@ public class TestReferee extends MasterReferee {
     HexCoordinate s2 = new HexCoordinate(1, 0, 0);
     HexCoordinate s3 = new HexCoordinate(1, 1, 0);
     IntersectionCoordinate roadEnd5 = new IntersectionCoordinate(s1, s2, s3);
-    new BuildRoad(this, sean.getID(), inter5, roadEnd5, false).execute();
+    new BuildRoad(this, hans.getID(), inter5, roadEnd5, false).execute();
 
     HexCoordinate b1 = new HexCoordinate(1, -1, 0);
     HexCoordinate b2 = new HexCoordinate(1, 0, 0);
