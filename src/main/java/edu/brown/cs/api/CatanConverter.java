@@ -194,12 +194,14 @@ public class CatanConverter {
     private final BuildingRaw building;
     private final Port port;
     private final IntersectionCoordinate coordinate;
+    private final boolean canBuildSettlement;
 
     IntersectionRaw(Intersection i) {
       building = i.getBuilding() != null ? new BuildingRaw(i.getBuilding())
           : null;
       port = i.getPort();
       coordinate = i.getPosition();
+      canBuildSettlement = i.canPlaceSettlement();
     }
 
   }
