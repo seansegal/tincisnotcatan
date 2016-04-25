@@ -122,6 +122,7 @@ class SessionGroup implements Timestamped {
         continue;
       }
       json.add("content", resp.get(i));
+      json.add("player", GSON.toJsonTree(i));
       System.out.println(i);
       System.out.println(json.get("requestType").getAsString());
       Broadcast.toSession(recipient, json);
