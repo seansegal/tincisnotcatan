@@ -114,14 +114,14 @@ class SessionGroup implements Timestamped {
     } else {
       json.addProperty("ERROR", "No " + REQUEST_IDENTIFIER + " field specified");
     }
-    return Broadcast.toUser(u, json);
+    return u.message(json);
   }
 
 
   private boolean handleGetGameState(User<?> u) {
     JsonObject resp = api.getGameState(u.userID());
     resp.addProperty(REQUEST_IDENTIFIER, "getGameState");
-    return Broadcast.toUser(u, resp);
+    return u.message(resp);
   }
 
 
@@ -142,7 +142,7 @@ class SessionGroup implements Timestamped {
       json.add("player", GSON.toJsonTree(i));
       System.out.println(i);
       System.out.println(json.get(REQUEST_IDENTIFIER).getAsString());
-      Broadcast.toUser(recipient, json);
+      recipient.message(json);
       handleGetGameState(recipient);
     }
     return true;
@@ -150,11 +150,16 @@ class SessionGroup implements Timestamped {
 
 
   private boolean handleChatMessage(User<?> u, JsonObject json) {
-    Session s = u.session();
     System.out.println("Message processed : " + json.get("message"));
-    return Broadcast.toUsers(users,
-        Chat.createMessage(String.format("%s%n", u.getField("userName")),
-            json.get("message").getAsString(), userIds()));
+
+    JsonObject toSend = Chat.createMessage(String.format("%s%n", u.getField("userName")),
+        json.get("message").getAsString(), userIds());
+
+    boolean success = true;
+    for(User<?> other : users) {
+      success &= other.message(toSend);
+    }
+    return success;
 
   }
 
@@ -181,7 +186,7 @@ class SessionGroup implements Timestamped {
       // TODO: ERROR HANDLING
       json.addProperty("ERROR", "Bad register user.");
     }
-    return Broadcast.toUser(u, json); // indicate success by omitting ERROR
+    return u.message(json); // indicate success by omitting ERROR
                                       // field;
   }
 

@@ -1,8 +1,12 @@
 package edu.brown.cs.networking;
 
+import java.io.IOException;
+
 import org.eclipse.jetty.websocket.api.Session;
 
-class User<D extends UserData> {
+import com.google.gson.JsonObject;
+
+public final class User<D extends UserData> {
 
   private Session session;
   private D       data;
@@ -19,6 +23,19 @@ class User<D extends UserData> {
       assert false;
       e.printStackTrace();
     }
+  }
+
+  public boolean message(JsonObject json){
+    if (session().isOpen()) {
+      try {
+        session().getRemote().sendString(json.toString());
+        return true;
+      } catch (IOException e) {
+        System.out.format("Failed to send message to Session %s : %s%n",
+            userID(), json.toString());
+      }
+    }
+    return false;
   }
 
 
