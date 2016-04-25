@@ -150,7 +150,7 @@ class SessionGroup implements Timestamped {
         toSend.put("content", resp.get(i));
         System.out.println(i);
         Broadcast.toSession(sessionForInt.get(i), toSend.toString());
-        Broadcast.toSession(s, api.getGameState(i));
+        handleGetGameState(sessionForInt.get(i), null);
       }
     } catch (JSONException j) {
       j.printStackTrace();
