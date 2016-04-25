@@ -9,38 +9,41 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 class Chat {
 
+  private static final Gson GSON = new Gson();
+
+
   private Chat() {}
 
-  public static JSONObject createMessage(String sender, String message, Collection<String> userIds) {
-    JSONObject toSend = new JSONObject();
-    try {
-      // build the values
-      toSend
-          .put("responseType", "chat")
-          .put("userMessage", createHtmlMessageFromSender(sender, message))
-          .put("userList", userIds);
-    } catch (JSONException e) {
-      System.out.println("JSON exception in broadcastMessage");
-      e.printStackTrace();
-    }
+
+  public static JsonObject createMessage(String sender, String message,
+      Collection<String> userIds) {
+    JsonObject toSend = new JsonObject();
+
+    // build the values
+    toSend.add("requestType", GSON.toJsonTree("chat"));
+    toSend.add("userMessage", createHtmlMessageFromSender(sender, message));
+    toSend.add("userList", GSON.toJsonTree(userIds));
+
     return toSend;
   }
 
 
   // Builds a HTML element with a sender-name, a message, and a timestamp,
-  private static String createHtmlMessageFromSender(String sender,
+  private static JsonElement createHtmlMessageFromSender(String sender,
       String message) {
-    return article().with(
-        b(sender + " says:"),
-        p(message),
-        span().withClass("timestamp")
-            .withText(new SimpleDateFormat("HH:mm:ss").format(new Date())))
-        .render();
+    return GSON.toJsonTree(
+        article()
+            .with(b(sender + " says:"), p(message),
+                span().withClass("timestamp")
+                    .withText(
+                        new SimpleDateFormat("HH:mm:ss").format(new Date())))
+            .render());
   }
 
 }
