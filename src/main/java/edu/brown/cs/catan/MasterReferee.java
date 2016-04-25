@@ -232,6 +232,11 @@ public class MasterReferee implements Referee {
     return _numFullPlayers == _players.size();
   }
 
+  @Override
+  public Bank getBank() {
+    return _bank;
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -350,6 +355,11 @@ public class MasterReferee implements Referee {
     @Override
     public boolean gameIsFull() {
       return _referee.gameIsFull();
+    }
+
+    @Override
+    public Bank getBank() {
+      return _referee.getBank();
     }
 
   }

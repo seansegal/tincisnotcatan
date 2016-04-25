@@ -48,4 +48,6 @@ public interface Referee {
 
   int getNumTotalPoints(int playerID);
 
+  Bank getBank();
+
 }
