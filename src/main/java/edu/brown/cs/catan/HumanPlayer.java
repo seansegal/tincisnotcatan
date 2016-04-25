@@ -65,7 +65,7 @@ public class HumanPlayer implements Player {
       assert result >= 0;
       resources.put(price.getKey(), result);
     }
-//    useRoad();
+    // useRoad();
   }
 
   @Override
@@ -77,7 +77,7 @@ public class HumanPlayer implements Player {
       assert result >= 0;
       resources.put(price.getKey(), result);
     }
-//    useSettlement();
+    // useSettlement();
 
   }
 
@@ -89,16 +89,29 @@ public class HumanPlayer implements Player {
       assert result >= 0;
       resources.put(price.getKey(), result);
     }
-//    useCity();
+    // useCity();
+  }
+
+  @Override
+  public boolean canBuyDevelopmentCard() {
+    // Pay for the development card:
+    for (Map.Entry<Resource, Double> price : Settings.DEV_COST.entrySet()) {
+      double result = resources.get(price.getKey()) - price.getValue();
+      if (result < 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
   public void buyDevelopmentCard() {
-    // Pay for the development card:
-    for (Map.Entry<Resource, Double> price : Settings.DEV_COST.entrySet()) {
-      double result = resources.get(price.getKey()) - price.getValue();
-      assert result >= 0;
-      resources.put(price.getKey(), result);
+    if (canBuyDevelopmentCard()) {
+      for (Map.Entry<Resource, Double> price : Settings.DEV_COST.entrySet()) {
+        double result = resources.get(price.getKey()) - price.getValue();
+        assert result >= 0;
+        resources.put(price.getKey(), result);
+      }
     }
   }
 
@@ -220,7 +233,7 @@ public class HumanPlayer implements Player {
   @Override
   public void addResource(Resource resource, int count) {
     assert count >= 0;
-    for(int i=0; i<count; i++){
+    for (int i = 0; i < count; i++) {
       addResource(resource);
     }
 
@@ -369,7 +382,12 @@ public class HumanPlayer implements Player {
     @Override
     public void addResource(Resource resource, int count) {
       throw new UnsupportedOperationException(
-          "A ReadOnlyReferee cannot add resource cards.");
+          "A ReadOnlyPlayer cannot add resource cards.");
+    }
+
+    @Override
+    public boolean canBuyDevelopmentCard() {
+      return _player.canBuyDevelopmentCard();
     }
 
   }

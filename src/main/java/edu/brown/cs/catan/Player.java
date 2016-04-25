@@ -54,5 +54,6 @@ public interface Player {
 
   String getColor();
 
+  boolean canBuyDevelopmentCard();
 
 }
