@@ -17,11 +17,12 @@ var TILE_TYPE = {
 	SEA: 7
 }
 
-function Tile(coordinates, tileType, number) {
+function Tile(coordinates, tileType, number, hasRobber) {
 	this.coordinates = coordinates;
 	this.tileType = tileType;
 	this.number = number;
 	this.numDots = 6 - Math.abs(this.number - 7);
+	this.hasRobber = hasRobber;
 
 	this.id = "tile-x-" + this.coordinates.x + "y-" + this.coordinates.y + "z-" + this.coordinates.z;
 
@@ -29,10 +30,11 @@ function Tile(coordinates, tileType, number) {
 			+ "<div class='hexagon' id='" + this.id + "'></div></div>");
 	
 	if (!(this.tileType === TILE_TYPE.DESERT || this.tileType === TILE_TYPE.SEA)) {
-		$("#" + this.id).parent().append("<div class='circle number-circle'><span class='unselectable'>" + this.number + "</span>"
+		$("#" + this.id + "-wrapper").append("<div class='circle number-circle'>"
+				+ "<span class='unselectable'>" + this.number + "</span>"
 				+ "<br><div class='dots-container'></div></div>");
 	} else {
-		$("#" + this.id).parent().append("<div class='circle number-circle desert-circle'</div>");
+		$("#" + this.id + "-wrapper").append("<div class='circle number-circle desert-circle'></div>");
 	}
 }
 
@@ -117,6 +119,18 @@ Tile.prototype.draw = function(transX, transY, scale) {
 		dotsContainer.children().css("width", scale * NUMBER_CIRCLE_DOTS_SCALE);
 		dotsContainer.children().not(":first").css("margin-left", scale * NUMBER_CIRCLE_DOTS_SCALE / 3);
 	}
+
+	// Draw robber
+	if (this.hasRobber) {
+		numberCircle.empty();
+		numberCircle.append("<img src='images/icon-robber.svg' alt='Robber' class='robber-icon'>");
+	}
+}
+
+function parseTile(tileData) {
+	var coords = parseHexCoordinates(tileData.hexCoordinate);
+	var type = parseTileType(tileData.type);
+	return new Tile(coords, type, tileData.number, tileData.hasRobber);
 }
 
 function parseTileType(tileType) {

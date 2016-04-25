@@ -52,8 +52,8 @@ Board.prototype.draw = function() {
 	}
 }
 
-Board.prototype.addTile = function(coordinates, resource, number) {
-	this.tiles.push(new Tile(coordinates, resource, number));
+Board.prototype.addTile = function(tile) {
+	this.tiles.push(tile);
 }
 
 Board.prototype.addIntersection = function(intersection) {
@@ -71,7 +71,7 @@ Board.prototype.createBoard = function(boardData) {
 
 	for (var i = 0; i < tiles.length; i++) {
 		var tile = tiles[i];
-		this.addTile(parseHexCoordinates(tile.hexCoordinate), parseTileType(tile.type), tile.number);
+		this.addTile(parseTile(tiles[i]));
 	}
 
 	for (var i = 0; i < intersections.length; i++) {

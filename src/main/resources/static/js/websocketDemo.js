@@ -17,6 +17,9 @@ webSocket.onmessage = function (msg) {
     	case "getGameState":
     		handleGetGameState(data.content);
     		return;
+        case "buildSettlement":
+            handleBuildSettlement(data.content);
+            return;
     	default:
     		console.log("unsupported response type");
     		return;
@@ -38,7 +41,7 @@ function sendRollDiceAction() {
 
 function sendBuildSettlementAction(intersectCoordinates) {
     console.log(intersectCoordinates);
-    var buildReq  = {requestType: "action", content: {action: "buildSettlement", coordinate: intersectCoordinates, player: playerId}};
+    var buildReq  = {requestType: "action", content: {action: "buildSettlement", coordinate: intersectCoordinates, player: 0}};
     webSocket.send(JSON.stringify(buildReq));
 }
 
@@ -62,8 +65,11 @@ function handleGetGameState(gameStateData) {
     // Create players
     playersById = {};
     players = parsePlayers(gameStateData.players);
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < players.length; i++) {
         playersById[players[i].id] = players[i];
+    }
+
+    for (var i = 0; i < 4; i++) {
         players[i].fillPlayerTab();
     }
 
@@ -77,6 +83,10 @@ function handleGetGameState(gameStateData) {
     board = new Board();
     board.createBoard(gameStateData.board);
     board.draw();
+}
+
+function handleBuildSettlement(response) {
+    console.log(response.message);
 }
 
 //Send message if "Send" is clicked
