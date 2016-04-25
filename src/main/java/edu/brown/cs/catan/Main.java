@@ -40,7 +40,7 @@ public class Main {
 
     Configuration config = new Configuration();
     File templates = new File(
-        "src/main/resources/spark/template/freemarker");
+        TEMPLATE_PATH);
     try {
       config.setDirectoryForTemplateLoading(templates);
     } catch (IOException e) {
