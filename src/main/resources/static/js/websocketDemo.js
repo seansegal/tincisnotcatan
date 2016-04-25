@@ -1,5 +1,5 @@
 //Establish the WebSocket connection and set up event handlers
-var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/"); 
+var webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/action/"); 
 
 webSocket.onopen = function () {
     sendGetGameStateAction();
