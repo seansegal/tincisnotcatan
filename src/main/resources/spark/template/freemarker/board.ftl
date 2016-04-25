@@ -99,7 +99,7 @@
 						</div>
 		    		</li>
 		    		<li class="list-group-item">
-				    	<input type="button" class="btn btn-default build-btn" id="dev-card-build-btn" value="Build Development Card">
+				    	<input type="button" class="btn btn-default build-btn" value="Buy Development Card" data-toggle="modal" data-target="#buy-dev-card-modal">
 				    	</br>
 				    	<span>1</span>
 				    	<div class="circle build-circle ore-color">
@@ -297,31 +297,31 @@
 					<div class="circle card-circle brick-color" data-toggle="tooltip" data-placement="top" title="Brick">
 						<img src="images/icon-brick.svg" alt="Brick">
 					</div>
-					<div class="card-number" id="brick-number">1.05</div>
+					<div class="card-number" id="brick-number">0</div>
 				</li>
 				<li class="navbar-btn">
 					<div class="circle card-circle wood-color" data-toggle="tooltip" data-placement="top" title="Wood">
 						<img src="images/icon-wood.svg" alt="Wood">
 					</div>
-					<div class="card-number" id="wood-number">1.05</div>
+					<div class="card-number" id="wood-number">0</div>
 				</li>
 				<li class="navbar-btn">
 					<div class="circle card-circle ore-color" data-toggle="tooltip" data-placement="top" title="Ore">
 						<img src="images/icon-ore.svg" alt="Ore">
 					</div>
-					<div class="card-number" id="ore-number">1.05</div>
+					<div class="card-number" id="ore-number">0</div>
 				</li>
 				<li class="navbar-btn">
 					<div class="circle card-circle wheat-color" data-toggle="tooltip" data-placement="top" title="Wheat">
 						<img src="images/icon-wheat.svg" alt="Wheat">
 					</div>
-					<div class="card-number" id="wheat-number">1.05</div>
+					<div class="card-number" id="wheat-number">0</div>
 				</li>
 				<li class="navbar-btn">
 					<div class="circle card-circle sheep-color" data-toggle="tooltip" data-placement="top" title="Sheep">
 						<img src="images/icon-sheep.svg" alt="Sheep">
 					</div>
-					<div class="card-number" id="sheep-number">1.05</div>
+					<div class="card-number" id="sheep-number">0</div>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right" id="hand-dev-cards">
@@ -372,6 +372,37 @@
 </div>
 
 <!-- Modals -->
+
+<div class="modal fade" id="buy-dev-card-modal" tabindex="-1" role="dialog" aria-labelledby="buyDevCardLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="buyDevCardLabel">Buy Development Card</h4>
+      		</div>
+      		<div class="modal-body">
+       			<p>Are you sure you would like to buy a Development Card?</p>
+       			<span>The cost is </span>
+       			<strong>1 </strong>
+       			<div class="circle inline-circle ore-color">
+					<img src="images/icon-ore.svg" alt="Ore">
+				</div>
+				<strong>1 </strong> 
+				<div class="circle inline-circle wheat-color">
+					<img src="images/icon-wheat.svg" alt="Wheat">
+				</div>
+				<strong>1 </strong>
+				<div class="circle inline-circle sheep-color">
+					<img src="images/icon-sheep.svg" alt="Sheep">
+				</div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-primary" id="dev-card-buy-btn" data-dismiss="modal">Buy</button>
+      		</div>
+    	</div>
+	</div>
+</div>
 
 <div class="modal fade" id="year-of-plenty-modal" tabindex="-1" role="dialog" aria-labelledby="yearOfPlentyLabel">
 	<div class="modal-dialog" role="document">

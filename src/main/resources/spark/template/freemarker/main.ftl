@@ -17,7 +17,7 @@
 	<script src="js/intersection.js"></script>
 	<script src="js/path.js"></script>
 	<script src="js/board.js"></script>
+	<script src="js/websocketDemo.js"></script>
 	<script src="js/main.js"></script>
-  	<script src="js/websocketDemo.js"></script>
   </body>
 </html>
