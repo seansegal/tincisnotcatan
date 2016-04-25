@@ -54,11 +54,11 @@ function parsePlayers(playersData) {
 }
 
 function fillPlayerHand(handData) {
-	$("#brick-number").text(handData.resources.BRICK);
-	$("#wood-number").text(handData.resources.WOOD);
-	$("#ore-number").text(handData.resources.ORE);
-	$("#wheat-number").text(handData.resources.WHEAT);
-	$("#sheep-number").text(handData.resources.SHEEP);
+	$("#brick-number").text(handData.resources.brick);
+	$("#wood-number").text(handData.resources.wood);
+	$("#ore-number").text(handData.resources.ore);
+	$("#wheat-number").text(handData.resources.wheat);
+	$("#sheep-number").text(handData.resources.sheep);
 
 	$("#knight-number").text(handData.devCards["Knight"]);
 	$("#year-of-plenty-number").text(handData.devCards["Year of Plenty"]);
@@ -72,11 +72,11 @@ function createTradeRateText(number) {
 }
 
 function fillPlayerTradeRates(rates) {
-	$("#brick-trade-rate").text(createTradeRateText(rates.BRICK));
-	$("#wood-trade-rate").text(createTradeRateText(rates.WOOD));
-	$("#ore-trade-rate").text(createTradeRateText(rates.ORE));
-	$("#wheat-trade-rate").text(createTradeRateText(rates.WHEAT));
-	$("#sheep-trade-rate").text(createTradeRateText(rates.SHEEP));
-	$("#wildcard-trade-rate").text(createTradeRateText(rates.WILDCARD));
+	$("#brick-trade-rate").text(createTradeRateText(rates.brick));
+	$("#wood-trade-rate").text(createTradeRateText(rates.wood));
+	$("#ore-trade-rate").text(createTradeRateText(rates.ore));
+	$("#wheat-trade-rate").text(createTradeRateText(rates.wheat));
+	$("#sheep-trade-rate").text(createTradeRateText(rates.sheep));
+	$("#wildcard-trade-rate").text(createTradeRateText(rates.wildcard));
 }
 

@@ -39,6 +39,7 @@ function Intersection(coord1, coord2, coord3) {
 	this.port = PORT.NONE;
 	
 	this.highlighted = false;
+	this.canBuildSettlement;
 	
 	$("#board-viewport").append("<div class='intersection-select circle' id='" + this.id + "-select'></div>");
 	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
@@ -203,6 +204,8 @@ function parseIntersection(data) {
 				break;
 		}
 	}
+
+	intersect.canBuildSettlement = data.canBuildSettlement;
 
 	return intersect;
 }
