@@ -28,13 +28,15 @@ function Tile(coordinates, tileType, number, hasRobber) {
 
 	$("#board-viewport").append("<div class='hexagon-wrapper' id='" + this.id + "-wrapper'>"
 			+ "<div class='hexagon' id='" + this.id + "'></div></div>");
-	
-	if (!(this.tileType === TILE_TYPE.DESERT || this.tileType === TILE_TYPE.SEA)) {
+
+	if (this.tileType === TILE_TYPE.DESERT) {
+		$("#" + this.id + "-wrapper").append("<div class='circle number-circle desert-circle'></div>");
+	} else if (this.tileType === TILE_TYPE.SEA) {
+		$("#" + this.id + "-wrapper").append("<div class='circle number-circle sea-circle'></div>");
+	} else {
 		$("#" + this.id + "-wrapper").append("<div class='circle number-circle'>"
 				+ "<span class='unselectable'>" + this.number + "</span>"
 				+ "<br><div class='dots-container'></div></div>");
-	} else {
-		$("#" + this.id + "-wrapper").append("<div class='circle number-circle desert-circle'></div>");
 	}
 }
 

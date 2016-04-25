@@ -4,7 +4,7 @@
 # We use $(ls target/*.jar) instead of hardcoding the name so that
 # this script can be reused in other projects more easily.
 
-TARGET=$(ls target/*.jar 2>/dev/null)
+TARGET=$(ls target/catan-1.0.jar 2>/dev/null)
 if [ -z "$TARGET" ]; then
     echo "No jar file in target/, try 'mvn package'".
     exit 1
@@ -43,4 +43,4 @@ PKG=$(basename $(dirname $(dirname $MAIN)))
 
 # The funny symbol: "$@" passes the command-line arguments on from
 # this script to your Java program.
-java -ea -cp $TARGET:$CP edu.brown.cs.networking.Main "$@"
+java -ea -cp $TARGET:$CP edu.brown.cs.catan.Main "$@"

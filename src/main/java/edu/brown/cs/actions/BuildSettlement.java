@@ -1,5 +1,6 @@
 package edu.brown.cs.actions;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
@@ -48,13 +49,27 @@ public class BuildSettlement implements Action {
       }
       _player.buildSettlement();
     }
-    // TODO: add turn validation, add graph validation
+    // TODO: add turn validation
+    if (!_intersection.canPlaceSettlement()) {
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+          "You cannot build a Settlement at that location.", null));
+    }
     _player.useSettlement();
     _intersection.placeSettlement(_player);
 
-    // TODO: formulate response & send.
-    ActionResponse resp = new ActionResponse(true, "You built a Settlement.", null);
-    return ImmutableMap.of(_player.getID(), resp);
+    // Formulate responses and send:
+    ActionResponse respToBuyer = new ActionResponse(true,
+        "Congratulations! You built a Settlement.", null);
+    String message = String.format("%s built a settlement.", _player.getName());
+    ActionResponse respToRest = new ActionResponse(true, message, null);
+    Map<Integer, ActionResponse> toReturn = new HashMap<>();
+    for (Player player : _ref.getPlayers()) {
+      if (player.equals(_player)) {
+        toReturn.put(player.getID(), respToBuyer);
+      } else {
+        toReturn.put(player.getID(), respToRest);
+      }
+    }
+    return toReturn;
   }
-
 }

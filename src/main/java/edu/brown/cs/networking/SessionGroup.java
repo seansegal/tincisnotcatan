@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jetty.websocket.api.Session;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import edu.brown.cs.api.CatanAPI;
 
@@ -85,93 +84,60 @@ class SessionGroup implements Timestamped {
     System.out.format(
         "Session %s sent a message : %s through SessionGroup %s%n",
         s.getLocalAddress(), message, id);
-    JSONObject json = null;
-    try {
-      json = new JSONObject(message);
-    } catch (JSONException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    JsonObject json = GSON.fromJson(message, JsonObject.class);
+    System.out.println("Message parsed to : " + json.toString());
 
-    Request req = new Request(json);
-    if (req.isValid()) {
-      switch (req.type()) {
-        case CHAT:
-          return handleChatMessage(s, req.content());
-        case ACTION:
-          System.out.format("Action requested : %s%n", req.content());
-          handleAction(s, req.content());
-          return true;
-        case GETGAMESTATE:
-          handleGetGameState(s, req.content());
-          break;
-        default:
-          System.out.format("Session %s made an illegal request : %s%n",
-              s.getLocalAddress(), message);
-          return false;
-      }
+    switch (json.get("requestType").getAsString()) {
+      case "chat":
+        return handleChatMessage(s, json);
+      case "action":
+        return handleAction(s, json);
+      case "getGameState":
+        return handleGetGameState(s);
+      default:
+        System.out.format("Session %s made an illegal request : %s%n",
+            s.getLocalAddress(), message);
+        return false;
     }
-    return false;
   }
 
 
-  private boolean handleGetGameState(Session s, JSONObject content) {
-    JSONObject toSend = new JSONObject();
-    Object toRet;
-    toRet = GSON.fromJson(api.getGameState(intForSession.get(s)), Map.class);
-    try {
-      toSend.put("responseType", "getGameState");
-    } catch (JSONException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
+  private boolean handleGetGameState(Session s) {
+    JsonObject resp = api.getGameState(intForSession.get(s));
+    resp.addProperty("requestType", "getGameState");
+    return Broadcast.toSession(s, resp);
+  }
+
+
+  private boolean handleAction(Session s, JsonObject json) {
+
+    json.add("player", GSON.toJsonTree(String.valueOf(intForSession.get(s))));
+    System.out.println(json);
+
+    Map<Integer, JsonObject> resp = api.performAction(json.toString());
+    for (Integer i : resp.keySet()) {
+      Session recipient = sessionForInt.get(i);
+      if(recipient == null){
+        System.out.format("API thinks there's a player %d, but there isn't an active session.%n", i);
+        continue;
+      }
+      json.add("content", resp.get(i));
+      json.add("player", GSON.toJsonTree(i));
+      System.out.println(i);
+      System.out.println(json.get("requestType").getAsString());
+      Broadcast.toSession(recipient, json);
+      handleGetGameState(recipient);
     }
-    try {
-      toSend.put("content", toRet);
-    } catch (JSONException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    Broadcast.toSession(s, toSend.toString());
     return true;
   }
 
 
-  private boolean handleAction(Session s, JSONObject json) {
-    JSONObject toSend = new JSONObject();
+  private boolean handleChatMessage(Session s, JsonObject json) {
 
-    try {
-      json.put("player", String.valueOf(intForSession.get(s)));
-      System.out.println(json);
-      toSend.put("responseType", json.get("action"));
-
-      // TODO: see how hans sends this info over, react accordingly.
-      Map<Integer, String> resp = api.performAction(json.toString());
-      for (Integer i : resp.keySet()) {
-        toSend.put("content", resp.get(i));
-        System.out.println(i);
-        Broadcast.toSession(sessionForInt.get(i), toSend.toString());
-        handleGetGameState(sessionForInt.get(i), null);
-      }
-    } catch (JSONException j) {
-      j.printStackTrace();
-    }
-
-
-    return true;
-  }
-
-
-  private boolean handleChatMessage(Session s, JSONObject json) {
-
-    try {
-      System.out.println("Message processed : " + json.get("message"));
-      Broadcast.toAll(sessions,
-          Chat.createMessage(s.getLocalAddress().toString(), json.getString("message"), userIds())
-              .toString());
-      return true;
-    } catch (JSONException j) {
-      return false;
-    }
+    System.out.println("Message processed : " + json.get("message"));
+    return Broadcast.toAll(sessions,
+        Chat.createMessage(s.getLocalAddress().toString(),
+            json.get("message").getAsString(), userIds()));
 
   }
 

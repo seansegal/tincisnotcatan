@@ -3,11 +3,10 @@ package edu.brown.cs.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.board.Board;
@@ -43,31 +42,16 @@ public class CatanConverter {
     _gson = new Gson();
   }
 
-  public String getGameState(Referee ref, int playerID) {
-    return _gson.toJson(new GameState(ref, playerID));
+  public JsonObject getGameState(Referee ref, int playerID) {
+    return _gson.toJsonTree(new GameState(ref, playerID)).getAsJsonObject();
   }
 
-  public String getBoard(Board board) {
-    return _gson.toJson(new BoardRaw(board));
-  }
-
-  public String getHand(Player player) {
-    return _gson.toJson(new Hand(player));
-  }
-
-  public String getPlayers(Referee referee) {
-    List<PublicPlayerRaw> players = new ArrayList<>();
-    for (Player p : referee.getPlayers()) {
-      players.add(new PublicPlayerRaw(p, referee.getReadOnlyReferee()));
-    }
-    return _gson.toJson(ImmutableMap.of("players", players));
-  }
-
-  public Map<Integer, String> responseToJSON(
+  public Map<Integer, JsonObject> responseToJSON(
       Map<Integer, ActionResponse> response) {
-    Map<Integer, String> toReturn = new HashMap<>();
-    for(Map.Entry<Integer, ActionResponse> entry : response.entrySet()){
-      toReturn.put(entry.getKey(), _gson.toJson(entry.getValue(), ActionResponse.class));
+    Map<Integer, JsonObject> toReturn = new HashMap<>();
+    for (Map.Entry<Integer, ActionResponse> entry : response.entrySet()) {
+      toReturn.put(entry.getKey(), _gson.toJsonTree(entry.getValue())
+          .getAsJsonObject());
     }
     return toReturn;
   }
@@ -195,12 +179,14 @@ public class CatanConverter {
     private final BuildingRaw building;
     private final Port port;
     private final IntersectionCoordinate coordinate;
+    private final boolean canBuildSettlement;
 
     IntersectionRaw(Intersection i) {
       building = i.getBuilding() != null ? new BuildingRaw(i.getBuilding())
           : null;
       port = i.getPort();
       coordinate = i.getPosition();
+      canBuildSettlement = i.canPlaceSettlement();
     }
 
   }

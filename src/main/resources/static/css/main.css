@@ -40,6 +40,23 @@
 	margin-top: -1px;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
+#message-container {
+	margin-left: 10%;
+	margin-right: 10%;
+	border-radius: 4px 4px 0px 0px;
+	background-color: #FFFFFF;
+}
+
+#message-container > * {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 0px;
+}
+
 .above-board {
 	z-index: 10;
 }
@@ -256,7 +273,7 @@
   	background-color: black;
 }
 
-.desert-circle {
+.desert-circle, .sea-circle {
 	background-color: transparent;
 	box-shadow: none;
 }
