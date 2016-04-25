@@ -5,6 +5,6 @@ target/
 .settings/
 .metadata
 .settings
-.jar
-.class
+*.jar
+*.class
 
