@@ -49,7 +49,11 @@ public class BuildSettlement implements Action {
       }
       _player.buildSettlement();
     }
-    // TODO: add turn validation, add graph validation
+    // TODO: add turn validation
+    if (!_intersection.canPlaceSettlement()) {
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+          "You cannot build a Settlement at that location.", null));
+    }
     _player.useSettlement();
     _intersection.placeSettlement(_player);
 
@@ -68,5 +72,4 @@ public class BuildSettlement implements Action {
     }
     return toReturn;
   }
-
 }

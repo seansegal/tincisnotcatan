@@ -2,6 +2,7 @@ package edu.brown.cs.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import edu.brown.cs.actions.Action;
 import edu.brown.cs.actions.BuildSettlement;
@@ -27,8 +28,13 @@ public class ActionFactory {
   }
 
   public Action createAction(String json) {
-    JsonObject actionJSON = convertFromStringToJson(json);
-    return createAction(actionJSON);
+    try {
+      JsonObject actionJSON = convertFromStringToJson(json);
+      return createAction(actionJSON);
+    } catch (JsonSyntaxException e) {
+      throw new IllegalArgumentException("The JSON contains an error: "
+          + e.getLocalizedMessage());
+    }
   }
 
   public Action createAction(JsonObject actionJSON) {
@@ -62,8 +68,9 @@ public class ActionFactory {
         throw new IllegalArgumentException(err);
       }
 
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Could not parse the JSON.");
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "The JSON is missing a required parameter. Check documentation for more information.");
     }
 
   }
