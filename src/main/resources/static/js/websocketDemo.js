@@ -40,19 +40,16 @@ function sendRollDiceAction() {
 }
 
 function sendBuildSettlementAction(intersectCoordinates) {
-    console.log(intersectCoordinates);
     var buildReq  = {requestType: "action", content: {action: "buildSettlement", coordinate: intersectCoordinates, player: 0}};
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuildCityAction(intersectCoordinates) {
-    console.log(intersectCoordinates);
     var buildReq  = {requestType: "action", content: {action: "buildCity"}};
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuildRoadAction(start, end) {
-    console.log({start: start, end: end});
     var buildReq  = {requestType: "action", content: {action: "buildRoad"}};
     webSocket.send(JSON.stringify(buildReq));
 }
@@ -77,7 +74,7 @@ function handleGetGameState(gameStateData) {
     fillPlayerHand(gameStateData.hand);
 
     // Draw trade rates
-    fillPlayerTradeRates(gameStateData.players[1].rates); // TODO: change to reflect current player
+    fillPlayerTradeRates(gameStateData.players[playerId].rates); // TODO: change to reflect current player
 
     // Create board
     board = new Board();
@@ -86,7 +83,7 @@ function handleGetGameState(gameStateData) {
 }
 
 function handleBuildSettlement(response) {
-    console.log(response.message);
+
 }
 
 //Send message if "Send" is clicked
