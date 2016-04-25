@@ -26,6 +26,8 @@ public class GCT {
   private static final Map<Session, SessionGroup>          groupMap                =
       new ConcurrentHashMap<>();
 
+  private static Class<? extends API>                      apiClass;
+
 
   private static final int                                 NEED_TO_GENERALIZE_THIS =
       2;
@@ -41,6 +43,11 @@ public class GCT {
   }
 
 
+  public static void setAPI(Class<? extends API> api) {
+    apiClass = api;
+  }
+
+
   private GCT() {
     Spark.webSocket("/action", ReceivingHandler.class);
     Spark.init();
@@ -51,8 +58,14 @@ public class GCT {
     SessionGroup candidate = pending.poll();
 
     if (candidate == null) {
-      candidate =
-          new SessionGroup(NEED_TO_GENERALIZE_THIS, String.valueOf(GROUP_ID++));
+      try {
+        candidate =
+            new SessionGroup(NEED_TO_GENERALIZE_THIS,
+                String.valueOf(GROUP_ID++), apiClass.newInstance());
+      } catch (InstantiationException | IllegalAccessException e) {
+        System.out.println("Error : Failed to create a new API class");
+        e.printStackTrace();
+      }
       candidate.add(s);
       groupMap.put(s, candidate);
     } else if (candidate.isFull()) {
@@ -105,7 +118,6 @@ public class GCT {
     }
     return sg.message(s, message);
   }
-
 
 
 }

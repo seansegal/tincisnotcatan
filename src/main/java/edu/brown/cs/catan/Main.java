@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.brown.cs.api.CatanAPI;
 import edu.brown.cs.networking.GCT;
 import freemarker.template.Configuration;
 import spark.ModelAndView;
@@ -32,6 +33,7 @@ public class Main {
     Spark.threadPool(NUM_THREADS, MIN_THREADS, TIMEOUT);
     // secure("", "", "", ""); // use this for https!
     GCT.getInstance();
+    GCT.setAPI(CatanAPI.class);
 
     Configuration config = new Configuration();
     File templates = new File(

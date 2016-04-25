@@ -1,6 +1,7 @@
 package edu.brown.cs.networking;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -27,5 +28,14 @@ public class Broadcast {
       }
     }
     return false;
+  }
+
+  public static boolean toUsers(Collection<User<?>> col, JsonObject message) {
+    Collection<Session> toPass = new ArrayList<>();
+    for(User<?> u : col) {
+      toPass.add(u.session());
+    }
+    return toAll(toPass, message);
+
   }
 }

@@ -11,26 +11,26 @@ import org.eclipse.jetty.websocket.api.Session;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import edu.brown.cs.api.CatanAPI;
-
 class SessionGroup implements Timestamped {
 
-  private List<Session>         sessions;
+  private List<User<?>>         users;
   private int                   size;
   private long                  timestamp;
   private String                id;
-  private Map<Session, Integer> intForSession;
-  private Map<Integer, Session> sessionForInt;
+  private Map<User<?>, Integer> userToInt;
+  private Map<Integer, User<?>> intToUser;
+  private Map<Session, User<?>> sessionToUser;
 
   private final Gson            GSON = new Gson();
-  private final CatanAPI        api;
+  private final API        api;
 
 
-  public SessionGroup(int size, String id) {
-    api = new CatanAPI();
-    sessions = new ArrayList<>();
-    intForSession = new HashMap<>();
-    sessionForInt = new HashMap<>();
+  public SessionGroup(int size, String id, API api) {
+    this.api = api;
+    users = new ArrayList<>();
+    userToInt = new HashMap<>();
+    intToUser = new HashMap<>();
+    sessionToUser = new HashMap<>();
     this.size = size;
     this.timestamp = System.currentTimeMillis();
     this.id = id;
@@ -38,12 +38,19 @@ class SessionGroup implements Timestamped {
 
 
   public boolean isFull() {
-    return sessions.size() == size;
+    if (users.size() == size){
+      boolean usersAreReady = true;
+      for(User<?> u: users) {
+        usersAreReady &= u.isValid();
+      }
+      return usersAreReady;
+    }
+    return false;
   }
 
 
   public boolean isEmpty() {
-    return sessions.isEmpty();
+    return users.isEmpty();
   }
 
 
@@ -52,10 +59,15 @@ class SessionGroup implements Timestamped {
     if (!isFull()) {
       System.out.format("Session %s was added to SessionGroup %s%n",
           s.getLocalAddress(), id);
-      // TODO: Add player attributes here.
-      intForSession.put(s, api.addPlayer(""));
-      sessionForInt.put(intForSession.get(s), s);
-      return sessions.add(s);
+
+      // TODO: Add player attributes here. // maybe convert addPlayer to take User(data) instead?
+      int apisUserID = api.addPlayer("");
+      User<?> u = new User<>(s, apisUserID, api.getUserDataClass());
+      userToInt.put(u, apisUserID);
+      intToUser.put(apisUserID, u);
+      sessionToUser.put(s, u);
+      System.out.format("User %s was created and added to a session group %s%n", u, id);
+      return users.add(u);
     }
     System.out.format("Session %s was not added to %s, it is full%n", s, id);
     return false;
@@ -66,7 +78,11 @@ class SessionGroup implements Timestamped {
   public boolean remove(Session s) {
     System.out.format("Session %s was removed from SessionGroup %s%n",
         s.getLocalAddress(), id);
-    boolean toReturn = sessions.remove(s);
+    User<?> u = sessionToUser.get(s);
+    userToInt.remove(u);
+    intToUser.remove(u.userID());
+    boolean toReturn = users.remove(u);
+
     if (isEmpty()) {
       System.out.format("SessionGroup %s is now empty.%n", id);
     }
@@ -75,7 +91,7 @@ class SessionGroup implements Timestamped {
 
 
   public boolean message(Session s, String message) {
-    if (!sessions.contains(s)) {
+    if (!sessionToUser.containsKey(s)) {
       System.out.format(
           "Error : attempted to handle message from %s by SessionGroup %s, not contained.%n",
           s.getLocalAddress(), id);
@@ -103,21 +119,24 @@ class SessionGroup implements Timestamped {
 
 
   private boolean handleGetGameState(Session s) {
-    JsonObject resp = api.getGameState(intForSession.get(s));
+    User<?> u = sessionToUser.get(s);
+    JsonObject resp = api.getGameState(u.userID());
     resp.addProperty("requestType", "getGameState");
     return Broadcast.toSession(s, resp);
   }
 
 
   private boolean handleAction(Session s, JsonObject json) {
-
-    json.add("player", GSON.toJsonTree(String.valueOf(intForSession.get(s))));
+    User<?> u = sessionToUser.get(s);
+    json.add("player", GSON.toJsonTree(String.valueOf(u.userID())));
     System.out.println(json);
 
     Map<Integer, JsonObject> resp = api.performAction(json.toString());
     for (Integer i : resp.keySet()) {
-      Session recipient = sessionForInt.get(i);
-      if(recipient == null){
+      Session recipient;
+      try {
+        recipient = intToUser.get(i).session();
+      } catch (NullPointerException e) {
         System.out.format("API thinks there's a player %d, but there isn't an active session.%n", i);
         continue;
       }
@@ -135,7 +154,7 @@ class SessionGroup implements Timestamped {
   private boolean handleChatMessage(Session s, JsonObject json) {
 
     System.out.println("Message processed : " + json.get("message"));
-    return Broadcast.toAll(sessions,
+    return Broadcast.toUsers(users,
         Chat.createMessage(s.getLocalAddress().toString(),
             json.get("message").getAsString(), userIds()));
 
@@ -145,15 +164,20 @@ class SessionGroup implements Timestamped {
   // TEMPORARY
   public Collection<String> userIds() {
     Collection<String> toRet = new ArrayList<>();
-    for (Session s : sessions) {
-      toRet.add(s.getLocalAddress().toString());
+    for (User<?> u : users) {
+      toRet.add(u.session().getLocalAddress().toString());
     }
     return toRet;
   }
 
 
   public boolean contains(Session s) {
-    return sessions.contains(s);
+    for(User<?> u : users){
+      if(u.session().equals(s)){
+        return true;
+      }
+    }
+    return false;
   }
 
 
