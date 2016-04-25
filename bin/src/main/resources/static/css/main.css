@@ -1,0 +1,322 @@
+/* Main board window */
+
+#board-viewport {
+	background-color: #DDDDDD;
+	height: 100vh;
+	width: 100vw;
+	position: absolute;
+	z-index: 0;
+	overflow: hidden;
+}
+
+#end-turn-btn {
+	margin-left: 15px;
+	margin-top: 15px;
+}
+
+#hand-resources > .navbar-btn + .navbar-btn,
+#hand-dev-cards > .navbar-btn + .navbar-btn {
+	margin-left: 10px;
+}
+
+.circle {
+	border-radius: 50%;
+}
+
+.card-circle {
+	background-color: #BBBBBB;
+	height: 40px;
+	width: 40px;
+}
+
+.card-circle > img {
+	margin-top: 2.6px;
+	height: 100%;
+	width: 100%;
+	z-index: 6;
+}
+
+.card-circle > img[src="images/icon-year-of-plenty.svg"] {
+	margin-top: -1px;
+}
+
+.above-board {
+	z-index: 10;
+}
+
+.below-board {
+	z-index: -1;
+}
+
+.unselectable {
+	-moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+/* Right menu */
+
+.right-tab-content {
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.nav-pills.nav-stacked {
+	padding-right: 0px;
+}
+
+.right-tab {
+	background-color: #FFFFFF;
+}
+
+.right-tab-pane {
+	height: 100vh;
+	background-color: #FFFFFF;
+}
+
+.navbar-right {
+	padding-right: 15px;
+}
+
+.navbar-btn {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.right-inner-tabs:first-child {
+	padding-left: 10px;
+}
+
+#right-menu-container {
+	padding-right: 0px;
+}
+
+/* Player tab */
+
+.player-circle {
+	height: 100px;
+	width: 100px;
+}
+
+#p1-tab, #p2-tab, #p3-tab, #p4-tab {
+	padding-left: 10px;
+}
+
+/* Build tab */
+
+.build-btn {
+	margin-bottom: 15px;
+}
+
+.build-circle {
+	background-color: #BBBBBB;
+	height: 20px;
+	width: 20px;
+	margin-bottom: 5px;
+	display: inline-block;
+}
+
+.build-circle > img {
+	margin-top: 1.3px;
+	height: 100%;
+	width: 100%;
+	z-index: 6;
+}
+
+.build-circle-list-number {
+	float: left;
+	margin-right: 4px;
+	margin-left: 15px;
+}
+
+.build-circle-list {
+	float: left;
+	margin-right: 3px;
+}
+
+/* Trade tab */
+
+.trade-row > div {
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 10px;
+}
+
+.trade-circle {
+	display: inline-block;
+	height: 35px;
+	width: 35px;
+	margin-right: 5px;
+}
+
+.trade-circle > img {
+	margin-top: 2.2px;
+	height: 100%;
+	width: 100%;
+}
+
+.wildcard-circle {
+	background-color: white;
+	border: 2px solid black;
+}
+
+/* Board */
+
+.brick-color {
+	background-color: #945D3F;
+}
+
+.wood-color {
+	background-color: #408754;
+}
+
+.wheat-color {
+	background-color: #C9BA56;
+}
+
+.ore-color {
+	background-color: #A1AFDA;
+}
+
+.sheep-color {
+	background-color: #83B94E;
+}
+
+.desert-color {
+	background-color: #C5BA96;
+}
+
+.sea-color {
+	background-color: #B5D7E5;
+}
+
+.hexagon-wrapper {
+  text-align: center;
+  position: absolute;
+  display: inline-block;
+  z-index: 1;
+}
+
+.hexagon {
+  height: 100%;
+  width: 57.735%;
+  display: inline-block;
+  z-index: 1;
+}
+
+.hexagon:before {
+  position: absolute;
+  top: 0;
+  right: calc((100% / 2) - ((100% * 0.57735) / 2));
+  background-color: inherit;
+  height: inherit;
+  width: inherit;
+  content: '';
+  transform: rotateZ(60deg);
+  z-index: 1;
+}
+
+.hexagon:after {
+  position: absolute;
+  top: 0;
+  right: calc((100% / 2) - ((100% * 0.57735) / 2));
+  background-color: inherit;
+  height: inherit;
+  width: inherit;
+  content: '';
+  transform: rotateZ(-60deg);
+  z-index: 1;
+}
+
+.hexagon, .hexagon:before, .hexagon:after {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.number-circle {
+	position: absolute;
+	background-color: #FAEDDA;
+	text-align: center;
+	vertical-align: middle;
+	box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.5);
+	z-index: 2;
+}
+
+.dots-container {
+	display: inline-block;
+}
+
+.number-dot {
+	height: 10px;
+  	width: 10px;
+  	float: left;
+  	margin-left: 2px;
+  	background-color: black;
+}
+
+.desert-circle {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.intersection {
+	position: absolute;
+	z-index: 4;
+}
+
+.settlement-icon {
+	stroke: black;
+	stroke-width: 0.5px;
+	position: absolute;
+ }
+ 
+.city-icon {
+	stroke: black;
+	stroke-width: 3px;
+	position: absolute;
+}
+
+.intersection-select {
+	background-color: transparent;
+	position: absolute;
+	z-index: 7;
+}
+
+.path {
+	position: absolute;
+	border-radius: 5px;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	z-index: 0;
+}
+
+.path-select {
+	position: absolute;
+	border: radius 5px;
+	z-index: 2;
+}
+
+.highlighted {
+/*	animation-duration: 1s;
+	animation-name: highlight-pulse;
+	animation-direction: alternate;
+	animation-iteration-count: infinite;*/
+	background: radial-gradient(closest-side, rgba(255,255,0,1), rgba(255,255,0,0.5) 65%, rgba(255,255,255,0) 100%);
+}
+
+.highlighted-path {
+	/*background: rgba(255,255,0,0.75);*/
+	background: linear-gradient(to bottom, rgba(255,255,0,0), rgba(255,255,0,1) 40%, rgba(255,255,0,1) 60%, rgba(255,255,0,0) 100%);
+}
+
+/*@keyframes highlight-pulse {
+	0% {
+		background: rgba(255,255,0,0.75);
+	}
+
+	100% {
+		background: none;
+	}
+}*/
