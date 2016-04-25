@@ -36,7 +36,7 @@ public class BuyDevelopmentCard implements Action {
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
     // Formulate Responses:
     String messageToPlayer = String.format(
-        "You bought a development card. It is %s", newCard.toString());
+        "You bought a development card. It is %s", newCard.toFancyString());
     ActionResponse toPlayer = new ActionResponse(true, messageToPlayer, null);
     String message = String.format("%s bought a development card.",
         _player.getName());

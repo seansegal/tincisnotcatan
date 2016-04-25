@@ -62,7 +62,6 @@ public class ActionFactory {
         String err = String.format("The action %s does not exist.", action);
         throw new IllegalArgumentException(err);
       }
-
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "The JSON is missing a required parameter. Check documentation for more information.");
