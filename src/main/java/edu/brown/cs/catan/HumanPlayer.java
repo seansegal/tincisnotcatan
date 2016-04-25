@@ -57,8 +57,6 @@ public class HumanPlayer implements Player {
     return numCities;
   }
 
-
-
   @Override
   public void buildRoad() {
     // Pay for the road:
@@ -68,6 +66,18 @@ public class HumanPlayer implements Player {
       resources.put(price.getKey(), result);
     }
     // useRoad();
+  }
+
+  @Override
+  public boolean canBuildRoad() {
+    // Pay for the road:
+    for (Map.Entry<Resource, Double> price : Settings.ROAD_COST.entrySet()) {
+      double result = resources.get(price.getKey()) - price.getValue();
+      if (result < 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
@@ -238,7 +248,6 @@ public class HumanPlayer implements Player {
     for (int i = 0; i < count; i++) {
       addResource(resource);
     }
-
   }
 
   private class ReadOnlyPlayer implements Player {
@@ -390,6 +399,11 @@ public class HumanPlayer implements Player {
     @Override
     public boolean canBuyDevelopmentCard() {
       return _player.canBuyDevelopmentCard();
+    }
+
+    @Override
+    public boolean canBuildRoad() {
+      return _player.canBuildRoad();
     }
 
   }

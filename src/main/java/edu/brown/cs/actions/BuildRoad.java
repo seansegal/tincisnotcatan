@@ -3,6 +3,8 @@ package edu.brown.cs.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.board.Path;
@@ -51,18 +53,23 @@ public class BuildRoad implements Action {
       // TODO: better validation
       _player.buildRoad();
     }
+    if (!_path.canPlaceRoad(_player)) {
+      ActionResponse resp = new ActionResponse(false,
+          "You cannot built a road in that location.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
     _player.useRoad();
     _path.placeRoad(_player);
 
-    ActionResponse toPlayer = new ActionResponse(true, "You built a Road.", null);
+    ActionResponse toPlayer = new ActionResponse(true, "You built a Road.",
+        null);
     String message = String.format("%s built a Road.", _player.getName());
     ActionResponse toAll = new ActionResponse(true, message, null);
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
-    for(Player player: _ref.getPlayers()){
-      if(player.equals(_player)){
+    for (Player player : _ref.getPlayers()) {
+      if (player.equals(_player)) {
         toReturn.put(player.getID(), toPlayer);
-      }
-      else{
+      } else {
         toReturn.put(player.getID(), toAll);
       }
     }

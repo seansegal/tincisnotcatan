@@ -56,4 +56,6 @@ public interface Player {
 
   boolean canBuyDevelopmentCard();
 
+  boolean canBuildRoad();
+
 }
