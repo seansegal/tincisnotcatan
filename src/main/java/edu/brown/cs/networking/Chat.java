@@ -39,7 +39,7 @@ class Chat {
       String message) {
     return GSON.toJsonTree(
         article()
-            .with(b(sender + " says:"), p(message),
+            .with(b(sender + ":"), p(message),
                 span().withClass("timestamp")
                     .withText(
                         new SimpleDateFormat("HH:mm:ss").format(new Date())))

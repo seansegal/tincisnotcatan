@@ -10,9 +10,40 @@ if (document.location.hostname == "localhost") {
 
 
 webSocket.onopen = function () {
-	alert(document.cookie);
-    sendGetGameStateAction();
+	sendRegisterUser();
 };
+
+function sendRegisterUser() {
+	var obj = {"requestType" : "registerUser", "userName" : getCookie("userName"), "numPlayersDesired" : getCookie("numPlayersDesired")};
+	webSocket.send(JSON.stringify(obj));
+}	
+
+function handleRegisterUserResponse(data) {
+	if(!data.hasOwnProperty("ERROR")) {
+		sendGetGameStateAction();
+	} else {
+		console.log(data);
+		window.location.replace("/home");
+	}
+}
+
+function getCookie(name) {
+	var nameEQ = name + "=";
+	//alert(document.cookie);
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+	var c = ca[i];
+	while (c.charAt(0)==' ') c = c.substring(1);
+	if (c.indexOf(nameEQ) != -1){
+		return c.substring(nameEQ.length,c.length);
+		}
+	}
+	return null;
+}
+function setCookie(cookie, value) {
+	var eqVal = cookie + "=" + value;
+	document.cookie = eqVal;
+}
 
 webSocket.onmessage = function (msg) {
     var data = JSON.parse(msg.data);
@@ -29,6 +60,8 @@ webSocket.onmessage = function (msg) {
         case "action":
             handleActionResponse(data);
             return;
+        case "registerUser":
+        	handleRegisterUserResponse(data);
     	default:
     		console.log("unsupported request type");
     		return;

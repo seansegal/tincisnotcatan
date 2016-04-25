@@ -5,48 +5,52 @@ import edu.brown.cs.networking.UserData;
 
 public class CatanUserData implements UserData {
 
-  private String  userName;
-  private String  color;   // should be a color object in the future.
-  private Integer gameSize;
+  // need to assign default illegal values to get the class for casting.
+  private String  userName = "";
+  private String  color    = ""; // should be a color object in the future.
+  private Integer gameSize = -1;
 
 
   @Override
   public boolean setField(String field, Object value) {
-    Object f = findField(field);
-    if (field.equals(f)) {
-      return false;
+    switch (field.toLowerCase()) {
+      case "username":
+        userName = (String) value;
+        return true;
+      case "color":
+        color = (String) value;
+        return true;
+      case "gamesize":
+        gameSize = (Integer) value;
+        return true;
+      default:
+        throw new IllegalArgumentException(
+            "Field " + field + " is not supported by CatanUserData");
     }
-    f = (f.getClass().cast(value));
-    return true;
   }
 
 
   @Override
   public Object getField(String field) {
-    return findField(field);
-  }
-
-
-  @Override
-  public boolean isValid() {
-    return userName != null
-        && color != null
-        && gameSize != null;
-  }
-
-
-  private Object findField(String field) {
-    switch (field) {
-      case "userName":
+    switch (field.toLowerCase()) {
+      case "username":
         return userName;
       case "color":
         return color;
-      case "gameSize":
+      case "gamesize":
         return gameSize;
       default:
         throw new IllegalArgumentException(
             "Field " + field + " is not supported by CatanUserData");
     }
+  }
+
+
+  @Override
+  public boolean isValid() {
+    return !userName.equals("")
+        && !color.equals("")
+        && !gameSize.equals(-1);
   }
 
 

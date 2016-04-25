@@ -32,7 +32,7 @@ function startGamePressed() {
 		alert("Please select a username");
 		return false; // will not allow the get reqeust to process.
 	}
-	setCookie("username", userName);
+	setCookie("userName", userName);
 	setCookie("numPlayersDesired", numPlayers);
 	alert(document.cookie);
 	return true; // will allow the get request to process.

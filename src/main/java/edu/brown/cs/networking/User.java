@@ -46,4 +46,12 @@ class User<D extends UserData> {
     return userID;
   }
 
+
+  @Override
+  public String toString() {
+    return String.format("Session : {%s}, UserID : {%s}, data of type %s",
+        session.getLocalAddress(), String.valueOf(userID),
+        data.getClass().toString());
+  }
+
 }
