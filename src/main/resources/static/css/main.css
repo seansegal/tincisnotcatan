@@ -261,6 +261,13 @@
 	box-shadow: none;
 }
 
+.robber-icon {
+	width: 85%;
+	height: 85%;
+	display: inline-block;
+	vertical-align: middle;
+}
+
 .intersection {
 	position: absolute;
 	z-index: 4;

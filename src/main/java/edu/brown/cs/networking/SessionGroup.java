@@ -85,10 +85,15 @@ class SessionGroup implements Timestamped {
     System.out.format(
         "Session %s sent a message : %s through SessionGroup %s%n",
         s.getLocalAddress(), message, id);
+    JSONObject json = null;
+    try {
+      json = new JSONObject(message);
+    } catch (JSONException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
-    @SuppressWarnings("unchecked")
-    Map<String, Object> rawMap = GSON.fromJson(message, Map.class);
-    Request req = new Request(rawMap);
+    Request req = new Request(json);
     if (req.isValid()) {
       switch (req.type()) {
         case CHAT:
@@ -110,7 +115,7 @@ class SessionGroup implements Timestamped {
   }
 
 
-  private boolean handleGetGameState(Session s, Object content) {
+  private boolean handleGetGameState(Session s, JSONObject content) {
     JSONObject toSend = new JSONObject();
     Object toRet;
     toRet = GSON.fromJson(api.getGameState(intForSession.get(s)), Map.class);
@@ -131,42 +136,21 @@ class SessionGroup implements Timestamped {
   }
 
 
-  private boolean handleAction(Session s, Object content) {
-    Map<?, ?> map = (Map<?, ?>) content;
-    String methodName = (String) map.get("methodName");
-    List<?> argsMaybe = (List<?>) map.get("args");
-    if (argsMaybe.isEmpty()) {
-      System.out.println("No args given,");
-    } else {
-      System.out.println("Args : " + argsMaybe.toString());
-    }
+  private boolean handleAction(Session s, JSONObject json) {
     JSONObject toSend = new JSONObject();
-    Object toRet;
+
     try {
-      toSend.put("responseType", methodName);
-      switch (methodName) {
-        case "getBoard":
-          toRet = GSON.fromJson(api.getBoard(), Map.class);
-          toSend.put("content", toRet);
-          Broadcast.toSession(s, toSend.toString());
-          break;
-        case "getPlayers":
-          toRet = GSON.fromJson(api.getPlayers(), Map.class);
-          toSend.put("content", toRet);
-          Broadcast.toSession(s, toSend.toString());
-          break;
-        case "performAction":
-          // TODO: see how hans sends this info over, react accordingly.
-          Map<Integer, String> resp =
-              api.performAction((String) map.get("content"));
-          for (Integer i : resp.keySet()) {
-            toSend.put("content", resp.get(i));
-            Broadcast.toSession(sessionForInt.get(i), toSend.toString());
-          }
-          break;
-        default:
-          throw new IllegalArgumentException(
-              "Unsupported action : " + methodName);
+      json.put("player", String.valueOf(intForSession.get(s)));
+      System.out.println(json);
+      toSend.put("responseType", json.get("action"));
+
+      // TODO: see how hans sends this info over, react accordingly.
+      Map<Integer, String> resp = api.performAction(json.toString());
+      for (Integer i : resp.keySet()) {
+        toSend.put("content", resp.get(i));
+        System.out.println(i);
+        Broadcast.toSession(sessionForInt.get(i), toSend.toString());
+        handleGetGameState(sessionForInt.get(i), null);
       }
     } catch (JSONException j) {
       j.printStackTrace();
@@ -177,23 +161,18 @@ class SessionGroup implements Timestamped {
   }
 
 
-  private boolean handleChatMessage(Session s, Object message) {
+  private boolean handleChatMessage(Session s, JSONObject json) {
 
-    String cast;
     try {
-      cast = (String) message;
-    } catch (ClassCastException e) {
-      System.out.format(
-          "ClassCastException: Session %s sent %s through /chat%n",
-          s.getLocalAddress(), message);
+      System.out.println("Message processed : " + json.get("message"));
+      Broadcast.toAll(sessions,
+          Chat.createMessage(s.getLocalAddress().toString(), json.getString("message"), userIds())
+              .toString());
+      return true;
+    } catch (JSONException j) {
       return false;
     }
 
-    System.out.println("Message processed : " + cast);
-    Broadcast.toAll(sessions,
-        Chat.createMessage(s.getLocalAddress().toString(), cast, userIds())
-            .toString());
-    return true;
   }
 
 

@@ -53,3 +53,30 @@ function parsePlayers(playersData) {
 	return players;
 }
 
+function fillPlayerHand(handData) {
+	$("#brick-number").text(handData.resources.BRICK);
+	$("#wood-number").text(handData.resources.WOOD);
+	$("#ore-number").text(handData.resources.ORE);
+	$("#wheat-number").text(handData.resources.WHEAT);
+	$("#sheep-number").text(handData.resources.SHEEP);
+
+	$("#knight-number").text(handData.devCards["Knight"]);
+	$("#year-of-plenty-number").text(handData.devCards["Year of Plenty"]);
+	$("#monopoly-number").text(handData.devCards["Monopoly"]);
+	$("#road-building-number").text(handData.devCards["Road Building"]);
+	$("#victory-point-number").text(handData.devCards["Victory Point"]);
+}
+
+function createTradeRateText(number) {
+	return number + ":1";
+}
+
+function fillPlayerTradeRates(rates) {
+	$("#brick-trade-rate").text(createTradeRateText(rates.BRICK));
+	$("#wood-trade-rate").text(createTradeRateText(rates.WOOD));
+	$("#ore-trade-rate").text(createTradeRateText(rates.ORE));
+	$("#wheat-trade-rate").text(createTradeRateText(rates.WHEAT));
+	$("#sheep-trade-rate").text(createTradeRateText(rates.SHEEP));
+	$("#wildcard-trade-rate").text(createTradeRateText(rates.WILDCARD));
+}
+

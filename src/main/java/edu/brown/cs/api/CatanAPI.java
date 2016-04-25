@@ -6,23 +6,28 @@ import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.api.CatanConverter.CatanSettings;
 import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.TestReferee;
 
 public class CatanAPI {
 
   public static void main(String[] args) {
-    System.out.println(new CatanAPI().getGameState(0));
+    CatanAPI api = new CatanAPI();
+    System.out.println(api.getGameState(0));
+    System.out.println(api.addPlayer(null));
+    System.out.println(api.getGameState(4));
+    String json = "{action: rollDice, player: 4}";
+    System.out.println(api.performAction(json));
   }
 
-
-  private Referee        _referee;
+  private Referee _referee;
   private CatanConverter _converter;
-  private ActionFactory  _actionFactory;
-
+  private ActionFactory _actionFactory;
 
   public CatanAPI() {
-    _referee = new MasterReferee();
-    //_referee = new TestReferee();
+//     _referee = new MasterReferee();
+    _referee = new TestReferee();
     _converter = new CatanConverter();
+    _actionFactory = new ActionFactory(_referee);
   }
 
   public CatanAPI(String settings) {
@@ -30,6 +35,7 @@ public class CatanAPI {
     CatanSettings catanSettings = _converter.getSettings(settings);
     // TODO: use settings for number of players etc.
     _referee = new MasterReferee();
+    _actionFactory = new ActionFactory(_referee);
   }
 
   public String getGameState(int playerID) {
@@ -41,12 +47,10 @@ public class CatanAPI {
     return _converter.getBoard(_referee.getBoard());
   }
 
-
   @Deprecated
   public String getHand(int playerID) {
     return _converter.getHand(_referee.getPlayerByID(playerID));
   }
-
 
   @Deprecated
   public String getPlayers() {
@@ -69,7 +73,7 @@ public class CatanAPI {
    *           When called in the middle of a game.
    */
   public int addPlayer(String playerAttributes) {
-    //TODO: decide on playerAttributes, who is choosing colors?
+    // TODO: decide on playerAttributes, who is choosing colors?
     return _referee.addPlayer("TestName", "#000000");
   }
 
@@ -83,7 +87,6 @@ public class CatanAPI {
   public boolean gameIsFull() {
     return _referee.gameIsFull();
   }
-
 
   /**
    * Performs Catan Actions. See the README for specific Action JSON
@@ -107,6 +110,5 @@ public class CatanAPI {
 
     return _converter.responseToJSON(response);
   }
-
 
 }

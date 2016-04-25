@@ -2,10 +2,14 @@ var INITIAL_HEX_SIZE = 130;
 var MIN_SCALE = 100;
 var MAX_SCALE = 300;
 
+var boardX = $(window).width() / 2 - 100;
+var boardY = $(window).height() / 2 - 100;
+var boardScale = INITIAL_HEX_SIZE;
+
 function Board() {
-	this.transX = $(window).width() / 2 - 100;
-	this.transY = $(window).height() / 2 - 100;
-	this.scaleFactor = INITIAL_HEX_SIZE;
+	this.transX = boardX;
+	this.transY = boardY;
+	this.scaleFactor = boardScale;
 
 	this.tiles = [];
 	this.intersections = [];
@@ -22,6 +26,10 @@ Board.prototype.translate = function(deltaX, deltaY) {
 	this.transY = Math.max(-this.scaleFactor / (2 * Math.sqrt(3)), this.transY);
 	this.transY = Math.min($("#board-viewport").height() - this.scaleFactor / (2 * Math.sqrt(3)), this.transY);
 	
+	// Update global board translation factors
+	boardX = this.transX;
+	boardY = this.transY;
+
 	this.draw();
 }
 
@@ -31,6 +39,9 @@ Board.prototype.scale = function(deltaScale) {
 	// Cap scale factor between MIN_SCALE and MAX_SCALE
 	this.scaleFactor = Math.max(MIN_SCALE, this.scaleFactor);
 	this.scaleFactor = Math.min(MAX_SCALE, this.scaleFactor);
+
+	// Update global board scalefactor
+	boardScale = this.scaleFactor;
 
 	// Clip edges if they go too far over border
 	this.translate(0, 0);
@@ -52,8 +63,8 @@ Board.prototype.draw = function() {
 	}
 }
 
-Board.prototype.addTile = function(coordinates, resource, number) {
-	this.tiles.push(new Tile(coordinates, resource, number));
+Board.prototype.addTile = function(tile) {
+	this.tiles.push(tile);
 }
 
 Board.prototype.addIntersection = function(intersection) {
@@ -65,13 +76,15 @@ Board.prototype.addPath = function(path) {
 }
 
 Board.prototype.createBoard = function(boardData) {
+	$("#board-viewport").empty();
+
 	var tiles = boardData.tiles;
 	var intersections = boardData.intersections;
 	var paths = boardData.paths;
 
 	for (var i = 0; i < tiles.length; i++) {
 		var tile = tiles[i];
-		this.addTile(parseHexCoordinates(tile.hexCoordinate), parseTileType(tile.type), tile.number);
+		this.addTile(parseTile(tiles[i]));
 	}
 
 	for (var i = 0; i < intersections.length; i++) {
