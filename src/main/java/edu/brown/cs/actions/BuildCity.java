@@ -13,6 +13,7 @@ public class BuildCity implements Action {
   private Player _player;
   private Intersection _intersection;
   private Referee _ref;
+  private static final String MESSAGE = "Congratulations! You built a City!";
 
   public BuildCity(Referee ref, int playerID, IntersectionCoordinate i) {
     assert ref != null && i != null;
@@ -34,8 +35,7 @@ public class BuildCity implements Action {
     _player.buildCity();
     _player.useCity();
     _intersection.placeCity(_player);
-    ActionResponse respToPlayer = new ActionResponse(true,
-        "Congratulations! You built a City!", null);
+    ActionResponse respToPlayer = new ActionResponse(true, MESSAGE, null);
     String message = String.format("%s built a City.", _player.getName());
     ActionResponse respToAll = new ActionResponse(true, message, null);
     Map<Integer, ActionResponse> toReturn = new HashMap<>();

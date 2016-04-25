@@ -26,7 +26,7 @@ public class CatanAPI {
   private ActionFactory _actionFactory;
 
   public CatanAPI() {
-//     _referee = new MasterReferee();
+    // _referee = new MasterReferee();
     _referee = new TestReferee();
     _converter = new CatanConverter();
     _actionFactory = new ActionFactory(_referee);
@@ -89,6 +89,16 @@ public class CatanAPI {
    *         more specific message as to why the Action failed.
    */
   public Map<Integer, JsonObject> performAction(String action) {
+    if (action == null) {
+      throw new IllegalArgumentException("Input cannot be null.");
+    }
+    Map<Integer, ActionResponse> response = _actionFactory.createAction(action)
+        .execute();
+
+    return _converter.responseToJSON(response);
+  }
+
+  public Map<Integer, JsonObject> performAction(JsonObject action) {
     if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");
     }

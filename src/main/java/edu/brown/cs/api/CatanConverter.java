@@ -29,6 +29,7 @@ public class CatanConverter {
 
   private Gson _gson;
 
+
   public CatanSettings getSettings(String settings) {
     try {
       return _gson.fromJson(settings, CatanSettings.class);

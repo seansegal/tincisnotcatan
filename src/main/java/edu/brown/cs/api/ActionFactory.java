@@ -22,9 +22,17 @@ public class ActionFactory {
     _referee = referee;
   }
 
+  private JsonObject convertFromStringToJson(String string) {
+    return new Gson().fromJson(string, JsonObject.class);
+  }
+
   public Action createAction(String json) {
+    JsonObject actionJSON = convertFromStringToJson(json);
+    return createAction(actionJSON);
+  }
+
+  public Action createAction(JsonObject actionJSON) {
     try {
-      JsonObject actionJSON = new Gson().fromJson(json, JsonObject.class);
       String action = actionJSON.get("action").getAsString();
       int playerID = actionJSON.get("player").getAsInt();
       switch (action) {
@@ -59,7 +67,5 @@ public class ActionFactory {
     }
 
   }
-
-
 
 }
