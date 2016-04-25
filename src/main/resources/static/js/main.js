@@ -63,10 +63,11 @@ function onSettlementBuild(event) {
 	btnElement.addClass("btn-danger");
 	btnElement.val("Cancel Build");
 
-	board.intersections[5].highlight();
-	board.intersections[11].highlight();
-	board.intersections[21].highlight();
-	board.intersections[15].highlight();
+	for (var i = 0; i < board.intersections.length; i++) {
+		if (board.intersections[i].canBuildSettlement) {
+			board.intersections[i].highlight();
+		}
+	}
 }
 
 function onSettlementBuildCancel(event) {
@@ -78,10 +79,11 @@ function onSettlementBuildCancel(event) {
 	btnElement.addClass("btn-default");
 	btnElement.val("Build Settlement");
 
-	board.intersections[5].unHighlight();
-	board.intersections[11].unHighlight();
-	board.intersections[21].unHighlight();
-	board.intersections[15].unHighlight();
+	for (var i = 0; i < board.intersections.length; i++) {
+		if (board.intersections[i].highlighted) {
+			board.intersections[i].unHighlight();
+		}
+	}
 }
 
 $("#settlement-build-btn").click(onSettlementBuild);
@@ -95,8 +97,12 @@ function onCityBuild(event) {
 	btnElement.addClass("btn-danger");
 	btnElement.val("Cancel Build");
 
-	board.intersections[10].highlight();
-	board.intersections[23].highlight();
+	for (var i = 0; i < board.intersections.length; i++) {
+		var intersect = board.intersections[i];
+		if (intersect.building === BUILDING.SETTLEMENT && intersect.player.id === playerId) {
+			board.intersections[i].highlight();
+		}
+	}
 }
 
 function onCityBuildCancel(event) {
@@ -108,8 +114,13 @@ function onCityBuildCancel(event) {
 	btnElement.addClass("btn-default");
 	btnElement.val("Build City");
 
-	board.intersections[10].unHighlight();
-	board.intersections[23].unHighlight();
+	for (var i = 0; i < board.intersections.length; i++) {
+		var intersect = board.intersections[i];
+		if (intersect.building === BUILDING.SETTLEMENT 
+				&& intersect.player.id === playerId && intersect.highlighted) {
+			board.intersections[i].unHighlight();
+		}
+	}
 }
 
 $("#city-build-btn").click(onCityBuild);
