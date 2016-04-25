@@ -46,8 +46,8 @@ public class BuildRoad implements Action {
   @Override
   public Map<Integer, ActionResponse> execute() {
     // TODO: add validation & costs!!
-    if(_mustPay){
-      //TODO: better validation
+    if (_mustPay) {
+      // TODO: better validation
       _player.buildRoad();
     }
     _player.useRoad();
