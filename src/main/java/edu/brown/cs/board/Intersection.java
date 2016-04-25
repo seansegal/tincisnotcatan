@@ -30,8 +30,7 @@ public class Intersection {
   }
 
   public Map<Integer, Map<Resource, Integer>> notifyBuilding(Resource res) {
-    Map<Integer, Map<Resource, Integer>> toRet = 
-        new HashMap<Integer, Map<Resource, Integer>>();
+    Map<Integer, Map<Resource, Integer>> toRet = new HashMap<Integer, Map<Resource, Integer>>();
     if (_building != null) {
       toRet = _building.collectResource(res);
     }
@@ -39,7 +38,7 @@ public class Intersection {
   }
 
   public void placeSettlement(Player p) {
-    if (canPlaceSettlement(p)) {
+    if (canPlaceSettlement()) {
       _building = new Settlement(p);
     }
   }
@@ -50,21 +49,30 @@ public class Intersection {
     }
   }
 
-  boolean canPlaceSettlement(Player p) {
-    if (_building == null) {
+  private boolean hasAdjacentSettlement() {
+    for (Path p : _paths) {
+      if (p.getOtherEnd(this).getBuilding() != null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean canPlaceSettlement() {
+    if (_building == null && !hasAdjacentSettlement()) {
       return true;
     } else {
       return false;
     }
   }
 
-  boolean canPlaceCity(Player p) {
+  public boolean canPlaceCity(Player p) {
     if (_building == null) {
       return false;
     } else if (_building.getPlayer().equals(p)
         && _building instanceof Settlement) { // Need to double check that type
                                               // checking will allow this to
-        return true;                          // work
+      return true; // work
 
     }
 
@@ -105,8 +113,9 @@ public class Intersection {
     }
     Intersection other = (Intersection) obj;
     if (_position == null) {
-      if (other._position != null)
+      if (other._position != null) {
         return false;
+      }
     } else if (!_position.equals(other._position)) {
       return false;
     }
