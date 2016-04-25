@@ -6,4 +6,5 @@ target/
 .metadata
 .settings
 .jar
-.DS_Store
+.class
+

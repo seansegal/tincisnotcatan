@@ -16,6 +16,7 @@ public class PlayYearOfPlenty implements Action {
   
   public PlayYearOfPlenty(Referee ref, int playerID, Resource firstRes,
       Resource secondRes) {
+    assert ref != null;
     _ref = ref;
     _player = _ref.getPlayerByID(playerID);
     if (_player == null) {

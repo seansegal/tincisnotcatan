@@ -14,15 +14,12 @@ webSocket.onmessage = function (msg) {
     	case "chat":
     		updateChat(data);
     		return;
-    	case "getBoard":
-    		handleGetBoard(data.content);
-    		return;
-    	case "getPlayers":
-    		handleGetPlayers(data.content);
-    		return;
     	case "getGameState":
     		handleGetGameState(data.content);
     		return;
+        case "buildSettlement":
+            handleBuildSettlement(data.content);
+            return;
     	default:
     		console.log("unsupported response type");
     		return;
@@ -32,47 +29,60 @@ webSocket.onmessage = function (msg) {
     }
 };
 
-function sendGetBoardAction() {
-	var playersReq = {"requestType": "action", "content" : {"action" : "getBoard", "params" : []}};
-    webSocket.send(JSON.stringify(playersReq));
-}
-
-function sendGetPlayersAction() {
-	var playersReq = {"requestType": "action", "content" : {"action" : "getPlayers", "params" : []}};
-    webSocket.send(JSON.stringify(playersReq));
-}
-
 function sendGetGameStateAction() {
-    var playersReq = {"requestType": "getGameState", "content": {}};
+    var playersReq = {requestType: "getGameState", content: {}};
     webSocket.send(JSON.stringify(playersReq));
 }
 
 function sendRollDiceAction() {
-    var rollDiceReq  = {"requestType": "action", "content": {"action": "rollDice", "params": []}};
+    var rollDiceReq  = {requestType: "action", content: {action: "rollDice", player: playerId}};
     webSocket.send(JSON.stringify(rollDiceReq));
 }
 
-function sendBuildSettlementAction() {
-    var buildReq  = {"requestType": "action", "content": {"action": "buildSettlement", "params": []}};
+function sendBuildSettlementAction(intersectCoordinates) {
+    var buildReq  = {requestType: "action", content: {action: "buildSettlement", coordinate: intersectCoordinates, player: 0}};
     webSocket.send(JSON.stringify(buildReq));
 }
 
-function handleGetBoard(boardData) {
-    board = new Board();
-    board.createBoard(boardData);
-    board.draw();
+function sendBuildCityAction(intersectCoordinates) {
+    var buildReq  = {requestType: "action", content: {action: "buildCity"}};
+    webSocket.send(JSON.stringify(buildReq));
 }
 
-function handleGetPlayers(playersData) {
-    playersById = {};
-    players = parsePlayers(playersData.players);
-    for (var i = 0; i < players.length; i++) {
-        playersById[players[i].id] = players[i];
-        players[i].fillPlayerTab();
-    }
+function sendBuildRoadAction(start, end) {
+    var buildReq  = {requestType: "action", content: {action: "buildRoad"}};
+    webSocket.send(JSON.stringify(buildReq));
 }
 
 function handleGetGameState(gameStateData) {
+    // Set global data
+    playerId = gameStateData.playerID;
+    currentTurn = gameStateData.currentTurn;
+
+    // Create players
+    playersById = {};
+    players = parsePlayers(gameStateData.players);
+    for (var i = 0; i < players.length; i++) {
+        playersById[players[i].id] = players[i];
+    }
+
+    for (var i = 0; i < 4; i++) {
+        players[i].fillPlayerTab();
+    }
+
+    // Draw hand
+    fillPlayerHand(gameStateData.hand);
+
+    // Draw trade rates
+    fillPlayerTradeRates(gameStateData.players[playerId].rates); // TODO: change to reflect current player
+
+    // Create board
+    board = new Board();
+    board.createBoard(gameStateData.board);
+    board.draw();
+}
+
+function handleBuildSettlement(response) {
 
 }
 
@@ -90,7 +100,7 @@ id("message").addEventListener("keypress", function (e) {
 //Send a message if it's not empty, then clear the input field
 function sendMessage(message) {
     if (message !== "") {
-    	var pack = {"requestType" : "chat", "content" : message}
+    	var pack = {"requestType" : "chat", "content" : {"message" : message}}
         webSocket.send(JSON.stringify(pack));
         id("message").value = "";
     }

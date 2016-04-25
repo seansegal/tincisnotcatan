@@ -3,8 +3,6 @@ package edu.brown.cs.board;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.brown.cs.actions.Action;
-import edu.brown.cs.actions.AddCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Resource;
 
@@ -19,9 +17,6 @@ public class City implements Building{
 
   @Override
   public Map<Integer, Map<Resource, Integer>> collectResource(Resource resource) {
-    Action addCard = new AddCard(_player, resource);
-    addCard.execute();
-    addCard.execute();
     Map<Resource, Integer> resourceCount = new HashMap<Resource, Integer>();
     resourceCount.put(resource, 2);
     Map<Integer, Map<Resource, Integer>> playerResource =
