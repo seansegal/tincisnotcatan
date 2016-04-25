@@ -9,28 +9,30 @@ import edu.brown.cs.actions.EmptyAction;
 import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
+import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
 
 public class ActionFactory {
 
   private Referee _referee;
 
-  public static void main(String[] args) {
-    String json = "{action: buildSettlement, params: {x: 1, y: 2, z: 3}}";
-    JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
-    // System.out.println(new Gson().fromJson(json,
-    // BuildSettlementActionString.class).getObject().getClass());
-    System.out.println(jsonObject.get("action"));
-    System.out.println(jsonObject.get("chiekn"));
-  }
-
   public ActionFactory(Referee referee) {
+    assert referee != null;
+    assert referee instanceof MasterReferee;
     _referee = referee;
   }
 
+  private JsonObject convertFromStringToJson(String string) {
+    return new Gson().fromJson(string, JsonObject.class);
+  }
+
   public Action createAction(String json) {
+    JsonObject actionJSON = convertFromStringToJson(json);
+    return createAction(actionJSON);
+  }
+
+  public Action createAction(JsonObject actionJSON) {
     try {
-      JsonObject actionJSON = new Gson().fromJson(json, JsonObject.class);
       String action = actionJSON.get("action").getAsString();
       int playerID = actionJSON.get("player").getAsInt();
       switch (action) {
@@ -65,4 +67,5 @@ public class ActionFactory {
     }
 
   }
+
 }

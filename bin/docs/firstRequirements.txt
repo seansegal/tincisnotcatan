@@ -1,0 +1,5 @@
+For the first requirements assignment for CS032:
+
+Thoughts - focus on a high level of modularity and extensibility, so moderate level programmers could download the repo and add their own "house rules" to their version of catan.
+Do we want networking? It would be sweet to be able to have multiple players in a game from different computers. Could this be our "A-level" accomplishment? We should look into how feasible this is with Spark.
+Does anyone know about good libraries in Java for making games? We should do research to see if there are frameworks or libraries that are "standard" for people making games in java on Spark.
