@@ -5,21 +5,27 @@ import java.util.Collection;
 
 import org.eclipse.jetty.websocket.api.Session;
 
+import com.google.gson.JsonObject;
+
 public class Broadcast {
 
-  public static void toAll(Collection<Session> col, String message) {
+  public static boolean toAll(Collection<Session> col, JsonObject message) {
+    boolean success = true;
     for(Session sesh : col) {
-      toSession(sesh, message);
+      success &= toSession(sesh, message);
     }
+    return success;
   }
 
-  public static void toSession(Session s, String message) {
+  public static boolean toSession(Session s, JsonObject message) {
     if(s.isOpen()) {
       try {
-        s.getRemote().sendString(message);
+        s.getRemote().sendString(message.toString());
+        return true;
       } catch (IOException e) {
         System.out.format("Failed to send message to Session %s : %s%n", s.getLocalAddress(), message);
       }
     }
+    return false;
   }
 }

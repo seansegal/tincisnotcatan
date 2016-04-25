@@ -2,6 +2,8 @@ package edu.brown.cs.api;
 
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+
 import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.api.CatanConverter.CatanSettings;
 import edu.brown.cs.catan.MasterReferee;
@@ -38,23 +40,8 @@ public class CatanAPI {
     _actionFactory = new ActionFactory(_referee);
   }
 
-  public String getGameState(int playerID) {
+  public JsonObject getGameState(int playerID) {
     return _converter.getGameState(_referee, playerID);
-  }
-
-  @Deprecated
-  public String getBoard() {
-    return _converter.getBoard(_referee.getBoard());
-  }
-
-  @Deprecated
-  public String getHand(int playerID) {
-    return _converter.getHand(_referee.getPlayerByID(playerID));
-  }
-
-  @Deprecated
-  public String getPlayers() {
-    return _converter.getPlayers(_referee.getReadOnlyReferee());
   }
 
   /**
@@ -101,7 +88,7 @@ public class CatanAPI {
    *         attribute for an action -1 will be returned and it will map to a
    *         more specific message as to why the Action failed.
    */
-  public Map<Integer, String> performAction(String action) {
+  public Map<Integer, JsonObject> performAction(String action) {
     if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");
     }
