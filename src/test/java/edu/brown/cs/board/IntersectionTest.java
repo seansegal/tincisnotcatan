@@ -107,13 +107,13 @@ public class IntersectionTest {
     IntersectionCoordinate i = new IntersectionCoordinate(h1, h2, h3);
     Intersection inter = new Intersection(i);
     Player p = new HumanPlayer(1,"name", "000000");
-    
-    assertTrue(inter.canPlaceSettlement(p));
+
+    assertTrue(inter.canPlaceSettlement());
     assertTrue(!inter.canPlaceCity(p));
     inter.placeSettlement(p);
     assertTrue(inter.getBuilding().getPlayer().equals(p));
     assertTrue(inter.canPlaceCity(p));
-    assertTrue(!inter.canPlaceSettlement(p));
+    assertTrue(!inter.canPlaceSettlement());
     inter.placeCity(p);
     assertTrue(inter.getBuilding().getPlayer().equals(p));
     assertTrue(!inter.canPlaceCity(p));
