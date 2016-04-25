@@ -40,8 +40,10 @@ webSocket.onmessage = function (msg) {
 function handleActionResponse(data) {
 	switch(data.action) {
 	// add action handlers here!
-	case  "buildSettlement":
+	case "buildSettlement":
 		return handleBuildSettlement(data);
+    case "rollDice":
+        return handleRollDice(data);
 	default:
 		console.log("action object with no action identifier");
 	}
@@ -101,7 +103,11 @@ function handleGetGameState(gameStateData) {
 }
 
 function handleBuildSettlement(response) {
+    addMessage(response.content.message);
+}
 
+function handleRollDice(response) {
+    addMessage(response.content.message);
 }
 
 //Send message if "Send" is clicked
