@@ -83,7 +83,7 @@ function handleGetGameState(gameStateData) {
 }
 
 function handleBuildSettlement(response) {
-
+    addMessage("You build a settlement!");
 }
 
 //Send message if "Send" is clicked

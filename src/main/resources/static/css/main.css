@@ -40,6 +40,19 @@
 	margin-top: -1px;
 }
 
+#message-container {
+	margin-left: 10%;
+	margin-right: 10%;
+	border-radius: 4px 4px 0px 0px;
+	background-color: #FFFFFF;
+}
+
+#message-container > * {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 0px;
+}
+
 .above-board {
 	z-index: 10;
 }
