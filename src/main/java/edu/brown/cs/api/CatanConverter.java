@@ -29,7 +29,6 @@ public class CatanConverter {
 
   private Gson _gson;
 
-
   public CatanSettings getSettings(String settings) {
     try {
       return _gson.fromJson(settings, CatanSettings.class);
@@ -47,27 +46,12 @@ public class CatanConverter {
     return _gson.toJsonTree(new GameState(ref, playerID)).getAsJsonObject();
   }
 
-//  public String getBoard(Board board) {
-//    return _gson.toJson(new BoardRaw(board));
-//  }
-//
-//  public String getHand(Player player) {
-//    return _gson.toJson(new Hand(player));
-//  }
-//
-//  public String getPlayers(Referee referee) {
-//    List<PublicPlayerRaw> players = new ArrayList<>();
-//    for (Player p : referee.getPlayers()) {
-//      players.add(new PublicPlayerRaw(p, referee.getReadOnlyReferee()));
-//    }
-//    return _gson.toJson(ImmutableMap.of("players", players));
-//  }
-
   public Map<Integer, JsonObject> responseToJSON(
       Map<Integer, ActionResponse> response) {
     Map<Integer, JsonObject> toReturn = new HashMap<>();
-    for(Map.Entry<Integer, ActionResponse> entry : response.entrySet()){
-      toReturn.put(entry.getKey(), _gson.toJsonTree(entry.getValue()).getAsJsonObject());
+    for (Map.Entry<Integer, ActionResponse> entry : response.entrySet()) {
+      toReturn.put(entry.getKey(), _gson.toJsonTree(entry.getValue())
+          .getAsJsonObject());
     }
     return toReturn;
   }
