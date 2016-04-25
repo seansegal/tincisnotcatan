@@ -127,13 +127,20 @@ public class HumanPlayer implements Player {
 
   @Override
   public void addResource(Resource resource) {
-    double newCount = resources.get(resource) + 1;
+    double newCount = resources.get(resource) + 1.0;
     resources.put(resource, newCount);
   }
 
   @Override
   public void removeResource(Resource resource) {
     double newCount = resources.get(resource) - 1;
+    assert newCount >= 0;
+    resources.put(resource, newCount);
+  }
+
+  @Override
+  public void removeResource(Resource resource, double count) {
+    double newCount = resources.get(resource) - count;
     assert newCount >= 0;
     resources.put(resource, newCount);
   }
@@ -231,12 +238,8 @@ public class HumanPlayer implements Player {
   }
 
   @Override
-  public void addResource(Resource resource, int count) {
-    assert count >= 0;
-    for (int i = 0; i < count; i++) {
-      addResource(resource);
-    }
-
+  public void addResource(Resource resource, double count) {
+    this.resources.replace(resource, this.resources.get(resource) + count);
   }
 
   private class ReadOnlyPlayer implements Player {
@@ -380,7 +383,7 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public void addResource(Resource resource, int count) {
+    public void addResource(Resource resource, double count) {
       throw new UnsupportedOperationException(
           "A ReadOnlyPlayer cannot add resource cards.");
     }
@@ -388,6 +391,12 @@ public class HumanPlayer implements Player {
     @Override
     public boolean canBuyDevelopmentCard() {
       return _player.canBuyDevelopmentCard();
+    }
+
+    @Override
+    public void removeResource(Resource resource, double count) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyPlayer cannot remove resource cards.");
     }
 
   }

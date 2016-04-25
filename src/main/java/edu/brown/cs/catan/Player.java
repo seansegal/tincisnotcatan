@@ -32,9 +32,11 @@ public interface Player {
 
   void addResource(Resource resource);
 
-  void addResource(Resource resource, int count);
+  void addResource(Resource resource, double count);
 
   void removeResource(Resource resource);
+
+  void removeResource(Resource resource, double count);
 
   double getNumResourceCards();
 

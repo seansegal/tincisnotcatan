@@ -35,12 +35,31 @@ public class PlayMonopoly implements Action {
       toRet.put(_player.getID(), toAdd);
       return toRet;
     }
-    int totalResCount = 0;
+    Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
+    double totalResCount = 0;
     for (Player otherPlayer : _ref.getPlayers()) {
-
+      if (!otherPlayer.equals(_player)) {
+        double numResource = otherPlayer.getResources().get(_res);
+        totalResCount += numResource;
+        otherPlayer.removeResource(_res, numResource);
+        String message = String.format(
+            "%1 played a Monopoly card. You lost %.2f %3.", _player.getName(),
+            numResource, _res.toString());
+        Map<Resource, Double> resourceMap = new HashMap<Resource, Double>();
+        resourceMap.put(_res, numResource);
+        ActionResponse toAdd = new ActionResponse(true, message, resourceMap);
+        toRet.put(otherPlayer.getID(), toAdd);
+      }
     }
-
-    return null;
+    _player.addResource(_res, totalResCount);
+    Map<Resource, Double> resourceMap = new HashMap<Resource, Double>();
+    resourceMap.put(_res, totalResCount);
+    String message = String.format(
+        "You played a Monopoly card and gained %.2f %3.", totalResCount,
+        _res.toString());
+    ActionResponse toAdd = new ActionResponse(true, message, resourceMap);
+    toRet.put(_player.getID(), toAdd);
+    return toRet;
   }
 
 }
