@@ -1,9 +1,13 @@
 //Establish the WebSocket connection and set up event handlers
-try {
-	var webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/action/"); 
-} catch(err) {
-	var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
+
+if (document.location.hostname == "localhost") {
+	// use http
+	webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
+} else {
+	// we're on heroku - use https:
+	webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/action/");
 }
+
 
 webSocket.onopen = function () {
     sendGetGameStateAction();
@@ -12,7 +16,6 @@ webSocket.onopen = function () {
 webSocket.onmessage = function (msg) {
     var data = JSON.parse(msg.data);
     console.log(data);
-    
     if(data.hasOwnProperty("responseType")) {
     	switch(data.responseType) {
     	case "chat":
