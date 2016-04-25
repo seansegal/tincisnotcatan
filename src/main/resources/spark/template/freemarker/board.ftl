@@ -276,19 +276,6 @@
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
-		    				<div class="col-xs-4 text-right">
-		    					<div class="circle trade-circle wildcard-circle">
-									<img src="images/icon-wildcard.svg" alt="Anything">
-								</div>
-		    				</div>
-		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
-		    				</div>
-		    				<div class="col-xs-4 text-left">
-		    					<h5 id="wildcard-trade-rate">1:1</h5>
-		    				</div>
-		    			</div>
-		    			<div class="row trade-row">
 		    				<div class="col-xs-12 text-center">
 		    					<input type="button" class="btn btn-primary" value="Trade With Bank">
 		    				</div>
@@ -307,31 +294,31 @@
 		<div class="panel panel-default col-xs-12">
 			<ul class="nav navbar-nav navbar-left" id="hand-resources">
 				<li class="navbar-btn">
-					<div class="circle card-circle brick-color">
+					<div class="circle card-circle brick-color" data-toggle="tooltip" data-placement="top" title="Brick">
 						<img src="images/icon-brick.svg" alt="Brick">
 					</div>
 					<div class="card-number" id="brick-number">1.05</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle wood-color">
+					<div class="circle card-circle wood-color" data-toggle="tooltip" data-placement="top" title="Wood">
 						<img src="images/icon-wood.svg" alt="Wood">
 					</div>
 					<div class="card-number" id="wood-number">1.05</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle ore-color">
+					<div class="circle card-circle ore-color" data-toggle="tooltip" data-placement="top" title="Ore">
 						<img src="images/icon-ore.svg" alt="Ore">
 					</div>
 					<div class="card-number" id="ore-number">1.05</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle wheat-color">
+					<div class="circle card-circle wheat-color" data-toggle="tooltip" data-placement="top" title="Wheat">
 						<img src="images/icon-wheat.svg" alt="Wheat">
 					</div>
 					<div class="card-number" id="wheat-number">1.05</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle sheep-color">
+					<div class="circle card-circle sheep-color" data-toggle="tooltip" data-placement="top" title="Sheep">
 						<img src="images/icon-sheep.svg" alt="Sheep">
 					</div>
 					<div class="card-number" id="sheep-number">1.05</div>
@@ -339,7 +326,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right" id="hand-dev-cards">
 				<li class="navbar-btn">
-					<div class="circle card-circle">
+					<div class="circle card-circle pointer">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Knight" data-content="When you play this card, you move the robber and steal a resource from the owner of an adjacent settlement or city.">
 							<img src="images/icon-knight.svg" alt="Knight">
 						</div>
@@ -347,7 +334,7 @@
 					<div class="card-number" id="knight-number">1</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle" data-toggle="modal" data-target="#year-of-plenty-modal">
+					<div class="circle card-circle pointer" data-toggle="modal" data-target="#year-of-plenty-modal">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Year of Plenty" data-content="When you play this card, you can select 2 resources of your choice from the bank.">
 							<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
 						</div>
@@ -355,7 +342,7 @@
 					<div class="card-number" id="year-of-plenty-number">1</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle" data-toggle="modal" data-target="#monopoly-modal">
+					<div class="circle card-circle pointer" data-toggle="modal" data-target="#monopoly-modal">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Monopoly" data-content="When you play this card, choose one type of resource. All other players must give you all their resource cards of that type.">
 							<img src="images/icon-monopoly.svg" alt="Monopoly">
 						</div>
@@ -363,7 +350,7 @@
 					<div class="card-number" id="monopoly-number">1</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle">
+					<div class="circle card-circle pointer">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Road Building" data-content="When you play this card, you can build 2 roads free of charge.">
 							<img src="images/icon-road-building.svg" alt="Road Building">
 						</div>
