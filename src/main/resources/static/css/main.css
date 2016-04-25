@@ -40,6 +40,10 @@
 	margin-top: -1px;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 #message-container {
 	margin-left: 10%;
 	margin-right: 10%;
@@ -269,7 +273,7 @@
   	background-color: black;
 }
 
-.desert-circle {
+.desert-circle, .sea-circle {
 	background-color: transparent;
 	box-shadow: none;
 }

@@ -41,11 +41,12 @@ function handleActionResponse(data) {
 	switch(data.action) {
 	// add action handlers here!
 	case "buildSettlement":
-		return handleBuildSettlement(data);
+    case "buildCity":
     case "rollDice":
-        return handleRollDice(data);
+        addMessage(data.content.message);
+        break;
 	default:
-		console.log("action object with no action identifier");
+		console.log("unknown action identifier");
 	}
 }
 
@@ -60,12 +61,12 @@ function sendRollDiceAction() {
 }
 
 function sendBuildSettlementAction(intersectCoordinates) {
-    var buildReq  = {requestType: "action", "action": "buildSettlement", "coordinate": intersectCoordinates, "player": 0};
+    var buildReq  = {requestType: "action", "action": "buildSettlement", "coordinate": intersectCoordinates};
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuildCityAction(intersectCoordinates) {
-    var buildReq  = {requestType: "action", "action" : "buildCity"};
+    var buildReq  = {requestType: "action", "action" : "buildCity", "coordinate": intersectCoordinates};
     webSocket.send(JSON.stringify(buildReq));
 }
 
@@ -100,14 +101,6 @@ function handleGetGameState(gameStateData) {
     board = new Board();
     board.createBoard(gameStateData.board);
     board.draw();
-}
-
-function handleBuildSettlement(response) {
-    addMessage(response.content.message);
-}
-
-function handleRollDice(response) {
-    addMessage(response.content.message);
 }
 
 //Send message if "Send" is clicked

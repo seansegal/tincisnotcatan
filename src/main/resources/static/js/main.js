@@ -7,9 +7,11 @@ var currentPlayerTurn = -2;
 $(window).load(function() {
 	board = new Board();
 
-    $(function () {
-  		$('[data-toggle="popover"]').popover()
-	});
+	// Enable tooltips and popovers
+	$(function () {
+  		$('[data-toggle="tooltip"]').tooltip();
+  		$('[data-toggle="popover"]').popover();
+	})
 
     $("#end-turn-btn").click(sendRollDiceAction);
 });
