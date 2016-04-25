@@ -7,6 +7,7 @@ import com.google.gson.JsonSyntaxException;
 import edu.brown.cs.actions.Action;
 import edu.brown.cs.actions.BuildCity;
 import edu.brown.cs.actions.BuildSettlement;
+import edu.brown.cs.actions.BuyDevelopmentCard;
 import edu.brown.cs.actions.EmptyAction;
 import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.board.HexCoordinate;
@@ -52,9 +53,9 @@ public class ActionFactory {
       case "buildSettlement":
         return new BuildSettlement(_referee, playerID,
             toIntersectionCoordinate(actionJSON.get("coordinate")
-                .getAsJsonObject()), false); // TODO: change so
-        // that referee says
-        // if they pay.
+                .getAsJsonObject()), false); // TODO: Referee
+      case "buyDevCard":
+        return new BuyDevelopmentCard(_referee, playerID);
       case "rollDice":
         return new RollDice(_referee, playerID);
       default:
