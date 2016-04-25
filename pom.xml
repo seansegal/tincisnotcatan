@@ -154,7 +154,7 @@
               
               <appName>cs032catan</appName> 
               <processTypes>
-                  <web>java -jar ./target/my-app-1.0-jar-with-dependencies.jar</web>
+                  <web>java -jar ./target/catan-1.0-jar-with-dependencies.jar</web>
               </processTypes>
           </configuration>
       </plugin>
