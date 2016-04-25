@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 
 public class Broadcast {
 
-  public static boolean toAll(Collection<Session> col, JsonObject message) {
+  private static boolean toAll(Collection<Session> col, JsonObject message) {
     boolean success = true;
     for (Session sesh : col) {
       success &= toSession(sesh, message);
@@ -19,7 +19,7 @@ public class Broadcast {
   }
 
 
-  public static boolean toSession(Session s, JsonObject message) {
+  private static boolean toSession(Session s, JsonObject message) {
     if (s.isOpen()) {
       try {
         s.getRemote().sendString(message.toString());

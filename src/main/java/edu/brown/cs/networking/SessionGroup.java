@@ -14,38 +14,27 @@ import com.google.gson.JsonObject;
 
 class SessionGroup implements Timestamped {
 
-  private List<User<?>> users;
-  private int           size;
-  private long          timestamp;
-  private String        id;
-  // private Map<User<?>, Integer> userToInt;
-  // private Map<Integer, User<?>> intToUser;
-  // private Map<Session, User<?>> sessionToUser;
+  private static final String REQUEST_IDENTIFIER = "requestType";
 
-  private final Gson    GSON = new Gson();
-  private final API     api;
+  private List<User<?>>       users;
+  private int                 size;
+  private long                timestamp;
+  private String              id;
+
+  private final Gson          GSON               = new Gson();
+  private final API           api;
 
 
   public SessionGroup(int size, String id, API api) {
     this.api = api;
-    users = new ArrayList<>();
-    // userToInt = new HashMap<>();
-    // intToUser = new HashMap<>();
-    // sessionToUser = new HashMap<>();
     this.size = size;
     this.timestamp = System.currentTimeMillis();
     this.id = id;
+    this.users = new ArrayList<>();
   }
 
 
   public boolean isFull() {
-    // if (users.size() == size){
-    // boolean usersAreReady = true;
-    // for(User<?> u: users) {
-    // usersAreReady &= u.isValid();
-    // }
-    // return usersAreReady;
-    // }
     return users.size() == size;
   }
 
@@ -65,9 +54,6 @@ class SessionGroup implements Timestamped {
       // User(data) instead?
       int apisUserID = api.addPlayer("");
       User<?> u = new User<>(s, apisUserID, api.getUserDataClass());
-      // userToInt.put(u, apisUserID);
-      // intToUser.put(apisUserID, u);
-      // sessionToUser.put(s, u);
       System.out.format("User %s was created and added to session group %s%n",
           u, id);
       return users.add(u);
@@ -82,13 +68,12 @@ class SessionGroup implements Timestamped {
     System.out.format("Session %s was removed from SessionGroup %s%n",
         s.getLocalAddress(), id);
     User<?> u = getUser(s);
-    // userToInt.remove(u);
-    // intToUser.remove(u.userID());
     boolean toReturn = users.remove(u);
-
     if (isEmpty()) {
       System.out.format("SessionGroup %s is now empty.%n", id);
     }
+    // TODO : notify other players that user left,
+    // begin countdown to game cancel.
     return toReturn;
   }
 
@@ -100,14 +85,17 @@ class SessionGroup implements Timestamped {
           s.getLocalAddress(), id);
       return false;
     }
+
     User<?> u = getUser(s);
+
     System.out.format(
         "Session %s sent a message : %s through SessionGroup %s%n",
         s.getLocalAddress(), message, id);
+
     JsonObject json = GSON.fromJson(message, JsonObject.class);
-    System.out.println("Message parsed to : " + json.toString());
-    if(json.has("requestType")){
-      switch (json.get("requestType").getAsString()) {
+    if (json.has(REQUEST_IDENTIFIER)
+        && !json.get(REQUEST_IDENTIFIER).isJsonNull()) {
+      switch (json.get(REQUEST_IDENTIFIER).getAsString()) {
         case "registerUser":
           return registerUser(u, json);
         case "chat":
@@ -119,19 +107,20 @@ class SessionGroup implements Timestamped {
         default:
           System.out.format("User %s made an illegal request : %s%n",
               u, message);
-          return false;
+          json.addProperty("ERROR",
+              "Illegal request: " + json.get(REQUEST_IDENTIFIER).getAsString());
       }
-    } else {
-      // BROADCAST ERROR PROTOCOL TODO
-      return false;
-    }
 
+    } else {
+      json.addProperty("ERROR", "No " + REQUEST_IDENTIFIER + " field specified");
+    }
+    return Broadcast.toUser(u, json);
   }
 
 
   private boolean handleGetGameState(User<?> u) {
     JsonObject resp = api.getGameState(u.userID());
-    resp.addProperty("requestType", "getGameState");
+    resp.addProperty(REQUEST_IDENTIFIER, "getGameState");
     return Broadcast.toUser(u, resp);
   }
 
@@ -143,7 +132,7 @@ class SessionGroup implements Timestamped {
     Map<Integer, JsonObject> resp = api.performAction(json.toString());
     for (Integer i : resp.keySet()) {
       User<?> recipient = getUser(i);
-      if(recipient == null) {
+      if (recipient == null) {
         System.out.format(
             "API thinks there's a player %d, but there isn't an active session.%n",
             i);
@@ -152,7 +141,7 @@ class SessionGroup implements Timestamped {
       json.add("content", resp.get(i));
       json.add("player", GSON.toJsonTree(i));
       System.out.println(i);
-      System.out.println(json.get("requestType").getAsString());
+      System.out.println(json.get(REQUEST_IDENTIFIER).getAsString());
       Broadcast.toUser(recipient, json);
       handleGetGameState(recipient);
     }
@@ -169,26 +158,31 @@ class SessionGroup implements Timestamped {
 
   }
 
+
   private boolean registerUser(User<?> u, JsonObject json) {
     System.out.println("Register user called: got: " + json.toString());
-    // TODO: reflection to always add the right fields of the class object given?
+    // TODO: reflection to always add the right fields of the class object
+    // given?
     // hardcoded for now.
-    if(json.has("userName") && json.has("numPlayersDesired")){
-      if(!json.get("userName").isJsonNull() && !json.get("numPlayersDesired").isJsonNull()) {
+    if (json.has("userName") && json.has("numPlayersDesired")) {
+      if (!json.get("userName").isJsonNull()
+          && !json.get("numPlayersDesired").isJsonNull()) {
         String username = json.get("userName").getAsString();
         Integer numPlayersDesired = json.get("numPlayersDesired").getAsInt();
         u.setField("userName", username);
         u.setField("gameSize", numPlayersDesired);
         u.setField("color", "PLACEHOLDER");
       } else {
-        json.addProperty("ERROR", "registration field userName or numPlayersDesired was null");
+        json.addProperty("ERROR",
+            "registration field userName or numPlayersDesired was null");
       }
     } else {
       System.out.println("Bad register user");
       // TODO: ERROR HANDLING
       json.addProperty("ERROR", "Bad register user.");
     }
-    return Broadcast.toUser(u, json); // indicate success by omitting ERROR field;
+    return Broadcast.toUser(u, json); // indicate success by omitting ERROR
+                                      // field;
   }
 
 
@@ -224,10 +218,10 @@ class SessionGroup implements Timestamped {
 
   private User<?> getUserBy(Predicate<User<?>> p) {
     List<User<?>> list = users.stream().filter(p).collect(Collectors.toList());
-    if(list.size() == 0){
+    if (list.size() == 0) {
       return null;
     }
-    if(list.size() == 1) {
+    if (list.size() == 1) {
       return list.get(0);
     }
     assert false : "Non-unique identifying predicate!";
