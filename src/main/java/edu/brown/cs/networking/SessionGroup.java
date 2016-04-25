@@ -116,11 +116,16 @@ class SessionGroup implements Timestamped {
 
     Map<Integer, JsonObject> resp = api.performAction(json.toString());
     for (Integer i : resp.keySet()) {
+      Session recipient = sessionForInt.get(i);
+      if(recipient == null){
+        System.out.format("API thinks there's a player %d, but there isn't an active session.%n", i);
+        continue;
+      }
       json.add("content", resp.get(i));
       System.out.println(i);
       System.out.println(json.get("requestType").getAsString());
-      Broadcast.toSession(sessionForInt.get(i), json);
-      handleGetGameState(sessionForInt.get(i));
+      Broadcast.toSession(recipient, json);
+      handleGetGameState(recipient);
     }
     return true;
   }
