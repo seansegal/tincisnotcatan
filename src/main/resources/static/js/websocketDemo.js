@@ -101,7 +101,6 @@ function handleGetGameState(gameStateData) {
 }
 
 function handleBuildSettlement(response) {
-
 }
 
 //Send message if "Send" is clicked

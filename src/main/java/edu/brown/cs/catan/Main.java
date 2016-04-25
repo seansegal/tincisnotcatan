@@ -46,6 +46,7 @@ public class Main {
 
     // Set up board
     Spark.get("/board", new BoardHandler(), freeMarker);
+    Spark.get("/home", new HomeHandler(), freeMarker);
 
     // secure("", "", "", ""); // use this for https!
 
@@ -65,9 +66,7 @@ public class Main {
   }
 
 
-  /**
-   * A class which controls the initial page for maps.
-   */
+
   private static class BoardHandler implements TemplateViewRoute {
 
     @Override
@@ -75,6 +74,19 @@ public class Main {
       Map<String, Object> variables = ImmutableMap.of("title",
           "Play Catan");
       return new ModelAndView(variables, "board.ftl");
+    }
+  }
+
+  /**
+   * A class which controls the initial page for maps.
+   */
+  private static class HomeHandler implements TemplateViewRoute {
+
+    @Override
+    public ModelAndView handle(Request req, Response res) {
+      Map<String, Object> variables = ImmutableMap.of("title",
+          "Catan : Home");
+      return new ModelAndView(variables, "home.ftl");
     }
   }
 
