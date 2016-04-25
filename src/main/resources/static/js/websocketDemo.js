@@ -10,6 +10,7 @@ if (document.location.hostname == "localhost") {
 
 
 webSocket.onopen = function () {
+	alert(document.cookie);
     sendGetGameStateAction();
 };
 
