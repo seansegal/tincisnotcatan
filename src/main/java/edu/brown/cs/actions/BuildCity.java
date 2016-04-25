@@ -1,10 +1,39 @@
 package edu.brown.cs.actions;
 
+import java.util.Map;
+
+import edu.brown.cs.board.Intersection;
+import edu.brown.cs.board.IntersectionCoordinate;
+import edu.brown.cs.catan.Player;
+import edu.brown.cs.catan.Referee;
+
 public class BuildCity implements Action {
 
+  private Player _player;
+  private Intersection _intersection;
+  private Referee _ref;
+
+  public BuildCity(Referee ref, int playerID, IntersectionCoordinate i) {
+    assert ref != null && i != null;
+    _ref = ref;
+    _player = _ref.getPlayerByID(playerID);
+    _intersection = _ref.getBoard().getIntersections().get(i);
+    if (_player == null) {
+      String err = String.format("No player exists with the id: %d", playerID);
+      throw new IllegalArgumentException(err);
+    }
+    if (_intersection == null) {
+      throw new IllegalArgumentException("The intersection could not be found.");
+    }
+  }
+
   @Override
-  public void execute() {
-    // TODO Auto-generated method stub
+  public Map<Integer, ActionResponse> execute() {
+    // TODO: add validation!!!
+    _player.buildCity();
+    _player.useCity();
+    _intersection.placeCity(_player);
+    return null;
 
   }
 

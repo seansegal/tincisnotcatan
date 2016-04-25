@@ -1,19 +1,51 @@
 package edu.brown.cs.catan;
 
+import java.util.Collection;
+import java.util.Map;
+
+import edu.brown.cs.board.Board;
+
 public interface Referee {
 
-  // Board
-  // devCardHasBeenPlayed
-  // turnOrder - List<Player>
-  // Players
-  // Bank
-  // DevCardDeck - returns Enum
-  // Set<Player> hasDiscarded
+  void startNextTurn();
 
-  /**
-   *
-   * @return Whether a development card has been played this turn.
-   */
+  int getTurn();
+
+  Player currentPlayer();
+
+  // Development Card
   boolean devHasBeenPlayed();
+
+  void playDevCard();
+
+  boolean gameIsFull();
+
+  int addPlayer(String name, String color);
+
+  DevelopmentCard getDevCard();
+
+  Referee getReadOnlyReferee();
+
+  boolean playerHasDiscarded(int playerID); // Read
+
+  void playerDiscarded(int playerID); // Writes
+
+  void playerMustDiscard(int player);
+
+  Map<Resource, Double> getBankRates(int playerID);
+
+  Board getBoard();
+
+  Player getPlayerByID(int id);
+
+  Collection<Player> getPlayers();
+
+  boolean hasLongestRoad(int playerID);
+
+  boolean hasLargestArmy(int playerID);
+
+  int getNumPublicPoints(int playerID);
+
+  int getNumTotalPoints(int playerID);
 
 }

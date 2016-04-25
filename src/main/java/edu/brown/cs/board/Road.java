@@ -3,11 +3,14 @@ package edu.brown.cs.board;
 import edu.brown.cs.catan.Player;
 
 public class Road {
+  private Player _player;
 
-  Player player;
+  public Road(Player player) {
+    _player = player;
+  }
 
   public Player getPlayer() {
-    return player;
+    return _player;
   }
 
 }
