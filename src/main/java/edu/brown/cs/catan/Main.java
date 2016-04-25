@@ -25,11 +25,6 @@ public class Main {
       System.getenv("HEROKU") != null ? "target/classes/static"
           : "src/main/resources/static";
 
-  private static final String TEMPLATE_PATH    =
-      System.getenv("HEROKU") != null
-          ? "target/classes/spark/template/freermarker"
-          : "src/main/resources/spark/template/freemarker";
-
 
   public static void main(String[] args) {
     Spark.externalStaticFileLocation(STATIC_FILE_PATH);
@@ -40,7 +35,7 @@ public class Main {
 
     Configuration config = new Configuration();
     File templates = new File(
-        TEMPLATE_PATH);
+        "src/main/resources/spark/template/freemarker");
     try {
       config.setDirectoryForTemplateLoading(templates);
     } catch (IOException e) {
