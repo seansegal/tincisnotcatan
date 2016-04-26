@@ -287,7 +287,7 @@ public class Board {
         seaTile.setPorts(new Port(Settings.PORT_ORDER[i]));
         i++;
       }
-      _tiles.add(new Tile(hc, SEA, _intersections));
+      _tiles.add(seaTile);
     }
   }
 

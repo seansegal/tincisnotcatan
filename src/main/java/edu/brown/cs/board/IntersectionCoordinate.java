@@ -81,7 +81,6 @@ public class IntersectionCoordinate {
     toRet.append(coord2.toString());
     toRet.append(" ");
     toRet.append(coord3.toString());
-    toRet.append("\n");
     return toRet.toString();
   }
 

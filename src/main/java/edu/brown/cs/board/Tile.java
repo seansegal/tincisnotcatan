@@ -16,7 +16,8 @@ public class Tile implements BoardTile {
   private final TileType _type;
   private final HexCoordinate _coordinate;
   private boolean _hasRobber;
-  private final List<IntersectionCoordinate> _portLocations;
+  private List<IntersectionCoordinate> _portLocations;
+  private Resource _portType;
   
   public Tile(int rollNum, HexCoordinate coordinate,
       Map<IntersectionCoordinate, Intersection> intersections,
@@ -224,6 +225,12 @@ public class Tile implements BoardTile {
       i.setPort(p);
       _portLocations.add(i.getPosition());
     }
+    _portType = p.getResource();
+  }
+
+  @Override
+  public Resource getPortType() {
+    return _portType;
   }
 
   @Override

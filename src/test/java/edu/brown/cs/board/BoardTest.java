@@ -155,6 +155,5 @@ public class BoardTest {
     Iterator<Intersection> iter3 = portTile3.getIntersections().iterator();
     assertTrue(iter3.next().getPort().getResource() == Resource.WILDCARD);
     assertTrue(iter3.next().getPort().getResource() == Resource.WILDCARD);
-
   }
 }
