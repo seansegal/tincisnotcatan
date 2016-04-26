@@ -331,7 +331,7 @@
 							<img src="images/icon-knight.svg" alt="Knight">
 						</div>
 					</div>
-					<div class="card-number" id="knight-number">1</div>
+					<div class="card-number" id="knight-number">0</div>
 				</li>
 				<li class="navbar-btn">
 					<div class="circle card-circle pointer" data-toggle="modal" data-target="#year-of-plenty-modal">
@@ -339,7 +339,7 @@
 							<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
 						</div>
 					</div>
-					<div class="card-number" id="year-of-plenty-number">1</div>
+					<div class="card-number" id="year-of-plenty-number">0</div>
 				</li>
 				<li class="navbar-btn">
 					<div class="circle card-circle pointer" data-toggle="modal" data-target="#monopoly-modal">
@@ -347,7 +347,7 @@
 							<img src="images/icon-monopoly.svg" alt="Monopoly">
 						</div>
 					</div>
-					<div class="card-number" id="monopoly-number">1</div>
+					<div class="card-number" id="monopoly-number">0</div>
 				</li>
 				<li class="navbar-btn">
 					<div class="circle card-circle pointer">
@@ -355,7 +355,7 @@
 							<img src="images/icon-road-building.svg" alt="Road Building">
 						</div>
 					</div>
-					<div class="card-number" id="road-building-number">1</div>
+					<div class="card-number" id="road-building-number">0</div>
 				</li>
 				<li class="navbar-btn">
 					<div class="circle card-circle">
@@ -363,7 +363,7 @@
 							<img src="images/icon-victory-point.svg" alt="Victory Point">
 						</div>
 					</div>
-					<div class="card-number" id="victory-point-number">1</div>
+					<div class="card-number" id="victory-point-number">0</div>
 				</li>
 			</ul>
 		</div>
@@ -397,7 +397,7 @@
 				</div>
       		</div>
       		<div class="modal-footer">
-        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         		<button type="button" class="btn btn-primary" id="dev-card-buy-btn" data-dismiss="modal">Buy</button>
       		</div>
     	</div>
@@ -412,11 +412,12 @@
         		<h4 class="modal-title" id="yearOfPlentyLabel">Play Year of Plenty</h4>
       		</div>
       		<div class="modal-body">
-       		 ...
+       			<p>Choose any two resources to add to your hand. You can choose two of the same resource.</p>
+       			
       		</div>
       		<div class="modal-footer">
-        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-primary">Save changes</button>
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        		<button type="button" class="btn btn-primary" data-dismiss="modal">Play Year of Plenty</button>
       		</div>
     	</div>
 	</div>
@@ -430,11 +431,38 @@
         		<h4 class="modal-title" id="myMonopolyLabel">Play Monopoly</h4>
       		</div>
       		<div class="modal-body">
-       		 ...
+       			<p>Choose a type of resource. All other players must give you all their resource cards of that type.</p>
+       			<div class="text-center">
+       				<div class="circle monopoly-circle-container" res="brick">
+	      				<div class="circle monopoly-circle brick-color pointer">
+							<img src="images/icon-brick.svg" alt="Brick">
+						</div>
+					</div>
+					<div class="circle monopoly-circle-container" res="wood">
+	      				<div class="circle monopoly-circle wood-color pointer">
+							<img src="images/icon-wood.svg" alt="Wood">
+						</div>
+					</div>
+					<div class="circle monopoly-circle-container" res="ore">
+	      				<div class="circle monopoly-circle ore-color pointer">
+							<img src="images/icon-ore.svg" alt="Ore">
+						</div>
+					</div>
+					<div class="circle monopoly-circle-container" res="wheat">
+	      				<div class="circle monopoly-circle wheat-color pointer">
+							<img src="images/icon-wheat.svg" alt="Wheat">
+						</div>
+					</div>
+					<div class="circle monopoly-circle-container" res="sheep">
+	      				<div class="circle monopoly-circle sheep-color pointer">
+							<img src="images/icon-sheep.svg" alt="Sheep">
+						</div>
+					</div>
+      			</div>
       		</div>
       		<div class="modal-footer">
-        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-primary">Save changes</button>
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        		<button type="button" class="btn btn-primary" id="play-monopoly-btn">Play Monopoly</button>
       		</div>
     	</div>
 	</div>

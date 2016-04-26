@@ -39,12 +39,12 @@ webSocket.onmessage = function (msg) {
 
 function handleActionResponse(data) {
 	switch(data.action) {
-	// add action handlers here!
+    case "rollDice":
 	case "buildSettlement":
     case "buildCity":
     case "buildRoad":
     case "buyDevCard":
-    case "rollDice":
+    case "playMonopoly":
         addMessage(data.content.message);
         break;
 	default:
@@ -58,28 +58,33 @@ function sendGetGameStateAction() {
 }
 
 function sendRollDiceAction() {
-    var rollDiceReq  = {requestType: "action", "action": "rollDice", "player": playerId};
+    var rollDiceReq  = {requestType: "action", action: "rollDice", player: playerId};
     webSocket.send(JSON.stringify(rollDiceReq));
 }
 
 function sendBuildSettlementAction(intersectCoordinates) {
-    var buildReq  = {requestType: "action", "action": "buildSettlement", "coordinate": intersectCoordinates};
+    var buildReq  = {requestType: "action", action: "buildSettlement", coordinate: intersectCoordinates};
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuildCityAction(intersectCoordinates) {
-    var buildReq  = {requestType: "action", "action" : "buildCity", "coordinate": intersectCoordinates};
+    var buildReq  = {requestType: "action", action : buildCity, "coordinate": intersectCoordinates};
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuildRoadAction(start, end) {
-    var buildReq  = {requestType: "action", "action": "buildRoad"};
+    var buildReq  = {requestType: "action", action: "buildRoad", start: start, end: end};
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuyDevCardAction() {
-    var buyReq = {requestType: "action", "action": "buyDevCard"};
+    var buyReq = {requestType: "action", action: "buyDevCard"};
     webSocket.send(JSON.stringify(buyReq));
+}
+
+function sendPlayMonopolyAction(resource) {
+    var playReq = {requestType: "action", action: "playMonopoly", resource: resource};
+    webSocket.send(JSON.stringify(playReq));
 }
 
 function handleGetGameState(gameStateData) {

@@ -157,8 +157,6 @@ function onRoadBuildCancel(event) {
 
 $("#road-build-btn").click(onRoadBuild);
 
-$("#dev-card-buy-btn").click(sendBuyDevCardAction);
-
 function addMessage(message) {
 	var container = $("#message-container");
 	container.empty();
@@ -167,7 +165,46 @@ function addMessage(message) {
 	container.css("padding-bottom", "5px");
 
 	container.append("<h5>" + message + "</h5>");
-
 }
 
+$("#dev-card-buy-btn").click(sendBuyDevCardAction);
+
+//////////////////////////////////////////
+// Monopoly Modal 
+//////////////////////////////////////////
+
+var selectedMonopolyResource = null;
+var selectedElement;
+
+$(".monopoly-circle").click(function(event) {
+	var element = $(event.target);
+
+	// Unhighlight previously selected resource, if one was previously selected
+	if (selectedElement) {
+		selectedElement.removeClass("highlighted-monopoly-circle");
+	}
+
+	// Highlight this resource
+	selectedElement = element.parents(".monopoly-circle-container");
+	selectedElement.addClass("highlighted-monopoly-circle");
+
+	selectedMonopolyResource = selectedElement.attr("res");
+});
+
+$("#play-monopoly-btn").click(function(event) {
+	if (selectedMonopolyResource) {
+		sendPlayMonopolyAction(selectedMonopolyResource);
+		$("#monopoly-modal").modal("hide");
+	}
+});
+
+$("#monopoly-modal button").click(function(event) {
+ 	// Unhighlight previously selected resource, if one was previously selected
+	if (selectedElement) {
+		selectedElement.removeClass("highlighted-monopoly-circle");
+	}
+
+	selectedMonopolyResource = null;
+	selectedElement = null;
+});
 
