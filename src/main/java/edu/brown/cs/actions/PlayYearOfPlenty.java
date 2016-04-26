@@ -47,8 +47,13 @@ public class PlayYearOfPlenty implements Action {
     // Update Bank stats
     _bank.getResource(_firstRes);
     _bank.getResource(_secondRes);
-    String message = String.format("You gained a %1 and a %2.", _firstRes,
-        _secondRes);
+    String message = "";
+    if (_firstRes == _secondRes) {
+      message = String.format("You gained 2 %s", _firstRes);
+    } else {
+      message = String.format("You gained a %s and a %s.", _firstRes,
+          _secondRes);
+    }
     ActionResponse toAdd = new ActionResponse(true, message,
         new YearOfPlentyResponse(_firstRes, _secondRes));
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
