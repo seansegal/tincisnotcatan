@@ -28,6 +28,9 @@ webSocket.onmessage = function (msg) {
         case "action":
             handleActionResponse(data);
             return;
+        case "requestError":
+            console.log(data.requestError);
+            return;
     	default:
     		console.log("unsupported request type");
     		return;
@@ -68,7 +71,7 @@ function sendBuildSettlementAction(intersectCoordinates) {
 }
 
 function sendBuildCityAction(intersectCoordinates) {
-    var buildReq  = {requestType: "action", action : buildCity, "coordinate": intersectCoordinates};
+    var buildReq  = {requestType: "action", action : "buildCity", coordinate: intersectCoordinates};
     webSocket.send(JSON.stringify(buildReq));
 }
 

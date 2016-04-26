@@ -404,7 +404,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="year-of-plenty-modal" tabindex="-1" role="dialog" aria-labelledby="yearOfPlentyLabel">
+<div class="modal fade" id="year-of-plenty-modal" tabindex="-1" role="dialog" aria-labelledby="yearOfPlentyLabel" data-backdrop="static">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
       		<div class="modal-header">
@@ -423,7 +423,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="monopoly-modal" tabindex="-1" role="dialog" aria-labelledby="myMonopolyLabel">
+<div class="modal fade" id="monopoly-modal" tabindex="-1" role="dialog" aria-labelledby="myMonopolyLabel" data-backdrop="static">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
       		<div class="modal-header">

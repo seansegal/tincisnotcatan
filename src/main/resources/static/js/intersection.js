@@ -126,6 +126,7 @@ Intersection.prototype.addCity = function(player) {
 Intersection.prototype.createIntersectionClickHandler = function() {
 	var that = this;
 	return function(event) {
+		console.log(that);
 		if (that.building === BUILDING.NONE) {
 			sendBuildSettlementAction(that.intersectCoordinates);
 		} else if (that.building === BUILDING.SETTLEMENT) {
