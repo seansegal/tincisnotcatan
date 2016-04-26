@@ -208,3 +208,7 @@ $("#monopoly-modal button").click(function(event) {
 	selectedElement = null;
 });
 
+//////////////////////////////////////////
+// Year of Plenty Modal
+//////////////////////////////////////////
+
