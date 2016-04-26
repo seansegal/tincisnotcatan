@@ -376,6 +376,24 @@
 }
 
 .highlighted-monopoly-circle {
-	/*background: radial-gradient(closest-side, rgba(255,255,0,1), rgba(255,255,0,1) 50%, rgba(255,255,0,0) 100%);*/
-	background: radial-gradient(closest-side, rgba(181,215,245,1), rgba(181,215,245,1) 50%, rgba(181,215,245,0) 100%);  
+	background: radial-gradient(closest-side, rgba(255,255,0,1), rgba(255,255,0,1) 50%, rgba(255,255,0,0) 100%);
+	/*background: radial-gradient(closest-side, rgba(67,119,180,1), rgba(67,119,180,1) 50%, rgba(67,119,180,0) 100%);  */
+}
+
+.yop-resource-container {
+	display: inline-block;
+	width: 50px;
+	margin-left: 5px;
+}
+
+.yop-circle {
+	height: 50px;
+	width: 50px;
+	margin-bottom: 5px;
+}
+
+.yop-circle > img {
+	margin-top: 3.3px;
+	height: 100%;
+	width: 100%;
 }

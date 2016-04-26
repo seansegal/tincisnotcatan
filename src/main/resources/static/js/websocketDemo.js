@@ -48,6 +48,7 @@ function handleActionResponse(data) {
     case "buildRoad":
     case "buyDevCard":
     case "playMonopoly":
+    case "playYearOfPlenty":
         addMessage(data.content.message);
         break;
 	default:
@@ -87,6 +88,11 @@ function sendBuyDevCardAction() {
 
 function sendPlayMonopolyAction(resource) {
     var playReq = {requestType: "action", action: "playMonopoly", resource: resource};
+    webSocket.send(JSON.stringify(playReq));
+}
+
+function sendPlayYearOfPlentyAction(res1, res2) {
+    var playReq = {requestType: "action", action: "playYearOfPlenty", firstRes: res1, secondRes: res2};
     webSocket.send(JSON.stringify(playReq));
 }
 

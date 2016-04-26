@@ -198,7 +198,7 @@ $("#play-monopoly-btn").click(function(event) {
 	}
 });
 
-$("#monopoly-modal button").click(function(event) {
+$("#monopoly-modal").on("hide.bs.modal", function(event) {
  	// Unhighlight previously selected resource, if one was previously selected
 	if (selectedElement) {
 		selectedElement.removeClass("highlighted-monopoly-circle");
@@ -211,4 +211,65 @@ $("#monopoly-modal button").click(function(event) {
 //////////////////////////////////////////
 // Year of Plenty Modal
 //////////////////////////////////////////
+
+function calcYearOfPlentyResources() {
+	var inputs = $(".yop-number");
+	var num = 0;
+
+	inputs.each(function(indx) {
+		var text = $(this).val();
+		num = num + ((text === "") ? 0 : parseInt(text));
+	});
+
+	return num;
+}
+
+$(".yop-number").change(function(event) {
+	var oldVal = $(this).data("oldVal");
+	var newVal = parseInt($(this).val());
+
+	if (oldVal === undefined && calcYearOfPlentyResources() > 2) {
+		$(this).val("0");
+		$(this).data("oldVal", 0);
+		return;
+	}
+
+	if (isNaN(newVal) || newVal < 0 || calcYearOfPlentyResources() > 2) {
+		$(this).val(oldVal);
+	} else {
+		$(this).data("oldVal", newVal);
+	}
+});
+
+$("#play-yop-btn").click(function(event) {
+	var resourcesSelected = calcYearOfPlentyResources();
+	if (resourcesSelected === 2) {
+		var foundFirst = false;
+		var inputs = $(".yop-number");
+		var res1 = null;
+		var res2 = null;
+
+		inputs.each(function(idx) {
+			var num = parseInt($(this).val());
+			if (num === 1) {
+				if (foundFirst) {
+					res2 = $(this).attr("res");
+				} else {
+					res1 = $(this).attr("res");
+					foundFirst = true;
+				}
+			} else if (num === 2) {
+				res1 = $(this).attr("res")
+				res2 = $(this).attr("res");
+			}
+		});
+
+		sendPlayYearOfPlentyAction(res1, res2);
+		$("#year-of-plenty-modal").modal("hide");
+	}
+});
+
+$("#year-of-plenty-modal").on("hide.bs.modal", function() {
+	$(".yop-number").val("");
+});
 
