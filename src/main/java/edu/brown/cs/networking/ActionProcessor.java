@@ -20,13 +20,13 @@ public class ActionProcessor implements RequestProcessor {
   }
 
   @Override
-  public boolean run(User<?> user, Collection<User<?>> group, JsonObject json) {
+  public boolean run(User user, Collection<User> group, JsonObject json) {
     json.add("player", GSON.toJsonTree(String.valueOf(user.userID())));
     System.out.println(json);
 
     Map<Integer, JsonObject> resp = api.performAction(json.toString());
     for (Integer i : resp.keySet()) {
-      User<?> recipient = getUser(i, group);
+      User recipient = getUser(i, group);
       if (recipient == null) {
         System.out.format(
             "API thinks there's a player %d, but there isn't an active session.%n",
@@ -48,8 +48,8 @@ public class ActionProcessor implements RequestProcessor {
   }
 
 
-  private User<?> getUser(int i, Collection<User<?>> users) {
-    List<User<?>> list = users.stream().filter(u->u.userID()==i).collect(Collectors.toList());
+  private User getUser(int i, Collection<User> users) {
+    List<User> list = users.stream().filter(u->u.userID()==i).collect(Collectors.toList());
     if (list.size() == 0) {
       return null;
     }

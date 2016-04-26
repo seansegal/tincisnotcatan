@@ -16,7 +16,7 @@ public class GetGameStateProcessor implements RequestProcessor {
   }
 
   @Override
-  public boolean run(User<?> user, Collection<User<?>> group, JsonObject json) {
+  public boolean run(User user, Collection<User> group, JsonObject json) {
     JsonObject resp = api.getGameState(user.userID());
     resp.addProperty("requestType", "getGameState");
     return user.message(resp);

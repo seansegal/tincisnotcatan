@@ -1,5 +1,8 @@
 package edu.brown.cs.networking;
 
+import java.net.HttpCookie;
+import java.util.List;
+
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -14,7 +17,8 @@ public class ReceivingHandler {
 
   @OnWebSocketConnect
   public void onConnect(Session user) throws Exception {
-    gct.register(user);
+    List<HttpCookie> list = user.getUpgradeRequest().getCookies();
+    gct.register(user, list);
   }
 
 

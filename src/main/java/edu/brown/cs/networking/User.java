@@ -1,31 +1,27 @@
 package edu.brown.cs.networking;
 
 import java.io.IOException;
+import java.net.HttpCookie;
+import java.util.List;
 
 import org.eclipse.jetty.websocket.api.Session;
 
 import com.google.gson.JsonObject;
 
-public final class User<D extends UserData> {
+public final class User {
 
-  private Session session;
-  private D       data;
-  private int     userID;
+  private Session          session;
+  private List<HttpCookie> cookies;
+  private Integer          userID;
 
 
-  public User(Session s, int userID, Class<D> data) {
+  public User(Session s, List<HttpCookie> cookies) {
     this.session = s;
-    this.userID = userID;
-    try {
-      this.data = data.newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
-      System.out.println("Illegal user data type : " + data);
-      assert false;
-      e.printStackTrace();
-    }
+    this.cookies = cookies;
   }
 
-  public boolean message(JsonObject json){
+
+  public boolean message(JsonObject json) {
     if (session().isOpen()) {
       try {
         session().getRemote().sendString(json.toString());
@@ -39,18 +35,13 @@ public final class User<D extends UserData> {
   }
 
 
-  public Object getField(String field) {
-    return data.getField(field);
-  }
-
-
-  public boolean setField(String field, Object value) {
-    return data.setField(field, value);
-  }
-
-
-  public boolean isValid() {
-    return session.isOpen() && data.isValid();
+  public String getField(String field) {
+    for (HttpCookie c : cookies) {
+      if (c.getName().equals(field)) {
+        return c.getValue();
+      }
+    }
+    return null; // no such value.
   }
 
 
@@ -64,11 +55,17 @@ public final class User<D extends UserData> {
   }
 
 
+  public void setUserID(int id) {
+    assert userID == null : "Tried to set userID more than once!";
+    this.userID = id;
+  }
+
+
   @Override
   public String toString() {
-    return String.format("Session : {%s}, UserID : {%s}, data of type %s",
+    return String.format("Session : {%s}, UserID : {%s}, data {%s}",
         session.getLocalAddress(), String.valueOf(userID),
-        data.getClass().toString());
+        cookies.toString());
   }
 
 }

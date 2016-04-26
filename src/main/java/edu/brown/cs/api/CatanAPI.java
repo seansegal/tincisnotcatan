@@ -6,12 +6,10 @@ import com.google.gson.JsonObject;
 
 import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.api.CatanConverter.CatanSettings;
-import edu.brown.cs.catan.CatanUserData;
 import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.TestReferee;
 import edu.brown.cs.networking.API;
-import edu.brown.cs.networking.UserData;
 
 public class CatanAPI implements API {
 
@@ -104,15 +102,6 @@ public class CatanAPI implements API {
         .execute();
 
     return _converter.responseToJSON(response);
-  }
-
-
-  /**
-   * For networking : returns the type of user data this API requires of its users.
-   */
-  @Override
-  public Class<? extends UserData> getUserDataClass() {
-    return CatanUserData.class;
   }
 
 }

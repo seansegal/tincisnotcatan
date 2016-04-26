@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 
 public interface RequestProcessor {
 
-  boolean run(User<?> user, Collection<User<?>> group, JsonObject json);
+  boolean run(User user, Collection<User> group, JsonObject json);
 
 
   String identifier();

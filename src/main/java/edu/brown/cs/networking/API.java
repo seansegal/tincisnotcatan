@@ -6,8 +6,6 @@ import com.google.gson.JsonObject;
 
 public interface API {
 
-  Class<? extends UserData> getUserDataClass();
-
   JsonObject getGameState(int forPlayer);
 
   Map<Integer, JsonObject> performAction(String action);

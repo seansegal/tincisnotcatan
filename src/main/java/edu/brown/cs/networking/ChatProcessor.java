@@ -12,12 +12,12 @@ public class ChatProcessor implements RequestProcessor {
 
 
   @Override
-  public boolean run(User<?> user, Collection<User<?>> group,
+  public boolean run(User user, Collection<User> group,
       JsonObject json) {
     System.out.println("Message processed : " + json.get("message"));
 
     Collection<String> userIds = new ArrayList<>();
-    for(User<?> u : group) {
+    for(User u : group) {
       userIds.add(String.valueOf(u.userID()));
     }
 
@@ -25,7 +25,7 @@ public class ChatProcessor implements RequestProcessor {
         json.get("message").getAsString(), userIds);
 
     boolean success = true;
-    for(User<?> other : group) {
+    for(User other : group) {
       success &= other.message(toSend);
     }
     return success;
