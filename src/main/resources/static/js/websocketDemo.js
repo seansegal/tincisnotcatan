@@ -62,6 +62,7 @@ webSocket.onmessage = function (msg) {
             return;
         case "registerUser":
         	handleRegisterUserResponse(data);
+        	return;
     	default:
     		console.log("unsupported request type");
     		return;

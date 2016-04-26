@@ -6,13 +6,13 @@ import java.util.Collection;
 import com.google.gson.JsonObject;
 
 
-public class ChatHandler implements RequestInterpreter {
+public class ChatProcessor implements RequestProcessor {
 
   private static final String IDENTIFIER = "chat";
 
 
   @Override
-  public boolean handle(User<?> user, Collection<User<?>> group,
+  public boolean run(User<?> user, Collection<User<?>> group,
       JsonObject json) {
     System.out.println("Message processed : " + json.get("message"));
 

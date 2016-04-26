@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import com.google.gson.JsonObject;
 
-public interface RequestInterpreter {
+public interface RequestProcessor {
 
-  boolean handle(User<?> user, Collection<User<?>> group, JsonObject json);
+  boolean run(User<?> user, Collection<User<?>> group, JsonObject json);
 
 
   String identifier();

@@ -3,7 +3,6 @@ package edu.brown.cs.networking;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -119,38 +118,17 @@ class SessionGroup implements Timestamped {
 
 
   private boolean handleGetGameState(User<?> u) {
-    JsonObject resp = api.getGameState(u.userID());
-    resp.addProperty(REQUEST_IDENTIFIER, "getGameState");
-    return u.message(resp);
+    return new GetGameStateProcessor(api).run(u, users, new JsonObject());
   }
 
 
   private boolean handleAction(User<?> u, JsonObject json) {
-    json.add("player", GSON.toJsonTree(String.valueOf(u.userID())));
-    System.out.println(json);
-
-    Map<Integer, JsonObject> resp = api.performAction(json.toString());
-    for (Integer i : resp.keySet()) {
-      User<?> recipient = getUser(i);
-      if (recipient == null) {
-        System.out.format(
-            "API thinks there's a player %d, but there isn't an active session.%n",
-            i);
-        continue;
-      }
-      json.add("content", resp.get(i));
-      json.add("player", GSON.toJsonTree(i));
-      System.out.println(i);
-      System.out.println(json.get(REQUEST_IDENTIFIER).getAsString());
-      recipient.message(json);
-      handleGetGameState(recipient);
-    }
-    return true;
+    return new ActionProcessor(api).run(u, users, json);
   }
 
 
   private boolean handleChatMessage(User<?> u, JsonObject json) {
-    return new ChatHandler().handle(u, users, json);
+    return new ChatProcessor().run(u, users, json);
   }
 
 
