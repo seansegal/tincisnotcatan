@@ -2,7 +2,9 @@ package edu.brown.cs.api;
 
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.api.CatanConverter.CatanSettings;
@@ -92,20 +94,33 @@ public class CatanAPI {
     if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");
     }
-    Map<Integer, ActionResponse> response = _actionFactory.createAction(action)
-        .execute();
-
-    return _converter.responseToJSON(response);
+    try {
+      Map<Integer, ActionResponse> response = _actionFactory.createAction(
+          action).execute();
+      return _converter.responseToJSON(response);
+    } catch (IllegalArgumentException e) {
+      System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());
+      JsonObject json = new JsonObject();
+      json.add("requestError",
+          new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
+      return ImmutableMap.of(-1, json);
+    }
   }
 
   public Map<Integer, JsonObject> performAction(JsonObject action) {
     if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");
     }
-    Map<Integer, ActionResponse> response = _actionFactory.createAction(action)
-        .execute();
-
-    return _converter.responseToJSON(response);
+    try {
+      Map<Integer, ActionResponse> response = _actionFactory.createAction(
+          action).execute();
+      return _converter.responseToJSON(response);
+    } catch (IllegalArgumentException e) {
+      System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());
+      JsonObject json = new JsonObject();
+      json.add("requestError",
+          new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
+      return ImmutableMap.of(-1, json);
+    }
   }
-
 }
