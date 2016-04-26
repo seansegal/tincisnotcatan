@@ -6,12 +6,10 @@
 	<div class="col-xs-3">
 		<input type="button" class="btn btn-primary" id="end-turn-btn" value="End Turn">
 		<div id="chat-container">
+		    <div id="chat"></div>
 			<div id="chatControls">
-        		<input id="message" placeholder="Type your message">
-        		<button id="send">Send</button>
-    		</div>
-    		<!-- Probably not needed <ul id="userList"></ul> -->
-    		<div id="chat"> <!-- Built by JS --> </div>
+	        	<input id="message" placeholder="Type your message">
+	    	</div>
 		</div>
 	</div>
 	<div class="col-xs-6"></div>
@@ -404,7 +402,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="year-of-plenty-modal" tabindex="-1" role="dialog" aria-labelledby="yearOfPlentyLabel" data-backdrop="static">
+<div class="modal fade" id="year-of-plenty-modal" tabindex="-1" role="dialog" aria-labelledby="yearOfPlentyLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
       		<div class="modal-header">
@@ -413,17 +411,58 @@
       		</div>
       		<div class="modal-body">
        			<p>Choose any two resources to add to your hand. You can choose two of the same resource.</p>
-       			
+       			<div class="text-center">
+       				<div class="yop-resource-container">
+		       			<div class="circle yop-circle brick-color">
+							<img src="images/icon-brick.svg" alt="Brick">
+						</div>
+						<div class="text-center">
+				    		<input type="number" class="form-control yop-number" min="0" max="2" res="brick">
+				    	</div>
+				    </div>
+				    <div class="yop-resource-container">
+		       			<div class="circle yop-circle wood-color">
+							<img src="images/icon-wood.svg" alt="Wood">
+						</div>
+						<div class="text-center">
+				    		<input type="number" class="form-control yop-number" min="0" max="2" res="wood">
+				    	</div>
+				    </div>
+				    <div class="yop-resource-container">
+		       			<div class="circle yop-circle ore-color">
+							<img src="images/icon-ore.svg" alt="Ore">
+						</div>
+						<div class="text-center">
+				    		<input type="number" class="form-control yop-number" min="0" max="2" res="ore">
+				    	</div>
+				    </div>
+				    <div class="yop-resource-container">
+		       			<div class="circle yop-circle wheat-color">
+							<img src="images/icon-wheat.svg" alt="Wheat">
+						</div>
+						<div class="text-center">
+				    		<input type="number" class="form-control yop-number" min="0" max="2" res="wheat">
+				    	</div>
+				    </div>
+				    <div class="yop-resource-container">
+		       			<div class="circle yop-circle sheep-color">
+							<img src="images/icon-sheep.svg" alt="Sheep">
+						</div>
+						<div class="text-center">
+				    		<input type="number" class="form-control yop-number" min="0" max="2" res="sheep">
+				    	</div>
+				    </div>
+			    </div>
       		</div>
       		<div class="modal-footer">
         		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        		<button type="button" class="btn btn-primary" data-dismiss="modal">Play Year of Plenty</button>
+        		<button type="button" class="btn btn-primary" id="play-yop-btn">Play Year of Plenty</button>
       		</div>
     	</div>
 	</div>
 </div>
 
-<div class="modal fade" id="monopoly-modal" tabindex="-1" role="dialog" aria-labelledby="myMonopolyLabel" data-backdrop="static">
+<div class="modal fade" id="monopoly-modal" tabindex="-1" role="dialog" aria-labelledby="myMonopolyLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
       		<div class="modal-header">

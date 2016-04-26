@@ -48,6 +48,7 @@ function handleActionResponse(data) {
     case "buildRoad":
     case "buyDevCard":
     case "playMonopoly":
+    case "playYearOfPlenty":
         addMessage(data.content.message);
         break;
 	default:
@@ -90,6 +91,11 @@ function sendPlayMonopolyAction(resource) {
     webSocket.send(JSON.stringify(playReq));
 }
 
+function sendPlayYearOfPlentyAction(res1, res2) {
+    var playReq = {requestType: "action", action: "playYearOfPlenty", firstRes: res1, secondRes: res2};
+    webSocket.send(JSON.stringify(playReq));
+}
+
 function handleGetGameState(gameStateData) {
     // Set global data
     playerId = gameStateData.playerID;
@@ -117,11 +123,6 @@ function handleGetGameState(gameStateData) {
     board.createBoard(gameStateData.board);
     board.draw();
 }
-
-//Send message if "Send" is clicked
-id("send").addEventListener("click", function () {
-    sendMessage(id("message").value);
-});
 
 //Send message if enter is pressed in the input field
 id("message").addEventListener("keypress", function (e) {
@@ -151,7 +152,8 @@ function updateChat(msg) {
 
 //Helper function for inserting HTML as the first child of an element
 function insert(targetId, message) {
-    id(targetId).insertAdjacentHTML("afterbegin", message);
+    id(targetId).insertAdjacentHTML("beforeend", message);
+    $("#chat").scrollTop($("#chat")[0].scrollHeight);
 }
 
 //Helper function for selecting element by id
