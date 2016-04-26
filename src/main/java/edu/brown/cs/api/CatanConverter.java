@@ -207,6 +207,7 @@ public class CatanConverter {
     private final boolean hasRobber;
     private final int number;
     private final List<IntersectionCoordinate> portLocations;
+    private final Resource portType;
 
     public TileRaw(BoardTile tile) {
       hexCoordinate = tile.getCoordinate();
@@ -214,6 +215,7 @@ public class CatanConverter {
       hasRobber = tile.hasRobber();
       number = tile.getRollNumber();
       portLocations = tile.getPortLocations();
+      portType = tile.getPortType();
     }
   }
 
