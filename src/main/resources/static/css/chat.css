@@ -1,43 +1,37 @@
-#chat-container > * {
+#chat-container * {
     box-sizing: border-box;
 }
 
 #chat-container {
-    font-family: monospace;
-    font-size: 14px;
     max-width: 480px;
-    margin: 0 auto;
-    padding: 20px
+    margin-bottom: 20px;
+    margin-left: 15px;
+    width: 230px;
+    z-index: 11;
+    position: fixed;
+    bottom: 0px;
 }
 
-#chat-container > input {
+#chat-container input {
     width: 100%;
     padding: 5px;
-    margin: 5px 0;
 }
 
-#chat-container > button {
+#chat-container button {
     float: right;
 }
 
-#chat-container > li {
+#chat-container li {
     margin: 5px 0;
 }
 
 #chatControls {
     overflow: auto;
-    margin: 0 0 5px 0
 }
 
-#userList {
-    position: fixed;
-    /*left: 50%;*/
-    list-style: none;
-    margin-left: 250px;
-    background: #f0f0f9;
-    padding: 5px 10px;
-    width: 150px;
-    top: 11px;
+#chat {
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 
 #chat p {
@@ -61,7 +55,7 @@
     word-wrap: break-word;
 }
 
-#chat article:first-of-type {
+#chat article:last-of-type {
     background: #c9edc3;
     border-left-color: #74a377;
     animation: enter .2s 1;

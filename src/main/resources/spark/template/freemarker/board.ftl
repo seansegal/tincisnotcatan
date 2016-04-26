@@ -6,12 +6,10 @@
 	<div class="col-xs-3">
 		<input type="button" class="btn btn-primary" id="end-turn-btn" value="End Turn">
 		<div id="chat-container">
+		    <div id="chat"></div>
 			<div id="chatControls">
-        		<input id="message" placeholder="Type your message">
-        		<button id="send">Send</button>
-    		</div>
-    		<!-- Probably not needed <ul id="userList"></ul> -->
-    		<div id="chat"> <!-- Built by JS --> </div>
+	        	<input id="message" placeholder="Type your message">
+	    	</div>
 		</div>
 	</div>
 	<div class="col-xs-6"></div>
