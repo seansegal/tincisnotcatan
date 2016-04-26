@@ -16,8 +16,8 @@ public class PlayYearOfPlenty implements Action {
   private Resource _secondRes;
   private Bank _bank;
   
-  public PlayYearOfPlenty(Referee ref, int playerID, Resource firstRes,
-      Resource secondRes) {
+  public PlayYearOfPlenty(Referee ref, int playerID, String firstRes,
+      String secondRes) {
     assert ref != null;
     _ref = ref;
     _player = _ref.getPlayerByID(playerID);
@@ -26,8 +26,8 @@ public class PlayYearOfPlenty implements Action {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
     }
-    _firstRes = firstRes;
-    _secondRes = secondRes;
+    _firstRes = Resource.stringToResource(firstRes);
+    _secondRes = Resource.stringToResource(secondRes);
   }
 
   @Override
