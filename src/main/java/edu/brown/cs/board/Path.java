@@ -37,7 +37,7 @@ public class Path {
     }
     Path other = (Path) obj;
     if (_end == null || _start == null) {
-      if (other._end != null  || other._start != null) {
+      if (other._end != null || other._start != null) {
         return false;
       }
     }
@@ -49,7 +49,13 @@ public class Path {
   }
 
   public boolean canPlaceRoad(Player p) {
-    return _road == null;
+    if (_road == null) {
+      int rand = (int) (Math.random() * 5);
+      if (rand < 2) {
+        return true;
+      }
+    }
+    return false; // TODO
   }
 
   public void placeRoad(Player p) {
