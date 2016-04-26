@@ -43,7 +43,7 @@ public class PlayMonopoly implements Action {
         totalResCount += numResource;
         otherPlayer.removeResource(_res, numResource);
         String message = String.format(
-            "%1 played a Monopoly card. You lost %.2f %3.", _player.getName(),
+            "%s played a Monopoly card. You lost %.2f %3.", _player.getName(),
             numResource, _res.toString());
         Map<Resource, Double> resourceMap = new HashMap<Resource, Double>();
         resourceMap.put(_res, numResource);
