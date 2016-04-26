@@ -150,17 +150,7 @@ class SessionGroup implements Timestamped {
 
 
   private boolean handleChatMessage(User<?> u, JsonObject json) {
-    System.out.println("Message processed : " + json.get("message"));
-
-    JsonObject toSend = Chat.createMessage(String.format("%s%n", u.getField("userName")),
-        json.get("message").getAsString(), userIds());
-
-    boolean success = true;
-    for(User<?> other : users) {
-      success &= other.message(toSend);
-    }
-    return success;
-
+    return new ChatHandler().handle(u, users, json);
   }
 
 
