@@ -10,6 +10,7 @@ import edu.brown.cs.actions.BuildRoad;
 import edu.brown.cs.actions.BuildSettlement;
 import edu.brown.cs.actions.BuyDevelopmentCard;
 import edu.brown.cs.actions.EmptyAction;
+import edu.brown.cs.actions.PlayMonopoly;
 import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
@@ -65,7 +66,8 @@ public class ActionFactory {
         return new BuyDevelopmentCard(_referee, playerID);
       case "rollDice":
         return new RollDice(_referee, playerID);
-
+      case "playMonopoly":
+        return new PlayMonopoly(_referee, playerID, actionJSON.get("resource").getAsString());
       default:
         String err = String.format("The action %s does not exist.", action);
         throw new IllegalArgumentException(err);

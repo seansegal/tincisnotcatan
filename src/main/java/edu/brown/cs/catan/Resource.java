@@ -16,4 +16,23 @@ public enum Resource {
     return _description;
   }
 
+  public static Resource stringToResource(String str) {
+    switch (str) {
+    case "wheat":
+      return WHEAT;
+    case "sheep":
+      return SHEEP;
+    case "ore":
+      return ORE;
+    case "wood":
+      return WOOD;
+    case "brick":
+      return BRICK;
+    case "wildcard":
+      return WILDCARD;
+    default:
+      throw new IllegalArgumentException(String.format(
+          "The resource %s does not exist.", str));
+    }
+  }
 }

@@ -13,7 +13,7 @@ public class PlayMonopoly implements Action {
   private Player _player;
   private Resource _res;
 
-  public PlayMonopoly(Referee ref, int playerID, Resource res) {
+  public PlayMonopoly(Referee ref, int playerID, String res) {
     assert ref != null;
     _ref = ref;
     _player = _ref.getPlayerByID(playerID);
@@ -21,7 +21,7 @@ public class PlayMonopoly implements Action {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
     }
-    _res = res;
+    _res = Resource.stringToResource(res);
   }
 
   @Override
