@@ -276,4 +276,9 @@ public class Tile implements BoardTile {
     return _rollNum;
   }
 
+  @Override
+  public List<IntersectionCoordinate> getPortLocations() {
+    return _portLocations;
+  }
+
 }

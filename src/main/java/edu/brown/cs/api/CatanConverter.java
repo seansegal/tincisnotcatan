@@ -3,6 +3,7 @@ package edu.brown.cs.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -196,12 +197,14 @@ public class CatanConverter {
     private final TileType type;
     private final boolean hasRobber;
     private final int number;
+    private final List<IntersectionCoordinate> portLocations;
 
     public TileRaw(BoardTile tile) {
       hexCoordinate = tile.getCoordinate();
       type = tile.getType();
       hasRobber = tile.hasRobber();
       number = tile.getRollNumber();
+      portLocations = tile.getPortLocations();
     }
   }
 

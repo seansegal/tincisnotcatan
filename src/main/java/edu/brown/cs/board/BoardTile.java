@@ -1,5 +1,7 @@
 package edu.brown.cs.board;
 
+import java.util.List;
+
 
 public interface BoardTile {
 
@@ -8,6 +10,6 @@ public interface BoardTile {
   TileType getType();
   boolean hasRobber();
   int getRollNumber();
-
+  List<IntersectionCoordinate> getPortLocations();
 
 }
