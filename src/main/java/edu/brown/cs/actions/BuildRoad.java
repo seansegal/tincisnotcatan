@@ -50,8 +50,14 @@ public class BuildRoad implements Action {
   public Map<Integer, ActionResponse> execute() {
     // TODO: add validation & costs!!
     if (_mustPay) {
-      // TODO: better validation
-      _player.buildRoad();
+      if(_player.canBuildRoad()){
+        _player.buildRoad();
+      }
+      else{
+        ActionResponse resp = new ActionResponse(false, "You cannot afford to buy a road.", null);
+        return ImmutableMap.of(_player.getID(), resp);
+      }
+
     }
     if (!_path.canPlaceRoad(_player)) {
       ActionResponse resp = new ActionResponse(false,

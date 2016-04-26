@@ -65,7 +65,6 @@ public class HumanPlayer implements Player {
       assert result >= 0;
       resources.put(price.getKey(), result);
     }
-    // useRoad();
   }
 
   @Override
@@ -89,19 +88,42 @@ public class HumanPlayer implements Player {
       assert result >= 0;
       resources.put(price.getKey(), result);
     }
-    // useSettlement();
+  }
 
+  @Override
+  public boolean canBuildSettlement() {
+    // Pay for the settlement:
+    for (Map.Entry<Resource, Double> price : Settings.SETTLEMENT_COST
+        .entrySet()) {
+      double result = resources.get(price.getKey()) - price.getValue();
+      if (result < 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
   public void buildCity() {
+    if (canBuildCity()) {
+      for (Map.Entry<Resource, Double> price : Settings.CITY_COST.entrySet()) {
+        double result = resources.get(price.getKey()) - price.getValue();
+        assert result >= 0;
+        resources.put(price.getKey(), result);
+      }
+    }
+  }
+
+  @Override
+  public boolean canBuildCity() {
     // Pay for the city:
     for (Map.Entry<Resource, Double> price : Settings.CITY_COST.entrySet()) {
       double result = resources.get(price.getKey()) - price.getValue();
-      assert result >= 0;
-      resources.put(price.getKey(), result);
+      if (result < 0) {
+        return false;
+      }
     }
-    // useCity();
+    return true;
   }
 
   @Override
@@ -415,6 +437,18 @@ public class HumanPlayer implements Player {
       throw new UnsupportedOperationException(
           "A ReadOnlyPlayer cannot remove resource cards.");
 
+    }
+
+    @Override
+    public boolean canBuildCity() {
+      // TODO Auto-generated method stub
+      return false;
+    }
+
+    @Override
+    public boolean canBuildSettlement() {
+      // TODO Auto-generated method stub
+      return false;
     }
 
   }

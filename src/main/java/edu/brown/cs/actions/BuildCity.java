@@ -3,6 +3,8 @@ package edu.brown.cs.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
@@ -31,10 +33,29 @@ public class BuildCity implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    // TODO: Add validation
+    // Validation:
+    if (!_player.canBuildCity()) {
+      ActionResponse resp = new ActionResponse(false,
+          "You cannot afford to buy a City.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
+    if (_player.numCities() <= 0) {
+      ActionResponse resp = new ActionResponse(false,
+          "You have no cities left.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
+    if (!_intersection.canPlaceCity(_player)) {
+      ActionResponse resp = new ActionResponse(false,
+          "You can only place a city on your own settlement.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
+
+    // The Action:
     _player.buildCity();
     _player.useCity();
     _intersection.placeCity(_player);
+
+    // Formatting the response:
     ActionResponse respToPlayer = new ActionResponse(true, MESSAGE, null);
     String message = String.format("%s built a City.", _player.getName());
     ActionResponse respToAll = new ActionResponse(true, message, null);

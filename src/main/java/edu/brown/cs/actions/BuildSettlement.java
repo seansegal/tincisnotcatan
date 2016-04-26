@@ -9,8 +9,6 @@ import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
-import edu.brown.cs.catan.Resource;
-import edu.brown.cs.catan.Settings;
 
 public class BuildSettlement implements Action {
 
@@ -38,21 +36,24 @@ public class BuildSettlement implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    if (_mustPay) {
-      Map<Resource, Double> resources = _player.getResources();
-      for (Map.Entry<Resource, Double> cost : Settings.SETTLEMENT_COST
-          .entrySet()) {
-        if (resources.get(cost.getKey()) < cost.getValue()) {
-          return ImmutableMap.of(_player.getID(), new ActionResponse(false,
-              "You do not have the resources to afford a Settlement.", null));
-        }
-      }
-      _player.buildSettlement();
+    // Validation, TODO: add turn validation
+    if (_player.numSettlements() <= 0) {
+      ActionResponse resp = new ActionResponse(false,
+          "You do not have any more settlements.", null);
+      return ImmutableMap.of(_player.getID(), resp);
     }
-    // TODO: add turn validation
+    if (_mustPay && !_player.canBuildSettlement()) {
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+          "You do not have the resources to afford a Settlement.", null));
+    }
     if (!_intersection.canPlaceSettlement()) {
       return ImmutableMap.of(_player.getID(), new ActionResponse(false,
           "You cannot build a Settlement at that location.", null));
+    }
+
+    // The Action:
+    if (_mustPay) {
+      _player.buildSettlement();
     }
     _player.useSettlement();
     _intersection.placeSettlement(_player);

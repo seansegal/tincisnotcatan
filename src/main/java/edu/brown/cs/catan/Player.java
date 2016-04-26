@@ -60,4 +60,8 @@ public interface Player {
 
   boolean canBuildRoad();
 
+  boolean canBuildCity();
+
+  boolean canBuildSettlement();
+
 }
