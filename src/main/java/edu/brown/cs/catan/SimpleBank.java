@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class SimpleBank implements Bank {
 
-   Map<Resource,Integer> _supply;
+  Map<Resource, Integer> _supply;
 
    public SimpleBank(){
      _supply = new HashMap<>();
@@ -17,12 +17,6 @@ public class SimpleBank implements Bank {
   @Override
   public void getResource(Resource resource) {
     int newVal = _supply.get(resource) + 1;
-    _supply.put(resource, newVal);
-  }
-  
-  @Override
-  public void getResource(Resource resource, int count) {
-    int newVal = _supply.get(resource) + count;
     _supply.put(resource, newVal);
   }
 
@@ -41,5 +35,11 @@ public class SimpleBank implements Bank {
   @Override
   public Map<Resource, Double> getPortRates() {
     return Settings.PORT_RATES;
+  }
+
+  @Override
+  public void getResource(Resource resource, int count) {
+    int newVal = _supply.get(resource) + count;
+    _supply.put(resource, newVal);
   }
 }
