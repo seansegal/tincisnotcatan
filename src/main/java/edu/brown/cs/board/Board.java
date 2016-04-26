@@ -32,57 +32,6 @@ public class Board {
   private final Collection<HexCoordinate> PORT_LOCATION;
   private final static int DEPTH = 2;
 
-  // public Board() {
-  // List<TileType> availTiles = new ArrayList<TileType>();
-  // List<HexCoordinate> coords = getResourcePermutations();
-  // PORT_LOCATION = new HashSet<HexCoordinate>();
-  // PORT_LOCATION.add(new HexCoordinate(0, 0, 3));
-  // PORT_LOCATION.add(new HexCoordinate(0, 2, 3));
-  // PORT_LOCATION.add(new HexCoordinate(0, 3, 2));
-  // PORT_LOCATION.add(new HexCoordinate(0, 3, 0));
-  // PORT_LOCATION.add(new HexCoordinate(2, 3, 0));
-  // PORT_LOCATION.add(new HexCoordinate(3, 2, 0));
-  // PORT_LOCATION.add(new HexCoordinate(3, 0, 0));
-  // PORT_LOCATION.add(new HexCoordinate(3, 0, 2));
-  // PORT_LOCATION.add(new HexCoordinate(2, 0, 3));
-  // addTiles(availTiles, WOOD, NUM_WOOD_TILE);
-  // addTiles(availTiles, BRICK, NUM_BRICK_TILE);
-  // addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
-  // addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
-  // addTiles(availTiles, ORE, NUM_ORE_TILE);
-  // addTiles(availTiles, DESERT, NUM_DESERT_TILE);
-  // Collections.shuffle(availTiles);
-  //
-  // Map<IntersectionCoordinate, Intersection> intersections = new
-  // HashMap<IntersectionCoordinate, Intersection>();
-  // Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
-  // _tiles = new ArrayList<>();
-  // for (int i = 0, j = 0; i < availTiles.size(); i++, j++) {
-  // TileType res = availTiles.get(i);
-  // if (res != DESERT) {
-  // _tiles.add(new Tile(ROLL_NUMS[j], coords.get(i), intersections, paths,
-  // res));
-  // } else {
-  // _tiles.add(new Tile(0, coords.get(i), intersections, paths,
-  // res, true));
-  // j -= 1;
-  // }
-  //
-  // }
-  // _intersections = intersections;
-  // _paths = paths;
-  // int i = 0;
-  // List<HexCoordinate> seaCoords = getSeaPermutations();
-  // for (HexCoordinate hc : seaCoords) {
-  // Tile seaTile = new Tile(hc, SEA, _intersections);
-  // if(PORT_LOCATION.contains(hc)) {
-  // seaTile.setPorts(new Port(Settings.PORT_ORDER[i]));
-  // i++;
-  // }
-  // _tiles.add(new Tile(hc, SEA, _intersections));
-  // }
-  // }
-  //
   private void addTiles(List<TileType> availTiles, TileType type, int numTiles) {
     for (int i = 0; i < numTiles; i++) {
       availTiles.add(type);

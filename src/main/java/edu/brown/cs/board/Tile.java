@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -15,6 +16,7 @@ public class Tile implements BoardTile {
   private final TileType _type;
   private final HexCoordinate _coordinate;
   private boolean _hasRobber;
+  private final List<IntersectionCoordinate> _portLocations;
   
   public Tile(int rollNum, HexCoordinate coordinate,
       Map<IntersectionCoordinate, Intersection> intersections,
@@ -24,6 +26,7 @@ public class Tile implements BoardTile {
     _coordinate = coordinate;
     _hasRobber = false;
     _intersections = new ArrayList<Intersection>();
+    _portLocations = new ArrayList<IntersectionCoordinate>();
     fillEdges(intersections, paths);
   }
 
@@ -35,6 +38,7 @@ public class Tile implements BoardTile {
     _coordinate = coordinate;
     _hasRobber = hasRobber;
     _intersections = new ArrayList<Intersection>();
+    _portLocations = new ArrayList<IntersectionCoordinate>();
     fillEdges(intersections, paths);
   }
 
@@ -45,6 +49,7 @@ public class Tile implements BoardTile {
     _coordinate = coordinate;
     _hasRobber = false;
     _intersections = new ArrayList<Intersection>();
+    _portLocations = new ArrayList<IntersectionCoordinate>();
     fillSeaTile(intersections);
   }
 
@@ -217,6 +222,7 @@ public class Tile implements BoardTile {
     assert (_type == TileType.SEA);
     for (Intersection i : _intersections) {
       i.setPort(p);
+      _portLocations.add(i.getPosition());
     }
   }
 
