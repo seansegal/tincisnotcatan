@@ -6,9 +6,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import edu.brown.cs.api.CatanAPI;
 import edu.brown.cs.api.CatanGroupSelector;
-import edu.brown.cs.networking.GCT;
 import edu.brown.cs.networking.GCT.GCTBuilder;
 import freemarker.template.Configuration;
 import spark.ModelAndView;
@@ -34,8 +32,7 @@ public class Main {
     Spark.port(getHerokuAssignedPort());
     Spark.threadPool(NUM_THREADS, MIN_THREADS, TIMEOUT);
     // secure("", "", "", ""); // use this for https!
-    GCT terminal = new GCTBuilder(CatanAPI.class)
-        .withWebsocketRoute("/action")
+    new GCTBuilder("/action")
         .withGroupSelector(new CatanGroupSelector())
         .build();
 

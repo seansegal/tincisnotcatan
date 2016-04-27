@@ -20,13 +20,7 @@ public class GCT {
   private final PriorityBlockingQueue<UserGroup> pending;
   private final List<UserGroup>                  full;
   private final Map<User, UserGroup>             userToUserGroup;
-
-  private Class<? extends API>                   apiClass;
   private final GroupSelector                    groupSelector;
-
-  private static final int                       NEED_TO_GENERALIZE_THIS = 2;
-  private static int                             GROUP_ID                = 1;
-  private static int                             SESSION_ID              = 1;
 
 
   private GCT(GCTBuilder builder) {
@@ -36,7 +30,6 @@ public class GCT {
     this.userToUserGroup = new ConcurrentHashMap<>();
 
     // provided by builder:
-    this.apiClass = builder.apiClass;
     this.groupSelector = builder.groupSelector;
     Spark.webSocket(builder.webSocketRoute, ReceivingHandler.class);
     ReceivingHandler.setGCT(this);
@@ -58,9 +51,12 @@ public class GCT {
     UserGroup bestFit =
         groupSelector.selectFor(u, Collections.unmodifiableCollection(pending));
     assert bestFit != null : "Select for returned a null user group!";
+
     userToUserGroup.put(u, bestFit);
     bestFit.add(u);
+
     System.out.format("User %s added to %s%n", u, bestFit);
+
     if (bestFit.isFull()) {
       full.add(bestFit);
       pending.remove(bestFit);
@@ -92,20 +88,12 @@ public class GCT {
 
   public static class GCTBuilder {
 
-    private Class<? extends API>         apiClass;
-    private String                       webSocketRoute = "/action";
-    private GroupSelector                groupSelector  =
-        new BasicGroupSelector();
+    private final String  webSocketRoute;
+    private GroupSelector groupSelector = new BasicGroupSelector();
 
 
-    public GCTBuilder(Class<? extends API> apiClass) {
-      this.apiClass = apiClass;
-    }
-
-
-    public GCTBuilder withWebsocketRoute(String route) {
+    public GCTBuilder(String route) {
       this.webSocketRoute = route;
-      return this;
     }
 
 
@@ -113,7 +101,6 @@ public class GCT {
       this.groupSelector = selector;
       return this;
     }
-
 
 
     public GCT build() {

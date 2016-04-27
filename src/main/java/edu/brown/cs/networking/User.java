@@ -21,6 +21,11 @@ public final class User {
   }
 
 
+  public void updateSession(Session s) {
+    this.session = s;
+  }
+
+
   public boolean message(JsonObject json) {
     if (session().isOpen()) {
       try {

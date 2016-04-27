@@ -6,7 +6,7 @@ import edu.brown.cs.networking.UserGroup.UserGroupBuilder;
 
 // a simple sorter that takes no preferences of the end user into account,
 // and simply filters groups by whether or not they're full.
-public class BasicGroupSelector implements GroupSelector {
+class BasicGroupSelector implements GroupSelector {
 
   @Override
   public UserGroup selectFor(User u, Collection<UserGroup> coll) {
@@ -15,7 +15,7 @@ public class BasicGroupSelector implements GroupSelector {
         return ug;
       }
     }
-    UserGroupBuilder b = new UserGroupBuilder(null);
+    UserGroupBuilder b = new UserGroupBuilder(BasicAPI.class);
     return b.build();
   }
 
