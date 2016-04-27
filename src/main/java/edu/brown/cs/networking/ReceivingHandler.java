@@ -108,14 +108,13 @@ public class ReceivingHandler {
 
   @OnWebSocketClose
   public void onClose(Session session, int statusCode, String reason) {
-    if (seenBefore(session)) {
-      String id = getSessionID(session);
-      if (id != null && uuidToUser.containsKey(id)) {
-        User u = uuidToUser.get(id);
-        assert u != null : "Illegal state - userMap should have had User";
-        System.out.format("Marking user %s as AFK %n", u);
-        afkMap.put(u, System.currentTimeMillis());
-      }
+    User u = getUserFor(session);
+    if(u != null) {
+      System.out.format("User %s was disconnected due to: %s%n", u, reason);
+      System.out.format("Marking user %s as AFK %n", u);
+      afkMap.put(u, System.currentTimeMillis());
+    } else {
+      System.out.format("Unregistered session %s was disconnected due to: %s%n", session, reason);
     }
   }
 
@@ -158,6 +157,14 @@ public class ReceivingHandler {
       if (c.getName().equals(USER_IDENTIFIER)) {
         return c.getValue().toString();
       }
+    }
+    return null;
+  }
+
+  private User getUserFor(Session s) {
+    String potentialId = getSessionID(s);
+    if(potentialId != null) {
+      return uuidToUser.get(potentialId);
     }
     return null;
   }

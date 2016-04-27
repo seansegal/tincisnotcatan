@@ -34,13 +34,14 @@ function startGamePressed() {
 	}
 	setCookie("userName", userName);
 	setCookie("numPlayersDesired", numPlayers);
-	deleteCookie("USER_NAME");
+	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.
 	
 }
 
 function deleteCookie(name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    alert(document.cookie);
 };
 
 //Helper function for inserting HTML as the first child of an element
