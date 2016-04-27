@@ -204,16 +204,6 @@ id("message").addEventListener("keypress", function (e) {
 
 // ---------- ACTION RESPONSES ---------- //
 
-function handleActionResponse(data) {
-    switch(data.action) {
-    // add action handlers here!
-    case  "buildSettlement":
-        return handleBuildSettlement(data);
-    default:
-        console.log("action object with no action identifier");
-    }
-}
-
 function handleBuildSettlement(response) {
 
 }
