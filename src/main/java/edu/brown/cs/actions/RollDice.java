@@ -11,6 +11,7 @@ import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
+import edu.brown.cs.catan.Settings;
 
 public class RollDice implements Action {
 
@@ -33,11 +34,10 @@ public class RollDice implements Action {
   @Override
   public Map<Integer, ActionResponse> execute() {
     Random r = new Random();
-    PrimitiveIterator.OfInt rolls =  r.ints(1, 7).iterator();
+    PrimitiveIterator.OfInt rolls = r.ints(1, 7).iterator();
     int diceRoll = rolls.nextInt() + rolls.nextInt();
-    Map<Integer, Map<Resource, Integer>> playerResourceCount =
-        new HashMap<Integer, Map<Resource, Integer>>();
-    Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
+    Map<Integer, Map<Resource, Integer>> playerResourceCount = new HashMap<>();
+    Map<Integer, ActionResponse> toRet = new HashMap<>();
 
     if (diceRoll != 7) {
       Collection<Tile> tiles = _ref.getBoard().getTiles();
@@ -46,8 +46,8 @@ public class RollDice implements Action {
         // If the tile matches the roll and does not have the robber
         if (t.getRollNumber() == diceRoll && !t.hasRobber()) {
           // Find out who should collect what from the intersections
-          Map<Integer, Map<Resource, Integer>> fromTile =
-              t.notifyIntersections();
+          Map<Integer, Map<Resource, Integer>> fromTile = t
+              .notifyIntersections();
           // Iterate through this and consolidate collections for each person
           for (int playerID : fromTile.keySet()) {
             if (!playerResourceCount.containsKey(playerID)) {
@@ -77,9 +77,10 @@ public class RollDice implements Action {
       for (Integer playerID : playerResourceCount.keySet()) {
         StringBuilder message = new StringBuilder();
         message.append(String.format("%d was rolled", diceRoll));
-        Map<Resource, Integer> resourceCount = playerResourceCount.get(playerID);
+        Map<Resource, Integer> resourceCount = playerResourceCount
+            .get(playerID);
         for (Resource res : resourceCount.keySet()) {
-          switch(res) {
+          switch (res) {
           case WHEAT:
             message.append(String.format(", you received %d wheat",
                 resourceCount.get(res)));
@@ -106,7 +107,8 @@ public class RollDice implements Action {
           }
         }
         message.append(".");
-        ActionResponse toAdd = new ActionResponse(true, message.toString(), resourceCount);
+        ActionResponse toAdd = new ActionResponse(true, message.toString(),
+            resourceCount);
         toRet.put(playerID, toAdd);
       }
       for (Player p : _ref.getPlayers()) {
@@ -117,12 +119,49 @@ public class RollDice implements Action {
         }
       }
     } else {
-      // Unsure how to handle moving the knight yet
-    }
-    for(int i : toRet.keySet()) {
-//      System.out.println(toRet.get(i).toString());
+      // 7 is rolled:
+      boolean mustDiscard = false;
+      String message = "7 was rolled.";
+      for (Player p : _ref.getPlayers()) {
+        if (p.getNumResourceCards() > Settings.DROP_CARDS_THRESH) {
+          mustDiscard = true;
+          _ref.playerMustDiscard(p.getID());
+          message += String.format(" %s must discard cards");
+        }
+      }
+      if (mustDiscard) {
+        message += ".";
+        for (Player p : _ref.getPlayers()) {
+          if (_ref.playerHasDiscarded(p.getID())) {
+            toRet.put(p.getID(), new ActionResponse(true,
+                "7 was rolled. You must drop cards.", "dropCards", null));
+          } else {
+            toRet.put(p.getID(), new ActionResponse(true, message, null));
+          }
+        }
+      } else {
+        ActionResponse respToAll = new ActionResponse(true,
+            "7 was rolled. No one has more than 7 cards.", null);
+        ActionResponse respToPlayer = new ActionResponse(true,
+            "7 was rolled. You get to move the Robber.", "moveRobber", null);
+        for (Player p : _ref.getPlayers()) {
+          if (p.equals(_player)) {
+            toRet.put(p.getID(), respToPlayer);
+          } else {
+            toRet.put(p.getID(), respToAll);
+          }
+        }
+      }
     }
     return toRet;
+  }
+
+  private static class FollowUpResponse {
+    private final String followUp;
+
+    public FollowUpResponse(String followUp) {
+      this.followUp = followUp;
+    }
 
   }
 
