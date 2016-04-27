@@ -2,155 +2,113 @@ package edu.brown.cs.networking;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.eclipse.jetty.websocket.api.Session;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-class UserGroup implements Timestamped {
-
-  private static final String REQUEST_IDENTIFIER = "requestType";
-
-  private List<User>          users;
-  private int                 size;
-  private long                timestamp;
-  private String              id;
-
-  private final Gson          GSON               = new Gson();
-  private final API           api;
+public class UserGroup {
 
 
-  public UserGroup(int size, String id, API api) {
-    this.api = api;
-    this.size = size;
-    this.timestamp = System.currentTimeMillis();
-    this.id = id;
-    this.users = new ArrayList<>();
+  private Collection<RequestProcessor> reqs;
+  private Set<User>                    users;
+  private API                          api;
+
+  private final int                    desiredSize;
+
+
+  private UserGroup() {
+    assert false : "should never call this constructor!";
+    this.desiredSize = 1;
+  }
+
+
+  private UserGroup(UserGroupBuilder b) {
+    // use the fields of the builder to setup
+    this.reqs = b.reqs;
+    this.desiredSize = b.desiredSize;
+    // default inits
+    this.users = new HashSet<>();
+
+    if (b.apiClass != null) {
+      try {
+        this.api = b.apiClass.newInstance();
+      } catch (InstantiationException | IllegalAccessException e) {
+        System.out.println(
+            "Error instantiating API class of type:" + b.apiClass.getName());
+        e.printStackTrace();
+      }
+    }
+
+
   }
 
 
   public boolean isFull() {
-    return users.size() == size;
+    return this.desiredSize == users.size();
   }
 
 
-  public boolean isEmpty() {
-    return users.isEmpty();
-  }
-
-
-  // currently just add to list, can add notification functionality.
   public boolean add(User u) {
-    if (!isFull()) {
-      System.out.format("User %s was added to UserGroup %s%n", u, id);
-
-      u.setUserID(api.addPlayer(u.toString())); // TEMPORARY WONT WORK TODO
-      System.out.format("User %s was created and added to UserGroup %s%n", u,
-          id);
-      return users.add(u);
+    if (users.size() == desiredSize) {
+      return false; // we're full, don't give me any more users.
     }
-    System.out.format("User %s was not added to %s, it is full%n", u, id);
-    return false;
+    users.add(u);
+    return true;
+    // regardless of whether or not u was present in the set already,
+    // should return true to indicate that u has "found a home"
   }
 
 
-  // currently just removes from list, can add notification functionality.
   public boolean remove(User u) {
-    System.out.format("Session %s was removed from SessionGroup %s%n", u, id);
-    boolean toReturn = users.remove(u);
-    if (isEmpty()) {
-      System.out.format("UserGroup %s is now empty.%n", id);
-    }
-    // TODO : notify other players that user left,
-    // begin count down to game cancel.
-    return toReturn;
+    return users.remove(u); // could it be this simple? we can add more logic
+                            // for timeouts etc later.
   }
 
 
-  public boolean message(User u, String message) {
-    if (!users.contains(u)) {
-      System.out.format(
-          "Error : attempted message from %s by UserGroup %s, not here.%n", u,
-          id);
-      return false;
-    }
-
-    System.out.format(
-        "User %s sent a message : %s through UserGroup %s%n", u, message, id);
-
-    JsonObject json = GSON.fromJson(message, JsonObject.class);
-    // TODO : simplify this into data-oriented model:
-    if (json.has(REQUEST_IDENTIFIER)
-        && !json.get(REQUEST_IDENTIFIER).isJsonNull()) {
-      switch (json.get(REQUEST_IDENTIFIER).getAsString()) {
-        case "chat":
-          return handleChatMessage(u, json);
-        case "action":
-          return handleAction(u, json);
-        case "getGameState":
-          return handleGetGameState(u);
-        default:
-          System.out.format("User %s made an illegal request : %s%n",
-              u, message);
-          json.addProperty("ERROR",
-              "Illegal request: " + json.get(REQUEST_IDENTIFIER).getAsString());
-      }
-
-    } else {
-      json.addProperty("ERROR",
-          "No " + REQUEST_IDENTIFIER + " field specified");
-    }
-    return u.message(json);
-  }
-
-
-  private boolean handleGetGameState(User u) {
-    return new GetGameStateProcessor(api).run(u, users, new JsonObject());
-  }
-
-
-  private boolean handleAction(User u, JsonObject json) {
-    return new ActionProcessor(api).run(u, users, json);
-  }
-
-
-  private boolean handleChatMessage(User u, JsonObject json) {
-    return new ChatProcessor().run(u, users, json);
-  }
-
-
-  // TEMPORARY
-  public Collection<String> userIds() {
-    Collection<String> toRet = new ArrayList<>();
-    for (User u : users) {
-      toRet.add(String.format("%s", u.getField("userName")));
-    }
-    return toRet;
-  }
-
-
-  public boolean contains(Session s) {
-    for (User u : users) {
-      if (u.session().equals(s)) {
-        return true;
+  public boolean handleMessage(User u, JsonObject j) {
+    for (RequestProcessor req : reqs) {
+      if (req.match(j)) {
+        return req.run(u, users, j, api);
       }
     }
     return false;
   }
 
-  @Override
-  public long initTime() {
-    return timestamp;
+
+  public static class UserGroupBuilder {
+
+    private Collection<RequestProcessor> reqs;
+    private int                          desiredSize = 1;
+    private final Class<? extends API>   apiClass;
+
+
+    public UserGroupBuilder(Class<? extends API> apiClass) {
+      // set any required variables
+      this.apiClass = apiClass;
+
+      // default to echo processor for now
+      Collection<RequestProcessor> r = new ArrayList<>();
+      r.add(new EchoProcessor()); // for testing;
+      this.reqs = r;
+    }
+
+
+    public UserGroupBuilder withRequestProcessors(
+        Collection<RequestProcessor> reqs) {
+      this.reqs = reqs;
+      return this;
+    }
+
+
+    public UserGroupBuilder withSize(int numUsers) {
+      this.desiredSize = numUsers;
+      return this;
+    }
+
+
+    public UserGroup build() {
+      return new UserGroup(this);
+    }
   }
-
-
-  @Override
-  public void stampNow() {
-    this.timestamp = System.currentTimeMillis();
-  }
-
-  // message specific user
-
 }

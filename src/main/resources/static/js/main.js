@@ -12,6 +12,12 @@ $(window).load(function() {
 	});
 
     $("#end-turn-btn").click(sendRollDiceAction);
+    
+    var href = window.location.pathname;
+    if(href != "/home" && !document.cookie){
+    	window.location = "/home"; // redirect to home
+    }
+    
 });
 
 function redrawCatan() {

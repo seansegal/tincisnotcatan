@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableMap;
 
 import edu.brown.cs.api.CatanAPI;
 import edu.brown.cs.networking.GCT;
+import edu.brown.cs.networking.GCT.GCTBuilder;
 import freemarker.template.Configuration;
 import spark.ModelAndView;
 import spark.Request;
@@ -32,8 +33,9 @@ public class Main {
     Spark.port(getHerokuAssignedPort());
     Spark.threadPool(NUM_THREADS, MIN_THREADS, TIMEOUT);
     // secure("", "", "", ""); // use this for https!
-    GCT.getInstance();
-    GCT.setAPI(CatanAPI.class);
+    GCT terminal = new GCTBuilder(CatanAPI.class)
+        .withWebsocketRoute("/action")
+        .build();
 
     Configuration config = new Configuration();
     File templates = new File(

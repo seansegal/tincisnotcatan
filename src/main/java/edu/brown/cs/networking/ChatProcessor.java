@@ -9,23 +9,25 @@ import com.google.gson.JsonObject;
 public class ChatProcessor implements RequestProcessor {
 
   private static final String IDENTIFIER = "chat";
+  private static final String REQUEST_KEY = "requestType";
 
 
   @Override
   public boolean run(User user, Collection<User> group,
-      JsonObject json) {
+      JsonObject json, API api) {
     System.out.println("Message processed : " + json.get("message"));
 
     Collection<String> userIds = new ArrayList<>();
-    for(User u : group) {
+    for (User u : group) {
       userIds.add(String.valueOf(u.userID()));
     }
 
-    JsonObject toSend = Chat.createMessage(String.format("%s%n", user.getField("userName")),
-        json.get("message").getAsString(), userIds);
+    JsonObject toSend =
+        Chat.createMessage(String.format("%s%n", user.getField("userName")),
+            json.get("message").getAsString(), userIds);
 
     boolean success = true;
-    for(User other : group) {
+    for (User other : group) {
       success &= other.message(toSend);
     }
     return success;
@@ -33,8 +35,11 @@ public class ChatProcessor implements RequestProcessor {
 
 
   @Override
-  public String identifier() {
-    return IDENTIFIER;
+  public boolean match(JsonObject j) {
+    if(j.has(REQUEST_KEY) && !j.get(REQUEST_KEY).isJsonNull()){
+      return j.get(REQUEST_KEY).getAsString().equals(IDENTIFIER);
+    }
+    return false;
   }
 
 

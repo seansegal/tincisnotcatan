@@ -10,128 +10,113 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import org.eclipse.jetty.websocket.api.Session;
 
+import com.google.gson.JsonObject;
+
 import spark.Spark;
 
 // Grand Central Terminal - Routes all of the inputs to appropriate groups
 public class GCT {
 
-  private static final GCT                              instance                =
-      new GCT();
+  private final PriorityBlockingQueue<UserGroup> pending;
+  private final List<UserGroup>                  full;
+  private final Map<User, UserGroup>             userToUserGroup;
 
-  private static final PriorityBlockingQueue<UserGroup> pending                 =
-      new PriorityBlockingQueue<>();
+  private Class<? extends API>                   apiClass;
+  private final GroupSelector                    groupSelector;
 
-  private static final List<UserGroup>                  full                    =
-      Collections.synchronizedList(new ArrayList<>());
-
-  private static final Map<Session, UserGroup>          groupMap                =
-      new ConcurrentHashMap<>();
-
-  private static final Map<Session, User>               sessionToUser           =
-      new ConcurrentHashMap<>();
-
-  private static Class<? extends API>                   apiClass;
-
-  private static final int                              NEED_TO_GENERALIZE_THIS =
-      2;
-
-  private static int                                    GROUP_ID                =
-      1;
-  private static int                                    SESSION_ID              =
-      1;
+  private static final int                       NEED_TO_GENERALIZE_THIS = 2;
+  private static int                             GROUP_ID                = 1;
+  private static int                             SESSION_ID              = 1;
 
 
-  public static GCT getInstance() {
-    return instance;
-  }
+  private GCT(GCTBuilder builder) {
+    // Not provided by builder:
+    this.pending = new PriorityBlockingQueue<>();
+    this.full = Collections.synchronizedList(new ArrayList<>());
+    this.userToUserGroup = new ConcurrentHashMap<>();
 
+    // provided by builder:
+    this.apiClass = builder.apiClass;
+    this.groupSelector = builder.groupSelector;
+    Spark.webSocket(builder.webSocketRoute, ReceivingHandler.class);
+    ReceivingHandler.setGCT(this);
 
-  public static void setAPI(Class<? extends API> api) {
-    apiClass = api;
-  }
-
-
-  private GCT() {
-    Spark.webSocket("/action", ReceivingHandler.class);
+    // needed:
     Spark.init();
   }
 
 
   // add verification?? TODO
-  public boolean register(Session s, List<HttpCookie> cookies) {
+  public User register(Session s, List<HttpCookie> cookies) {
     User newUser = new User(s, cookies);
-    sessionToUser.put(s, newUser);
-    return add(newUser);
+    add(newUser);
+    return newUser;
   }
 
 
-  public boolean add(User u) {
-    UserGroup group = pending.poll();
-
-    if (group == null) {
-      try {
-
-        group = new UserGroup(
-            Integer.valueOf(u.getField("numPlayersDesired")),
-            String.valueOf(GROUP_ID++),
-            apiClass.newInstance());
-
-      } catch (InstantiationException | IllegalAccessException e) {
-        System.out.println("Error : Failed to create a new API class");
-        e.printStackTrace();
-      }
-      group.add(u);
-      groupMap.put(u.session(), group);
-    } else if (group.isFull()) {
-      throw new IllegalStateException("Had a full UserGroup in pending PQ");
+  private boolean add(User u) {
+    UserGroup bestFit =
+        groupSelector.selectFor(u, Collections.unmodifiableCollection(pending));
+    assert bestFit != null : "Select for returned a null user group!";
+    userToUserGroup.put(u, bestFit);
+    bestFit.add(u);
+    if (bestFit.isFull()) {
+      full.add(bestFit);
+      pending.remove(bestFit);
     } else {
-      group.add(u);
-      groupMap.put(u.session(), group);
+      pending.remove(bestFit); // do nothing if it's new, otherwise reheap.
+      pending.add(bestFit);
     }
-
-    if (group.isFull()) {
-      full.add(group);
-    } else {
-      pending.add(group);
-    }
-    return true; // figure out what this boolean should really represent TODO
+    return true;
   }
 
 
-  public boolean remove(Session s, int statusCode, String reason) {
-    UserGroup group = groupMap.remove(s);
-
+  public boolean remove(User u) {
+    UserGroup group = userToUserGroup.get(u);
     if (group == null) {
       return false;
     }
-
-    if (group.isFull()) {
-      assert full.remove(group) : "This group should have been in full";
-    } else {
-      assert pending.remove(group) : "This group should have been in pending";
-    }
-
-    boolean different = group.remove(sessionToUser.get(s));
-
-    if (different) {
-      group.stampNow(); // groups that lose a user move to the back of the line.
-    }
-    if (!group.isEmpty()) {
-      pending.add(group);
-    }
-
-    return different;
-
+    return group.remove(u);
   }
 
 
-  public boolean message(Session s, String message) {
-    UserGroup sg = groupMap.get(s);
-    if (sg == null) {
+  public boolean message(User u, JsonObject j) {
+    UserGroup group = userToUserGroup.get(u);
+    if (group == null) {
       return false;
     }
-    return sg.message(sessionToUser.get(s), message);
+    return group.handleMessage(u, j);
   }
 
+
+  public static class GCTBuilder {
+
+    private Class<? extends API> apiClass;
+    private String               webSocketRoute = "/action";
+    private GroupSelector        groupSelector  = new BasicGroupSelector();
+
+
+    public GCTBuilder(Class<? extends API> apiClass) {
+      this.apiClass = apiClass;
+    }
+
+
+    public GCTBuilder withWebsocketRoute(String route) {
+      this.webSocketRoute = route;
+      return this;
+    }
+
+
+    public GCTBuilder withGroupSorter(GroupSelector selector) {
+      this.groupSelector = selector;
+      return this;
+    }
+
+
+    public GCT build() {
+      return new GCT(this);
+    }
+
+  }
 
 }

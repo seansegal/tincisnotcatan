@@ -6,10 +6,10 @@ import com.google.gson.JsonObject;
 
 public interface RequestProcessor {
 
-  boolean run(User user, Collection<User> group, JsonObject json);
+  boolean run(User user, Collection<User> group, JsonObject json, API api);
 
 
-  String identifier();
+  boolean match(JsonObject json);
 
 
 }

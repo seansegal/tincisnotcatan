@@ -10,13 +10,12 @@ if (document.location.hostname == "localhost") {
 
 
 webSocket.onopen = function () {
-	sendGetGameStateAction();
+	// don't send get game state until we're sure we're logged in.	
 };
 
 
 function getCookie(name) {
 	var nameEQ = name + "=";
-	//alert(document.cookie);
 	var ca = document.cookie.split(';');
 	for(var i=0;i < ca.length;i++) {
 	var c = ca[i];
@@ -30,6 +29,18 @@ function getCookie(name) {
 function setCookie(cookie, value) {
 	var eqVal = cookie + "=" + value;
 	document.cookie = eqVal;
+}
+
+function handleSetCookie(data) {
+	console.log(data);
+	for(i=0; i < data.cookies.length; i++) {
+		if(data.cookies[i].name == "CATAN_USER_ID") {
+			var cook = data.cookies[i];
+			setCookie(cook.name, cook.value);
+			console.log("Cookies set to :" + document.cookie);
+			sendGetGameStateAction();
+		}
+	}
 }
 
 webSocket.onmessage = function (msg) {
@@ -47,6 +58,9 @@ webSocket.onmessage = function (msg) {
         case "action":
             handleActionResponse(data);
             return;
+        case "setCookie":
+        	handleSetCookie(data);
+        	return;
     	default:
     		console.log("unsupported request type");
     		return;

@@ -11,16 +11,12 @@ import com.google.gson.JsonObject;
 public class ActionProcessor implements RequestProcessor {
 
   private static final String IDENTIFIER = "action";
+  private static final String REQUEST_KEY = "requestType";
   private static final Gson GSON = new Gson();
-  private final API api;
 
-
-  public ActionProcessor(API api) {
-    this.api = api;
-  }
 
   @Override
-  public boolean run(User user, Collection<User> group, JsonObject json) {
+  public boolean run(User user, Collection<User> group, JsonObject json, API api) {
     json.add("player", GSON.toJsonTree(String.valueOf(user.userID())));
     System.out.println(json);
 
@@ -43,8 +39,11 @@ public class ActionProcessor implements RequestProcessor {
   }
 
   @Override
-  public String identifier() {
-    return IDENTIFIER;
+  public boolean match(JsonObject j) {
+    if(j.has(REQUEST_KEY) && !j.get(REQUEST_KEY).isJsonNull()){
+      return j.get(REQUEST_KEY).getAsString().equals(IDENTIFIER);
+    }
+    return false;
   }
 
 
