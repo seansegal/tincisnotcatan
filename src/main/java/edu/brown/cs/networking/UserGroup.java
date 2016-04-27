@@ -75,6 +75,10 @@ public class UserGroup implements Timestamped {
 
 
   public boolean handleMessage(User u, JsonObject j) {
+    if(!users.contains(u)) {
+      System.out.println("Error : user not contained");
+      return false;
+    }
     for (RequestProcessor req : reqs) {
       if (req.match(j)) {
         return req.run(u, users, j, api);
