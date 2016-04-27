@@ -120,7 +120,6 @@ public class RollDice implements Action {
       }
     } else {
       // 7 is rolled:
-      System.out.println("7 WAS ROLLED!!!!!!!!");
       boolean mustDiscard = false;
       String message = "7 was rolled.";
       for (Player p : _ref.getPlayers()) {
@@ -155,17 +154,6 @@ public class RollDice implements Action {
         }
       }
     }
-    System.out.println(toRet);
     return toRet;
   }
-
-  private static class FollowUpResponse {
-    private final String followUp;
-
-    public FollowUpResponse(String followUp) {
-      this.followUp = followUp;
-    }
-
-  }
-
 }
