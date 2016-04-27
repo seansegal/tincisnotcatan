@@ -25,6 +25,10 @@ public final class User {
     this.session = s;
   }
 
+  public void updateCookies(List<HttpCookie> cookies) {
+    this.cookies = cookies;
+  }
+
 
   public boolean message(JsonObject json) {
     if (session().isOpen()) {

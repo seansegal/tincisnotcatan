@@ -85,6 +85,7 @@ public class ReceivingHandler {
         // assign this session to the existing user:
         User u = uuidToUser.get(id);
         u.updateSession(session);
+        u.updateCookies(list);
         afkMap.remove(u);
         System.out.println("Updated User object with new session");
       }
@@ -121,6 +122,7 @@ public class ReceivingHandler {
 
   @OnWebSocketMessage
   public void onMessage(Session session, String message) {
+    System.out.println("Attempted message " + message);
     User u = null;
     if (seenBefore(session)) {
       String id = getSessionID(session);
