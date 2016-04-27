@@ -49,13 +49,30 @@ public class Path {
   }
 
   public boolean canPlaceRoad(Player p) {
-    if (_road == null) {
-      int rand = (int) (Math.random() * 5);
-      if (rand < 2) {
-        return true;
+    if (_road != null) {
+      return false;
+    }
+    
+    if (_start.getBuilding() != null
+        && _start.getBuilding().getPlayer().equals(p)) {
+      return true;
+    } else {
+      for (Path path : _start.getPaths()) {
+        if (path.getRoad() != null && path.getRoad().getPlayer().equals(p)) {
+          return true;
+        }
       }
     }
-    return false; // TODO
+    if (_end.getBuilding() != null && _end.getBuilding().getPlayer().equals(p)) {
+      return true;
+    } else {
+      for (Path path : _end.getPaths()) {
+        if (path.getRoad() != null && path.getRoad().getPlayer().equals(p)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public void placeRoad(Player p) {
