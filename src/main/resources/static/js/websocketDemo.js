@@ -42,7 +42,6 @@ webSocket.onmessage = function (msg) {
 
 function handleActionResponse(data) {
 	switch(data.action) {
-    case "rollDice":
 	case "buildSettlement":
     case "buildCity":
     case "buildRoad":
@@ -51,10 +50,17 @@ function handleActionResponse(data) {
     case "playYearOfPlenty":
         addMessage(data.content.message);
         break;
+    case "rollDice":
+        handleRollDiceResponse(data);
+        break;
 	default:
 		console.log("unknown action identifier");
 	}
 }
+
+//////////////////////////////////////////
+// Action Senders
+//////////////////////////////////////////
 
 function sendGetGameStateAction() {
     var playersReq = {requestType: "getGameState"};
@@ -101,6 +107,10 @@ function sendDropCardsAction(toDiscard) {
     webSocket.send(JSON.stringify(dropReq));
 }
 
+//////////////////////////////////////////
+// Action Handlers
+//////////////////////////////////////////
+
 function handleGetGameState(gameStateData) {
     // Set global data
     playerId = gameStateData.playerID;
@@ -127,6 +137,15 @@ function handleGetGameState(gameStateData) {
     board = new Board();
     board.createBoard(gameStateData.board);
     board.draw();
+}
+
+function handleRollDiceResponse(response) {
+    addMessage(response.content.message);
+    switch (response.content.followUpAction) {
+        case "dropCards":
+            enterDiscardModal(4);
+            break;
+    }
 }
 
 //Send message if enter is pressed in the input field
