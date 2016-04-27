@@ -46,8 +46,7 @@ public abstract class Settings {
       .put(Resource.WILDCARD, 3.0).build();
 
   // Port Resource Order
-  public final static Resource[] PORT_ORDER = { Resource.WILDCARD,
-      Resource.SHEEP, Resource.WILDCARD, Resource.WHEAT, Resource.BRICK,
+  public final static Resource[] PORT_ORDER = { Resource.WILDCARD, Resource.SHEEP, Resource.WILDCARD, Resource.WHEAT, Resource.BRICK,
       Resource.WILDCARD, Resource.ORE, Resource.WILDCARD, Resource.WOOD };
 
   // Development Card Deck:
