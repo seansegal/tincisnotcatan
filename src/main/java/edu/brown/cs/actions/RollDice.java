@@ -126,7 +126,7 @@ public class RollDice implements Action {
         if (p.getNumResourceCards() > Settings.DROP_CARDS_THRESH) {
           mustDiscard = true;
           _ref.playerMustDiscard(p.getID());
-          message += String.format(" %s must discard cards");
+          message += String.format(" %s must discard cards", p.getName());
         }
       }
       if (mustDiscard) {
@@ -134,7 +134,8 @@ public class RollDice implements Action {
         for (Player p : _ref.getPlayers()) {
           if (_ref.playerHasDiscarded(p.getID())) {
             toRet.put(p.getID(), new ActionResponse(true,
-                "7 was rolled. You must drop cards.", "dropCards", null));
+                "7 was rolled. You must drop half of your cards.", "dropCards",
+                null));
           } else {
             toRet.put(p.getID(), new ActionResponse(true, message, null));
           }
@@ -155,14 +156,4 @@ public class RollDice implements Action {
     }
     return toRet;
   }
-
-  private static class FollowUpResponse {
-    private final String followUp;
-
-    public FollowUpResponse(String followUp) {
-      this.followUp = followUp;
-    }
-
-  }
-
 }

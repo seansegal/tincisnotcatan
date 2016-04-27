@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class Board {
   private Collection<Tile> _tiles;
   private Map<IntersectionCoordinate, Intersection> _intersections;
   private Map<PathCoordinate, Path> _paths;
-  private final Collection<HexCoordinate> PORT_LOCATION;
+  private final List<HexCoordinate> PORT_LOCATION;
   private final static int DEPTH = 2;
 
   private void addTiles(List<TileType> availTiles, TileType type, int numTiles) {
@@ -134,7 +133,7 @@ public class Board {
 
   public Board() {
     List<TileType> availTiles = new ArrayList<TileType>();
-    PORT_LOCATION = new HashSet<HexCoordinate>();
+    PORT_LOCATION = new ArrayList<HexCoordinate>();
     PORT_LOCATION.add(new HexCoordinate(0, 0, 3));
     PORT_LOCATION.add(new HexCoordinate(0, 2, 3));
     PORT_LOCATION.add(new HexCoordinate(0, 3, 2));
@@ -247,7 +246,7 @@ public class Board {
     for (HexCoordinate hc : seaCoords) {
       Tile seaTile = new Tile(hc, SEA, _intersections);
       if (PORT_LOCATION.contains(hc)) {
-        seaTile.setPorts(new Port(Settings.PORT_ORDER[i]));
+        seaTile.setPorts(new Port(Settings.PORT_ORDER[PORT_LOCATION.indexOf(hc)]));
         i++;
       }
       _tiles.add(seaTile);
