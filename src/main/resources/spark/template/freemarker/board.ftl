@@ -356,7 +356,7 @@
 					<div class="card-number" id="road-building-number">0</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle">
+					<div class="circle card-circle" data-toggle="modal">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Victory Point" data-content="You obtain an extra Victory Point with this card, which will remain hidden to other players until the end of the game.">
 							<img src="images/icon-victory-point.svg" alt="Victory Point">
 						</div>
@@ -397,6 +397,69 @@
       		<div class="modal-footer">
         		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         		<button type="button" class="btn btn-primary" id="dev-card-buy-btn" data-dismiss="modal">Buy</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="discard-modal" tabindex="-1" role="dialog" aria-labelledby="discardLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="discardLabel">Discard Cards</h4>
+      		</div>
+      		<div class="modal-body">
+       			<p>A 7 was rolled! You must select <span id="num-resources-to-discard"></span> resources to discard.</p>
+       			<div class="text-center">
+       				<div class="discard-resource-container">
+		       			<div class="circle discard-circle brick-color">
+							<img src="images/icon-brick.svg" alt="Brick">
+						</div>
+						<div class="text-center">
+							<h5 class="discard-hand-number" id="discard-hand-number-brick"></h5>
+				    		<input type="number" class="form-control discard-number" max="0" res="brick">
+				    	</div>
+				    </div>
+				    <div class="discard-resource-container">
+		       			<div class="circle discard-circle wood-color">
+							<img src="images/icon-wood.svg" alt="Wood">
+						</div>
+						<div class="text-center">
+							<h5 class="discard-hand-number" id="discard-hand-number-wood"></h5>
+				    		<input type="number" class="form-control discard-number" max="0" res="wood">
+				    	</div>
+				    </div>
+				    <div class="discard-resource-container">
+		       			<div class="circle discard-circle ore-color">
+							<img src="images/icon-ore.svg" alt="Ore">
+						</div>
+						<div class="text-center">
+							<h5 class="discard-hand-number" id="discard-hand-number-ore"></h5>
+				    		<input type="number" class="form-control discard-number" max="0" res="ore">
+				    	</div>
+				    </div>
+				    <div class="discard-resource-container">
+		       			<div class="circle discard-circle wheat-color">
+							<img src="images/icon-wheat.svg" alt="Wheat">
+						</div>
+						<div class="text-center">
+							<h5 class="discard-hand-number" id="discard-hand-number-wheat"></h5>
+				    		<input type="number" class="form-control discard-number" max="0" res="wheat">
+				    	</div>
+				    </div>
+				    <div class="discard-resource-container">
+		       			<div class="circle discard-circle sheep-color">
+							<img src="images/icon-sheep.svg" alt="Sheep">
+						</div>
+						<div class="text-center">
+							<h5 class="discard-hand-number" id="discard-hand-number-sheep"></h5>
+				    		<input type="number" class="form-control discard-number" max="0" res="sheep">
+				    	</div>
+				    </div>
+			    </div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-primary" id="discard-btn" disabled="disabled">Discard</button>
       		</div>
     	</div>
 	</div>
@@ -456,7 +519,7 @@
       		</div>
       		<div class="modal-footer">
         		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        		<button type="button" class="btn btn-primary" id="play-yop-btn">Play Year of Plenty</button>
+        		<button type="button" class="btn btn-primary" id="play-yop-btn" disabled="disabled">Play Year of Plenty</button>
       		</div>
     	</div>
 	</div>

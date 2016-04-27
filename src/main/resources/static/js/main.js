@@ -296,6 +296,12 @@ $(".yop-number").change(function(event) {
 	} else {
 		$(this).data("oldVal", newVal);
 	}
+
+	if (calcYearOfPlentyResources() === 2) {
+		$("#play-yop-btn").prop("disabled", false);
+	} else {
+		$("#play-yop-btn").prop("disabled", true);
+	}
 });
 
 
@@ -331,3 +337,105 @@ $("#year-of-plenty-modal").on("hide.bs.modal", function() {
 	$(".yop-number").val("");
 });
 
+//////////////////////////////////////////
+// Discard Modal
+//////////////////////////////////////////
+
+function calcNumDiscards() {
+	var inputs = $(".discard-number");
+	var num = 0;
+
+	inputs.each(function(indx) {
+		var text = $(this).val();
+		num = num + ((text === "") ? 0 : parseInt(text));
+	});
+
+	return -num;
+}
+
+function enterDiscardModal(numToDiscard) {
+	$("#discard-modal").modal("show");
+	$("#num-resources-to-discard").text(numToDiscard);
+	$("#discard-btn").prop("disabled", true);
+
+	var playerHand = playersById[playerId].hand;
+	var currHand = {brick: playerHand.brick, 
+					wood: playerHand.wood, 
+					ore: playerHand.ore, 
+					wheat: playerHand.wheat, 
+					sheep: playerHand.sheep};
+	redrawHand();
+
+	function redrawHand() {
+		$("#discard-hand-number-brick").text(currHand.brick);
+		$("#discard-hand-number-wood").text(currHand.wood);
+		$("#discard-hand-number-ore").text(currHand.ore);
+		$("#discard-hand-number-wheat").text(currHand.wheat);
+		$("#discard-hand-number-sheep").text(currHand.sheep);
+	}
+
+	$(".discard-number").change(function(event) {
+		var oldVal = $(this).data("oldVal");
+		var newVal = parseInt($(this).val());
+		var res = $(this).attr("res");
+
+		// Handle cases where you select too many resources or a positive resource amount
+		if (oldVal === undefined && calcNumDiscards() > numToDiscard) {
+			$(this).val("0");
+			$(this).data("oldVal", 0);
+		} else if (isNaN(newVal) || newVal > 0 || calcNumDiscards() > numToDiscard) {
+			$(this).val(oldVal);
+		} else {
+			$(this).data("oldVal", newVal);
+			if (oldVal === undefined) {
+				currHand[res] = currHand[res] + newVal;
+			} else {
+				currHand[res] = currHand[res] + (newVal - oldVal);
+			}
+		}
+
+		// Handle case where you selected more of a resource than you hold
+		if (currHand[res] < 0) {
+			if (oldVal === undefined) {
+				$(this).val("0");
+				$(this).data("oldVal", 0);
+				currHand[res] = currHand[res] - newVal;
+			} else {
+				$(this).val(oldVal);
+				$(this).data("oldVal", oldVal);
+				currHand[res] = currHand[res] - (newVal - oldVal);
+			}
+		}
+
+		redrawHand();
+
+		if (calcNumDiscards() === numToDiscard) {
+			$("#discard-btn").prop("disabled", false);
+		} else {
+			$("#discard-btn").prop("disabled", true);
+		}
+	});
+
+	$("#discard-btn").click(function(event) {
+		if (calcNumDiscards() === numToDiscard) {
+			var toDiscard = {};
+			var inputs = $(".discard-number");
+
+			inputs.each(function(indx) {
+				var text = $(this).val();
+				var num = ((text === "") ? 0 : parseInt(text));
+				var res = $(this).attr("res");
+				toDiscard[res] = num < 0 ? -num : num;
+			});
+
+			sendDropCardsAction(toDiscard);
+			$(".discard-number").off("change");
+			$("#discard-btn").off("click");
+			$("#discard-modal").modal("hide");
+		}
+	});
+}
+
+$("#discard-modal").on("hide.bs.modal", function() {
+	$(".discard-number").val("");
+});
