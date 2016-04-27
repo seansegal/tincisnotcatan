@@ -99,10 +99,18 @@ public class CatanConverter {
   private static class Hand {
     private final Map<Resource, Double> resources;
     private final Map<DevelopmentCard, Integer> devCards;
+    private boolean canBuildRoad;
+    private boolean canBuildSettlement;
+    private boolean canBuildCity;
+    private boolean canBuyDevCard;
 
     public Hand(Player player) {
       resources = player.getResources();
       devCards = player.getDevCards();
+      canBuildRoad = player.canBuildRoad();
+      canBuildSettlement = player.canBuildSettlement();
+      canBuildCity = player.canBuildCity();
+      canBuyDevCard = player.canBuyDevelopmentCard();
     }
   }
 
