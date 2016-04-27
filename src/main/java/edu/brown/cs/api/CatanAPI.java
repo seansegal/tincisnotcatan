@@ -11,8 +11,9 @@ import edu.brown.cs.api.CatanConverter.CatanSettings;
 import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.TestReferee;
+import edu.brown.cs.networking.API;
 
-public class CatanAPI {
+public class CatanAPI implements API {
 
   public static void main(String[] args) {
     CatanAPI api = new CatanAPI();
@@ -33,6 +34,8 @@ public class CatanAPI {
   private CatanConverter _converter;
   private ActionFactory _actionFactory;
 
+  // don't add constructor variables to the API without talking to Nick! I use
+  // CatanAPI.class.newInstance() which breaks with constructor params.
   public CatanAPI() {
     // _referee = new MasterReferee();
     _referee = new TestReferee();
@@ -48,6 +51,7 @@ public class CatanAPI {
     _actionFactory = new ActionFactory(_referee);
   }
 
+  @Override
   public JsonObject getGameState(int playerID) {
     return _converter.getGameState(_referee, playerID);
   }
@@ -67,6 +71,7 @@ public class CatanAPI {
    * @throws UnsupportedOperationException
    *           When called in the middle of a game.
    */
+  @Override
   public int addPlayer(String playerAttributes) {
     // TODO: decide on playerAttributes, who is choosing colors?
     return _referee.addPlayer("TestName", "#000000");
@@ -96,6 +101,7 @@ public class CatanAPI {
    *         attribute for an action -1 will be returned and it will map to a
    *         more specific message as to why the Action failed.
    */
+  @Override
   public Map<Integer, JsonObject> performAction(String action) {
     if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");

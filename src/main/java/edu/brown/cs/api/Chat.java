@@ -1,4 +1,4 @@
-package edu.brown.cs.networking;
+package edu.brown.cs.api;
 
 import static j2html.TagCreator.article;
 import static j2html.TagCreator.b;
@@ -39,7 +39,7 @@ class Chat {
       String message) {
     return GSON.toJsonTree(
         article()
-            .with(b(sender + " says:"), p(message),
+            .with(b(sender + ":"), p(message),
                 span().withClass("timestamp")
                     .withText(
                         new SimpleDateFormat("HH:mm:ss").format(new Date())))

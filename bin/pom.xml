@@ -15,14 +15,6 @@
 
   <dependencies>
 
-	<!--
-    <dependency>
-      <groupId>edu.brown.cs.STUDENT</groupId>
-      <artifactId>INSERT YOUR PACKAGE HERE</artifactId>
-      <version>1.0</version>
-	</dependency>
-	-->
-
     <dependency>
       <groupId>net.sf.jopt-simple</groupId>
       <artifactId>jopt-simple</artifactId>
@@ -85,12 +77,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.xerial</groupId>
-      <artifactId>sqlite-jdbc</artifactId>
-      <version>3.8.7</version>
-    </dependency>
-
-    <dependency>
             <groupId>com.j2html</groupId>
             <artifactId>j2html</artifactId>
             <version>0.7</version>
@@ -100,6 +86,40 @@
 
   <build>
     <plugins>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+        </plugin>
+        <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <descriptorRefs>
+                    <!-- This tells Maven to include all dependencies -->
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+                <archive>
+                    <manifest>
+                        <mainClass>edu.brown.cs.catan.Main</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+
+<!-- This was a duplicate that conflicted with heroku config
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -110,7 +130,7 @@
           <compilerArgument>-Xlint:all</compilerArgument>
         </configuration>
       </plugin>
-
+-->
       <!-- Tell checkstyle plugin to use Checkstyle 6.1, for Java 8 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -124,6 +144,22 @@
           </dependency>
         </dependencies>
       </plugin>
+      
+      <plugin>
+          <groupId>com.heroku.sdk</groupId>
+          <artifactId>heroku-maven-plugin</artifactId>
+          <version>0.4.4</version>
+          <configuration>
+              <jdkVersion>1.8</jdkVersion>
+              
+              <appName>cs032catan</appName> 
+              <processTypes>
+                  <web>java -jar ./target/catan-1.0-jar-with-dependencies.jar</web>
+              </processTypes>
+          </configuration>
+      </plugin>
+
+
     </plugins>
   </build>
 

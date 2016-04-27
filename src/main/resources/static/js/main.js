@@ -14,6 +14,12 @@ $(window).load(function() {
 	})
 
     $("#end-turn-btn").click(sendRollDiceAction);
+    
+    var href = window.location.pathname;
+    if(href != "/home" && !document.cookie){
+    	window.location = "/home"; // redirect to home
+    }
+    
 });
 
 function redrawCatan() {
@@ -218,7 +224,7 @@ $("#year-of-plenty-btn").click(exitBuildMode);
 $("#monopoly-btn").click(exitBuildMode);
 $("#road-building-btn").click(exitBuildMode);
 
-$("#dev-card-buy-btn").click(sendBuyDevCardAction);
+//$("#dev-card-buy-btn").click(sendBuyDevCardAction);
 
 //////////////////////////////////////////
 // Monopoly Modal 
@@ -291,6 +297,7 @@ $(".yop-number").change(function(event) {
 		$(this).data("oldVal", newVal);
 	}
 });
+
 
 $("#play-yop-btn").click(function(event) {
 	var resourcesSelected = calcYearOfPlentyResources();

@@ -1,5 +1,6 @@
 package edu.brown.cs.networking;
 
+import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,103 +10,103 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import org.eclipse.jetty.websocket.api.Session;
 
+import com.google.gson.JsonObject;
+
 import spark.Spark;
 
 // Grand Central Terminal - Routes all of the inputs to appropriate groups
 public class GCT {
 
-  private static final GCT                                 instance                =
-      new GCT();
-
-  private static final PriorityBlockingQueue<SessionGroup> pending                 =
-      new PriorityBlockingQueue<>();
-
-  private static final List<SessionGroup>                  full                    =
-      Collections.synchronizedList(new ArrayList<>());
-
-  private static final Map<Session, SessionGroup>          groupMap                =
-      new ConcurrentHashMap<>();
+  private final PriorityBlockingQueue<UserGroup> pending;
+  private final List<UserGroup>                  full;
+  private final Map<User, UserGroup>             userToUserGroup;
+  private final GroupSelector                    groupSelector;
 
 
-  private static final int                                 NEED_TO_GENERALIZE_THIS =
-      2;
+  private GCT(GCTBuilder builder) {
+    // Not provided by builder:
+    this.pending = new PriorityBlockingQueue<>();
+    this.full = Collections.synchronizedList(new ArrayList<>());
+    this.userToUserGroup = new ConcurrentHashMap<>();
 
-  private static int                                       GROUP_ID                =
-      1;
-  private static int                                       SESSION_ID              =
-      1;
+    // provided by builder:
+    this.groupSelector = builder.groupSelector;
+    Spark.webSocket(builder.webSocketRoute, ReceivingHandler.class);
+    ReceivingHandler.setGCT(this);
 
-
-  public static GCT getInstance() {
-    return instance;
-  }
-
-
-  private GCT() {
-    Spark.webSocket("/action", ReceivingHandler.class);
+    // needed:
     Spark.init();
   }
 
 
-  public boolean register(Session s) {
-    SessionGroup candidate = pending.poll();
-
-    if (candidate == null) {
-      candidate =
-          new SessionGroup(NEED_TO_GENERALIZE_THIS, String.valueOf(GROUP_ID++));
-      candidate.add(s);
-      groupMap.put(s, candidate);
-    } else if (candidate.isFull()) {
-      throw new IllegalStateException("Had a full SessionGroup in pending PQ");
-    } else {
-      candidate.add(s);
-      groupMap.put(s, candidate);
-    }
-
-    if (candidate.isFull()) {
-      full.add(candidate);
-    } else {
-      pending.add(candidate);
-    }
-    return true; // figure out what this boolean should really represent TODO
+  // add verification?? TODO
+  public User register(Session s, List<HttpCookie> cookies) {
+    User newUser = new User(s, cookies);
+    add(newUser);
+    return newUser;
   }
 
 
-  public boolean remove(Session s, int statusCode, String reason) {
-    SessionGroup group = groupMap.remove(s);
+  private boolean add(User u) {
+    UserGroup bestFit =
+        groupSelector.selectFor(u, Collections.unmodifiableCollection(pending));
+    assert bestFit != null : "Select for returned a null user group!";
 
+    userToUserGroup.put(u, bestFit);
+    bestFit.add(u);
+
+    System.out.format("User %s added to %s%n", u, bestFit);
+
+    if (bestFit.isFull()) {
+      full.add(bestFit);
+      pending.remove(bestFit);
+    } else {
+      pending.remove(bestFit); // do nothing if it's new, otherwise reheap.
+      pending.add(bestFit);
+    }
+    return true;
+  }
+
+
+  public boolean remove(User u) {
+    UserGroup group = userToUserGroup.get(u);
     if (group == null) {
       return false;
     }
-
-    if (group.isFull()) {
-      assert full.remove(group) : "This group should have been in full";
-    } else {
-      assert pending.remove(group) : "This group should have been in pending";
-    }
-
-    boolean different = group.remove(s);
-
-    if (different) {
-      group.stampNow(); // groups that lose a user move to the back of the line.
-    }
-    if (!group.isEmpty()) {
-      pending.add(group);
-    }
-
-    return different;
-
+    return group.remove(u);
   }
 
 
-  public boolean message(Session s, String message) {
-    SessionGroup sg = groupMap.get(s);
-    if (sg == null) {
+  public boolean message(User u, JsonObject j) {
+    UserGroup group = userToUserGroup.get(u);
+    if (group == null) {
       return false;
     }
-    return sg.message(s, message);
+    return group.handleMessage(u, j);
   }
 
 
+  public static class GCTBuilder {
+
+    private final String  webSocketRoute;
+    private GroupSelector groupSelector = new BasicGroupSelector();
+
+
+    public GCTBuilder(String route) {
+      this.webSocketRoute = route;
+    }
+
+
+    public GCTBuilder withGroupSelector(GroupSelector selector) {
+      this.groupSelector = selector;
+      return this;
+    }
+
+
+    public GCT build() {
+      return new GCT(this);
+    }
+
+  }
 
 }
