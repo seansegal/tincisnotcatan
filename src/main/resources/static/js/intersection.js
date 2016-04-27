@@ -17,16 +17,6 @@ var BUILDING = {
 	CITY: 3
 }
 
-var PORT = {
-	NONE: 0,
-	BRICK: 1,
-	WOOD: 2,
-	WHEAT: 3,
-	ORE: 4,
-	SHEEP: 5,
-	WILDCARD: 6
-}
-
 function Intersection(coord1, coord2, coord3) {
 	this.intersectCoordinates = {coord1: coord1, coord2: coord2, coord3: coord3};
 	this.coordinates = findCenter(coord1, coord2, coord3);
@@ -156,14 +146,6 @@ Intersection.prototype.unHighlight = function() {
 		var that = this;
 		select.off("click");
 	}
-}
-
-findCenter = function(c1, c2, c3) {
-	var x = (c1.x + c2.x + c3.x) / 3;
-	var y = (c1.y + c2.y + c3.y) / 3;
-	var z = (c1.z + c2.z + c3.z) / 3;
-	
-	return {x: x, y: y, z: z};
 }
 
 function parseIntersection(data) {
