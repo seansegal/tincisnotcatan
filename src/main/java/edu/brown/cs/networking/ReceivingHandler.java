@@ -36,6 +36,7 @@ public class ReceivingHandler {
 
 
   private static final String     USER_IDENTIFIER = "USER_ID";
+  private static final String     HEARTBEAT       = "\"HEARTBEAT\"";
 
   private static final long       ONE_MINUTE      = 60 * 1000;
   private static final long       FIVE_MINUTES    = 5 * ONE_MINUTE;
@@ -109,26 +110,24 @@ public class ReceivingHandler {
   @OnWebSocketClose
   public void onClose(Session session, int statusCode, String reason) {
     User u = getUserFor(session);
-    if(u != null) {
+    if (u != null) {
       System.out.format("User %s was disconnected due to: %s%n", u, reason);
       System.out.format("Marking user %s as AFK %n", u);
       afkMap.put(u, System.currentTimeMillis());
     } else {
-      System.out.format("Unregistered session %s was disconnected due to: %s%n", session, reason);
+      System.out.format("Unregistered session %s was disconnected due to: %s%n",
+          session.getLocalAddress(), reason);
     }
   }
 
 
   @OnWebSocketMessage
   public void onMessage(Session session, String message) {
-    System.out.println("Attempted message " + message);
-    User u = null;
-    if (seenBefore(session)) {
-      String id = getSessionID(session);
-      if (id != null && uuidToUser.containsKey(id)) {
-        u = uuidToUser.get(id);
-      }
+    if (message.equals(HEARTBEAT)) {
+      System.out.format("Heartbeat from %s%n", session.getLocalAddress());
+      return;
     }
+    User u = getUserFor(session);
     JsonObject j = null;
     try {
       j = GSON.fromJson(message, JsonObject.class);
@@ -161,9 +160,10 @@ public class ReceivingHandler {
     return null;
   }
 
+
   private User getUserFor(Session s) {
     String potentialId = getSessionID(s);
-    if(potentialId != null) {
+    if (potentialId != null) {
       return uuidToUser.get(potentialId);
     }
     return null;

@@ -10,10 +10,16 @@ if (document.location.hostname == "localhost") {
 	webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/action/");
 }
 
+function heartbeat() {
+	var beat = "HEARTBEAT";
+	webSocket.send(JSON.stringify(beat));
+}
+
 webSocket.onopen = function () {
 	if(document.cookie.indexOf("USER_ID") > -1) {
 		sendGetGameStateAction();
 	}
+	window.setInterval(heartbeat, 60 * 1000);
 };
 
 webSocket.onmessage = function (msg) {
