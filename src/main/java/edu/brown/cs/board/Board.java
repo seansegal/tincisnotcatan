@@ -151,9 +151,9 @@ public class Board {
     addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
     addTiles(availTiles, ORE, NUM_ORE_TILE);
     addTiles(availTiles, DESERT, NUM_DESERT_TILE);
-    while (availTiles.get(availTiles.size() - 1) == DESERT) {
+    do {
       Collections.shuffle(availTiles);
-    }
+    } while((availTiles.get(availTiles.size() - 2) == DESERT));
 
     Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
