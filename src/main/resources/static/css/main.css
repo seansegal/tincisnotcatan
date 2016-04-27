@@ -1,7 +1,7 @@
 /* Main board window */
 
 #board-viewport {
-	background-color: #DDDDDD;
+	/*background-color: #DDDDDD;*/
 	height: 100vh;
 	width: 100vw;
 	position: absolute;
@@ -209,6 +209,10 @@
 	background-color: #B5D7E5;
 }
 
+.wildcard-color {
+	background-color: #FFFFFF;
+}
+
 .hexagon-wrapper {
   text-align: center;
   position: absolute;
@@ -248,17 +252,20 @@
 }
 
 .hexagon, .hexagon:before, .hexagon:after {
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
+	/*border-top: 1px solid black;*/
+	/*border-bottom: 1px solid black;*/
 }
 
 .number-circle {
 	position: absolute;
-	background-color: #FAEDDA;
 	text-align: center;
 	vertical-align: middle;
 	box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.5);
 	z-index: 2;
+}
+
+.number-circle-color {
+	background-color: #FAEDDA;
 }
 
 .dots-container {
@@ -273,8 +280,12 @@
   	background-color: black;
 }
 
-.desert-circle, .sea-circle {
+.desert-circle {
 	background-color: transparent;
+	box-shadow: none;
+}
+
+.sea-circle {
 	box-shadow: none;
 }
 
@@ -283,6 +294,20 @@
 	height: 85%;
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.port-icon {
+	width: 100%;
+	height: 100%;
+	margin-top: 2.9px;
+}
+
+.port-circle {
+	position: absolute;
+	border: solid 1px black;
+	width: 50px;
+	height: 50px;
+	z-index: 0;
 }
 
 .intersection {
