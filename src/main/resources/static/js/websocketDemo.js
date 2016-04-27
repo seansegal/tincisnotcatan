@@ -105,6 +105,11 @@ function sendPlayYearOfPlentyAction(res1, res2) {
     webSocket.send(JSON.stringify(playReq));
 }
 
+function sendDropCardsAction(toDrop) {
+    var dropReq = {requestType: "action", action: "dropCards", toDrop: toDrop};
+    webSocket.send(JSON.stringify(dropReq));
+}
+
 
 // ---------- RESPONSES ---------- //
 
