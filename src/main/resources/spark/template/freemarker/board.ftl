@@ -15,9 +15,9 @@
 	<div class="col-xs-6"></div>
 	<div class="col-xs-3" id="right-menu-container">
 		<ul class="nav nav-pills nav-stacked col-xs-3" role="tablist">
-	    	<li role="presentation" class="active right-tab"><a href="#players-tab" aria-controls="players-tab" role="tab" data-toggle="tab">Players</a></li>
-	    	<li role="presentation" class="right-tab"><a href="#build-tab" aria-controls="build-tab" role="tab" data-toggle="tab">Build</a></li>
-	    	<li role="presentation" class="right-tab"><a href="#trade-tab" aria-controls="trade-tab" role="tab" data-toggle="tab">Trade</a></li>
+	    	<li role="presentation" id="players-tab-toggle" class="active right-tab"><a href="#players-tab" aria-controls="players-tab" role="tab" data-toggle="tab">Players</a></li>
+	    	<li role="presentation" id="build-tab-toggle" class="right-tab"><a href="#build-tab" aria-controls="build-tab" role="tab" data-toggle="tab">Build</a></li>
+	    	<li role="presentation" id="trade-tab-toggle" class="right-tab"><a href="#trade-tab" aria-controls="trade-tab" role="tab" data-toggle="tab">Trade</a></li>
 		</ul>
 		<div class="tab-content right-tab-content col-xs-9">
 		    <div role="tabpanel" class="tab-pane active right-tab-pane" id="players-tab">
@@ -324,7 +324,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right" id="hand-dev-cards">
 				<li class="navbar-btn">
-					<div class="circle card-circle pointer">
+					<div class="circle card-circle pointer" id="knight-btn">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Knight" data-content="When you play this card, you move the robber and steal a resource from the owner of an adjacent settlement or city.">
 							<img src="images/icon-knight.svg" alt="Knight">
 						</div>
@@ -332,7 +332,7 @@
 					<div class="card-number" id="knight-number">0</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle pointer" data-toggle="modal" data-target="#year-of-plenty-modal">
+					<div class="circle card-circle pointer" data-toggle="modal" data-target="#year-of-plenty-modal" id="year-of-plenty-btn">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Year of Plenty" data-content="When you play this card, you can select 2 resources of your choice from the bank.">
 							<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
 						</div>
@@ -340,7 +340,7 @@
 					<div class="card-number" id="year-of-plenty-number">0</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle pointer" data-toggle="modal" data-target="#monopoly-modal">
+					<div class="circle card-circle pointer" data-toggle="modal" data-target="#monopoly-modal" id="monopoly-btn">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Monopoly" data-content="When you play this card, choose one type of resource. All other players must give you all their resource cards of that type.">
 							<img src="images/icon-monopoly.svg" alt="Monopoly">
 						</div>
@@ -348,7 +348,7 @@
 					<div class="card-number" id="monopoly-number">0</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle pointer">
+					<div class="circle card-circle pointer" id="road-building-btn">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Road Building" data-content="When you play this card, you can build 2 roads free of charge.">
 							<img src="images/icon-road-building.svg" alt="Road Building">
 						</div>

@@ -96,6 +96,7 @@ Path.prototype.createPathClickHandler = function() {
 	var that = this;
 	return function(event) {
 		sendBuildRoadAction(that.originalStart, that.originalEnd);
+		exitBuildMode();
 	};
 }
 

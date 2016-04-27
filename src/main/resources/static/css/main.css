@@ -336,8 +336,8 @@
 .path {
 	position: absolute;
 	border-radius: 5px;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
+	/*border-left: 1px solid black;*/
+	/*border-right: 1px solid black;*/
 	z-index: 0;
 }
 

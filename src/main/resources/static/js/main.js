@@ -56,10 +56,34 @@ $(document).on("wheel", "#board-viewport", function(event) {
 	board.scale(deltaScale);
 });
 
-function onSettlementBuild(event) {
-	var btnElement = $(event.target);
-	btnElement.off("click", onSettlementBuild);
-	btnElement.click(onSettlementBuildCancel);
+function addMessage(message) {
+	var container = $("#message-container");
+	container.empty();
+
+	container.css("padding-top", "5px");
+	container.css("padding-bottom", "5px");
+
+	container.append("<h5>" + message + "</h5>");
+}
+
+//////////////////////////////////////////
+// Build Tab
+//////////////////////////////////////////
+var BUILD_MODE = {
+	NONE: 0,
+	SETTLEMENT: 1,
+	CITY: 2,
+	ROAD: 3
+}
+var currentMode = BUILD_MODE.NONE;
+
+function enterSettlementMode() {
+	exitBuildMode();
+	currentMode = BUILD_MODE.SETTLEMENT;
+
+	var btnElement = $("#settlement-build-btn");
+	btnElement.off("click", enterSettlementMode);
+	btnElement.click(exitSettlementMode);
 
 	btnElement.removeClass("btn-default");
 	btnElement.addClass("btn-danger");
@@ -72,10 +96,12 @@ function onSettlementBuild(event) {
 	}
 }
 
-function onSettlementBuildCancel(event) {
-	var btnElement = $(event.target);
-	btnElement.off("click", onSettlementBuildCancel);
-	btnElement.click(onSettlementBuild);
+function exitSettlementMode() {
+	currentMode = BUILD_MODE.NONE;
+
+	var btnElement = $("#settlement-build-btn");
+	btnElement.off("click", exitSettlementMode);
+	btnElement.click(enterSettlementMode);
 
 	btnElement.removeClass("btn-danger");
 	btnElement.addClass("btn-default");
@@ -88,12 +114,13 @@ function onSettlementBuildCancel(event) {
 	}
 }
 
-$("#settlement-build-btn").click(onSettlementBuild);
+function enterCityMode() {
+	exitBuildMode();
+	currentMode = BUILD_MODE.CITY;
 
-function onCityBuild(event) {
-	var btnElement = $(event.target);
-	btnElement.off("click", onCityBuild);
-	btnElement.click(onCityBuildCancel);
+	var btnElement = $("#city-build-btn");
+	btnElement.off("click", enterCityMode);
+	btnElement.click(exitCityMode);
 
 	btnElement.removeClass("btn-default");
 	btnElement.addClass("btn-danger");
@@ -107,10 +134,12 @@ function onCityBuild(event) {
 	}
 }
 
-function onCityBuildCancel(event) {
-	var btnElement = $(event.target);
-	btnElement.off("click", onCityBuildCancel);
-	btnElement.click(onCityBuild);
+function exitCityMode() {
+	currentMode = BUILD_MODE.NONE;
+
+	var btnElement = $("#city-build-btn");
+	btnElement.off("click", exitCityMode);
+	btnElement.click(enterCityMode);
 
 	btnElement.removeClass("btn-danger");
 	btnElement.addClass("btn-default");
@@ -125,12 +154,13 @@ function onCityBuildCancel(event) {
 	}
 }
 
-$("#city-build-btn").click(onCityBuild);
+function enterRoadMode() {
+	exitBuildMode();
+	currentMode = BUILD_MODE.ROAD;
 
-function onRoadBuild(event) {
-	var btnElement = $(event.target);
-	btnElement.off("click", onRoadBuild);
-	btnElement.click(onRoadBuildCancel);
+	var btnElement = $("#road-build-btn");
+	btnElement.off("click", enterRoadMode);
+	btnElement.click(exitRoadMode);
 
 	btnElement.removeClass("btn-default");
 	btnElement.addClass("btn-danger");
@@ -141,10 +171,12 @@ function onRoadBuild(event) {
 	board.paths[16].highlight();
 }
 
-function onRoadBuildCancel(event) {
-	var btnElement = $(event.target);
-	btnElement.off("click", onRoadBuildCancel);
-	btnElement.click(onRoadBuild);
+function exitRoadMode() {
+	currentMode = BUILD_MODE.NONE;
+
+	var btnElement = $("#road-build-btn");
+	btnElement.off("click", exitRoadMode);
+	btnElement.click(enterRoadMode);
 
 	btnElement.removeClass("btn-danger");
 	btnElement.addClass("btn-default");
@@ -155,17 +187,34 @@ function onRoadBuildCancel(event) {
 	board.paths[16].unHighlight();
 }
 
-$("#road-build-btn").click(onRoadBuild);
-
-function addMessage(message) {
-	var container = $("#message-container");
-	container.empty();
-
-	container.css("padding-top", "5px");
-	container.css("padding-bottom", "5px");
-
-	container.append("<h5>" + message + "</h5>");
+function exitBuildMode() {
+	switch (currentMode) {
+		case BUILD_MODE.SETTLEMENT:
+			exitSettlementMode();
+			break;
+		case BUILD_MODE.CITY:
+			exitCityMode();
+			break;
+		case BUILD_MODE.ROAD:
+			exitRoadMode();
+			break;
+		default:
+			break;
+	}
 }
+
+$("#settlement-build-btn").click(enterSettlementMode);
+$("#city-build-btn").click(enterCityMode);
+$("#road-build-btn").click(enterRoadMode);
+
+$("#players-tab-toggle").click(exitBuildMode);
+$("#trade-tab-toggle").click(exitBuildMode);
+$("#end-turn-btn").click(exitBuildMode);
+$("#dev-card-buy-btn").click(exitBuildMode);
+$("#knight-btn").click(exitBuildMode);
+$("#year-of-plenty-btn").click(exitBuildMode);
+$("#monopoly-btn").click(exitBuildMode);
+$("#road-building-btn").click(exitBuildMode);
 
 $("#dev-card-buy-btn").click(sendBuyDevCardAction);
 
