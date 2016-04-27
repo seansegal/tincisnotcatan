@@ -153,7 +153,7 @@ public class Board {
     addTiles(availTiles, DESERT, NUM_DESERT_TILE);
     do {
       Collections.shuffle(availTiles);
-    } while((availTiles.get(availTiles.size() - 2) == DESERT));
+    } while ((availTiles.get(7) == DESERT));
 
     Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
@@ -264,6 +264,26 @@ public class Board {
     } else {
       _tiles.add(new Tile(0, coord, intersections, paths, tileType, true));
       return currRoll;
+    }
+  }
+
+  public HexCoordinate findRobber() {
+    for (Tile t : _tiles) {
+      if (t.hasRobber()) {
+        return t.getCoordinate();
+      }
+    }
+    return null;
+  }
+
+  public void moveRobber(HexCoordinate coord) {
+    for (Tile t : _tiles) {
+      if (t.hasRobber()) {
+        assert !t.getCoordinate().equals(coord);
+        t.hasRobber(false);
+      } else if (t.getCoordinate().equals(coord)) {
+        t.hasRobber(true);
+      }
     }
   }
 }
