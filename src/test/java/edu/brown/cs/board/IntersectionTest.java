@@ -5,7 +5,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import edu.brown.cs.catan.HumanPlayer;
+import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Player;
+import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
 public class IntersectionTest {
@@ -101,6 +103,7 @@ public class IntersectionTest {
 
   @Test
   public void BuildingTest() {
+    Referee ref = new MasterReferee();
     HexCoordinate h1 = new HexCoordinate(0, 0, 0);
     HexCoordinate h2 = new HexCoordinate(0, 1, 0);
     HexCoordinate h3 = new HexCoordinate(0, 0, -1);
@@ -108,12 +111,12 @@ public class IntersectionTest {
     Intersection inter = new Intersection(i);
     Player p = new HumanPlayer(1, "name", "000000");
 
-    assertTrue(inter.canPlaceSettlement());
+    assertTrue(inter.canPlaceSettlement(ref));
     assertTrue(!inter.canPlaceCity(p));
     inter.placeSettlement(p);
     assertTrue(inter.getBuilding().getPlayer().equals(p));
     assertTrue(inter.canPlaceCity(p));
-    assertTrue(!inter.canPlaceSettlement());
+    assertTrue(!inter.canPlaceSettlement(ref));
     inter.placeCity(p);
     assertTrue(inter.getBuilding().getPlayer().equals(p));
     assertTrue(!inter.canPlaceCity(p));
