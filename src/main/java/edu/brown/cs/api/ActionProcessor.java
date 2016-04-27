@@ -38,7 +38,11 @@ public class ActionProcessor implements RequestProcessor {
       System.out.println(i);
       System.out.println(json.get("requestType").getAsString());
       recipient.message(json);
+      JsonObject gs = api.getGameState(i);
+      gs.addProperty(REQUEST_KEY, "getGameState");
+      recipient.message(gs);
     }
+
     return true;
   }
 
