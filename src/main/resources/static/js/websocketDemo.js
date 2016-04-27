@@ -1,5 +1,7 @@
-//Establish the WebSocket connection and set up event handlers
 
+// ---------- Setup ---------- //
+
+//Establish the WebSocket connection and set up event handlers
 if (document.location.hostname == "localhost") {
 	// use http
 	webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
@@ -8,9 +10,10 @@ if (document.location.hostname == "localhost") {
 	webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/action/");
 }
 
-
 webSocket.onopen = function () {
-    sendGetGameStateAction();
+	if(document.cookie.indexOf("USER_ID") > -1) {
+		sendGetGameStateAction();
+	}
 };
 
 webSocket.onmessage = function (msg) {
@@ -102,9 +105,59 @@ function sendPlayYearOfPlentyAction(res1, res2) {
     webSocket.send(JSON.stringify(playReq));
 }
 
-function sendDropCardsAction(toDiscard) {
-    var dropReq = {requestType: "action", action: "dropCards", toDrop: toDiscard};
-    webSocket.send(JSON.stringify(dropReq));
+
+// ---------- RESPONSES ---------- //
+
+webSocket.onmessage = function (msg) {
+    var data = JSON.parse(msg.data);
+    console.log(data);
+
+    if(data.hasOwnProperty("requestType")) {
+        switch(data.requestType) {
+        case "chat":
+            updateChat(data);
+            break;
+        case "getGameState":
+            handleGetGameState(data);
+            break;
+        case "action":
+            handleActionResponse(data);
+            break;
+        case "setCookie":
+            handleSetCookie(data);
+            break;
+        case "ERROR" :
+            handleErrorFromSocket(data);
+            break;
+        default:
+            console.log("unsupported request type");
+            break;
+        }
+    } else {
+        console.log("No request type indicated for response");
+    }
+};
+
+// ---------- CHAT RESPONSE ---------- //
+
+//Send a message if it's not empty, then clear the input field
+function sendMessage(message) {
+    if (message !== "") {
+        var pack = {"requestType" : "chat", "message" : message};
+        webSocket.send(JSON.stringify(pack));
+        id("message").value = "";
+    }
+}
+
+//Update the chat-panel, and the list of connected users
+function updateChat(msg) {
+    console.log(msg);
+    if(msg.hasOwnProperty('ERROR')) {
+        alert(msg.ERROR);
+    } else {
+        insert("chat", msg.userMessage);
+    }
+
 }
 
 //////////////////////////////////////////
@@ -153,26 +206,68 @@ id("message").addEventListener("keypress", function (e) {
     if (e.keyCode === 13) { sendMessage(e.target.value); }
 });
 
+// ---------- ACTION RESPONSES ---------- //
 
-//Send a message if it's not empty, then clear the input field
-function sendMessage(message) {
-    if (message !== "") {
-    	var pack = {"requestType" : "chat", "message" : message};
-        webSocket.send(JSON.stringify(pack));
-        id("message").value = "";
-    }
-}
-
-//Update the chat-panel, and the list of connected users
-function updateChat(msg) {
-    console.log(msg);
-    if(msg.hasOwnProperty('ERROR')) {
-    	alert(msg.ERROR);
-    } else {
-        insert("chat", msg.userMessage);
-    }
+function handleBuildSettlement(response) {
 
 }
+
+
+// ---------- SET COOKIE FROM SERVER ---------- //
+
+function handleSetCookie(data) {
+	console.log(data);
+	for(i=0; i < data.cookies.length; i++) {
+		if(data.cookies[i].name == "USER_ID") {
+			var cook = data.cookies[i];
+			setCookie(cook.name, cook.value);
+			console.log("Cookies set to :" + document.cookie);
+			sendGetGameStateAction();
+		}
+	}
+}
+
+// ---------- ERRORS ---------- //
+
+function handleErrorFromSocket(data) {
+	if(data.hasOwnProperty("description")){
+		switch(data.description) {
+		case "RESET":
+			deleteCookie("USER_ID");
+			window.location = "/home"; // redirect to home
+			break;
+		case "NOT_REGISTERED":
+			alert("Internal error : user not registered");
+			break;
+		default:
+			console.log(data.description);
+		}
+	}
+}
+
+// ---------- COOKIE MANAGEMENT ---------- //
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1);
+    if (c.indexOf(nameEQ) != -1){
+        return c.substring(nameEQ.length,c.length);
+        }
+    }
+    return null;
+}
+
+function setCookie(cookie, value) {
+    var eqVal = cookie + "=" + value;
+    document.cookie = eqVal;
+}
+
+function deleteCookie(name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
 
 //Helper function for inserting HTML as the first child of an element
 function insert(targetId, message) {

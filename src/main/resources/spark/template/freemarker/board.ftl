@@ -97,7 +97,7 @@
 						</div>
 		    		</li>
 		    		<li class="list-group-item">
-				    	<input type="button" class="btn btn-default build-btn" value="Buy Development Card" data-toggle="modal" data-target="#buy-dev-card-modal">
+				    	<input type="button" id="buy-dev-card-modal-open" class="btn btn-default build-btn" value="Buy Development Card" data-toggle="modal" data-target="#buy-dev-card-modal">
 				    	</br>
 				    	<span>1</span>
 				    	<div class="circle build-circle ore-color">
@@ -569,6 +569,12 @@
     	</div>
 	</div>
 </div>
-
 </#assign>
 <#include "main.ftl">
+<script src="js/player.js"></script>
+<script src="js/tile.js"></script>
+<script src="js/intersection.js"></script>
+<script src="js/path.js"></script>
+<script src="js/board.js"></script>
+<script src="js/main.js"></script>
+<script src="js/websocketDemo.js"></script>

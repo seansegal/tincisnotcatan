@@ -14,6 +14,12 @@ $(window).load(function() {
 	})
 
     $("#end-turn-btn").click(sendRollDiceAction);
+    
+    var href = window.location.pathname;
+    if(href != "/home" && !document.cookie){
+    	window.location = "/home"; // redirect to home
+    }
+    
 });
 
 function redrawCatan() {
@@ -168,9 +174,11 @@ function enterRoadMode() {
 	btnElement.addClass("btn-danger");
 	btnElement.val("Cancel Build");
 
-	board.paths[5].highlight();
-	board.paths[8].highlight();
-	board.paths[16].highlight();
+	for (var i = 0; i < board.paths.length; i++) {
+		if (board.paths[i].canBuildRoad) {
+			board.paths[i].highlight();
+		}
+	}
 }
 
 function exitRoadMode() {
@@ -184,9 +192,11 @@ function exitRoadMode() {
 	btnElement.addClass("btn-default");
 	btnElement.val("Build Road");
 
-	board.paths[5].unHighlight();
-	board.paths[8].unHighlight();
-	board.paths[16].unHighlight();
+	for (var i = 0; i < board.paths.length; i++) {
+		if (board.paths[i].highlighted) {
+			board.paths[i].unHighlight();
+		}
+	}
 }
 
 function exitBuildMode() {
@@ -212,7 +222,7 @@ $("#road-build-btn").click(enterRoadMode);
 $("#players-tab-toggle").click(exitBuildMode);
 $("#trade-tab-toggle").click(exitBuildMode);
 $("#end-turn-btn").click(exitBuildMode);
-$("#dev-card-buy-btn").click(exitBuildMode);
+$("#buy-dev-card-modal-open").click(exitBuildMode);
 $("#knight-btn").click(exitBuildMode);
 $("#year-of-plenty-btn").click(exitBuildMode);
 $("#monopoly-btn").click(exitBuildMode);
@@ -297,6 +307,7 @@ $(".yop-number").change(function(event) {
 		$("#play-yop-btn").prop("disabled", true);
 	}
 });
+
 
 $("#play-yop-btn").click(function(event) {
 	var resourcesSelected = calcYearOfPlentyResources();
