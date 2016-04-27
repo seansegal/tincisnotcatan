@@ -92,9 +92,10 @@ public class GCT {
 
   public static class GCTBuilder {
 
-    private Class<? extends API> apiClass;
-    private String               webSocketRoute = "/action";
-    private GroupSelector        groupSelector  = new BasicGroupSelector();
+    private Class<? extends API>         apiClass;
+    private String                       webSocketRoute = "/action";
+    private GroupSelector                groupSelector  =
+        new BasicGroupSelector();
 
 
     public GCTBuilder(Class<? extends API> apiClass) {
@@ -108,10 +109,11 @@ public class GCT {
     }
 
 
-    public GCTBuilder withGroupSorter(GroupSelector selector) {
+    public GCTBuilder withGroupSelector(GroupSelector selector) {
       this.groupSelector = selector;
       return this;
     }
+
 
 
     public GCT build() {

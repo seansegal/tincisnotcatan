@@ -7,12 +7,13 @@ import java.util.Set;
 
 import com.google.gson.JsonObject;
 
-public class UserGroup {
+public class UserGroup implements Timestamped {
 
 
   private Collection<RequestProcessor> reqs;
   private Set<User>                    users;
   private API                          api;
+  private long                         initTime;
 
   private final int                    desiredSize;
 
@@ -24,6 +25,7 @@ public class UserGroup {
 
 
   private UserGroup(UserGroupBuilder b) {
+    initTime = System.currentTimeMillis();
     // use the fields of the builder to setup
     this.reqs = b.reqs;
     this.desiredSize = b.desiredSize;
@@ -44,6 +46,11 @@ public class UserGroup {
   }
 
 
+  public int maxSize() {
+    return this.desiredSize;
+  }
+
+
   public boolean isFull() {
     return this.desiredSize == users.size();
   }
@@ -53,6 +60,7 @@ public class UserGroup {
     if (users.size() == desiredSize) {
       return false; // we're full, don't give me any more users.
     }
+    u.setUserID(api.addPlayer("")); // TODO: We need to remove those player attributes.
     users.add(u);
     return true;
     // regardless of whether or not u was present in the set already,
@@ -110,5 +118,18 @@ public class UserGroup {
     public UserGroup build() {
       return new UserGroup(this);
     }
+  }
+
+
+  @Override
+  public long initTime() {
+    return initTime;
+  }
+
+
+  @Override
+  public void stampNow() {
+    this.initTime = System.currentTimeMillis();
+
   }
 }

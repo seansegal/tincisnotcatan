@@ -1,4 +1,4 @@
-package edu.brown.cs.networking;
+package edu.brown.cs.api;
 
 import static j2html.TagCreator.article;
 import static j2html.TagCreator.b;

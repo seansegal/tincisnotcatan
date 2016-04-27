@@ -1,9 +1,13 @@
-package edu.brown.cs.networking;
+package edu.brown.cs.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import com.google.gson.JsonObject;
+
+import edu.brown.cs.networking.API;
+import edu.brown.cs.networking.RequestProcessor;
+import edu.brown.cs.networking.User;
 
 
 public class ChatProcessor implements RequestProcessor {

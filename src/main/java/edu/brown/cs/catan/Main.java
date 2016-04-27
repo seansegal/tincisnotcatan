@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 import edu.brown.cs.api.CatanAPI;
+import edu.brown.cs.api.CatanGroupSelector;
 import edu.brown.cs.networking.GCT;
 import edu.brown.cs.networking.GCT.GCTBuilder;
 import freemarker.template.Configuration;
@@ -35,6 +36,7 @@ public class Main {
     // secure("", "", "", ""); // use this for https!
     GCT terminal = new GCTBuilder(CatanAPI.class)
         .withWebsocketRoute("/action")
+        .withGroupSelector(new CatanGroupSelector())
         .build();
 
     Configuration config = new Configuration();

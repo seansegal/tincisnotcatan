@@ -1,4 +1,4 @@
-package edu.brown.cs.networking;
+package edu.brown.cs.api;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import edu.brown.cs.networking.API;
+import edu.brown.cs.networking.RequestProcessor;
+import edu.brown.cs.networking.User;
 
 public class ActionProcessor implements RequestProcessor {
 
