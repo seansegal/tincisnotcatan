@@ -52,31 +52,36 @@ public class Path {
     if (_road != null) {
       return false;
     }
-
-    if (_start.getBuilding() != null
-        && _start.getBuilding().getPlayer().equals(p)) {
-      System.out.println("Here Here");
+    if (Math.random() > .5) {
       return true;
-    } else if (_start.getBuilding() == null) {
-      for (Path path : _start.getPaths()) {
-        if (path.getRoad() != null && path.getRoad().getPlayer().equals(p)) {
-          System.out.println("Now Here");
-          return true;
-        }
-      }
-    }
-    if (_end.getBuilding() != null && _end.getBuilding().getPlayer().equals(p)) {
-      System.out.println("Still Here " + p.getID());
-      return true;
-    } else if (_end.getBuilding() == null) {
-      for (Path path : _end.getPaths()) {
-        if (path.getRoad() != null && path.getRoad().getPlayer().equals(p)) {
-          System.out.println("Here");
-          return true;
-        }
-      }
     }
     return false;
+
+    // if (_start.getBuilding() != null
+    // && _start.getBuilding().getPlayer().equals(p)) {
+    // System.out.println("Here Here");
+    // return true;
+    // } else if (_start.getBuilding() == null) {
+    // for (Path path : _start.getPaths()) {
+    // if (path.getRoad() != null && path.getRoad().getPlayer().equals(p)) {
+    // System.out.println("Now Here");
+    // return true;
+    // }
+    // }
+    // }
+    // if (_end.getBuilding() != null &&
+    // _end.getBuilding().getPlayer().equals(p)) {
+    // System.out.println("Still Here " + p.getID());
+    // return true;
+    // } else if (_end.getBuilding() == null) {
+    // for (Path path : _end.getPaths()) {
+    // if (path.getRoad() != null && path.getRoad().getPlayer().equals(p)) {
+    // System.out.println("Here");
+    // return true;
+    // }
+    // }
+    // }
+    // return false;
   }
 
   public void placeRoad(Player p) {
