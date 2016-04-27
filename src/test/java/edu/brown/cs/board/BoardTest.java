@@ -118,6 +118,15 @@ public class BoardTest {
         new HexCoordinate(1, 0, 0)), new IntersectionCoordinate(
         new HexCoordinate(0, 0, 0), new HexCoordinate(1, 0, 0),
         new HexCoordinate(1, 1, 0)))));
+
+    for (Intersection i : b.getIntersections().values()) {
+      assertTrue(i.getPaths().size() >= 2);
+    }
+
+    for (Path p : b.getPaths().values()) {
+      assertTrue(p.getStart().getBuilding() == null);
+      assertTrue(p.getEnd().getBuilding() == null);
+    }
   }
 
   @Test

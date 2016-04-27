@@ -3,10 +3,8 @@ package edu.brown.cs.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -70,7 +68,8 @@ public class CatanConverter {
       this.playerID = playerID;
       this.currentTurn = ref.currentPlayer().getID();
       this.hand = new Hand(ref.getPlayerByID(playerID));
-      this.board = new BoardRaw(ref.getReadOnlyReferee(), ref.getBoard());
+      this.board = new BoardRaw(ref.getReadOnlyReferee(), ref.getBoard(),
+          playerID);
       this.players = new ArrayList<>();
       for (Player p : ref.getPlayers()) {
         players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));
@@ -112,14 +111,14 @@ public class CatanConverter {
     private final Collection<IntersectionRaw> intersections;
     private final Collection<PathRaw> paths;
 
-    public BoardRaw(Referee ref, Board board) {
+    public BoardRaw(Referee ref, Board board, int playerID) {
       intersections = new ArrayList<>();
       for (Intersection intersection : board.getIntersections().values()) {
         intersections.add(new IntersectionRaw(intersection, ref));
       }
       paths = new ArrayList<>();
       for (Path path : board.getPaths().values()) {
-        paths.add(new PathRaw(ref.getReadOnlyReferee(), path));
+        paths.add(new PathRaw(ref.getReadOnlyReferee(), path, playerID));
       }
 
       tiles = new ArrayList<>();
@@ -133,18 +132,13 @@ public class CatanConverter {
     private IntersectionCoordinate start;
     private IntersectionCoordinate end;
     private RoadRaw road;
-    private Set<Integer> canBuildRoad;
+    private boolean canBuildRoad;
 
-    public PathRaw(Referee ref, Path path) {
+    public PathRaw(Referee ref, Path path, int playerID) {
       start = path.getStart().getPosition();
       end = path.getEnd().getPosition();
       road = path.getRoad() != null ? new RoadRaw(path.getRoad()) : null;
-      canBuildRoad = new HashSet<Integer>();
-      for (Player p : ref.getPlayers()) {
-        if (path.canPlaceRoad(p)) {
-          canBuildRoad.add(p.getID());
-        }
-      }
+      canBuildRoad = path.canPlaceRoad(ref.getPlayerByID(playerID));
     }
 
   }
