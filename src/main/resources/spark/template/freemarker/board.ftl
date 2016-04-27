@@ -1,6 +1,6 @@
 <#assign content>
 
-<div id="board-viewport"></div>
+<div id="board-viewport" class="sea-color"></div>
 
 <div class="row above-board">
 	<div class="col-xs-3">

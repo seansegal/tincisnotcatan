@@ -6,6 +6,7 @@ var TILE_SCALE = 0.95;
 var NUMBER_SCALE = 0.175;
 var NUMBER_CIRCLE_SCALE = 0.3;
 var NUMBER_CIRCLE_DOTS_SCALE = 0.025;
+var PORT_SCALE = 0.55;
 
 var TILE_TYPE = {
 	BRICK: 1,
@@ -17,12 +18,25 @@ var TILE_TYPE = {
 	SEA: 7
 }
 
-function Tile(coordinates, tileType, number, hasRobber) {
+var PORT = {
+	NONE: 0,
+	BRICK: 1,
+	WOOD: 2,
+	WHEAT: 3,
+	ORE: 4,
+	SHEEP: 5,
+	WILDCARD: 6
+}
+
+function Tile(coordinates, tileType, number, hasRobber, port) {
 	this.coordinates = coordinates;
 	this.tileType = tileType;
 	this.number = number;
 	this.numDots = 6 - Math.abs(this.number - 7);
 	this.hasRobber = hasRobber;
+
+	this.port = port;
+	this.portLocations = [];
 
 	this.id = "tile-x-" + this.coordinates.x + "y-" + this.coordinates.y + "z-" + this.coordinates.z;
 
@@ -34,9 +48,13 @@ function Tile(coordinates, tileType, number, hasRobber) {
 	} else if (this.tileType === TILE_TYPE.SEA) {
 		$("#" + this.id + "-wrapper").append("<div class='circle number-circle sea-circle'></div>");
 	} else {
-		$("#" + this.id + "-wrapper").append("<div class='circle number-circle'>"
+		$("#" + this.id + "-wrapper").append("<div class='circle number-circle number-circle-color'>"
 				+ "<span class='unselectable'>" + this.number + "</span>"
 				+ "<br><div class='dots-container'></div></div>");
+	}
+
+	if (this.port !== PORT.NONE) {
+		$("#board-viewport").append("<div class='circle port-circle' id='" + this.id + "-port'></div>");
 	}
 }
 
@@ -73,12 +91,11 @@ Tile.prototype.draw = function(transX, transY, scale) {
 			element.addClass("desert-color");
 			break;
 		case TILE_TYPE.SEA:
-			element.addClass("sea-color");
+			element.css("background", "none");
+			// element.addClass("sea-color");
 		default:
 			break;
 	}
-
-	// element.css("background-color", color);
 	
 	// Translate and scale tile
 	wrapper.css("transform", "translate(" + tileX + "px , " + tileY + "px)");
@@ -127,12 +144,98 @@ Tile.prototype.draw = function(transX, transY, scale) {
 		numberCircle.empty();
 		numberCircle.append("<img src='images/icon-robber.svg' alt='Robber' class='robber-icon'>");
 	}
+
+	// Draw port
+	if (this.port !== PORT.NONE) {
+		var type = null;
+		switch (this.port) {
+			case PORT.BRICK:
+				type = "brick";
+				break;
+			case PORT.WOOD:
+				type = "wood";
+				break;
+			case PORT.ORE:
+				type = "ore";
+				break;
+			case PORT.WHEAT:
+				type = "wheat";
+				break;
+			case PORT.SHEEP:
+				type = "sheep";
+				break;
+			case PORT.WILDCARD:
+				type = "wildcard";
+				break;
+			default:
+				break;
+		}
+
+		var center = {x: (this.portLocations[0].x + this.portLocations[1].x) / 2,
+					  y: (this.portLocations[0].y + this.portLocations[1].y) / 2,
+					  z: (this.portLocations[0].z + this.portLocations[1].z) / 2}
+		var cartCenter = hexToCartesian(center);
+
+		var size = PORT_SCALE * scale;
+
+		var x = transX + cartCenter.x * scale + Math.sqrt(3) * scale / 4 - size / 2 + 0.045 * scale;
+		var y = transY + cartCenter.y * scale + scale / 4 - size / 2 + 0.01 * scale;
+
+		// Move port circle to correct location and set size
+		var portCircle = $("#" + this.id + "-port");
+		portCircle.css("transform", "translate(" + x + "px, " + y + "px)");
+		portCircle.css("height", size);
+		portCircle.css("width", size);
+
+		// Add port resource icon
+		numberCircle.empty();
+		numberCircle.append("<img src='images/icon-" + type + ".svg' alt='" + type + "' class='port-icon'>");
+		numberCircle.css("border", "solid 1px black");
+		numberCircle.addClass(type + "-color");
+	}
 }
 
 function parseTile(tileData) {
 	var coords = parseHexCoordinates(tileData.hexCoordinate);
 	var type = parseTileType(tileData.type);
-	return new Tile(coords, type, tileData.number, tileData.hasRobber);
+	var port = PORT.NONE;
+
+	if (tileData.hasOwnProperty("portType")) {
+		switch (tileData.portType) {
+			case "BRICK":
+				port = PORT.BRICK;
+				break;
+			case "WOOD":
+				port = PORT.WOOD;
+				break;
+			case "ORE":
+				port = PORT.ORE;
+				break;
+			case "WHEAT":
+				port = PORT.WHEAT;
+				break;
+			case "SHEEP":
+				port = PORT.SHEEP;
+				break;
+			case "WILDCARD":
+				port = PORT.WILDCARD;
+				break;
+			default:
+				break;
+		}
+	}
+
+	var tile = new Tile(coords, type, tileData.number, tileData.hasRobber, port);
+
+	if (tile.port !== PORT.NONE) {
+		var portLocs = tileData.portLocations;
+		var portLoc1 = findCenter(portLocs[0].coord1, portLocs[0].coord2, portLocs[0].coord3);
+		var portLoc2 = findCenter(portLocs[1].coord1, portLocs[1].coord2, portLocs[1].coord3);
+
+		tile.portLocations = [portLoc1, portLoc2];
+	}
+
+	return tile;
 }
 
 function parseTileType(tileType) {
@@ -166,6 +269,14 @@ function hexToCartesian(hexCoordinates) {
 
 function parseHexCoordinates(hexCoordinates) {
 	return {x: hexCoordinates.x, y: hexCoordinates.y, z: hexCoordinates.z};
+}
+
+function findCenter(c1, c2, c3) {
+	var x = (c1.x + c2.x + c3.x) / 3;
+	var y = (c1.y + c2.y + c3.y) / 3;
+	var z = (c1.z + c2.z + c3.z) / 3;
+	
+	return {x: x, y: y, z: z};
 }
 
 
