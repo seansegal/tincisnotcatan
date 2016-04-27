@@ -43,9 +43,15 @@ public class ActionFactory {
   }
 
   public Action createAction(JsonObject actionJSON) {
+    int playerID;
+    try {
+      playerID = actionJSON.get("player").getAsInt();
+    } catch (JsonSyntaxException | NullPointerException e) {
+      throw new IllegalArgumentException(
+          "Missing PlayerID which is required for all actions.");
+    }
     try {
       String action = actionJSON.get("action").getAsString();
-      int playerID = actionJSON.get("player").getAsInt();
       switch (action) {
       case "getInitialState":
         return new EmptyAction();
