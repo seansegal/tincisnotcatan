@@ -14,13 +14,14 @@ import edu.brown.cs.networking.User;
 
 public class ActionProcessor implements RequestProcessor {
 
-  private static final String IDENTIFIER = "action";
+  private static final String IDENTIFIER  = "action";
   private static final String REQUEST_KEY = "requestType";
-  private static final Gson GSON = new Gson();
+  private static final Gson   GSON        = new Gson();
 
 
   @Override
-  public boolean run(User user, Collection<User> group, JsonObject json, API api) {
+  public boolean run(User user, Collection<User> group, JsonObject json,
+      API api) {
     json.add("player", GSON.toJsonTree(String.valueOf(user.userID())));
     System.out.println(json);
 
@@ -33,11 +34,15 @@ public class ActionProcessor implements RequestProcessor {
             i);
         continue;
       }
+
+      // send action response to every player
       json.add("content", resp.get(i));
       json.add("player", GSON.toJsonTree(i));
       System.out.println(i);
       System.out.println(json.get("requestType").getAsString());
       recipient.message(json);
+
+      // send game state after every action
       JsonObject gs = api.getGameState(i);
       gs.addProperty(REQUEST_KEY, "getGameState");
       recipient.message(gs);
@@ -46,9 +51,10 @@ public class ActionProcessor implements RequestProcessor {
     return true;
   }
 
+
   @Override
   public boolean match(JsonObject j) {
-    if(j.has(REQUEST_KEY) && !j.get(REQUEST_KEY).isJsonNull()){
+    if (j.has(REQUEST_KEY) && !j.get(REQUEST_KEY).isJsonNull()) {
       return j.get(REQUEST_KEY).getAsString().equals(IDENTIFIER);
     }
     return false;
@@ -56,7 +62,8 @@ public class ActionProcessor implements RequestProcessor {
 
 
   private User getUser(int i, Collection<User> users) {
-    List<User> list = users.stream().filter(u->u.userID()==i).collect(Collectors.toList());
+    List<User> list = users.stream().filter(u -> u.userID() == i)
+        .collect(Collectors.toList());
     if (list.size() == 0) {
       return null;
     }
