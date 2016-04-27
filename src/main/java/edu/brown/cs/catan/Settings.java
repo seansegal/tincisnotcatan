@@ -12,7 +12,7 @@ public abstract class Settings {
   public final static int INITIAL_CITIES = 4;
 
   // Numbers on the board:
-  public final static int[] ROLL_NUMS = { 11, 10, 3, 6, 5, 4, 9, 10, 8, 4, 11,
+  public final static int[] ROLL_NUMS = { 11, 3, 6, 5, 4, 9, 10, 5, 8, 4, 11,
       12, 9, 10, 8, 3, 6, 2, 5 };
 
   // Number of each tile type on the board:
@@ -41,13 +41,9 @@ public abstract class Settings {
   // Bank rates for trading in basic game:
   public final static double BANK_RATE = 4.0;
   public final static Map<Resource, Double> PORT_RATES = new ImmutableMap.Builder<Resource, Double>()
-      .put(Resource.BRICK, 2.0)
-      .put(Resource.ORE, 2.0)
-      .put(Resource.SHEEP, 2.0)
-      .put(Resource.WHEAT, 2.0)
-      .put(Resource.WOOD, 2.0)
-      .put(Resource.WILDCARD, 3.0)
-      .build();
+      .put(Resource.BRICK, 2.0).put(Resource.ORE, 2.0).put(Resource.SHEEP, 2.0)
+      .put(Resource.WHEAT, 2.0).put(Resource.WOOD, 2.0)
+      .put(Resource.WILDCARD, 3.0).build();
 
   // Port Resource Order
   public final static Resource[] PORT_ORDER = { Resource.WILDCARD,
