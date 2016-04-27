@@ -12,6 +12,8 @@ function Player(id, name, color) {
 	this.cities = 0;
 	this.largestArmy = false;
 	this.longestRoad = false;
+
+	this.hand = {};
 }
 
 Player.prototype.fillPlayerTab = function() {
@@ -54,11 +56,22 @@ function parsePlayers(playersData) {
 }
 
 function fillPlayerHand(handData) {
+	var player = playersById[playerId];
+
 	$("#brick-number").text(handData.resources.brick);
+	player.hand.brick = handData.resources.brick;
+
 	$("#wood-number").text(handData.resources.wood);
+	player.hand.wood = handData.resources.wood;
+
 	$("#ore-number").text(handData.resources.ore);
+	player.hand.ore = handData.resources.ore;
+
 	$("#wheat-number").text(handData.resources.wheat);
+	player.hand.wheat = handData.resources.wheat;
+
 	$("#sheep-number").text(handData.resources.sheep);
+	player.hand.sheep = handData.resources.sheep;
 
 	$("#knight-number").text(handData.devCards["Knight"]);
 	$("#year-of-plenty-number").text(handData.devCards["Year of Plenty"]);

@@ -423,8 +423,20 @@ body {
 	margin-bottom: 5px;
 }
 
-.yop-circle > img {
+.yop-circle > img, .discard-circle > img {
 	margin-top: 3.3px;
 	height: 100%;
 	width: 100%;
+}
+
+.discard-circle {
+	height: 60px;
+	width: 60px;
+	margin-bottom: 5px;
+}
+
+.discard-resource-container {
+	display: inline-block;
+	width: 60px;
+	margin-left: 5px;
 }

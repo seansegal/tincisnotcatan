@@ -96,6 +96,11 @@ function sendPlayYearOfPlentyAction(res1, res2) {
     webSocket.send(JSON.stringify(playReq));
 }
 
+function sendDropCardsAction(toDiscard) {
+    var dropReq = {requestType: "action", action: "dropCards", toDrop: toDiscard};
+    webSocket.send(JSON.stringify(dropReq));
+}
+
 function handleGetGameState(gameStateData) {
     // Set global data
     playerId = gameStateData.playerID;
