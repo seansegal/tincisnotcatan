@@ -50,4 +50,6 @@ public interface Referee {
 
   Bank getBank();
 
+  boolean isSetUp();
+
 }
