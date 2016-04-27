@@ -16,14 +16,20 @@ public class CatanAPI {
 
   public static void main(String[] args) {
     CatanAPI api = new CatanAPI();
+    // System.out.println(api.getGameState(0));
+    // System.out.println(api.addPlayer(null));
+    // for (Player p : api._referee.getPlayers()) {
+    // System.out.println(p.getID());
+    // }
     System.out.println(api.getGameState(0));
-    System.out.println(api.addPlayer(null));
-    System.out.println(api.getGameState(4));
-    String json = "{action: rollDice, player: 4}";
-    System.out.println(api.performAction(json));
+    // System.out.println(api.getGameState(1));
+    System.out.println(api.getGameState(2));
+    System.out.println(api.getGameState(3));
+    // String json = "{action: rollDice, player: 1}";
+    // System.out.println(api.performAction(json));
   }
 
-  private Referee _referee;
+  public Referee _referee;
   private CatanConverter _converter;
   private ActionFactory _actionFactory;
 

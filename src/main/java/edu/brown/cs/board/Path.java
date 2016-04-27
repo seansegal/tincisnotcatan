@@ -52,22 +52,26 @@ public class Path {
     if (_road != null) {
       return false;
     }
-    
+
     if (_start.getBuilding() != null
         && _start.getBuilding().getPlayer().equals(p)) {
+      System.out.println("Here Here");
       return true;
-    } else {
+    } else if (_start.getBuilding() == null) {
       for (Path path : _start.getPaths()) {
         if (path.getRoad() != null && path.getRoad().getPlayer().equals(p)) {
+          System.out.println("Now Here");
           return true;
         }
       }
     }
     if (_end.getBuilding() != null && _end.getBuilding().getPlayer().equals(p)) {
+      System.out.println("Still Here " + p.getID());
       return true;
-    } else {
+    } else if (_end.getBuilding() == null) {
       for (Path path : _end.getPaths()) {
         if (path.getRoad() != null && path.getRoad().getPlayer().equals(p)) {
+          System.out.println("Here");
           return true;
         }
       }
@@ -97,6 +101,11 @@ public class Path {
     } else {
       throw new IllegalArgumentException();
     }
+  }
+
+  @Override
+  public String toString() {
+    return _start + " " + _end;
   }
 
 }

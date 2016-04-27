@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
+
+import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Resource;
 
 public class Tile implements BoardTile {
@@ -286,6 +291,19 @@ public class Tile implements BoardTile {
   @Override
   public List<IntersectionCoordinate> getPortLocations() {
     return _portLocations;
+  }
+
+  @Override
+  public Set<Player> getPlayersOnTile() {
+    Set<Player> players = new HashSet<Player>();
+    for (Intersection i : _intersections) {
+      if (i.getBuilding() != null) {
+        players.add(i.getBuilding().getPlayer());
+      }
+    }
+    Set<Player> toRet = new ImmutableSet.Builder<Player>()
+        .addAll(players).build();
+    return toRet;
   }
 
 }
