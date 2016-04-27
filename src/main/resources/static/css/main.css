@@ -1,5 +1,9 @@
 /* Main board window */
 
+body {
+	overflow: hidden;
+}
+
 #board-viewport {
 	/*background-color: #DDDDDD;*/
 	height: 100vh;

@@ -52,8 +52,10 @@ $(document).on("mouseup mouseleave", "#board-viewport", function(event) {
 });
 
 $(document).on("wheel", "#board-viewport", function(event) {
-	var deltaScale = event.originalEvent.deltaY > 0 ? 10 : -10;
-	board.scale(deltaScale);
+	if (Math.abs(event.originalEvent.deltaY) > 0.01) {
+		var deltaScale = event.originalEvent.deltaY > 0 ? 10 : -10;
+		board.scale(deltaScale);
+	}
 });
 
 function addMessage(message) {
