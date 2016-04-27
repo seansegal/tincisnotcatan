@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.brown.cs.catan.Player;
+import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
 public class Intersection {
@@ -38,7 +39,7 @@ public class Intersection {
   }
 
   public void placeSettlement(Player p) {
-    if (canPlaceSettlement()) {
+    if (_building == null) {
       _building = new Settlement(p);
     }
   }
@@ -58,12 +59,20 @@ public class Intersection {
     return false;
   }
 
-  public boolean canPlaceSettlement() {
+  public boolean canPlaceSettlement(Referee r) {
     if (_building == null && !hasAdjacentSettlement()) {
-      return true;
-    } else {
-      return false;
+      if(r.isSetUp()) {
+        return true;
+      } else {
+        for(Path p : _paths) {
+          if (p.getRoad() != null
+              && p.getRoad().getPlayer().equals(r.currentPlayer())) {
+            return true;
+          }
+        }
+      }
     }
+    return false;
   }
 
   public boolean canPlaceCity(Player p) {

@@ -30,6 +30,7 @@ public class MasterReferee implements Referee {
   private boolean _devHasBeenPlayed;
   private int _numFullPlayers;
   private Player _largestArmy = null;
+  private boolean _isSetUp = true;
 
   public MasterReferee() {
     _board = new Board();
@@ -237,6 +238,11 @@ public class MasterReferee implements Referee {
     return _bank;
   }
 
+  @Override
+  public boolean isSetUp() {
+    return _isSetUp;
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -360,6 +366,11 @@ public class MasterReferee implements Referee {
     @Override
     public Bank getBank() {
       return _referee.getBank();
+    }
+
+    @Override
+    public boolean isSetUp() {
+      return _referee.isSetUp();
     }
 
   }
