@@ -38,44 +38,6 @@ public class Board {
     }
   }
 
-  private List<HexCoordinate> getResourcePermutations() {
-    List<HexCoordinate> coords = new ArrayList<HexCoordinate>();
-    coords.add(new HexCoordinate(0, 0, 0));
-    int[] oneOne = { 0, 0, 1 };
-    int[] twoOne = { 0, 1, 1 };
-    int[] oneTwo = { 0, 0, 2 };
-    int[] oneTwoOneOne = { 0, 1, 2 };
-    int[] twoTwo = { 0, 2, 2 };
-
-    coords.add(new HexCoordinate(oneOne[0], oneOne[1], oneOne[2]));
-    while (permute(oneOne)) {
-      coords.add(new HexCoordinate(oneOne[0], oneOne[1], oneOne[2]));
-    }
-
-    coords.add(new HexCoordinate(twoOne[0], twoOne[1], twoOne[2]));
-    while (permute(twoOne)) {
-      coords.add(new HexCoordinate(twoOne[0], twoOne[1], twoOne[2]));
-    }
-
-    coords.add(new HexCoordinate(oneTwo[0], oneTwo[1], oneTwo[2]));
-    while (permute(oneTwo)) {
-      coords.add(new HexCoordinate(oneTwo[0], oneTwo[1], oneTwo[2]));
-    }
-
-    coords.add(new HexCoordinate(oneTwoOneOne[0], oneTwoOneOne[1],
-        oneTwoOneOne[2]));
-    while (permute(oneTwoOneOne)) {
-      coords.add(new HexCoordinate(oneTwoOneOne[0], oneTwoOneOne[1],
-          oneTwoOneOne[2]));
-    }
-
-    coords.add(new HexCoordinate(twoTwo[0], twoTwo[1], twoTwo[2]));
-    while (permute(twoTwo)) {
-      coords.add(new HexCoordinate(twoTwo[0], twoTwo[1], twoTwo[2]));
-    }
-    return coords;
-  }
-
   private List<HexCoordinate> getSeaPermutations() {
     List<HexCoordinate> coords = new ArrayList<HexCoordinate>();
     int[] oneThree = { 0, 0, 3 };
@@ -189,7 +151,9 @@ public class Board {
     addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
     addTiles(availTiles, ORE, NUM_ORE_TILE);
     addTiles(availTiles, DESERT, NUM_DESERT_TILE);
-    Collections.shuffle(availTiles);
+    while (availTiles.get(availTiles.size() - 1) == DESERT) {
+      Collections.shuffle(availTiles);
+    }
 
     Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
@@ -276,7 +240,6 @@ public class Board {
     currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
         intersections, paths, currRoll, currTile);
 
-
     _intersections = intersections;
     _paths = paths;
     int i = 0;
@@ -295,9 +258,9 @@ public class Board {
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, Integer currRoll, Integer currTile) {
     if (tileType != DESERT) {
-      _tiles.add(new Tile(ROLL_NUMS[currRoll], coord, intersections,
-          paths,tileType));
-      return currRoll +1;
+      _tiles.add(new Tile(ROLL_NUMS[currRoll], coord, intersections, paths,
+          tileType));
+      return currRoll + 1;
     } else {
       _tiles.add(new Tile(0, coord, intersections, paths, tileType, true));
       return currRoll;
