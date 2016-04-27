@@ -31,7 +31,19 @@ public class ActionFactoryTest {
       factory.createAction(json);
       assertTrue(false);
     } catch (IllegalArgumentException e) {
-      System.out.println(e.getLocalizedMessage());
+      assertTrue(true);
+    }
+  }
+
+  @Test
+  public void testMissingPlayerID() {
+    Referee ref = new MasterReferee();
+    ActionFactory factory = new ActionFactory(ref);
+    try {
+      String json = "{action: rollDice}";
+      factory.createAction(json);
+      assertTrue(false);
+    } catch (IllegalArgumentException e) {
       assertTrue(true);
     }
   }

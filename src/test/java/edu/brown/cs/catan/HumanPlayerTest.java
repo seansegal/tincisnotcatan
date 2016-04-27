@@ -34,6 +34,7 @@ public class HumanPlayerTest {
     player.addResource(Resource.WHEAT);
     player.addResource(Resource.SHEEP);
     player.addResource(Resource.WOOD);
+    assertTrue(player.canBuildSettlement());
     player.buildSettlement();
     assertTrue(playerOutOfResources(player));
   }
@@ -48,6 +49,7 @@ public class HumanPlayerTest {
     player.addResource(Resource.ORE);
     player.addResource(Resource.WHEAT);
     player.addResource(Resource.WHEAT);
+    assertTrue(player.canBuildCity());
     player.buildCity();
     assertTrue(playerOutOfResources(player));
   }
@@ -58,6 +60,7 @@ public class HumanPlayerTest {
     player.addResource(Resource.WHEAT);
     player.addResource(Resource.SHEEP);
     player.addResource(Resource.ORE);
+    assertTrue(player.canBuyDevelopmentCard());
     player.buyDevelopmentCard();
     assertTrue(playerOutOfResources(player));
   }

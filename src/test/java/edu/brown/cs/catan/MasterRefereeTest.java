@@ -169,4 +169,7 @@ public class MasterRefereeTest {
     assertTrue(ref.getNumTotalPoints(id1) == 2 + Settings.SETTLEMENT_POINT_VAL);
   }
 
+
+  //TODO: check getBankRates();
+
 }
