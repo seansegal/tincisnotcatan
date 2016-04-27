@@ -14,6 +14,12 @@ $(window).load(function() {
 	})
 
     $("#end-turn-btn").click(sendRollDiceAction);
+    
+    var href = window.location.pathname;
+    if(href != "/home" && !document.cookie){
+    	window.location = "/home"; // redirect to home
+    }
+    
 });
 
 function redrawCatan() {
@@ -168,9 +174,11 @@ function enterRoadMode() {
 	btnElement.addClass("btn-danger");
 	btnElement.val("Cancel Build");
 
-	board.paths[5].highlight();
-	board.paths[8].highlight();
-	board.paths[16].highlight();
+	for (var i = 0; i < board.paths.length; i++) {
+		if (board.paths[i].canBuildRoad) {
+			board.paths[i].highlight();
+		}
+	}
 }
 
 function exitRoadMode() {
@@ -184,9 +192,11 @@ function exitRoadMode() {
 	btnElement.addClass("btn-default");
 	btnElement.val("Build Road");
 
-	board.paths[5].unHighlight();
-	board.paths[8].unHighlight();
-	board.paths[16].unHighlight();
+	for (var i = 0; i < board.paths.length; i++) {
+		if (board.paths[i].highlighted) {
+			board.paths[i].unHighlight();
+		}
+	}
 }
 
 function exitBuildMode() {
@@ -212,7 +222,7 @@ $("#road-build-btn").click(enterRoadMode);
 $("#players-tab-toggle").click(exitBuildMode);
 $("#trade-tab-toggle").click(exitBuildMode);
 $("#end-turn-btn").click(exitBuildMode);
-$("#dev-card-buy-btn").click(exitBuildMode);
+$("#buy-dev-card-modal-open").click(exitBuildMode);
 $("#knight-btn").click(exitBuildMode);
 $("#year-of-plenty-btn").click(exitBuildMode);
 $("#monopoly-btn").click(exitBuildMode);
@@ -290,7 +300,14 @@ $(".yop-number").change(function(event) {
 	} else {
 		$(this).data("oldVal", newVal);
 	}
+
+	if (calcYearOfPlentyResources() === 2) {
+		$("#play-yop-btn").prop("disabled", false);
+	} else {
+		$("#play-yop-btn").prop("disabled", true);
+	}
 });
+
 
 $("#play-yop-btn").click(function(event) {
 	var resourcesSelected = calcYearOfPlentyResources();
@@ -324,3 +341,105 @@ $("#year-of-plenty-modal").on("hide.bs.modal", function() {
 	$(".yop-number").val("");
 });
 
+//////////////////////////////////////////
+// Discard Modal
+//////////////////////////////////////////
+
+function calcNumDiscards() {
+	var inputs = $(".discard-number");
+	var num = 0;
+
+	inputs.each(function(indx) {
+		var text = $(this).val();
+		num = num + ((text === "") ? 0 : parseInt(text));
+	});
+
+	return -num;
+}
+
+function enterDiscardModal(numToDiscard) {
+	$("#discard-modal").modal("show");
+	$("#num-resources-to-discard").text(numToDiscard);
+	$("#discard-btn").prop("disabled", true);
+
+	var playerHand = playersById[playerId].hand;
+	var currHand = {brick: playerHand.brick, 
+					wood: playerHand.wood, 
+					ore: playerHand.ore, 
+					wheat: playerHand.wheat, 
+					sheep: playerHand.sheep};
+	redrawHand();
+
+	function redrawHand() {
+		$("#discard-hand-number-brick").text(currHand.brick);
+		$("#discard-hand-number-wood").text(currHand.wood);
+		$("#discard-hand-number-ore").text(currHand.ore);
+		$("#discard-hand-number-wheat").text(currHand.wheat);
+		$("#discard-hand-number-sheep").text(currHand.sheep);
+	}
+
+	$(".discard-number").change(function(event) {
+		var oldVal = $(this).data("oldVal");
+		var newVal = parseInt($(this).val());
+		var res = $(this).attr("res");
+
+		// Handle cases where you select too many resources or a positive resource amount
+		if (oldVal === undefined && calcNumDiscards() > numToDiscard) {
+			$(this).val("0");
+			$(this).data("oldVal", 0);
+		} else if (isNaN(newVal) || newVal > 0 || calcNumDiscards() > numToDiscard) {
+			$(this).val(oldVal);
+		} else {
+			$(this).data("oldVal", newVal);
+			if (oldVal === undefined) {
+				currHand[res] = currHand[res] + newVal;
+			} else {
+				currHand[res] = currHand[res] + (newVal - oldVal);
+			}
+		}
+
+		// Handle case where you selected more of a resource than you hold
+		if (currHand[res] < 0) {
+			if (oldVal === undefined) {
+				$(this).val("0");
+				$(this).data("oldVal", 0);
+				currHand[res] = currHand[res] - newVal;
+			} else {
+				$(this).val(oldVal);
+				$(this).data("oldVal", oldVal);
+				currHand[res] = currHand[res] - (newVal - oldVal);
+			}
+		}
+
+		redrawHand();
+
+		if (calcNumDiscards() === numToDiscard) {
+			$("#discard-btn").prop("disabled", false);
+		} else {
+			$("#discard-btn").prop("disabled", true);
+		}
+	});
+
+	$("#discard-btn").click(function(event) {
+		if (calcNumDiscards() === numToDiscard) {
+			var toDiscard = {};
+			var inputs = $(".discard-number");
+
+			inputs.each(function(indx) {
+				var text = $(this).val();
+				var num = ((text === "") ? 0 : parseInt(text));
+				var res = $(this).attr("res");
+				toDiscard[res] = num < 0 ? -num : num;
+			});
+
+			sendDropCardsAction(toDiscard);
+			$(".discard-number").off("change");
+			$("#discard-btn").off("click");
+			$("#discard-modal").modal("hide");
+		}
+	});
+}
+
+$("#discard-modal").on("hide.bs.modal", function() {
+	$(".discard-number").val("");
+});

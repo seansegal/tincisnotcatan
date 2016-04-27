@@ -6,7 +6,8 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import edu.brown.cs.networking.GCT;
+import edu.brown.cs.api.CatanGroupSelector;
+import edu.brown.cs.networking.GCT.GCTBuilder;
 import freemarker.template.Configuration;
 import spark.ModelAndView;
 import spark.Request;
@@ -31,7 +32,9 @@ public class Main {
     Spark.port(getHerokuAssignedPort());
     Spark.threadPool(NUM_THREADS, MIN_THREADS, TIMEOUT);
     // secure("", "", "", ""); // use this for https!
-    GCT.getInstance();
+    new GCTBuilder("/action")
+        .withGroupSelector(new CatanGroupSelector())
+        .build();
 
     Configuration config = new Configuration();
     File templates = new File(
@@ -46,6 +49,7 @@ public class Main {
 
     // Set up board
     Spark.get("/board", new BoardHandler(), freeMarker);
+    Spark.get("/home", new HomeHandler(), freeMarker);
 
     // secure("", "", "", ""); // use this for https!
 
@@ -65,9 +69,7 @@ public class Main {
   }
 
 
-  /**
-   * A class which controls the initial page for maps.
-   */
+
   private static class BoardHandler implements TemplateViewRoute {
 
     @Override
@@ -75,6 +77,19 @@ public class Main {
       Map<String, Object> variables = ImmutableMap.of("title",
           "Play Catan");
       return new ModelAndView(variables, "board.ftl");
+    }
+  }
+
+  /**
+   * A class which controls the initial page for maps.
+   */
+  private static class HomeHandler implements TemplateViewRoute {
+
+    @Override
+    public ModelAndView handle(Request req, Response res) {
+      Map<String, Object> variables = ImmutableMap.of("title",
+          "Catan : Home");
+      return new ModelAndView(variables, "home.ftl");
     }
   }
 

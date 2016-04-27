@@ -5,6 +5,11 @@ target/
 .settings/
 .metadata
 .settings
+<<<<<<< HEAD
 .jar
 .class
+=======
+*.jar
+*.class
+>>>>>>> landingPage
 

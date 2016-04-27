@@ -22,6 +22,7 @@ function Path(start1, start2, start3, end1, end2, end3) {
 	this.containsRoad = false;
 	this.player = null;
 
+	this.canBuildRoad = false;
 	this.highlighted = false;
 	
 	$("#board-viewport").append("<div class='path-select' id='" + this.id + "-select'></div>");
@@ -129,6 +130,8 @@ function parsePath(pathData) {
 	var path = new Path(parseHexCoordinates(start.coord1), parseHexCoordinates(start.coord2),
 			parseHexCoordinates(start.coord3), parseHexCoordinates(end.coord1),
 			parseHexCoordinates(end.coord2), parseHexCoordinates(end.coord3));
+
+	path.canBuildRoad = pathData.canBuildRoad;
 
 	if (pathData.hasOwnProperty("road")) {
 		path.addRoad(playersById[pathData.road.player]);

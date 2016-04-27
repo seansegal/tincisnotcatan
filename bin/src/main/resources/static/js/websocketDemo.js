@@ -1,5 +1,13 @@
 //Establish the WebSocket connection and set up event handlers
-var webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/"); 
+
+if (document.location.hostname == "localhost") {
+	// use http
+	webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/action/");
+} else {
+	// we're on heroku - use https:
+	webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/action/");
+}
+
 
 webSocket.onopen = function () {
     sendGetGameStateAction();
@@ -8,43 +16,72 @@ webSocket.onopen = function () {
 webSocket.onmessage = function (msg) {
     var data = JSON.parse(msg.data);
     console.log(data);
-    
-    if(data.hasOwnProperty("responseType")) {
-    	switch(data.responseType) {
+
+    if(data.hasOwnProperty("requestType")) {
+    	switch(data.requestType) {
     	case "chat":
     		updateChat(data);
     		return;
     	case "getGameState":
-    		handleGetGameState(data.content);
+    		handleGetGameState(data);
     		return;
+<<<<<<< HEAD
         case "buildSettlement":
             handleBuildSettlement(data.content);
+=======
+        case "action":
+            handleActionResponse(data);
+>>>>>>> landingPage
             return;
     	default:
-    		console.log("unsupported response type");
+    		console.log("unsupported request type");
     		return;
     	}
     } else {
-    	console.log("No response type indicated");
+    	console.log("No request type indicated for response");
     }
 };
 
+<<<<<<< HEAD
 function sendGetGameStateAction() {
     var playersReq = {requestType: "getGameState", content: {}};
+=======
+function handleActionResponse(data) {
+	switch(data.action) {
+	// add action handlers here!
+	case  "buildSettlement":
+		return handleBuildSettlement(data);
+	default:
+		console.log("action object with no action identifier");
+	}
+}
+
+function sendGetGameStateAction() {
+    var playersReq = {requestType: "getGameState"};
+>>>>>>> landingPage
     webSocket.send(JSON.stringify(playersReq));
 }
 
 function sendRollDiceAction() {
+<<<<<<< HEAD
     var rollDiceReq  = {requestType: "action", content: {action: "rollDice", player: playerId}};
+=======
+    var rollDiceReq  = {requestType: "action", "action": "rollDice", "player": playerId};
+>>>>>>> landingPage
     webSocket.send(JSON.stringify(rollDiceReq));
 }
 
 function sendBuildSettlementAction(intersectCoordinates) {
+<<<<<<< HEAD
     var buildReq  = {requestType: "action", content: {action: "buildSettlement", coordinate: intersectCoordinates, player: 0}};
+=======
+    var buildReq  = {requestType: "action", "action": "buildSettlement", "coordinate": intersectCoordinates, "player": 0};
+>>>>>>> landingPage
     webSocket.send(JSON.stringify(buildReq));
 }
 
 function sendBuildCityAction(intersectCoordinates) {
+<<<<<<< HEAD
     var buildReq  = {requestType: "action", content: {action: "buildCity"}};
     webSocket.send(JSON.stringify(buildReq));
 }
@@ -54,6 +91,17 @@ function sendBuildRoadAction(start, end) {
     webSocket.send(JSON.stringify(buildReq));
 }
 
+=======
+    var buildReq  = {requestType: "action", "action" : "buildCity"};
+    webSocket.send(JSON.stringify(buildReq));
+}
+
+function sendBuildRoadAction(start, end) {
+    var buildReq  = {requestType: "action", "action": "buildRoad"};
+    webSocket.send(JSON.stringify(buildReq));
+}
+
+>>>>>>> landingPage
 function handleGetGameState(gameStateData) {
     // Set global data
     playerId = gameStateData.playerID;
@@ -100,7 +148,11 @@ id("message").addEventListener("keypress", function (e) {
 //Send a message if it's not empty, then clear the input field
 function sendMessage(message) {
     if (message !== "") {
+<<<<<<< HEAD
     	var pack = {"requestType" : "chat", "content" : {"message" : message}}
+=======
+    	var pack = {"requestType" : "chat", "message" : message};
+>>>>>>> landingPage
         webSocket.send(JSON.stringify(pack));
         id("message").value = "";
     }
