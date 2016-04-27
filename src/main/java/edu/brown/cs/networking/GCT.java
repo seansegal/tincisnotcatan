@@ -60,6 +60,7 @@ public class GCT {
     assert bestFit != null : "Select for returned a null user group!";
     userToUserGroup.put(u, bestFit);
     bestFit.add(u);
+    System.out.format("User %s added to %s%n", u, bestFit);
     if (bestFit.isFull()) {
       full.add(bestFit);
       pending.remove(bestFit);

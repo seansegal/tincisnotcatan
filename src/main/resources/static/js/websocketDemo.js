@@ -43,6 +43,23 @@ function handleSetCookie(data) {
 	}
 }
 
+function handleErrorFromSocket(data) {
+	if(data.hasOwnProperty("description")){
+		switch(data.description) {
+		case "RESET":
+			deleteCookie("CATAN_USER_ID");
+			window.location = "/home"; // redirect to home
+			break;
+		default:
+			console.log(data.description);
+		}
+	}
+}
+
+function deleteCookie(name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
+
 webSocket.onmessage = function (msg) {
     var data = JSON.parse(msg.data);
     console.log(data);
@@ -60,6 +77,9 @@ webSocket.onmessage = function (msg) {
             return;
         case "setCookie":
         	handleSetCookie(data);
+        	return;
+        case "ERROR" :
+        	handleErrorFromSocket(data);
         	return;
     	default:
     		console.log("unsupported request type");
