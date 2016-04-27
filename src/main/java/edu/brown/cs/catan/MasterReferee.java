@@ -26,7 +26,7 @@ public class MasterReferee implements Referee {
   private int _turn;
   private final Bank _bank;
   private final List<DevelopmentCard> _devCardDeck;
-  private Set<Player> _hasDiscarded;
+  private Set<Player> _mustDiscard;
   private boolean _devHasBeenPlayed;
   private int _numFullPlayers;
   private Player _largestArmy = null;
@@ -40,7 +40,7 @@ public class MasterReferee implements Referee {
     _turn = 1;
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
-    _hasDiscarded = new HashSet<>();
+    _mustDiscard = new HashSet<>();
   }
 
   private Map<Integer, Integer> initializeTurnOrder(int numFullPlayers) {
@@ -60,7 +60,7 @@ public class MasterReferee implements Referee {
   public void startNextTurn() {
     _turn++;
     _devHasBeenPlayed = false;
-    _hasDiscarded = new HashSet<>();
+    _mustDiscard = new HashSet<>();
   }
 
   @Override
@@ -119,12 +119,6 @@ public class MasterReferee implements Referee {
   }
 
   @Override
-  public boolean playerHasDiscarded(int id) {
-    Player player = getPlayerByID(id);
-    return _hasDiscarded.contains(player);
-  }
-
-  @Override
   public Board getBoard() {
     return _board;
   }
@@ -147,14 +141,19 @@ public class MasterReferee implements Referee {
 
   @Override
   public void playerDiscarded(int id) {
-    // TODO Auto-generated method stub
+    _mustDiscard.remove(getPlayerByID(id));
 
   }
 
   @Override
   public void playerMustDiscard(int id) {
-    // TODO Auto-generated method stub
+    _mustDiscard.add(getPlayerByID(id));
+  }
 
+  @Override
+  public boolean playerHasDiscarded(int id) {
+    Player player = getPlayerByID(id);
+    return _mustDiscard.contains(player);
   }
 
   @Override

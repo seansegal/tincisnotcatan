@@ -23,8 +23,8 @@ public class CatanAPI {
     // }
     System.out.println(api.getGameState(0));
     // System.out.println(api.getGameState(1));
-    System.out.println(api.getGameState(2));
-    System.out.println(api.getGameState(3));
+//    System.out.println(api.getGameState(2));
+//    System.out.println(api.getGameState(3));
     // String json = "{action: rollDice, player: 1}";
     // System.out.println(api.performAction(json));
   }
