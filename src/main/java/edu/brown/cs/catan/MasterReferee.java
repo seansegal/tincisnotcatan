@@ -195,6 +195,11 @@ public class MasterReferee implements Referee {
   }
 
   @Override
+  public int addPlayer(String name) {
+    return addPlayer(name, _gameSettings.COLORS[_players.size()]);
+  }
+
+  @Override
   public int addPlayer(String name, String color) {
     if (_turn.getTurnNum() == 1) {
       int id = _players.size();
@@ -304,6 +309,12 @@ public class MasterReferee implements Referee {
     @Override
     public Map<Resource, Double> getBankRates(int player) {
       return _referee.getBankRates(player);
+    }
+
+    @Override
+    public int addPlayer(String name) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot add players.");
     }
 
     @Override

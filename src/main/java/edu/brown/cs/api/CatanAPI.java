@@ -57,7 +57,7 @@ public class CatanAPI implements API {
   @Override
   public int addPlayer(String playerAttributes) {
     // TODO: decide on playerAttributes, who is choosing colors?
-    return _referee.addPlayer("TestName", "#000000");
+    return _referee.addPlayer("TestName");
   }
 
   /**

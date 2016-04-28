@@ -10,10 +10,10 @@ public class TestReferee extends MasterReferee {
 
   public TestReferee() {
     super();
-    Player sean = this.getPlayerByID(this.addPlayer("Sean", "#FF0000"));
-    Player nick = this.getPlayerByID(this.addPlayer("Nick", "#00FF00"));
-    Player hans = this.getPlayerByID(this.addPlayer("Hans", "#00FFFF"));
-    Player ansel = this.getPlayerByID(this.addPlayer("Ansel", "#FF00FF"));
+    Player sean = this.getPlayerByID(this.addPlayer("Sean"));
+    Player nick = this.getPlayerByID(this.addPlayer("Nick"));
+    Player hans = this.getPlayerByID(this.addPlayer("Hans"));
+    Player ansel = this.getPlayerByID(this.addPlayer("Ansel"));
     sean.addResource(Resource.BRICK, 6);
     sean.addResource(Resource.WOOD, 4);
     sean.addResource(Resource.ORE, 4);

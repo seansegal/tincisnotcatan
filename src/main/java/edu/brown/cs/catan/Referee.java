@@ -17,6 +17,8 @@ public interface Referee {
 
   boolean gameIsFull();
 
+  int addPlayer(String name);
+
   int addPlayer(String name, String color);
 
   DevelopmentCard getDevCard();
