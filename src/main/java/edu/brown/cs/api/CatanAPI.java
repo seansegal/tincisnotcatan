@@ -10,25 +10,9 @@ import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.api.CatanConverter.CatanSettings;
 import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
-import edu.brown.cs.catan.TestReferee;
 import edu.brown.cs.networking.API;
 
 public class CatanAPI implements API {
-
-  public static void main(String[] args) {
-    CatanAPI api = new CatanAPI();
-    // System.out.println(api.getGameState(0));
-    // System.out.println(api.addPlayer(null));
-    // for (Player p : api._referee.getPlayers()) {
-    // System.out.println(p.getID());
-    // }
-    System.out.println(api.getGameState(0));
-    System.out.println(api.getGameState(1));
-    // System.out.println(api.getGameState(2));
-    System.out.println(api.getGameState(3));
-    // String json = "{action: rollDice, player: 1}";
-    // System.out.println(api.performAction(json));
-  }
 
   public Referee _referee;
   private CatanConverter _converter;
@@ -37,8 +21,7 @@ public class CatanAPI implements API {
   // don't add constructor variables to the API without talking to Nick! I use
   // CatanAPI.class.newInstance() which breaks with constructor params.
   public CatanAPI() {
-    // _referee = new MasterReferee();
-    _referee = new TestReferee();
+    _referee = new MasterReferee();
     _converter = new CatanConverter();
     _actionFactory = new ActionFactory(_referee);
   }

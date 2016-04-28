@@ -128,7 +128,7 @@ public class RollDice implements Action {
       for (Player p : _ref.getPlayers()) {
         if (p.getNumResourceCards() > Settings.DROP_CARDS_THRESH) {
           mustDiscard = true;
-          _ref.playerMustDiscard(p.getID(), p.getNumResourceCards()/2.0);
+          _ref.playerMustDiscard(p.getID(), p.getNumResourceCards() / 2.0);
           message += String.format(" %s must discard cards", p.getName());
         }
       }

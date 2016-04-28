@@ -66,7 +66,7 @@ public class CatanConverter {
 
     public GameState(Referee ref, int playerID) {
       this.playerID = playerID;
-      this.currentTurn = ref.currentPlayer().getID();
+      this.currentTurn = ref.currentPlayer() != null ? ref.currentPlayer().getID() : -1;
       this.hand = new Hand(ref.getPlayerByID(playerID));
       this.board = new BoardRaw(ref.getReadOnlyReferee(), ref.getBoard(),
           playerID);
