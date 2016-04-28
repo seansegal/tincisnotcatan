@@ -13,17 +13,23 @@ public final class User {
   private Session          session;
   private List<HttpCookie> cookies;
   private Integer          userID;
+  private JsonObject       values;
 
 
   public User(Session s, List<HttpCookie> cookies) {
     this.session = s;
     this.cookies = cookies;
+    this.values = new JsonObject();
+    for (HttpCookie cook : cookies) {
+      values.addProperty(cook.getName(), cook.getValue());
+    }
   }
 
 
   public void updateSession(Session s) {
     this.session = s;
   }
+
 
   public void updateCookies(List<HttpCookie> cookies) {
     this.cookies = cookies;
@@ -45,12 +51,15 @@ public final class User {
 
 
   public String getField(String field) {
-    for (HttpCookie c : cookies) {
-      if (c.getName().equals(field)) {
-        return c.getValue();
-      }
+    if (values.has(field) && !values.get(field).isJsonNull()) {
+      return values.get(field).getAsString();
     }
-    return null; // no such value.
+    return null;
+  }
+
+
+  public JsonObject getFieldsAsJson() {
+    return values;
   }
 
 
