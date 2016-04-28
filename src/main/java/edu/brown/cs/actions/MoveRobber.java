@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.Tile;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
-public class MoveRobber implements Action {
+public class MoveRobber implements FollowUpAction {
   private Referee _ref;
   private Player _player;
   private HexCoordinate _newLocation;
+  public final static String ID = "moveRobber";
 
   public MoveRobber(Referee ref, int playerID, HexCoordinate newLocation) {
     assert ref != null;
@@ -37,12 +40,19 @@ public class MoveRobber implements Action {
       toRet.put(_player.getID(), toAdd);
       return toRet;
     }
-    for(Tile t : _ref.getBoard().getTiles()) {
-      if(t.getCoordinate().equals(_newLocation));
+    for (Tile t : _ref.getBoard().getTiles()) {
+      if (t.getCoordinate().equals(_newLocation)) {
+        // TODO: Ansel finish Action.
+      }
     }
+    _ref.removeFollowUp(_player.getID(), MoveRobber.ID);
+    Map<Integer, String> followUp = ImmutableMap.of(_player.getID(),
+        TakeCardAction.ID);
+    _ref.addFollowUp(followUp);
     ActionResponse toAdd = new ActionResponse(true,
-        "Please choose a new location", "TakeCardAction", playersOnTile);
+        "Please choose a new location", playersOnTile);
     toRet.put(_player.getID(), toAdd);
     return toRet;
   }
+
 }

@@ -49,4 +49,8 @@ public interface Referee {
 
   boolean isSetUp();
 
+  void addFollowUp(Map<Integer, String> actions);
+
+  void removeFollowUp(int playerID, String action);
+
 }

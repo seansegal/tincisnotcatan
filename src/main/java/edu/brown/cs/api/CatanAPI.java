@@ -98,6 +98,10 @@ public class CatanAPI implements API {
     try {
       Map<Integer, ActionResponse> response = _actionFactory.createAction(
           action).execute();
+      Map<Integer, String> followUps = _referee.getTurn().getNextFollowUp();
+      for (Map.Entry<Integer, String> followUp : followUps.entrySet()) {
+        response.get(followUp.getKey()).addFollowUp(followUp.getValue());
+      }
       return _converter.responseToJSON(response);
     } catch (IllegalArgumentException e) {
       System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());
@@ -115,6 +119,10 @@ public class CatanAPI implements API {
     try {
       Map<Integer, ActionResponse> response = _actionFactory.createAction(
           action).execute();
+      Map<Integer, String> followUps = _referee.getTurn().getNextFollowUp();
+      for (Map.Entry<Integer, String> followUp : followUps.entrySet()) {
+        response.get(followUp.getKey()).addFollowUp(followUp.getValue());
+      }
       return _converter.responseToJSON(response);
     } catch (IllegalArgumentException e) {
       System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());

@@ -11,12 +11,13 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
-public class DropCards implements Action {
+public class DropCards implements FollowUpAction {
 
   private Referee _ref;
   private Player _player;
   private Map<Resource, Double> _toDrop;
   private final static double TOLERANCE = 0.001;
+  public final static String ID = "dropCards";
 
   public DropCards(Referee ref, int playerID, JsonObject toDrop) {
     _ref = ref;
@@ -47,21 +48,20 @@ public class DropCards implements Action {
     for (Map.Entry<Resource, Double> res : _toDrop.entrySet()) {
       if (!_player.hasResource(res.getKey(), res.getValue())) {
         return ImmutableMap.of(_player.getID(), new ActionResponse(false,
-            "You do not have the cards you are attempting to drop.",
-            "dropCards", toDrop));
+            "You do not have the cards you are attempting to drop.", toDrop));
       }
       droppedCards += res.getValue();
     }
     if (Math.abs(droppedCards - _ref.getTurn().getMustDiscard(_player.getID())) > TOLERANCE) {
       return ImmutableMap.of(_player.getID(), new ActionResponse(false,
-          "You did not drop enough cards. Please try again.", "dropCards",
-          toDrop));
+          "You did not drop enough cards. Please try again.", toDrop));
     }
 
     // Action:
     for (Map.Entry<Resource, Double> res : _toDrop.entrySet()) {
       _player.removeResource(res.getKey(), res.getValue());
     }
+    _ref.removeFollowUp(_player.getID(), DropCards.ID);
 
     // Formulate Responses:
     ActionResponse toPlayer = new ActionResponse(true, "Thanks for discarding",
@@ -81,4 +81,5 @@ public class DropCards implements Action {
     }
     return toReturn;
   }
+
 }
