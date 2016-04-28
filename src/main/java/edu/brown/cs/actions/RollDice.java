@@ -147,7 +147,7 @@ public class RollDice implements Action {
             System.out.println(p.getID() + " must drop cards. AHHH");
             toRet.put(p.getID(), new ActionResponse(true,
                 "7 was rolled. You must drop half of your cards.", "dropCards",
-                null));
+                jsonToSend.get(p.getID())));
           } else {
             toRet.put(p.getID(), new ActionResponse(true, message, null));
           }
