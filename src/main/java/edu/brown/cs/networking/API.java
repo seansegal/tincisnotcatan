@@ -13,6 +13,6 @@ public interface API {
   Map<Integer, JsonObject> performAction(String action);
 
 
-  int addPlayer(String playerAttributes);
+  int addPlayer(JsonObject playerAttributes);
 
 }

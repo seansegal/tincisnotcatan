@@ -58,8 +58,7 @@ public class UserGroup implements Timestamped {
     if (users.size() == desiredSize) {
       return false; // we're full, don't give me any more users.
     }
-    u.setUserID(api.addPlayer("")); // TODO: We need to remove those player attributes.
-    //u.setUserID(api.addPlayer(u.getFieldsAsJson()));
+    u.setUserID(api.addPlayer(u.getFieldsAsJson()));
     users.add(u);
     for(User other : users) {
       JsonObject gs = api.getGameState(other.userID());

@@ -22,7 +22,7 @@ class BasicAPI implements API {
 
 
   @Override
-  public int addPlayer(String playerAttributes) {
+  public int addPlayer(JsonObject playerAttributes) {
     System.out.println("DEMO: Called addPlayer for player " + playerAttributes);
     return 0;
   }
