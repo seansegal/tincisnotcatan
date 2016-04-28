@@ -275,6 +275,28 @@ public class HumanPlayer implements Player {
     return _numVictoryPoints;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + id;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (!(obj instanceof Player))
+      return false;
+    Player other = (Player) obj;
+    if (id != other.getID())
+      return false;
+    return true;
+  }
+
   private class ReadOnlyPlayer implements Player {
 
     private final HumanPlayer _player;
@@ -445,6 +467,36 @@ public class HumanPlayer implements Player {
     @Override
     public boolean canBuildSettlement() {
       return _player.canBuildSettlement();
+    }
+
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + getOuterType().hashCode();
+      result = prime * result + ((_player == null) ? 0 : _player.hashCode());
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (!(obj instanceof Player))
+        return false;
+      Player other = (Player) obj;
+      if (_player == null) {
+        if (other != null)
+          return false;
+      } else if (!this.equals(other))
+        return false;
+      return true;
+    }
+
+    private HumanPlayer getOuterType() {
+      return HumanPlayer.this;
     }
 
   }
