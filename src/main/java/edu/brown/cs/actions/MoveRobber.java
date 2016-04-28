@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.Tile;
@@ -12,24 +14,23 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
 public class MoveRobber implements FollowUpAction {
+
+  private boolean _isSetup;
   private Referee _ref;
-  private Player _player;
+  private int _playerID;
   private HexCoordinate _newLocation;
   public final static String ID = "moveRobber";
 
-  public MoveRobber(Referee ref, int playerID, HexCoordinate newLocation) {
-    assert ref != null;
-    _ref = ref;
-    _player = _ref.getPlayerByID(playerID);
-    if (_player == null) {
-      String err = String.format("No player exists with the id: %d", playerID);
-      throw new IllegalArgumentException(err);
-    }
-    _newLocation = newLocation;
+  public MoveRobber(int playerID) {
+    _playerID = playerID;
+    _isSetup = false;
   }
 
   @Override
   public Map<Integer, ActionResponse> execute() {
+    if(! _isSetup){
+      throw new UnsupportedOperationException("An unsetup action cannot be executed");
+    }
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
     Set<Player> playersOnTile = null;
     try {
@@ -37,7 +38,7 @@ public class MoveRobber implements FollowUpAction {
     } catch (IllegalArgumentException e) {
       ActionResponse toAdd = new ActionResponse(false,
           "Please choose a new location", null);
-      toRet.put(_player.getID(), toAdd);
+      toRet.put(_playerID, toAdd);
       return toRet;
     }
     for (Tile t : _ref.getBoard().getTiles()) {
@@ -45,14 +46,53 @@ public class MoveRobber implements FollowUpAction {
         // TODO: Ansel finish Action.
       }
     }
-    _ref.removeFollowUp(_player.getID(), MoveRobber.ID);
-    Map<Integer, String> followUp = ImmutableMap.of(_player.getID(),
-        TakeCardAction.ID);
-    _ref.addFollowUp(followUp);
+    _ref.removeFollowUp(this);
+    FollowUpAction followUp = new TakeCardAction(); // TODO!
+    _ref.addFollowUp(ImmutableList.of(followUp));
     ActionResponse toAdd = new ActionResponse(true,
         "Please choose a new location", playersOnTile);
-    toRet.put(_player.getID(), toAdd);
+    toRet.put(_playerID, toAdd);
     return toRet;
+  }
+
+  @Override
+  public JsonObject getData() {
+    return null;
+  }
+
+  @Override
+  public String getID() {
+    return MoveRobber.ID;
+  }
+
+  @Override
+  public void setupAction(Referee ref, int playerID, JsonObject json) {
+    JsonObject params = json.get("newLocation").getAsJsonObject();
+    HexCoordinate newLocation = convertToHexCoordrinate(params);
+    assert ref != null;
+    assert _playerID == playerID;
+    _ref = ref;
+    if (_ref.getPlayerByID(playerID) == null) {
+      String err = String.format("No player exists with the id: %d", playerID);
+      throw new IllegalArgumentException(err);
+    }
+    _newLocation = newLocation;
+  }
+
+  @Override
+  public int getPlayerID() {
+    return _playerID;
+  }
+
+  private HexCoordinate convertToHexCoordrinate(JsonObject json) {
+    try {
+      int x = json.get("coordinate").getAsJsonObject().get("x").getAsInt();
+      int y = json.get("coordinate").getAsJsonObject().get("y").getAsInt();
+      int z = json.get("coordinate").getAsJsonObject().get("z").getAsInt();
+      return new HexCoordinate(x, y, z);
+    } catch (NullPointerException | JsonSyntaxException e) {
+      throw new IllegalArgumentException("Missing coordinate x,y, or z");
+    }
   }
 
 }

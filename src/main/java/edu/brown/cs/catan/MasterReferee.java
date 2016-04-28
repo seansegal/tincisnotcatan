@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.board.Board;
 
 public class MasterReferee implements Referee {
@@ -71,13 +72,13 @@ public class MasterReferee implements Referee {
   }
 
   @Override
-  public void addFollowUp(Map<Integer, String> actions) {
+  public void addFollowUp(Collection<FollowUpAction> actions) {
     _turn.addFollowUp(actions);
   }
 
   @Override
-  public void removeFollowUp(int playerID, String action) {
-    _turn.removeFollowUp(playerID, action);
+  public FollowUpAction getNextFollowUp(int playerID) {
+    return _turn.getNextFollowUp(playerID);
   }
 
   private Bank initializeBank(boolean isSmart) {
@@ -138,11 +139,6 @@ public class MasterReferee implements Referee {
   @Override
   public void playDevCard() {
     _turn.setDevCardHasBeenPlayed();
-  }
-
-  @Override
-  public void playerMustDiscard(int id, double amount) {
-    _turn.setMustDiscard(id, amount);
   }
 
   @Override
@@ -238,6 +234,12 @@ public class MasterReferee implements Referee {
   @Override
   public GameSettings getGameSettings() {
     return _gameSettings;
+  }
+
+  @Override
+  public void removeFollowUp(FollowUpAction action) {
+    _turn.removeFollowUp(action);
+
   }
 
   private class ReadOnlyReferee implements Referee {
@@ -354,24 +356,24 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public void playerMustDiscard(int player, double amount) {
-      throw new UnsupportedOperationException(
-          "A ReadOnlyReferee cannot change playerMustDiscard.");
-    }
-
-    @Override
     public GameSettings getGameSettings() {
       return _referee.getGameSettings();
     }
 
     @Override
-    public void addFollowUp(Map<Integer, String> actions) {
+    public FollowUpAction getNextFollowUp(int playerID) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot getNextFollowup");
+    }
+
+    @Override
+    public void addFollowUp(Collection<FollowUpAction> actions) {
       throw new UnsupportedOperationException(
           "A ReadOnlyReferee cannot addFollowUp.");
     }
 
     @Override
-    public void removeFollowUp(int playerID, String action) {
+    public void removeFollowUp(FollowUpAction action) {
       throw new UnsupportedOperationException(
           "A ReadOnlyReferee cannot removeFollowUp.");
 

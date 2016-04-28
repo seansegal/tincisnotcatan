@@ -3,6 +3,7 @@ package edu.brown.cs.catan;
 import java.util.Collection;
 import java.util.Map;
 
+import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.board.Board;
 
 public interface Referee {
@@ -27,8 +28,6 @@ public interface Referee {
 
   Referee getReadOnlyReferee();
 
-  void playerMustDiscard(int player, double amount);
-
   Map<Resource, Double> getBankRates(int playerID);
 
   Board getBoard();
@@ -49,8 +48,9 @@ public interface Referee {
 
   boolean isSetUp();
 
-  void addFollowUp(Map<Integer, String> actions);
+  FollowUpAction getNextFollowUp(int playerID);
 
-  void removeFollowUp(int playerID, String action);
+  void addFollowUp(Collection<FollowUpAction> actions);
 
+  public void removeFollowUp(FollowUpAction action);
 }

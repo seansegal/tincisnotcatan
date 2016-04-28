@@ -9,9 +9,8 @@ import edu.brown.cs.actions.BuildCity;
 import edu.brown.cs.actions.BuildRoad;
 import edu.brown.cs.actions.BuildSettlement;
 import edu.brown.cs.actions.BuyDevelopmentCard;
-import edu.brown.cs.actions.DropCards;
 import edu.brown.cs.actions.EmptyAction;
-import edu.brown.cs.actions.MoveRobber;
+import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.actions.PlayMonopoly;
 import edu.brown.cs.actions.PlayYearOfPlenty;
 import edu.brown.cs.actions.RollDice;
@@ -47,61 +46,61 @@ public class ActionFactory {
 
   public Action createAction(JsonObject actionJSON) {
     int playerID;
+    String action;
     try {
       playerID = actionJSON.get("player").getAsInt();
+      action = actionJSON.get("action").getAsString();
     } catch (JsonSyntaxException | NullPointerException e) {
       throw new IllegalArgumentException(
           "Missing PlayerID which is required for all actions.");
     }
-    try {
-      String action = actionJSON.get("action").getAsString();
-      switch (action) {
-      case "getInitialState":
-        return new EmptyAction();
-      case "buildCity":
-        return new BuildCity(_referee, playerID,
-            toIntersectionCoordinate(actionJSON.get("coordinate")
-                .getAsJsonObject()));
-      case "buildSettlement":
-        return new BuildSettlement(_referee, playerID,
-            toIntersectionCoordinate(actionJSON.get("coordinate")
-                .getAsJsonObject()), false); // TODO: Referee
-      case "buildRoad":
-        IntersectionCoordinate start = toIntersectionCoordinate(actionJSON.get(
-            "start").getAsJsonObject());
-        IntersectionCoordinate end = toIntersectionCoordinate(actionJSON.get(
-            "end").getAsJsonObject());
-        return new BuildRoad(_referee, playerID, start, end, true);
-      case "buyDevCard":
-        return new BuyDevelopmentCard(_referee, playerID);
-      case "rollDice":
-        return new RollDice(_referee, playerID);
-      case "dropCards":
-        return new DropCards(_referee, playerID, actionJSON.get("toDrop")
-            .getAsJsonObject());
-      case "moveRobber":
-        int x = actionJSON.get("newLocation").getAsJsonObject().get("x")
-            .getAsInt();
-        int y = actionJSON.get("newLocation").getAsJsonObject().get("y")
-            .getAsInt();
-        int z = actionJSON.get("newLocation").getAsJsonObject().get("z")
-            .getAsInt();
-        HexCoordinate newLocation = new HexCoordinate(x, y, z);
-        return new MoveRobber(_referee, playerID, newLocation);
-      case "playMonopoly":
-        return new PlayMonopoly(_referee, playerID, actionJSON.get("resource")
-            .getAsString());
-      case "playYearOfPlenty":
-        return new PlayYearOfPlenty(_referee, playerID, actionJSON.get(
-            "firstRes").getAsString(), actionJSON.get("secondRes")
-            .getAsString());
-      default:
-        String err = String.format("The action %s does not exist.", action);
-        throw new IllegalArgumentException(err);
+    if (_referee.getTurn().waitingForFollowUp()) {
+      FollowUpAction nextAction = _referee.getNextFollowUp(playerID);
+      if (action.equals(nextAction.getID())) {
+        // Set up the action:
+        nextAction.setupAction(_referee, playerID, actionJSON);
+        return nextAction;
       }
-    } catch (NullPointerException e) {
-      throw new IllegalArgumentException(
-          "The JSON is missing a required parameter. Check documentation for more information.");
+      throw new IllegalArgumentException("WAITING ON ACTION: "
+          + nextAction.getID());
+    } else {
+      try {
+        switch (action) {
+        case "getInitialState":
+          return new EmptyAction();
+        case "buildCity":
+          return new BuildCity(_referee, playerID,
+              toIntersectionCoordinate(actionJSON.get("coordinate")
+                  .getAsJsonObject()));
+        case "buildSettlement":
+          return new BuildSettlement(_referee, playerID,
+              toIntersectionCoordinate(actionJSON.get("coordinate")
+                  .getAsJsonObject()), false); // TODO: Referee
+        case "buildRoad":
+          IntersectionCoordinate start = toIntersectionCoordinate(actionJSON
+              .get("start").getAsJsonObject());
+          IntersectionCoordinate end = toIntersectionCoordinate(actionJSON.get(
+              "end").getAsJsonObject());
+          return new BuildRoad(_referee, playerID, start, end, true);
+        case "buyDevCard":
+          return new BuyDevelopmentCard(_referee, playerID);
+        case "rollDice":
+          return new RollDice(_referee, playerID);
+        case "playMonopoly":
+          return new PlayMonopoly(_referee, playerID, actionJSON
+              .get("resource").getAsString());
+        case "playYearOfPlenty":
+          return new PlayYearOfPlenty(_referee, playerID, actionJSON.get(
+              "firstRes").getAsString(), actionJSON.get("secondRes")
+              .getAsString());
+        default:
+          String err = String.format("The action %s does not exist.", action);
+          throw new IllegalArgumentException(err);
+        }
+      } catch (NullPointerException e) {
+        throw new IllegalArgumentException(
+            "The JSON is missing a required parameter. Check documentation for more information.");
+      }
     }
   }
 
