@@ -232,25 +232,29 @@ function handleGetGameState(gameStateData) {
 
 function handleRollDiceResponse(response) {
     addMessage(response.content.message);
-    switch (response.content.followUpAction) {
-        case "dropCards":
-            enterDiscardModal(response.content.data.numToDrop);
-            break;
-        case "moveRobber":
-            highlightRobbableTiles();
-            break;
-        default:
-            break;
+    if (response.content.hasOwnProperty("followUpAction")) {
+        switch (response.content.followUpAction.actionName) {
+            case "dropCards":
+                enterDiscardModal(response.content.data.numToDrop);
+                break;
+            case "moveRobber":
+                highlightRobbableTiles();
+                break;
+            default:
+                break;
+        }
     }
 }
 
 function handleMoveRobberResponse(response) {
     addMessage(response.content.message);
-    switch (response.content.followUpAction) {
-        case "takeCard":
-            enterTakeCardModal(response.content.data);
-        default:
-            break;
+    if (response.content.hasOwnProperty("followUpAction")) {
+        switch (response.content.followUpAction.actionName) {
+            case "takeCard":
+                enterTakeCardModal(response.content.followUpAction.actionData);
+            default:
+                break;
+        }
     }
 }
 
