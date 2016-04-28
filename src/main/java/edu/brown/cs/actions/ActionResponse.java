@@ -7,8 +7,7 @@ public class ActionResponse {
   private String followUpAction;
   private Object data;
 
-  public ActionResponse(boolean success, String message,
-      Object data) {
+  public ActionResponse(boolean success, String message, Object data) {
     super();
     this.success = success;
     this.message = message;
@@ -16,13 +15,17 @@ public class ActionResponse {
     this.data = data;
   }
 
-  public ActionResponse(boolean success, String message, String followUpAction,
-      Object data) {
-    super();
-    this.success = success;
-    this.message = message;
+//  public ActionResponse(boolean success, String message, String followUpAction,
+//      Object data) {
+//    super();
+//    this.success = success;
+//    this.message = message;
+//    this.followUpAction = followUpAction;
+//    this.data = data;
+//  }
+
+  public void addFollowUp(String followUpAction) {
     this.followUpAction = followUpAction;
-    this.data = data;
   }
 
 }

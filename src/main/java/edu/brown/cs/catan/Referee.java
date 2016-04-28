@@ -23,6 +23,8 @@ public interface Referee {
 
   DevelopmentCard getDevCard();
 
+  GameSettings getGameSettings();
+
   Referee getReadOnlyReferee();
 
   void playerMustDiscard(int player, double amount);
@@ -46,5 +48,9 @@ public interface Referee {
   Bank getBank();
 
   boolean isSetUp();
+
+  void addFollowUp(Map<Integer, String> actions);
+
+  void removeFollowUp(int playerID, String action);
 
 }

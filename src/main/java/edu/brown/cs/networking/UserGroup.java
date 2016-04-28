@@ -6,21 +6,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gson.JsonObject;
-import com.google.gson.annotations.Expose;
 
 public class UserGroup implements Timestamped, Group {
 
 
   private Collection<RequestProcessor> reqs;
-  @Expose
+
   private Set<User>                    users;
   private API                          api;
   private long                         initTime;
-  @Expose
-  private String                       identifier;
-  @Expose
-  private final int                    desiredSize;
 
+  private String                       identifier;
+
+  private final int                    desiredSize;
 
 
   private UserGroup() {
@@ -74,9 +72,9 @@ public class UserGroup implements Timestamped, Group {
     if (users.size() == desiredSize) {
       return false; // we're full, don't give me any more users.
     }
-    u.setUserID(api.addPlayer("")); // TODO: We need to remove those player
-                                    // attributes.
-    // u.setUserID(api.addPlayer(u.getFieldsAsJson()));
+
+    u.setUserID(api.addPlayer(u.getFieldsAsJson()));
+
     users.add(u);
     for (User other : users) {
       JsonObject gs = api.getGameState(other.userID());

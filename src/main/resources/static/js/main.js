@@ -452,3 +452,13 @@ function enterDiscardModal(numToDiscard) {
 $("#discard-modal").on("hide.bs.modal", function() {
 	$(".discard-number").val("");
 });
+
+//////////////////////////////////////////
+// Moving the Robber
+//////////////////////////////////////////
+
+var moveRobberMode = false;
+
+function highlightRobbableTiles() {
+	moveRobberMode = true;
+}

@@ -5,6 +5,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
 
 import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.api.CatanConverter.CatanSettings;
@@ -55,9 +56,14 @@ public class CatanAPI implements API {
    *           When called in the middle of a game.
    */
   @Override
-  public int addPlayer(String playerAttributes) {
-    // TODO: decide on playerAttributes, who is choosing colors?
-    return _referee.addPlayer("TestName");
+  public int addPlayer(JsonObject playerAttributes) {
+    try {
+      return _referee.addPlayer(playerAttributes.get("userName").getAsString());
+    } catch (JsonSyntaxException | NullPointerException e) {
+      throw new IllegalArgumentException(
+          "To add a player, you must have userName as a field.");
+    }
+
   }
 
   /**
@@ -92,6 +98,10 @@ public class CatanAPI implements API {
     try {
       Map<Integer, ActionResponse> response = _actionFactory.createAction(
           action).execute();
+      Map<Integer, String> followUps = _referee.getTurn().getNextFollowUp();
+      for (Map.Entry<Integer, String> followUp : followUps.entrySet()) {
+        response.get(followUp.getKey()).addFollowUp(followUp.getValue());
+      }
       return _converter.responseToJSON(response);
     } catch (IllegalArgumentException e) {
       System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());
@@ -109,6 +119,10 @@ public class CatanAPI implements API {
     try {
       Map<Integer, ActionResponse> response = _actionFactory.createAction(
           action).execute();
+      Map<Integer, String> followUps = _referee.getTurn().getNextFollowUp();
+      for (Map.Entry<Integer, String> followUp : followUps.entrySet()) {
+        response.get(followUp.getKey()).addFollowUp(followUp.getValue());
+      }
       return _converter.responseToJSON(response);
     } catch (IllegalArgumentException e) {
       System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());

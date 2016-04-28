@@ -116,6 +116,11 @@ function sendDropCardsAction(toDrop) {
     webSocket.send(JSON.stringify(dropReq));
 }
 
+function sendMoveRobberAction(coord) {
+    var dropReq = {requestType: "action", action: "moveRobber", newLocation: coord};
+    webSocket.send(JSON.stringify(dropReq));
+}
+
 
 // ---------- RESPONSES ---------- //
 
@@ -222,7 +227,12 @@ function handleRollDiceResponse(response) {
     addMessage(response.content.message);
     switch (response.content.followUpAction) {
         case "dropCards":
-            enterDiscardModal(4);
+            enterDiscardModal(response.content.data.numToDrop);
+            break;
+        case "moveRobber":
+            highlightRobbableTiles();
+            break;
+        default:
             break;
     }
 }

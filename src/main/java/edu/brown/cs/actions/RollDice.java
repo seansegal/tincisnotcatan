@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.PrimitiveIterator;
 import java.util.Random;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonObject;
+
 import edu.brown.cs.board.Tile;
 import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.Player;
@@ -123,31 +126,44 @@ public class RollDice implements Action {
     } else {
       // 7 is rolled:
       List<Integer> playersToDrop = new ArrayList<>();
+      Map<Integer, String> followUp = new HashMap<>();
       boolean mustDiscard = false;
+      Map<Integer, JsonObject> jsonToSend = new HashMap<>();
       String message = "7 was rolled.";
       for (Player p : _ref.getPlayers()) {
         if (p.getNumResourceCards() > Settings.DROP_CARDS_THRESH) {
           mustDiscard = true;
-          _ref.playerMustDiscard(p.getID(), p.getNumResourceCards() / 2.0);
+          double numToDrop = p.getNumResourceCards() / 2.0;
+          if (!_ref.getGameSettings().isDecimal) {
+            numToDrop = Math.floor(numToDrop);
+          }
+          playersToDrop.add(p.getID());
           message += String.format(" %s must discard cards", p.getName());
+          JsonObject jsonForPlayer = new JsonObject();
+          _ref.playerMustDiscard(_player.getID(), numToDrop);
+          jsonForPlayer.addProperty("numToDrop", numToDrop);
+          jsonToSend.put(p.getID(), jsonForPlayer);
         }
       }
       if (mustDiscard) {
         message += ".";
         for (Player p : _ref.getPlayers()) {
           if (playersToDrop.contains(p.getID())) {
-            toRet.put(p.getID(), new ActionResponse(true,
-                "7 was rolled. You must drop half of your cards.", "dropCards",
-                null));
+            followUp.put(p.getID(), DropCards.ID);
+            toRet.put(p.getID(),
+                new ActionResponse(true,
+                    "7 was rolled. You must drop half of your cards.",
+                    jsonToSend.get(p.getID())));
           } else {
             toRet.put(p.getID(), new ActionResponse(true, message, null));
           }
         }
+        _ref.addFollowUp(followUp);
       } else {
         ActionResponse respToAll = new ActionResponse(true,
             "7 was rolled. No one has more than 7 cards.", null);
         ActionResponse respToPlayer = new ActionResponse(true,
-            "7 was rolled. You get to move the Robber.", "moveRobber", null);
+            "7 was rolled. You get to move the Robber.", null);
         for (Player p : _ref.getPlayers()) {
           if (p.equals(_player)) {
             toRet.put(p.getID(), respToPlayer);
@@ -156,6 +172,7 @@ public class RollDice implements Action {
           }
         }
       }
+      _ref.addFollowUp(ImmutableMap.of(_player.getID(), MoveRobber.ID));
     }
     return toRet;
   }

@@ -193,6 +193,26 @@ Tile.prototype.draw = function(transX, transY, scale) {
 		numberCircle.css("border", "solid 1px black");
 		numberCircle.addClass(type + "-color");
 	}
+
+	// Highlight if in move robber mode
+	numberCircle.off("click");
+
+	if (moveRobberMode && this.isRobbable()) {
+		numberCircle.addClass("number-circle-highlighted");
+		var that = this;
+		numberCircle.off("click");
+		numberCircle.click(function(event) {
+			moveRobberMode = false;
+			sendMoveRobberAction(that.coordinates);
+			board.draw();
+		});
+	} else {
+		numberCircle.removeClass("number-circle-highlighted");
+	}
+}
+
+Tile.prototype.isRobbable = function() {
+	return !(this.tileType === TILE_TYPE.SEA || this.hasRobber); 
 }
 
 function parseTile(tileData) {

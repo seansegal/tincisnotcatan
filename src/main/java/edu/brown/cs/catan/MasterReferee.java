@@ -70,6 +70,16 @@ public class MasterReferee implements Referee {
     return _devCardDeck.remove(0);
   }
 
+  @Override
+  public void addFollowUp(Map<Integer, String> actions) {
+    _turn.addFollowUp(actions);
+  }
+
+  @Override
+  public void removeFollowUp(int playerID, String action) {
+    _turn.removeFollowUp(playerID, action);
+  }
+
   private Bank initializeBank(boolean isSmart) {
     if (isSmart) {
       assert false; // TODO: Not yet implemented
@@ -225,6 +235,11 @@ public class MasterReferee implements Referee {
     return _isSetUp;
   }
 
+  @Override
+  public GameSettings getGameSettings() {
+    return _gameSettings;
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -342,6 +357,24 @@ public class MasterReferee implements Referee {
     public void playerMustDiscard(int player, double amount) {
       throw new UnsupportedOperationException(
           "A ReadOnlyReferee cannot change playerMustDiscard.");
+    }
+
+    @Override
+    public GameSettings getGameSettings() {
+      return _referee.getGameSettings();
+    }
+
+    @Override
+    public void addFollowUp(Map<Integer, String> actions) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot addFollowUp.");
+    }
+
+    @Override
+    public void removeFollowUp(int playerID, String action) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot removeFollowUp.");
+
     }
 
   }

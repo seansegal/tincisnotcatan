@@ -170,6 +170,11 @@ public class HumanPlayer implements Player {
   }
 
   @Override
+  public boolean hasResource(Resource res, double count) {
+    return resources.get(res) >= count;
+  }
+
+  @Override
   public void removeResource(Resource resource) {
     double newCount = resources.get(resource) - 1.0;
     assert newCount >= 0;
@@ -285,15 +290,19 @@ public class HumanPlayer implements Player {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (!(obj instanceof Player))
+    }
+    if (!(obj instanceof Player)) {
       return false;
+    }
     Player other = (Player) obj;
-    if (id != other.getID())
+    if (id != other.getID()) {
       return false;
+    }
     return true;
   }
 
@@ -471,32 +480,34 @@ public class HumanPlayer implements Player {
 
     @Override
     public int hashCode() {
-      final int prime = 31;
-      int result = 1;
-      result = prime * result + getOuterType().hashCode();
-      result = prime * result + ((_player == null) ? 0 : _player.hashCode());
-      return result;
+      return _player.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj)
+      if (this == obj) {
         return true;
-      if (obj == null)
+      }
+      if (obj == null) {
         return false;
-      if (!(obj instanceof Player))
+      }
+      if (!(obj instanceof Player)) {
         return false;
+      }
       Player other = (Player) obj;
       if (_player == null) {
-        if (other != null)
+        if (other != null) {
           return false;
-      } else if (!this.equals(other))
+        }
+      } else if (!this.equals(other)) {
         return false;
+      }
       return true;
     }
 
-    private HumanPlayer getOuterType() {
-      return HumanPlayer.this;
+    @Override
+    public boolean hasResource(Resource res, double count) {
+      return _player.hasResource(res, count);
     }
 
   }
