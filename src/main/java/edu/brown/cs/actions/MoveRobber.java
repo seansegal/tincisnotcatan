@@ -86,9 +86,9 @@ public class MoveRobber implements FollowUpAction {
 
   private HexCoordinate convertToHexCoordrinate(JsonObject json) {
     try {
-      int x = json.get("coordinate").getAsJsonObject().get("x").getAsInt();
-      int y = json.get("coordinate").getAsJsonObject().get("y").getAsInt();
-      int z = json.get("coordinate").getAsJsonObject().get("z").getAsInt();
+      int x = json.get("x").getAsInt();
+      int y = json.get("y").getAsInt();
+      int z = json.get("z").getAsInt();
       return new HexCoordinate(x, y, z);
     } catch (NullPointerException | JsonSyntaxException e) {
       throw new IllegalArgumentException("Missing coordinate x,y, or z");
