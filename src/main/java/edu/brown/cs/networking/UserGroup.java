@@ -41,8 +41,6 @@ public class UserGroup implements Timestamped {
         e.printStackTrace();
       }
     }
-
-
   }
 
 
@@ -63,6 +61,11 @@ public class UserGroup implements Timestamped {
     u.setUserID(api.addPlayer("")); // TODO: We need to remove those player attributes.
     //u.setUserID(api.addPlayer(u.getFieldsAsJson()));
     users.add(u);
+    for(User other : users) {
+      JsonObject gs = api.getGameState(other.userID());
+      gs.addProperty("requestType", "getGameState");
+      other.message(gs);
+    }
     return true;
     // regardless of whether or not u was present in the set already,
     // should return true to indicate that u has "found a home"
