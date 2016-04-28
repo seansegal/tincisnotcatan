@@ -16,8 +16,12 @@ function Player(id, name, color) {
 	this.hand = {};
 }
 
-Player.prototype.fillPlayerTab = function() {
-	var tab = $("#p" + (this.id + 1) + "-tab");
+Player.prototype.addPlayerTab = function() {
+	$("#player-tabs").append("<li role='presentation'><a href='#p" + this.id + "-tab' aria-controls='home' "
+			+ "role='tab' data-toggle='tab'>P" + this.id + "</a></li>");
+	$("#player-tabs-content").append("<div role='tabpanel' class='tab-pane' id='p" + this.id + "-tab'></div>");
+
+	var tab = $("#p" + this.id + "-tab");
 	tab.empty();
 	
 	tab.append("<p><strong>Name:</strong> " + this.name + "</p>");

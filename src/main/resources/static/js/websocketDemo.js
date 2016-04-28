@@ -189,8 +189,18 @@ function handleGetGameState(gameStateData) {
         playersById[players[i].id] = players[i];
     }
 
-    for (var i = 0; i < 4; i++) {
-        players[i].fillPlayerTab();
+    // Create player tabs
+    $("#player-tabs").empty();
+    $("#player-tabs-content").empty();
+
+    for (var i = 0; i < players.length; i++) {
+        players[i].addPlayerTab();
+    }
+
+    // Select first players tab
+    if (players.length > 0) {
+        $("#player-tabs").children().first().addClass("active");
+        $("#player-tabs-content").children().first().addClass("active");
     }
 
     // Draw hand

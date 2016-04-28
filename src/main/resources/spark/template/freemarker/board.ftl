@@ -21,13 +21,13 @@
 		</ul>
 		<div class="tab-content right-tab-content col-xs-9">
 		    <div role="tabpanel" class="tab-pane active right-tab-pane" id="players-tab">
-		    	 <ul class="nav nav-tabs right-inner-tabs" role="tablist">
+		    	 <ul class="nav nav-tabs right-inner-tabs" role="tablist" id="player-tabs">
 				 	<li role="presentation" class="active"><a href="#p1-tab" aria-controls="home" role="tab" data-toggle="tab">P1</a></li>
 				    <li role="presentation"><a href="#p2-tab" aria-controls="profile" role="tab" data-toggle="tab">P2</a></li>
 				    <li role="presentation"><a href="#p3-tab" aria-controls="messages" role="tab" data-toggle="tab">P3</a></li>
 				    <li role="presentation"><a href="#p4-tab" aria-controls="settings" role="tab" data-toggle="tab">P4</a></li>
 				 </ul>
-				 <div class="tab-content">
+				 <div class="tab-content" id="player-tabs-content">
 				 	<div role="tabpanel" class="tab-pane active" id="p1-tab"></div>
 				    <div role="tabpanel" class="tab-pane" id="p2-tab"></div>
 				    <div role="tabpanel" class="tab-pane" id="p3-tab"></div>
