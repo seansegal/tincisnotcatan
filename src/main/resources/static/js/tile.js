@@ -195,6 +195,20 @@ Tile.prototype.draw = function(transX, transY, scale) {
 	}
 }
 
+Tile.prototype.isRobbable = function() {
+	return !(this.tileType === TILE_TYPE.SEA || this.hasRobber); 
+}
+
+Tile.prototype.highlight = function() {
+	var numberCircle = $("#" + this.id + "-wrapper").children(".number-circle");
+	console.log(numberCircle);
+	numberCircle.addClass("number-circle-highlighted");
+	var that = this;
+	numberCircle.click(function(event) {
+		console.log(that.coordinates);
+	});
+}
+
 function parseTile(tileData) {
 	var coords = parseHexCoordinates(tileData.hexCoordinate);
 	var type = parseTileType(tileData.type);

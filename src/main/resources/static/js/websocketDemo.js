@@ -222,7 +222,12 @@ function handleRollDiceResponse(response) {
     addMessage(response.content.message);
     switch (response.content.followUpAction) {
         case "dropCards":
-            enterDiscardModal(4);
+            enterDiscardModal(response.content.data.numToDrop);
+            break;
+        case "moveRobber":
+            highlightRobbableTiles();
+            break;
+        default:
             break;
     }
 }

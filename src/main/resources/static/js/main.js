@@ -452,3 +452,16 @@ function enterDiscardModal(numToDiscard) {
 $("#discard-modal").on("hide.bs.modal", function() {
 	$(".discard-number").val("");
 });
+
+//////////////////////////////////////////
+// Moving the Robber
+//////////////////////////////////////////
+
+function highlightRobbableTiles() {
+	for (var i = 0; i < board.tiles.length; i++) {
+		var tile = board.tiles[i];
+		if (tile.isRobbable()) {
+			tile.highlight();
+		}
+	}
+}
