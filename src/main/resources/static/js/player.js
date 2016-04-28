@@ -80,6 +80,32 @@ function fillPlayerHand(handData) {
 	$("#victory-point-number").text(handData.devCards["Victory Point"]);
 }
 
+function fillPlayerBuyOptions(handData) {
+	// if (handData.canBuildSettlement) {
+	// 	$("#settlement-build-btn").prop("disabled", false);
+	// } else {
+	// 	$("#settlement-build-btn").prop("disabled", true);
+	// }
+
+	if (handData.canBuildCity) {
+		$("#city-build-btn").prop("disabled", false);
+	} else {
+		$("#city-build-btn").prop("disabled", true);
+	}
+
+	if (handData.canBuildRoad) {
+		$("#road-build-btn").prop("disabled", false);
+	} else {
+		$("#road-build-btn").prop("disabled", true);
+	}
+
+	if (handData.canBuyDevCard) {
+		$("#buy-dev-card-modal-open").prop("disabled", false);
+	} else {
+		$("#buy-dev-card-modal-open").prop("disabled", true);
+	}
+}
+
 function createTradeRateText(number) {
 	return number + ":1";
 }

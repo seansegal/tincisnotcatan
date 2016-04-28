@@ -149,7 +149,9 @@ webSocket.onmessage = function (msg) {
     }
 };
 
-// ---------- CHAT RESPONSE ---------- //
+//////////////////////////////////////////
+// Chat Responses
+//////////////////////////////////////////
 
 //Send a message if it's not empty, then clear the input field
 function sendMessage(message) {
@@ -194,6 +196,9 @@ function handleGetGameState(gameStateData) {
     // Draw hand
     fillPlayerHand(gameStateData.hand);
 
+    // Show what buildings player can currently buy
+    fillPlayerBuyOptions(gameStateData.hand);
+
     // Draw trade rates
     fillPlayerTradeRates(gameStateData.players[playerId].rates); // TODO: change to reflect current player
 
@@ -216,12 +221,6 @@ function handleRollDiceResponse(response) {
 id("message").addEventListener("keypress", function (e) {
     if (e.keyCode === 13) { sendMessage(e.target.value); }
 });
-
-// ---------- ACTION RESPONSES ---------- //
-
-function handleBuildSettlement(response) {
-
-}
 
 
 // ---------- SET COOKIE FROM SERVER ---------- //
