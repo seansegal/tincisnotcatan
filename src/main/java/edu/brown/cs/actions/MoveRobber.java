@@ -47,7 +47,7 @@ public class MoveRobber implements FollowUpAction {
       }
     }
     _ref.removeFollowUp(this);
-    FollowUpAction followUp = new TakeCardAction(); // TODO!
+    FollowUpAction followUp = new TakeCardAction(_playerID, ImmutableList.of(0)); // TODO!
     _ref.addFollowUp(ImmutableList.of(followUp));
     ActionResponse toAdd = new ActionResponse(true,
         "Please choose a new location", playersOnTile);
