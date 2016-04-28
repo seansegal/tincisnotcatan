@@ -77,6 +77,7 @@ public class MoveRobber implements FollowUpAction {
       throw new IllegalArgumentException(err);
     }
     _newLocation = newLocation;
+    _isSetup = true;
   }
 
   @Override
