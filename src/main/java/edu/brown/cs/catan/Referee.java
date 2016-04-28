@@ -9,12 +9,9 @@ public interface Referee {
 
   void startNextTurn();
 
-  int getTurn();
+  Turn getTurn();
 
   Player currentPlayer();
-
-  // Development Card
-  boolean devHasBeenPlayed();
 
   void playDevCard();
 
@@ -26,11 +23,7 @@ public interface Referee {
 
   Referee getReadOnlyReferee();
 
-  boolean playerHasDiscarded(int playerID); // Read
-
-  void playerDiscarded(int playerID); // Writes
-
-  void playerMustDiscard(int player);
+  void playerMustDiscard(int player, double amount);
 
   Map<Resource, Double> getBankRates(int playerID);
 

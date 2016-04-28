@@ -1,7 +1,9 @@
 package edu.brown.cs.actions;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PrimitiveIterator;
 import java.util.Random;
@@ -120,19 +122,20 @@ public class RollDice implements Action {
       }
     } else {
       // 7 is rolled:
+      List<Integer> playersToDrop = new ArrayList<>();
       boolean mustDiscard = false;
       String message = "7 was rolled.";
       for (Player p : _ref.getPlayers()) {
         if (p.getNumResourceCards() > Settings.DROP_CARDS_THRESH) {
           mustDiscard = true;
-          _ref.playerMustDiscard(p.getID());
+          _ref.playerMustDiscard(p.getID(), p.getNumResourceCards()/2.0);
           message += String.format(" %s must discard cards", p.getName());
         }
       }
       if (mustDiscard) {
         message += ".";
         for (Player p : _ref.getPlayers()) {
-          if (_ref.playerHasDiscarded(p.getID())) {
+          if (playersToDrop.contains(p.getID())) {
             toRet.put(p.getID(), new ActionResponse(true,
                 "7 was rolled. You must drop half of your cards.", "dropCards",
                 null));
