@@ -49,6 +49,13 @@ public class Turn {
     return Collections.unmodifiableMap(_mustDiscard);
   }
 
+  public double getMustDiscard(int playerID) {
+    if(_mustDiscard.containsKey(playerID)){
+      return _mustDiscard.get(playerID);
+    }
+    return 0.0;
+  }
+
   public boolean devHasBeenPlayed() {
     return _devHasBeenPlayed;
   }

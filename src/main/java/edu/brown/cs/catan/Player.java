@@ -64,4 +64,6 @@ public interface Player {
 
   boolean canBuildSettlement();
 
+  boolean hasResource(Resource res, double count);
+
 }

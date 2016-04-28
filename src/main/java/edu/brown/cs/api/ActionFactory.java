@@ -9,7 +9,9 @@ import edu.brown.cs.actions.BuildCity;
 import edu.brown.cs.actions.BuildRoad;
 import edu.brown.cs.actions.BuildSettlement;
 import edu.brown.cs.actions.BuyDevelopmentCard;
+import edu.brown.cs.actions.DropCards;
 import edu.brown.cs.actions.EmptyAction;
+import edu.brown.cs.actions.MoveRobber;
 import edu.brown.cs.actions.PlayMonopoly;
 import edu.brown.cs.actions.PlayYearOfPlenty;
 import edu.brown.cs.actions.RollDice;
@@ -21,6 +23,7 @@ import edu.brown.cs.catan.Referee;
 public class ActionFactory {
 
   private Referee _referee;
+  private final Gson GSON = new Gson();
 
   public ActionFactory(Referee referee) {
     assert referee != null;
@@ -29,7 +32,7 @@ public class ActionFactory {
   }
 
   private JsonObject convertFromStringToJson(String string) {
-    return new Gson().fromJson(string, JsonObject.class);
+    return GSON.fromJson(string, JsonObject.class);
   }
 
   public Action createAction(String json) {
@@ -73,6 +76,18 @@ public class ActionFactory {
         return new BuyDevelopmentCard(_referee, playerID);
       case "rollDice":
         return new RollDice(_referee, playerID);
+      case "dropCards":
+        return new DropCards(_referee, playerID, actionJSON.get("toDrop")
+            .getAsJsonObject());
+      case "moveRobber":
+        int x = actionJSON.get("newLocation").getAsJsonObject().get("x")
+            .getAsInt();
+        int y = actionJSON.get("newLocation").getAsJsonObject().get("y")
+            .getAsInt();
+        int z = actionJSON.get("newLocation").getAsJsonObject().get("z")
+            .getAsInt();
+        HexCoordinate newLocation = new HexCoordinate(x, y, z);
+        return new MoveRobber(_referee, playerID, newLocation);
       case "playMonopoly":
         return new PlayMonopoly(_referee, playerID, actionJSON.get("resource")
             .getAsString());

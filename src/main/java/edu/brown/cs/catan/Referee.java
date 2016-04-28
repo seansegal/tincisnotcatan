@@ -23,6 +23,8 @@ public interface Referee {
 
   DevelopmentCard getDevCard();
 
+  GameSettings getGameSettings();
+
   Referee getReadOnlyReferee();
 
   void playerMustDiscard(int player, double amount);

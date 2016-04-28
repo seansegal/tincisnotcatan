@@ -225,6 +225,11 @@ public class MasterReferee implements Referee {
     return _isSetUp;
   }
 
+  @Override
+  public GameSettings getGameSettings() {
+    return _gameSettings;
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -342,6 +347,11 @@ public class MasterReferee implements Referee {
     public void playerMustDiscard(int player, double amount) {
       throw new UnsupportedOperationException(
           "A ReadOnlyReferee cannot change playerMustDiscard.");
+    }
+
+    @Override
+    public GameSettings getGameSettings() {
+      return _referee.getGameSettings();
     }
 
   }

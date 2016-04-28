@@ -132,10 +132,13 @@ public class RollDice implements Action {
         if (p.getNumResourceCards() > Settings.DROP_CARDS_THRESH) {
           mustDiscard = true;
           double numToDrop = p.getNumResourceCards() / 2.0;
-          _ref.playerMustDiscard(p.getID(), numToDrop);
+          if(!_ref.getGameSettings().isDecimal){
+            numToDrop = Math.floor(numToDrop);
+          }
           playersToDrop.add(p.getID());
           message += String.format(" %s must discard cards", p.getName());
           JsonObject jsonForPlayer = new JsonObject();
+          _ref.playerMustDiscard(_player.getID(), numToDrop);
           jsonForPlayer.addProperty("numToDrop", numToDrop);
           jsonToSend.put(p.getID(), jsonForPlayer);
         }
