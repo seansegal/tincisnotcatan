@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.PrimitiveIterator;
 import java.util.Random;
 
+import com.google.gson.JsonObject;
+
 import edu.brown.cs.board.Tile;
 import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.Player;
@@ -124,18 +126,25 @@ public class RollDice implements Action {
       // 7 is rolled:
       List<Integer> playersToDrop = new ArrayList<>();
       boolean mustDiscard = false;
+      Map<Integer, JsonObject> jsonToSend = new HashMap<>();
       String message = "7 was rolled.";
       for (Player p : _ref.getPlayers()) {
         if (p.getNumResourceCards() > Settings.DROP_CARDS_THRESH) {
           mustDiscard = true;
-          _ref.playerMustDiscard(p.getID(), p.getNumResourceCards() / 2.0);
+          double numToDrop = p.getNumResourceCards() / 2.0;
+          _ref.playerMustDiscard(p.getID(), numToDrop);
+          playersToDrop.add(p.getID());
           message += String.format(" %s must discard cards", p.getName());
+          JsonObject jsonForPlayer = new JsonObject();
+          jsonForPlayer.addProperty("numToDrop", numToDrop);
+          jsonToSend.put(p.getID(), jsonForPlayer);
         }
       }
       if (mustDiscard) {
         message += ".";
         for (Player p : _ref.getPlayers()) {
           if (playersToDrop.contains(p.getID())) {
+            System.out.println(p.getID() + " must drop cards. AHHH");
             toRet.put(p.getID(), new ActionResponse(true,
                 "7 was rolled. You must drop half of your cards.", "dropCards",
                 null));
