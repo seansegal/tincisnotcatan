@@ -2,7 +2,11 @@ package edu.brown.cs.actions;
 
 import java.util.Map;
 
-public class TakeCardAction implements Action{
+import com.google.gson.JsonObject;
+
+import edu.brown.cs.catan.Referee;
+
+public class TakeCardAction implements Action, FollowUpAction{
 
   public final static String ID = "takeCard";
 
@@ -10,6 +14,30 @@ public class TakeCardAction implements Action{
   public Map<Integer, ActionResponse> execute() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public JsonObject getData() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getID() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public int getPlayerID() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public void setupAction(Referee ref, int playerID, JsonObject params) {
+    // TODO Auto-generated method stub
+
   }
 
 }

@@ -96,13 +96,12 @@ public class CatanAPI implements API {
       throw new IllegalArgumentException("Input cannot be null.");
     }
     try {
-      Map<Integer, ActionResponse> response = _actionFactory.createAction(
+      Map<Integer, ActionResponse> responses = _actionFactory.createAction(
           action).execute();
-      Map<Integer, String> followUps = _referee.getTurn().getNextFollowUp();
-      for (Map.Entry<Integer, String> followUp : followUps.entrySet()) {
-        response.get(followUp.getKey()).addFollowUp(followUp.getValue());
+      for(Map.Entry<Integer, ActionResponse> response : responses.entrySet()){
+        response.getValue().addFollowUp(_referee.getNextFollowUp(response.getKey()));
       }
-      return _converter.responseToJSON(response);
+      return _converter.responseToJSON(responses);
     } catch (IllegalArgumentException e) {
       System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());
       JsonObject json = new JsonObject();
@@ -117,13 +116,12 @@ public class CatanAPI implements API {
       throw new IllegalArgumentException("Input cannot be null.");
     }
     try {
-      Map<Integer, ActionResponse> response = _actionFactory.createAction(
+      Map<Integer, ActionResponse> responses = _actionFactory.createAction(
           action).execute();
-      Map<Integer, String> followUps = _referee.getTurn().getNextFollowUp();
-      for (Map.Entry<Integer, String> followUp : followUps.entrySet()) {
-        response.get(followUp.getKey()).addFollowUp(followUp.getValue());
+      for(Map.Entry<Integer, ActionResponse> response : responses.entrySet()){
+        response.getValue().addFollowUp(_referee.getNextFollowUp(response.getKey()));
       }
-      return _converter.responseToJSON(response);
+      return _converter.responseToJSON(responses);
     } catch (IllegalArgumentException e) {
       System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());
       JsonObject json = new JsonObject();

@@ -3,14 +3,17 @@ package edu.brown.cs.catan;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonObject;
 
-import edu.brown.cs.actions.DropCards;
+import edu.brown.cs.actions.ActionResponse;
+import edu.brown.cs.actions.FollowUpAction;
 
 public class TurnTest {
 
@@ -19,17 +22,6 @@ public class TurnTest {
     Turn turn = new Turn(1);
     assertTrue(turn != null);
     assertTrue(turn.getTurnNum() == 1);
-  }
-
-  @Test
-  public void testMustDiscard() {
-    Turn turn = new Turn(1);
-    assertTrue(turn.getMustDiscard(0) == 0.0);
-    turn.setMustDiscard(0, 5.4);
-    assertTrue(turn.getMustDiscard(0) == 5.4);
-    turn.setMustDiscard(1, 4.3);
-    assertTrue(turn.getMustDiscard().get(0) == 5.4);
-    assertTrue(turn.getMustDiscard().get(1) == 4.3);
   }
 
   @Test
@@ -52,41 +44,51 @@ public class TurnTest {
   }
 
   @Test
-  public void followUpTest(){
-    Turn t = new Turn(1);
-    t.addFollowUp(ImmutableMap.of(0, DropCards.ID));
-    assertTrue(t.getNextFollowUp().containsKey(0));
-    assertTrue(t.getCopy().getNextFollowUp().containsKey(0));
+  public void testBasicFollowUp(){
+    Turn turn = new Turn(1);
+    assertFalse(turn.waitingForFollowUp());
+    Collection<FollowUpAction> followUp = ImmutableList.of(new TestFollowUp(0));
+    turn.addFollowUp(followUp);
+    assertTrue(turn.waitingForFollowUp());
   }
 
-  @Test
-  public void addMultipleFollowUpsTest(){
-    Turn t = new Turn(1);
-    Map<Integer, String> followUps = ImmutableMap.of(1, "doOne", 2, "doTwo", 3, "doThree");
-    t.addFollowUp(followUps);
-    assertTrue(t.getCopy().getNextFollowUp().equals(followUps));
-    Map<Integer, String> followUpsAfter = ImmutableMap.of(1, "doOneMore", 4, "doFour");
-    t.addFollowUp(followUpsAfter);
-    assertTrue(t.getCopy().getNextFollowUp().equals(followUps));
+  private static class TestFollowUp implements FollowUpAction{
+
+    private int player;
+
+    public TestFollowUp(int player){
+      this.player = player;
+    }
+
+    @Override
+    public Map<Integer, ActionResponse> execute() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public JsonObject getData() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public String getID() {
+      return "testAction";
+    }
+
+    @Override
+    public int getPlayerID() {
+      return this.player;
+    }
+
+    @Override
+    public void setupAction(Referee ref, int playerID, JsonObject params) {
+      // TODO Auto-generated method stub
+    }
+
   }
 
-  @Test
-  public void removeFollowUpTests(){
-    Turn t = new Turn(1);
-    Map<Integer, String> followUps = ImmutableMap.of(1, "doOne", 2, "doTwo", 3, "doThree");
-    t.addFollowUp(followUps);
-    assertTrue(t.getCopy().getNextFollowUp().equals(followUps));
-    Map<Integer, String> followUpsAfter = ImmutableMap.of(1, "doOneMore", 4, "doFour");
-    t.addFollowUp(followUpsAfter);
-    assertTrue(t.getCopy().getNextFollowUp().equals(followUps));
-    t.removeFollowUp(1, "doOne");
-    assertTrue(t.getNextFollowUp().containsKey(2));
-    t.removeFollowUp(2, "doTwo");
-    assertTrue(t.getNextFollowUp().containsKey(3));
-    assertFalse(t.getNextFollowUp().containsKey(4));
-    t.removeFollowUp(3, "doThree");
-    assertTrue(t.getNextFollowUp().containsKey(1));
-    assertTrue(t.getNextFollowUp().containsKey(4));
-    assertTrue(t.getCopy().getNextFollowUp().equals(followUpsAfter));
-  }
 }
+
+
