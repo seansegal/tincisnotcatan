@@ -2,8 +2,10 @@ package edu.brown.cs.actions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import edu.brown.cs.board.HexCoordinate;
+import edu.brown.cs.board.Tile;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
@@ -26,15 +28,21 @@ public class MoveRobber implements Action {
   @Override
   public Map<Integer, ActionResponse> execute() {
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
+    Set<Player> playersOnTile = null;
     try {
-      _ref.getBoard().moveRobber(_newLocation);
+      playersOnTile = _ref.getBoard().moveRobber(_newLocation);
     } catch (IllegalArgumentException e) {
       ActionResponse toAdd = new ActionResponse(false,
           "Please choose a new location", null);
       toRet.put(_player.getID(), toAdd);
       return toRet;
     }
-    // TODO waiting on FollowUpResponse Class from Sean
-    return null;
+    for(Tile t : _ref.getBoard().getTiles()) {
+      if(t.getCoordinate().equals(_newLocation));
+    }
+    ActionResponse toAdd = new ActionResponse(true,
+        "Please choose a new location", "TakeCardAction", playersOnTile);
+    toRet.put(_player.getID(), toAdd);
+    return toRet;
   }
 }

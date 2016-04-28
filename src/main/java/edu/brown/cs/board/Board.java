@@ -21,7 +21,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Settings;
 
 public class Board {
@@ -275,14 +277,17 @@ public class Board {
     return null;
   }
 
-  public void moveRobber(HexCoordinate coord) {
+  public Set<Player> moveRobber(HexCoordinate coord) {
+    Set<Player> playersOnTile = null;
     for (Tile t : _tiles) {
       if (t.hasRobber()) {
         assert !t.getCoordinate().equals(coord);
         t.hasRobber(false);
       } else if (t.getCoordinate().equals(coord)) {
         t.hasRobber(true);
+        playersOnTile = t.getPlayersOnTile();
       }
     }
+    return playersOnTile;
   }
 }
