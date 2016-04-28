@@ -204,7 +204,10 @@ Tile.prototype.draw = function(transX, transY, scale) {
 		numberCircle.click(function(event) {
 			moveRobberMode = false;
 			sendMoveRobberAction(that.coordinates);
+			board.draw();
 		});
+	} else {
+		numberCircle.removeClass("number-circle-highlighted");
 	}
 }
 
