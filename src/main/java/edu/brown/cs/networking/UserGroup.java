@@ -61,6 +61,7 @@ public class UserGroup implements Timestamped {
       return false; // we're full, don't give me any more users.
     }
     u.setUserID(api.addPlayer("")); // TODO: We need to remove those player attributes.
+    //u.setUserID(api.addPlayer(u.getFieldsAsJson()));
     users.add(u);
     return true;
     // regardless of whether or not u was present in the set already,
