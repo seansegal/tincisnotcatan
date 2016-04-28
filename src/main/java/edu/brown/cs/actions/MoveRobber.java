@@ -1,5 +1,6 @@
 package edu.brown.cs.actions;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -9,8 +10,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import edu.brown.cs.board.HexCoordinate;
-import edu.brown.cs.board.Tile;
-import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
 public class MoveRobber implements FollowUpAction {
@@ -28,29 +27,33 @@ public class MoveRobber implements FollowUpAction {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    if(! _isSetup){
-      throw new UnsupportedOperationException("An unsetup action cannot be executed");
+    if (!_isSetup) {
+      throw new UnsupportedOperationException(
+          "An unsetup action cannot be executed");
     }
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
-    Set<Player> playersOnTile = null;
+    Set<Integer> playersOnTile = Collections.emptySet();
     try {
       playersOnTile = _ref.getBoard().moveRobber(_newLocation);
     } catch (IllegalArgumentException e) {
+      System.out.println("REACHED!");
       ActionResponse toAdd = new ActionResponse(false,
           "Please choose a new location", null);
       toRet.put(_playerID, toAdd);
       return toRet;
     }
-    for (Tile t : _ref.getBoard().getTiles()) {
-      if (t.getCoordinate().equals(_newLocation)) {
-        // TODO: Ansel finish Action.
-      }
-    }
+    // for (Tile t : _ref.getBoard().getTiles()) {
+    // if (t.getCoordinate().equals(_newLocation)) {
+    // // TODO: Ansel finish Action.
+    // }
+    // }
     _ref.removeFollowUp(this);
-    FollowUpAction followUp = new TakeCardAction(_playerID, ImmutableList.of(0)); // TODO!
-    _ref.addFollowUp(ImmutableList.of(followUp));
-    ActionResponse toAdd = new ActionResponse(true,
-        "Please choose a new location", playersOnTile);
+    if (!playersOnTile.isEmpty()) {
+      FollowUpAction followUp = new TakeCardAction(_playerID, playersOnTile); // TODO!
+      _ref.addFollowUp(ImmutableList.of(followUp));
+    }
+    ActionResponse toAdd = new ActionResponse(true, "You moved the Robber.",
+        playersOnTile);
     toRet.put(_playerID, toAdd);
     return toRet;
   }

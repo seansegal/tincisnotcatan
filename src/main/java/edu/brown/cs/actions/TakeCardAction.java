@@ -1,7 +1,7 @@
 package edu.brown.cs.actions;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
@@ -17,11 +17,11 @@ public class TakeCardAction implements Action, FollowUpAction {
   public final static String ID = "takeCard";
   private final int _playerID;
   private boolean _isSetup;
-  private List<Integer> _toTake;
+  private Collection<Integer> _toTake;
   private int _playerToTake;
   private Referee _ref;
 
-  public TakeCardAction(int playerID, List<Integer> toTake) {
+  public TakeCardAction(int playerID, Collection<Integer> toTake) {
     assert toTake.size() > 0;
     _isSetup = false;
     _playerID = playerID;

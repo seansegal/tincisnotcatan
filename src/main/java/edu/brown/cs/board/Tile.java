@@ -12,7 +12,6 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Resource;
 
 public class Tile implements BoardTile {
@@ -23,7 +22,7 @@ public class Tile implements BoardTile {
   private boolean _hasRobber;
   private List<IntersectionCoordinate> _portLocations;
   private Resource _portType;
-  
+
   public Tile(int rollNum, HexCoordinate coordinate,
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, TileType type) {
@@ -60,7 +59,7 @@ public class Tile implements BoardTile {
   }
 
   private void fillSeaTile(Map<IntersectionCoordinate, Intersection> intersections) {
-    PriorityQueue<IntersectionCoordinate> closestIntersections = 
+    PriorityQueue<IntersectionCoordinate> closestIntersections =
         new PriorityQueue<>(6, new IntersectionComparator());
 
     HexCoordinate upLeftTile = new HexCoordinate(_coordinate.getX(),
@@ -108,7 +107,7 @@ public class Tile implements BoardTile {
       double o2X = averagePositionX(o2);
       double o1Y = averagePositionY(o1);
       double o2Y = averagePositionY(o2);
-      
+
       return Double.compare(Math.pow(o1X, 2) + Math.pow(o1Y, 2),
           Math.pow(o2X, 2) + Math.pow(o2Y, 2));
     }
@@ -143,7 +142,7 @@ public class Tile implements BoardTile {
         _coordinate.getY(), _coordinate.getZ());
     HexCoordinate leftTile = new HexCoordinate(_coordinate.getX() + 1,
         _coordinate.getY(), _coordinate.getZ() + 1);
-    
+
     IntersectionCoordinate top = new IntersectionCoordinate(_coordinate,
         upLeftTile, upRightTile);
     IntersectionCoordinate upRight = new IntersectionCoordinate(_coordinate,
@@ -163,7 +162,7 @@ public class Tile implements BoardTile {
     fillIntersections(intersections, bottom);
     fillIntersections(intersections, lowerLeft);
     fillIntersections(intersections, upLeft);
-    
+
     fillPaths(intersections.get(top), intersections.get(upRight), paths);
     fillPaths(intersections.get(upRight), intersections.get(lowerRight), paths);
     fillPaths(intersections.get(lowerRight), intersections.get(bottom), paths);
@@ -246,7 +245,7 @@ public class Tile implements BoardTile {
   public Collection<Intersection> getIntersections() {
     return _intersections;
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Tile) {
@@ -294,14 +293,14 @@ public class Tile implements BoardTile {
   }
 
   @Override
-  public Set<Player> getPlayersOnTile() {
-    Set<Player> players = new HashSet<Player>();
+  public Set<Integer> getPlayersOnTile() {
+    Set<Integer> players = new HashSet<>();
     for (Intersection i : _intersections) {
       if (i.getBuilding() != null) {
-        players.add(i.getBuilding().getPlayer());
+        players.add(i.getBuilding().getPlayer().getID());
       }
     }
-    Set<Player> toRet = new ImmutableSet.Builder<Player>()
+    Set<Integer> toRet = new ImmutableSet.Builder<Integer>()
         .addAll(players).build();
     return toRet;
   }

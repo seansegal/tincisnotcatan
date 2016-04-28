@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Settings;
 
 public class Board {
@@ -70,10 +69,6 @@ public class Board {
       coords.add(new HexCoordinate(twoThree[0], twoThree[1], twoThree[2]));
     }
     return coords;
-  }
-
-  public static void main(String[] args) {
-    Board b = new Board();
   }
 
   private boolean permute(int[] data) {
@@ -248,7 +243,8 @@ public class Board {
     for (HexCoordinate hc : seaCoords) {
       Tile seaTile = new Tile(hc, SEA, _intersections);
       if (PORT_LOCATION.contains(hc)) {
-        seaTile.setPorts(new Port(Settings.PORT_ORDER[PORT_LOCATION.indexOf(hc)]));
+        seaTile.setPorts(new Port(
+            Settings.PORT_ORDER[PORT_LOCATION.indexOf(hc)]));
         i++;
       }
       _tiles.add(seaTile);
@@ -277,11 +273,14 @@ public class Board {
     return null;
   }
 
-  public Set<Player> moveRobber(HexCoordinate coord) {
-    Set<Player> playersOnTile = null;
+  public Set<Integer> moveRobber(HexCoordinate coord) {
+    Set<Integer> playersOnTile = Collections.emptySet();
     for (Tile t : _tiles) {
       if (t.hasRobber()) {
-        assert !t.getCoordinate().equals(coord);
+        if (t.getCoordinate().equals(coord)) {
+          throw new IllegalArgumentException(
+              "The robber must be moved to a new location.");
+        }
         t.hasRobber(false);
       } else if (t.getCoordinate().equals(coord)) {
         t.hasRobber(true);
