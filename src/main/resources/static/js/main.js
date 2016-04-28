@@ -234,40 +234,49 @@ $("#dev-card-buy-btn").click(sendBuyDevCardAction);
 // Monopoly Modal 
 //////////////////////////////////////////
 
-var selectedMonopolyResource = null;
-var selectedElement;
+function openMonopolyModal() {
+	var selectedMonopolyResource = null;
+	var selectedElement;
 
-$(".monopoly-circle").click(function(event) {
-	var element = $(event.target);
+	$("#play-monopoly-btn").prop("disabled", true);
 
-	// Unhighlight previously selected resource, if one was previously selected
-	if (selectedElement) {
-		selectedElement.removeClass("highlighted-monopoly-circle");
-	}
+	$(".monopoly-circle").click(function(event) {
+		var element = $(event.target);
 
-	// Highlight this resource
-	selectedElement = element.parents(".monopoly-circle-container");
-	selectedElement.addClass("highlighted-monopoly-circle");
+		// Unhighlight previously selected resource, if one was previously selected
+		if (selectedElement) {
+			selectedElement.removeClass("highlighted-monopoly-circle");
+		}
 
-	selectedMonopolyResource = selectedElement.attr("res");
-});
+		// Highlight this resource
+		selectedElement = element.parents(".monopoly-circle-container");
+		selectedElement.addClass("highlighted-monopoly-circle");
 
-$("#play-monopoly-btn").click(function(event) {
-	if (selectedMonopolyResource) {
-		sendPlayMonopolyAction(selectedMonopolyResource);
-		$("#monopoly-modal").modal("hide");
-	}
-});
+		selectedMonopolyResource = selectedElement.attr("res");
+		$("#play-monopoly-btn").prop("disabled", false);
+	});
 
-$("#monopoly-modal").on("hide.bs.modal", function(event) {
- 	// Unhighlight previously selected resource, if one was previously selected
-	if (selectedElement) {
-		selectedElement.removeClass("highlighted-monopoly-circle");
-	}
+	$("#play-monopoly-btn").click(function(event) {
+		if (selectedMonopolyResource) {
+			sendPlayMonopolyAction(selectedMonopolyResource);
+			$("#monopoly-modal").modal("hide");
+		}
+	});
 
-	selectedMonopolyResource = null;
-	selectedElement = null;
-});
+	$("#monopoly-modal").on("hide.bs.modal", function(event) {
+		// Clean up event handlers
+		$(".monopoly-circle").off("click");
+		$("#play-monopoly-btn").off("click");
+		$("#monopoly-modal").off("hide.bs.modal");
+
+	 	// Unhighlight previously selected resource, if one was previously selected
+		if (selectedElement) {
+			selectedElement.removeClass("highlighted-monopoly-circle");
+		}
+	});
+}
+
+$("#monopoly-btn").click(openMonopolyModal);
 
 //////////////////////////////////////////
 // Year of Plenty Modal
