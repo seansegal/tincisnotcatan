@@ -11,16 +11,16 @@ public class MasterRefereeTest {
   public void testConstruction() {
     Referee ref = new MasterReferee();
     assertTrue(ref != null);
-    assertFalse(ref.devHasBeenPlayed());
-    assertTrue(ref.getTurn() == 1);
+    assertFalse(ref.getTurn().devHasBeenPlayed());
+    assertTrue(ref.getTurn().getTurnNum() == 1);
   }
 
   @Test
   public void startNextTurnTest() {
     Referee ref = new MasterReferee();
-    assertTrue(ref.getTurn() == 1);
+    assertTrue(ref.getTurn().getTurnNum() == 1);
     ref.startNextTurn();
-    assertTrue(ref.getTurn() == 2);
+    assertTrue(ref.getTurn().getTurnNum() == 2);
   }
 
   @Test

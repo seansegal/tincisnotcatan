@@ -11,10 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import edu.brown.cs.board.Board;
 
@@ -23,24 +21,21 @@ public class MasterReferee implements Referee {
   private final Board _board;
   private final Map<Integer, Player> _players;
   private final Map<Integer, Integer> _turnOrder;
-  private int _turn;
+  private Turn _turn;
   private final Bank _bank;
   private final List<DevelopmentCard> _devCardDeck;
-  private Set<Player> _mustDiscard;
-  private boolean _devHasBeenPlayed;
-  private int _numFullPlayers;
+  private final GameSettings _gameSettings;
   private Player _largestArmy = null;
   private boolean _isSetUp = true;
 
   public MasterReferee() {
     _board = new Board();
-    _numFullPlayers = 4; // TODO: take in as parameter
+    _gameSettings = new GameSettings(); // TODO customize
     _players = new HashMap<Integer, Player>();
-    _turnOrder = initializeTurnOrder(_numFullPlayers);
-    _turn = 1;
+    _turnOrder = initializeTurnOrder(_gameSettings.NUM_PLAYERS);
+    _turn = new Turn(1);
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
-    _mustDiscard = new HashSet<>();
   }
 
   private Map<Integer, Integer> initializeTurnOrder(int numFullPlayers) {
@@ -58,19 +53,16 @@ public class MasterReferee implements Referee {
 
   @Override
   public void startNextTurn() {
-    _turn++;
-    _devHasBeenPlayed = false;
-    _mustDiscard = new HashSet<>();
-  }
-
-  @Override
-  public boolean devHasBeenPlayed() {
-    return _devHasBeenPlayed;
+    _turn = new Turn(_turn.getTurnNum() + 1);
   }
 
   @Override
   public Player currentPlayer() {
-    return _players.get(_turnOrder.get(_turn % _players.size()));
+    if (_players.size() != _gameSettings.NUM_PLAYERS) {
+      return null;
+    }
+    return _players.get(_turnOrder.get(_turn.getTurnNum()
+        % _gameSettings.NUM_PLAYERS));
   }
 
   @Override
@@ -114,8 +106,8 @@ public class MasterReferee implements Referee {
   }
 
   @Override
-  public int getTurn() {
-    return _turn;
+  public Turn getTurn() {
+    return _turn.getCopy();
   }
 
   @Override
@@ -135,25 +127,12 @@ public class MasterReferee implements Referee {
 
   @Override
   public void playDevCard() {
-    _devHasBeenPlayed = true;
-
+    _turn.setDevCardHasBeenPlayed();
   }
 
   @Override
-  public void playerDiscarded(int id) {
-    _mustDiscard.remove(getPlayerByID(id));
-
-  }
-
-  @Override
-  public void playerMustDiscard(int id) {
-    _mustDiscard.add(getPlayerByID(id));
-  }
-
-  @Override
-  public boolean playerHasDiscarded(int id) {
-    Player player = getPlayerByID(id);
-    return _mustDiscard.contains(player);
+  public void playerMustDiscard(int id, double amount) {
+    _turn.setMustDiscard(id, amount);
   }
 
   @Override
@@ -212,13 +191,12 @@ public class MasterReferee implements Referee {
     for (Map.Entry<Resource, Double> r : _bank.getPortRates().entrySet()) {
       // TODO: check if player has port
     }
-
     return rates;
   }
 
   @Override
   public int addPlayer(String name, String color) {
-    if (_turn == 1) {
+    if (_turn.getTurnNum() == 1) {
       int id = _players.size();
       _players.put(id, new HumanPlayer(id, name, color));
       return id;
@@ -229,7 +207,7 @@ public class MasterReferee implements Referee {
 
   @Override
   public boolean gameIsFull() {
-    return _numFullPlayers == _players.size();
+    return _gameSettings.NUM_PLAYERS == _players.size();
   }
 
   @Override
@@ -257,11 +235,6 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public boolean devHasBeenPlayed() {
-      return _referee.devHasBeenPlayed();
-    }
-
-    @Override
     public DevelopmentCard getDevCard() {
       throw new UnsupportedOperationException(
           "A ReadOnlyReferee cannot draw from the dev card deck.");
@@ -273,13 +246,8 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public int getTurn() {
+    public Turn getTurn() {
       return _referee.getTurn();
-    }
-
-    @Override
-    public boolean playerHasDiscarded(int player) {
-      return _referee.playerHasDiscarded(player);
     }
 
     @Override
@@ -305,19 +273,6 @@ public class MasterReferee implements Referee {
     public void playDevCard() {
       throw new UnsupportedOperationException(
           "ReadOnlyReferee cannot play development cards.");
-
-    }
-
-    @Override
-    public void playerDiscarded(int player) {
-      throw new UnsupportedOperationException(
-          "ReadOnlyReferee cannot set discard flag.");
-    }
-
-    @Override
-    public void playerMustDiscard(int player) {
-      throw new UnsupportedOperationException(
-          "ReadOnlyReferee cannot set discard flag.");
 
     }
 
@@ -370,6 +325,12 @@ public class MasterReferee implements Referee {
     @Override
     public boolean isSetUp() {
       return _referee.isSetUp();
+    }
+
+    @Override
+    public void playerMustDiscard(int player, double amount) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot change playerMustDiscard.");
     }
 
   }
