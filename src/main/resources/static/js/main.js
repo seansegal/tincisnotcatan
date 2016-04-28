@@ -462,3 +462,21 @@ var moveRobberMode = false;
 function highlightRobbableTiles() {
 	moveRobberMode = true;
 }
+
+//////////////////////////////////////////
+// Take Card Modal
+//////////////////////////////////////////
+
+function enterTakeCardModal(playerIds) {
+	var toStealFrom = null;
+
+	$("#take-card-players-list").empty();
+
+	for (var i = 0; i < playerIds.length; i++) {
+		var player = playersById[playerIds[i]];
+		$("#take-card-players-list").append("<label class='btn btn-default'>"
+				+ "<input type='radio' name='options' id='option2' autocomplete='off'>" + player.name + "</label>");
+	}
+
+	$("#take-card-modal").modal("show");
+}
