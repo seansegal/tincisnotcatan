@@ -7,13 +7,15 @@ import java.util.List;
 import org.eclipse.jetty.websocket.api.Session;
 
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
 
 public final class User {
 
-  private Session          session;
-  private List<HttpCookie> cookies;
-  private Integer          userID;
-  private JsonObject       values;
+  private Session session;
+  private List<HttpCookie>  cookies;
+  @Expose
+  private Integer           userID;
+  private JsonObject        values;
 
 
   public User(Session s, List<HttpCookie> cookies) {

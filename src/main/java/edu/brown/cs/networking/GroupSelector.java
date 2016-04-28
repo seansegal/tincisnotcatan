@@ -8,6 +8,6 @@ import java.util.Collection;
 // returns null if no such group fits the parameters specified.
 public interface GroupSelector {
 
-  UserGroup selectFor(User u, Collection<UserGroup> coll);
+  Group selectFor(User u, Collection<Group> coll);
 
 }

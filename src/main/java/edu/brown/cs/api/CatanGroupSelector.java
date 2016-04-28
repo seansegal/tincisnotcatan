@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import edu.brown.cs.networking.DistinctRandom;
+import edu.brown.cs.networking.Group;
 import edu.brown.cs.networking.GroupSelector;
 import edu.brown.cs.networking.RequestProcessor;
 import edu.brown.cs.networking.User;
-import edu.brown.cs.networking.UserGroup;
 import edu.brown.cs.networking.UserGroup.UserGroupBuilder;
 
 
@@ -26,9 +27,9 @@ public class CatanGroupSelector implements GroupSelector {
 
 
   @Override
-  public UserGroup selectFor(User u, Collection<UserGroup> coll) {
+  public Group selectFor(User u, Collection<Group> coll) {
     int desiredSize = Integer.parseInt(u.getField(NUM_PLAYERS));
-    for (UserGroup ug : coll) {
+    for (Group ug : coll) {
       if (!ug.isFull() && ug.maxSize() == desiredSize) {
         return ug;
       }
@@ -37,6 +38,7 @@ public class CatanGroupSelector implements GroupSelector {
         .withSize(desiredSize)
         .withRequestProcessors(
             Collections.unmodifiableCollection(catanProcessors))
+        .withUniqueIdentifier(DistinctRandom.getString())
         .build();
   }
 

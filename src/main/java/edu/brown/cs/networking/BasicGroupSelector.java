@@ -2,6 +2,7 @@ package edu.brown.cs.networking;
 
 import java.util.Collection;
 
+import edu.brown.cs.networking.Group;
 import edu.brown.cs.networking.UserGroup.UserGroupBuilder;
 
 // a simple sorter that takes no preferences of the end user into account,
@@ -9,8 +10,8 @@ import edu.brown.cs.networking.UserGroup.UserGroupBuilder;
 class BasicGroupSelector implements GroupSelector {
 
   @Override
-  public UserGroup selectFor(User u, Collection<UserGroup> coll) {
-    for(UserGroup ug : coll) {
+  public Group selectFor(User u, Collection<Group> coll) {
+    for(Group ug : coll) {
       if (!ug.isFull()) {
         return ug;
       }

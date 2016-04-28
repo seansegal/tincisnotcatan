@@ -1,3 +1,29 @@
+
+// ---------- Setup ---------- //
+
+//Establish the WebSocket connection and set up event handlers
+if (document.location.hostname == "localhost") {
+	// use http
+	webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/groups/");
+} else {
+	// we're on heroku - use https:
+	webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/groups/");
+}
+
+function heartbeat() {
+	var beat = "HEARTBEAT";
+	webSocket.send(JSON.stringify(beat));
+}
+
+webSocket.onopen = function () {
+	window.setInterval(heartbeat, 60 * 1000);
+};
+
+webSocket.onmessage = function (msg) {
+	console.log(msg.data);
+}
+
+
 function displayCookies() {
 	alert (document.cookie);
 }

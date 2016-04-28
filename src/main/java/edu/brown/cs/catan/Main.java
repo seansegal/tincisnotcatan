@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 import edu.brown.cs.api.CatanGroupSelector;
+import edu.brown.cs.networking.GCT;
 import edu.brown.cs.networking.GCT.GCTBuilder;
 import freemarker.template.Configuration;
 import spark.ModelAndView;
@@ -26,14 +27,21 @@ public class Main {
       System.getenv("HEROKU") != null ? "target/classes/static"
           : "src/main/resources/static";
 
+  private GCT gct;
+
 
   public static void main(String[] args) {
+    new Main().run();
+  }
+
+  private Main() {
     Spark.externalStaticFileLocation(STATIC_FILE_PATH);
     Spark.port(getHerokuAssignedPort());
     Spark.threadPool(NUM_THREADS, MIN_THREADS, TIMEOUT);
     // secure("", "", "", ""); // use this for https!
-    new GCTBuilder("/action")
+    gct = new GCTBuilder("/action")
         .withGroupSelector(new CatanGroupSelector())
+        .withGroupViewRoute("/groups")
         .build();
 
     Configuration config = new Configuration();
@@ -54,7 +62,9 @@ public class Main {
     // secure("", "", "", ""); // use this for https!
 
     Spark.init();
+  }
 
+  private void run() {
   }
 
 
