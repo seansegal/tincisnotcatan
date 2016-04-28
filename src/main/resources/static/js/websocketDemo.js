@@ -62,6 +62,8 @@ function handleActionResponse(data) {
     case "rollDice":
         handleRollDiceResponse(data);
         break;
+    case "moveRobber":
+        handleMoveRobberResponse(data);
 	default:
 		console.log("unknown action identifier");
 	}
@@ -119,6 +121,11 @@ function sendDropCardsAction(toDrop) {
 function sendMoveRobberAction(coord) {
     var dropReq = {requestType: "action", action: "moveRobber", newLocation: coord};
     webSocket.send(JSON.stringify(dropReq));
+}
+
+function sendTakeCardAction(playerId) {
+    var takeReq = {requestType: "action", action: "takeCard", player: playerId};
+    webSocket.send(JSON.stringify(takeReq));
 }
 
 
@@ -232,6 +239,16 @@ function handleRollDiceResponse(response) {
         case "moveRobber":
             highlightRobbableTiles();
             break;
+        default:
+            break;
+    }
+}
+
+function handleMoveRobberResponse(response) {
+    addMessage(response.content.message);
+    switch (response.content.followUpAction) {
+        case "takeCard":
+            enterTakeCardModal(response.content.data);
         default:
             break;
     }

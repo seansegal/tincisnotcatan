@@ -559,6 +559,26 @@
     	</div>
 	</div>
 </div>
+
+<div class="modal fade" id="take-card-modal" tabindex="-1" role="dialog" aria-labelledby="takeCardLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="takeCardLabel">Steal a Resource</h4>
+      		</div>
+      		<div class="modal-body">
+       			<p>Choose a player to steal a random resource from.</p>
+       			<div class="text-center btn-group" id="take-card-players-list" data-toggle="buttons">
+       				
+      			</div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-primary" id="take-card-btn">Steal Card</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>

@@ -7,13 +7,16 @@ import java.util.Set;
 
 import com.google.gson.JsonObject;
 
-public class UserGroup implements Timestamped {
+public class UserGroup implements Timestamped, Group {
 
 
   private Collection<RequestProcessor> reqs;
+
   private Set<User>                    users;
   private API                          api;
   private long                         initTime;
+
+  private String                       identifier;
 
   private final int                    desiredSize;
 
@@ -29,6 +32,7 @@ public class UserGroup implements Timestamped {
     // use the fields of the builder to setup
     this.reqs = b.reqs;
     this.desiredSize = b.desiredSize;
+    this.identifier = b.identifier;
     // default inits
     this.users = new HashSet<>();
 
@@ -44,8 +48,18 @@ public class UserGroup implements Timestamped {
   }
 
 
+  public String identifier() {
+    return identifier;
+  }
+
+
   public int maxSize() {
     return this.desiredSize;
+  }
+
+
+  public int currentSize() {
+    return users.size();
   }
 
 
@@ -58,9 +72,11 @@ public class UserGroup implements Timestamped {
     if (users.size() == desiredSize) {
       return false; // we're full, don't give me any more users.
     }
+
     u.setUserID(api.addPlayer(u.getFieldsAsJson()));
+
     users.add(u);
-    for(User other : users) {
+    for (User other : users) {
       JsonObject gs = api.getGameState(other.userID());
       gs.addProperty("requestType", "getGameState");
       other.message(gs);
@@ -78,7 +94,7 @@ public class UserGroup implements Timestamped {
 
 
   public boolean handleMessage(User u, JsonObject j) {
-    if(!users.contains(u)) {
+    if (!users.contains(u)) {
       System.out.println("Error : user not contained");
       return false;
     }
@@ -96,6 +112,7 @@ public class UserGroup implements Timestamped {
     private Collection<RequestProcessor> reqs;
     private int                          desiredSize = 1;
     private final Class<? extends API>   apiClass;
+    private String                       identifier  = null;
 
 
     public UserGroupBuilder(Class<? extends API> apiClass) {
@@ -122,6 +139,12 @@ public class UserGroup implements Timestamped {
     }
 
 
+    public UserGroupBuilder withUniqueIdentifier(String id) {
+      this.identifier = id;
+      return this;
+    }
+
+
     public UserGroup build() {
       return new UserGroup(this);
     }
@@ -138,5 +161,11 @@ public class UserGroup implements Timestamped {
   public void stampNow() {
     this.initTime = System.currentTimeMillis();
 
+  }
+
+
+  @Override
+  public boolean isEmpty() {
+    return users.isEmpty();
   }
 }

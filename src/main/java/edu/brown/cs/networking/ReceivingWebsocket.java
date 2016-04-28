@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -21,7 +20,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 @WebSocket
-public class ReceivingHandler {
+public class ReceivingWebsocket {
 
   // standing bugs : if a current user in a game goes back to home, and reenters
   // a name, their name doesn't change.
@@ -42,14 +41,14 @@ public class ReceivingHandler {
   private static final long       FIVE_MINUTES    = 5 * ONE_MINUTE;
 
 
-  public ReceivingHandler() {
+  public ReceivingWebsocket() {
     afkMap = new ConcurrentHashMap<>();
     timer = new Timer();
     TimerTask cleanup = new TimerTask() {
 
       @Override
       public void run() {
-        synchronized (ReceivingHandler.this) {
+        synchronized (ReceivingWebsocket.this) {
           long now = System.currentTimeMillis();
           for (User u : afkMap.keySet()) {
             if (now - afkMap.get(u) > FIVE_MINUTES) {
@@ -97,7 +96,7 @@ public class ReceivingHandler {
         return;
       }
       System.out.println("New session!");
-      String newid = UUID.randomUUID().toString();
+      String newid = DistinctRandom.getString();
       HttpCookie newCookie = new HttpCookie(USER_IDENTIFIER, newid);
       list.add(newCookie);
       User newUser = gct.register(session, list);
