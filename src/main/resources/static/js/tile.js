@@ -193,20 +193,23 @@ Tile.prototype.draw = function(transX, transY, scale) {
 		numberCircle.css("border", "solid 1px black");
 		numberCircle.addClass(type + "-color");
 	}
+
+	// Highlight if in move robber mode
+	numberCircle.off("click");
+
+	if (moveRobberMode && this.isRobbable()) {
+		numberCircle.addClass("number-circle-highlighted");
+		var that = this;
+		numberCircle.off("click");
+		numberCircle.click(function(event) {
+			moveRobberMode = false;
+			sendMoveRobberAction(that.coordinates);
+		});
+	}
 }
 
 Tile.prototype.isRobbable = function() {
 	return !(this.tileType === TILE_TYPE.SEA || this.hasRobber); 
-}
-
-Tile.prototype.highlight = function() {
-	var numberCircle = $("#" + this.id + "-wrapper").children(".number-circle");
-	console.log(numberCircle);
-	numberCircle.addClass("number-circle-highlighted");
-	var that = this;
-	numberCircle.click(function(event) {
-		console.log(that.coordinates);
-	});
 }
 
 function parseTile(tileData) {

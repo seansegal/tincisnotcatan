@@ -116,6 +116,11 @@ function sendDropCardsAction(toDrop) {
     webSocket.send(JSON.stringify(dropReq));
 }
 
+function sendMoveRobberAction(coord) {
+    var dropReq = {requestType: "action", action: "moveRobber", newLocation: coord};
+    webSocket.send(JSON.stringify(dropReq));
+}
+
 
 // ---------- RESPONSES ---------- //
 
