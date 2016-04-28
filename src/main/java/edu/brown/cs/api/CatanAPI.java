@@ -37,7 +37,9 @@ public class CatanAPI implements API {
 
   @Override
   public JsonObject getGameState(int playerID) {
-    return _converter.getGameState(_referee, playerID);
+    synchronized (this) {
+      return _converter.getGameState(_referee, playerID);
+    }
   }
 
   /**
@@ -57,13 +59,14 @@ public class CatanAPI implements API {
    */
   @Override
   public int addPlayer(JsonObject playerAttributes) {
-    try {
-      return _referee.addPlayer(playerAttributes.get("userName").getAsString());
-    } catch (JsonSyntaxException | NullPointerException e) {
-      throw new IllegalArgumentException(
-          "To add a player, you must have userName as a field.");
+    synchronized(this){
+      try {
+        return _referee.addPlayer(playerAttributes.get("userName").getAsString());
+      } catch (JsonSyntaxException | NullPointerException e) {
+        throw new IllegalArgumentException(
+            "To add a player, you must have userName as a field.");
+      }
     }
-
   }
 
   /**
@@ -74,7 +77,9 @@ public class CatanAPI implements API {
    * @return A boolean indicating that the game is full.
    */
   public boolean gameIsFull() {
-    return _referee.gameIsFull();
+    synchronized(this){
+      return _referee.gameIsFull();
+    }
   }
 
   /**
@@ -92,22 +97,26 @@ public class CatanAPI implements API {
    */
   @Override
   public Map<Integer, JsonObject> performAction(String action) {
-    if (action == null) {
-      throw new IllegalArgumentException("Input cannot be null.");
-    }
-    try {
-      Map<Integer, ActionResponse> responses = _actionFactory.createAction(
-          action).execute();
-      for(Map.Entry<Integer, ActionResponse> response : responses.entrySet()){
-        response.getValue().addFollowUp(_referee.getNextFollowUp(response.getKey()));
+    synchronized (this) {
+      if (action == null) {
+        throw new IllegalArgumentException("Input cannot be null.");
       }
-      return _converter.responseToJSON(responses);
-    } catch (IllegalArgumentException e) {
-      System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());
-      JsonObject json = new JsonObject();
-      json.add("requestError",
-          new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
-      return ImmutableMap.of(-1, json);
+      try {
+        Map<Integer, ActionResponse> responses = _actionFactory.createAction(
+            action).execute();
+        for (Map.Entry<Integer, ActionResponse> response : responses.entrySet()) {
+          response.getValue().addFollowUp(
+              _referee.getNextFollowUp(response.getKey()));
+        }
+        return _converter.responseToJSON(responses);
+      } catch (IllegalArgumentException e) {
+        System.out
+            .println("ERROR: Perform Action - " + e.getLocalizedMessage());
+        JsonObject json = new JsonObject();
+        json.add("requestError",
+            new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
+        return ImmutableMap.of(-1, json);
+      }
     }
   }
 
@@ -115,19 +124,24 @@ public class CatanAPI implements API {
     if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");
     }
-    try {
-      Map<Integer, ActionResponse> responses = _actionFactory.createAction(
-          action).execute();
-      for(Map.Entry<Integer, ActionResponse> response : responses.entrySet()){
-        response.getValue().addFollowUp(_referee.getNextFollowUp(response.getKey()));
+    synchronized (this) {
+      try {
+        Map<Integer, ActionResponse> responses = _actionFactory.createAction(
+            action).execute();
+        for (Map.Entry<Integer, ActionResponse> response : responses.entrySet()) {
+          response.getValue().addFollowUp(
+              _referee.getNextFollowUp(response.getKey()));
+        }
+        return _converter.responseToJSON(responses);
+      } catch (IllegalArgumentException e) {
+        System.out
+            .println("ERROR: Perform Action - " + e.getLocalizedMessage());
+        JsonObject json = new JsonObject();
+        json.add("requestError",
+            new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
+        return ImmutableMap.of(-1, json);
       }
-      return _converter.responseToJSON(responses);
-    } catch (IllegalArgumentException e) {
-      System.out.println("ERROR: Perform Action - " + e.getLocalizedMessage());
-      JsonObject json = new JsonObject();
-      json.add("requestError",
-          new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
-      return ImmutableMap.of(-1, json);
     }
   }
+
 }

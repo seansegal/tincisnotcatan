@@ -56,13 +56,12 @@ public class ActionFactory {
     }
     if (_referee.getTurn().waitingForFollowUp()) {
       FollowUpAction nextAction = _referee.getNextFollowUp(playerID);
-      if (action.equals(nextAction.getID())) {
+      if (nextAction != null && action.equals(nextAction.getID())) {
         // Set up the action:
         nextAction.setupAction(_referee, playerID, actionJSON);
         return nextAction;
       }
-      throw new IllegalArgumentException("WAITING ON ACTION: "
-          + nextAction.getID());
+      throw new IllegalArgumentException("WAITING ON ACTION");
     } else {
       try {
         switch (action) {

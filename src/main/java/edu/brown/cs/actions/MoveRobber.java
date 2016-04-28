@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import edu.brown.cs.board.HexCoordinate;
+import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
 public class MoveRobber implements FollowUpAction {
@@ -48,13 +49,23 @@ public class MoveRobber implements FollowUpAction {
     // }
     // }
     _ref.removeFollowUp(this);
-    if (!playersOnTile.isEmpty()) {
+    if (!playersOnTile.isEmpty()
+        || (playersOnTile.size() == 1 && playersOnTile.contains(_playerID))) {
       FollowUpAction followUp = new TakeCardAction(_playerID, playersOnTile); // TODO!
       _ref.addFollowUp(ImmutableList.of(followUp));
     }
-    ActionResponse toAdd = new ActionResponse(true, "You moved the Robber.",
+    ActionResponse toPlayer = new ActionResponse(true, "You moved the Robber.",
         playersOnTile);
-    toRet.put(_playerID, toAdd);
+    String messageToAll = String.format("%s moved the Robber", _ref
+        .getPlayerByID(_playerID).getName());
+    ActionResponse toAll = new ActionResponse(true, messageToAll, null);
+    for (Player p : _ref.getPlayers()) {
+      if (p.getID() == _playerID) {
+        toRet.put(p.getID(), toPlayer);
+      } else {
+        toRet.put(p.getID(), toAll);
+      }
+    }
     return toRet;
   }
 
