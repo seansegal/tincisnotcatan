@@ -2,6 +2,7 @@ package edu.brown.cs.actions;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,7 +43,14 @@ public class MoveRobber implements FollowUpAction {
       toRet.put(_playerID, toAdd);
       return toRet;
     }
-    playersOnTile.remove(_playerID);
+    // Remove the actual player:
+    Set<Integer> temp = new HashSet<>();
+    for (int player : playersOnTile) {
+      if (player != _playerID) {
+        temp.add(player);
+      }
+    }
+    playersOnTile = temp;
     _ref.removeFollowUp(this);
     if (!playersOnTile.isEmpty()) {
       FollowUpAction followUp = new TakeCardAction(_playerID, playersOnTile); // TODO!
