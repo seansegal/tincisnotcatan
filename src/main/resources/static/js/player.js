@@ -17,22 +17,41 @@ function Player(id, name, color) {
 }
 
 Player.prototype.addPlayerTab = function() {
-	$("#player-tabs").append("<li role='presentation'><a href='#p" + this.id + "-tab' aria-controls='home' "
+	$("#player-tabs").append("<li role='presentation' id='p" + this.id + "-tab-tab'><a href='#p" + this.id + "-tab' aria-controls='home' "
 			+ "role='tab' data-toggle='tab'>P" + this.id + "</a></li>");
-	$("#player-tabs-content").append("<div role='tabpanel' class='tab-pane' id='p" + this.id + "-tab'></div>");
+	$("#player-tabs-content").append("<div role='tabpanel' class='tab-pane player-tab-pane' id='p" + this.id + "-tab'></div>");
+
+	var tabTab = $("#p" + this.id + "-tab-tab");
+	tabTab.children().css("background-color", this.color);
+	tabTab.children().css("color", this.color);
 
 	var tab = $("#p" + this.id + "-tab");
 	tab.empty();
 	
-	tab.append("<p><strong>Name:</strong> " + this.name + "</p>");
-	tab.append("<div class='circle player-circle' style='background-color: " + this.color + "'></div>");
-	tab.append("<p><strong>Victory Points:</strong> " + this.victoryPoints + "</p>");
-	tab.append("<p><strong>Resource Cards:</strong> " + this.resourceCards + "</p>");
-	tab.append("<p><strong>Development Cards:</strong> " + this.developmentCards + "</p>");
-	tab.append("<p><strong>Played Knights:</strong> " + this.playedKnights + "</p>");
-	tab.append("<p><strong>Roads:</strong> " + this.roads + "</p>");
-	tab.append("<p><strong>Settlements:</strong> " + this.settlements + "</p>");
-	tab.append("<p><strong>Cities:</strong> " + this.cities + "</p>");
+	tab.append("<div class='player-name text-center'><h4>" + this.name + "</h4></div>");
+	tab.append("<h4 class='text-center'>" + this.victoryPoints 
+			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>");
+	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
+			+ "<h5 class='panel-title-small'>Hand</h5></div><div class='panel-body'>"
+			+ "<p><strong>Resource Cards:</strong> " + this.resourceCards + "</p>"
+			+ "<p><strong>Development Cards:</strong> " + this.developmentCards + "</p>"
+			+ "<p><strong>Played Knights:</strong> " + this.playedKnights + "</p></div></div>");
+	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
+			+ "<h5 class='panel-title-small'>Remaining Buildings</h5></div><div class='panel-body'"
+			+ "<p><strong>Roads:</strong> " + this.roads + "</p>"
+			+ "<p><strong>Settlements:</strong> " + this.settlements + "</p>"
+			+ "<p><strong>Cities:</strong> " + this.cities + "</p></div></div>");
+
+	// Modify color scheme to fit this player's color
+	var rgb = hexToRgb(this.color);
+	tab.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.2)");
+
+	var panels = $("#p" + this.id + "-tab .panel");
+	panels.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)")
+
+	var panelHeadings = panels.children(".panel-heading");
+	panelHeadings.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.4)")
+	panelHeadings.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)")
 }
 
 function parsePlayers(playersData) {
@@ -121,5 +140,13 @@ function fillPlayerTradeRates(rates) {
 	$("#wheat-trade-rate").text(createTradeRateText(rates.wheat));
 	$("#sheep-trade-rate").text(createTradeRateText(rates.sheep));
 	$("#wildcard-trade-rate").text(createTradeRateText(rates.wildcard));
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    var r = parseInt(result[1], 16);
+    var g = parseInt(result[2], 16);
+    var b = parseInt(result[3], 16);
+    return { r: r, g: g, b: b };
 }
 

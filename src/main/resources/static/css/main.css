@@ -110,19 +110,29 @@ body {
 	padding-left: 10px;
 }
 
-#right-menu-container {
-	padding-right: 0px;
-}
-
 /* Player tab */
 
-.player-circle {
-	height: 100px;
-	width: 100px;
+#player-tabs-content {
+	height: 100%;
 }
 
-#p0-tab, #p1-tab, #p2-tab, #p3-tab, #p4-tab {
-	padding-left: 10px;
+.player-tab-pane {
+	padding: 10px;
+	height: 100%;
+}
+
+.player-name {
+	margin-bottom: 15px;
+}
+
+.panel-title-small {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.player-tab-vp-icon {
+	height: 40px;
+	width: 40px;
 }
 
 /* Build tab */
