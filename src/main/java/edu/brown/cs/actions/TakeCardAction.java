@@ -39,6 +39,7 @@ public class TakeCardAction implements Action, FollowUpAction {
           "A FollowupAction must be setup before execution.");
     }
     if (!_toTake.contains(_playerToTake)) {
+      System.out.println("HERE with toTake: " + _toTake + " and playerToTake:" + _playerToTake);
       return ImmutableMap
           .of(_playerID,
               new ActionResponse(
@@ -126,7 +127,7 @@ public class TakeCardAction implements Action, FollowUpAction {
   @Override
   public void setupAction(Referee ref, int playerID, JsonObject json) {
     try{
-      _playerToTake = json.get("player").getAsInt();
+      _playerToTake = json.get("takeFrom").getAsInt();
       _isSetup = true;
       _ref = ref;
     }
