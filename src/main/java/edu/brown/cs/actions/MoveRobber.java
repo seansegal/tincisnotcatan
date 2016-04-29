@@ -37,20 +37,14 @@ public class MoveRobber implements FollowUpAction {
     try {
       playersOnTile = _ref.getBoard().moveRobber(_newLocation);
     } catch (IllegalArgumentException e) {
-      System.out.println("REACHED!");
       ActionResponse toAdd = new ActionResponse(false,
           "Please choose a new location", null);
       toRet.put(_playerID, toAdd);
       return toRet;
     }
-    // for (Tile t : _ref.getBoard().getTiles()) {
-    // if (t.getCoordinate().equals(_newLocation)) {
-    // // TODO: Ansel finish Action.
-    // }
-    // }
+    playersOnTile.remove(_playerID);
     _ref.removeFollowUp(this);
-    if (!playersOnTile.isEmpty()
-        || (playersOnTile.size() == 1 && playersOnTile.contains(_playerID))) {
+    if (!playersOnTile.isEmpty()) {
       FollowUpAction followUp = new TakeCardAction(_playerID, playersOnTile); // TODO!
       _ref.addFollowUp(ImmutableList.of(followUp));
     }
