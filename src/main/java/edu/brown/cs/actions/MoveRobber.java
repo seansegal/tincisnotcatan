@@ -13,6 +13,7 @@ import com.google.gson.JsonSyntaxException;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Resource;
 
 public class MoveRobber implements FollowUpAction {
 
@@ -43,11 +44,16 @@ public class MoveRobber implements FollowUpAction {
       toRet.put(_playerID, toAdd);
       return toRet;
     }
-    // Remove the actual player:
+    // Remove the actual player & all players with no resources:
     Set<Integer> temp = new HashSet<>();
     for (int player : playersOnTile) {
       if (player != _playerID) {
-        temp.add(player);
+        for(Map.Entry<Resource, Double> res : _ref.getPlayerByID(player).getResources().entrySet()){
+          if(res.getValue() >= 1.0){
+            temp.add(player);
+            break;
+          }
+        }
       }
     }
     playersOnTile = temp;

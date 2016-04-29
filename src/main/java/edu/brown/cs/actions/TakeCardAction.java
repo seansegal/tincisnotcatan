@@ -1,7 +1,10 @@
 package edu.brown.cs.actions;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
@@ -47,14 +50,17 @@ public class TakeCardAction implements Action, FollowUpAction {
                   "You must take from a player adjacent to the Tile where you placed the Robber.",
                   null));
     }
-    double count = 0.0;
+    List<Resource> takeableCards = new ArrayList<>();
+    double count;
     for (Map.Entry<Resource, Double> res : playerToTakeFrom.getResources()
         .entrySet()) {
-      if (res.getValue() >= 1) {
-        count += res.getValue();
+      count = res.getValue();
+      while(count >= 1.0){
+        count -= 1.0;
+        takeableCards.add(res.getKey());
       }
     }
-    if (count < 1) {
+    if (takeableCards.isEmpty()) {
       return ImmutableMap
           .of(_playerID,
               new ActionResponse(
@@ -63,16 +69,8 @@ public class TakeCardAction implements Action, FollowUpAction {
                   null));
     }
     // Action:
-    double rand = Math.random() * count;
-    double prob = 0.0;
-    Resource resToTake = Resource.WILDCARD;
-    for (Map.Entry<Resource, Double> res : playerToTakeFrom.getResources()
-        .entrySet()) {
-      if (prob >= rand) {
-        resToTake = res.getKey();
-      }
-      prob += res.getValue();
-    }
+    Collections.shuffle(takeableCards);
+    Resource resToTake = takeableCards.get(0);
     player.addResource(resToTake);
     playerToTakeFrom.removeResource(resToTake);
     _ref.removeFollowUp(this);
@@ -132,7 +130,7 @@ public class TakeCardAction implements Action, FollowUpAction {
       _ref = ref;
     }
     catch(NullPointerException e){
-      throw new IllegalArgumentException("expecting player, must missing in JSON");
+      throw new IllegalArgumentException("expecting takeFrom, must missing in JSON");
     }
 
   }

@@ -177,7 +177,7 @@ public class HumanPlayer implements Player {
   @Override
   public void removeResource(Resource resource) {
     double newCount = resources.get(resource) - 1.0;
-    assert newCount >= 0;
+    assert newCount >= 0.0;
     resources.put(resource, newCount);
   }
 
