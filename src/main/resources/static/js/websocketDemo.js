@@ -22,53 +22,6 @@ webSocket.onopen = function () {
 	window.setInterval(heartbeat, 60 * 1000);
 };
 
-webSocket.onmessage = function (msg) {
-    var data = JSON.parse(msg.data);
-    console.log(data);
-
-    if(data.hasOwnProperty("requestType")) {
-    	switch(data.requestType) {
-    	case "chat":
-    		updateChat(data);
-    		return;
-    	case "getGameState":
-    		handleGetGameState(data);
-    		return;
-        case "action":
-            handleActionResponse(data);
-            return;
-        case "requestError":
-            console.log(data.requestError);
-            return;
-    	default:
-    		console.log("unsupported request type");
-    		return;
-    	}
-    } else {
-    	console.log("No request type indicated for response");
-    }
-};
-
-function handleActionResponse(data) {
-	switch(data.action) {
-	case "buildSettlement":
-    case "buildCity":
-    case "buildRoad":
-    case "buyDevCard":
-    case "playMonopoly":
-    case "playYearOfPlenty":
-        addMessage(data.content.message);
-        break;
-    case "rollDice":
-        handleRollDiceResponse(data);
-        break;
-    case "moveRobber":
-        handleMoveRobberResponse(data);
-	default:
-		console.log("unknown action identifier");
-	}
-}
-
 //////////////////////////////////////////
 // Action Senders
 //////////////////////////////////////////
@@ -189,6 +142,29 @@ function updateChat(msg) {
 // Action Handlers
 //////////////////////////////////////////
 
+function handleActionResponse(data) {
+    if (data.content.hasOwnProperty("message")) {
+        addMessage(data.content.message);
+    }
+    
+    if (data.content.hasOwnProperty("followUpAction")) {
+        var action = data.content.followUpAction;
+        switch (action.actionName) {
+            case "moveRobber":
+                highlightRobbableTiles();
+                break
+            case "dropCards":
+                enterDiscardModal(action.actionData.numToDrop);
+                break;
+            case "takeCard":
+                enterTakeCardModal(action.actionData);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 function handleGetGameState(gameStateData) {
     // Set global data
     playerId = gameStateData.playerID;
@@ -228,34 +204,6 @@ function handleGetGameState(gameStateData) {
     board = new Board();
     board.createBoard(gameStateData.board);
     board.draw();
-}
-
-function handleRollDiceResponse(response) {
-    addMessage(response.content.message);
-    if (response.content.hasOwnProperty("followUpAction")) {
-        switch (response.content.followUpAction.actionName) {
-            case "dropCards":
-                enterDiscardModal(response.content.data.numToDrop);
-                break;
-            case "moveRobber":
-                highlightRobbableTiles();
-                break;
-            default:
-                break;
-        }
-    }
-}
-
-function handleMoveRobberResponse(response) {
-    addMessage(response.content.message);
-    if (response.content.hasOwnProperty("followUpAction")) {
-        switch (response.content.followUpAction.actionName) {
-            case "takeCard":
-                enterTakeCardModal(response.content.followUpAction.actionData);
-            default:
-                break;
-        }
-    }
 }
 
 //Send message if enter is pressed in the input field
