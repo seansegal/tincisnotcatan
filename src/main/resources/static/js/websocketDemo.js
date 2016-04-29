@@ -78,6 +78,7 @@ function sendMoveRobberAction(coord) {
 
 function sendTakeCardAction(playerId) {
     var takeReq = {requestType: "action", action: "takeCard", player: playerId};
+    console.log(takeReq);
     webSocket.send(JSON.stringify(takeReq));
 }
 
@@ -157,7 +158,7 @@ function handleActionResponse(data) {
                 enterDiscardModal(action.actionData.numToDrop);
                 break;
             case "takeCard":
-                enterTakeCardModal(action.actionData);
+                enterTakeCardModal(action.actionData.toTake);
                 break;
             default:
                 break;

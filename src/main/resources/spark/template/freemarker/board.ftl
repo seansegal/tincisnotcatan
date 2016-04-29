@@ -568,12 +568,10 @@
       		</div>
       		<div class="modal-body">
        			<p>Choose a player to steal a random resource from.</p>
-       			<div class="text-center btn-group" id="take-card-players-list" data-toggle="buttons">
-       				
-      			</div>
+       			<div class="text-center btn-group" id="take-card-players-list" data-toggle="buttons"></div>
       		</div>
       		<div class="modal-footer">
-        		<button type="button" class="btn btn-primary" id="take-card-btn">Steal Card</button>
+        		<button type="button" class="btn btn-primary" id="take-card-btn" disabled="disabled">Steal Card</button>
       		</div>
     	</div>
 	</div>
