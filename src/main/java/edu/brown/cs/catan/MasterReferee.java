@@ -16,6 +16,7 @@ import java.util.Map;
 
 import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.board.Board;
+import edu.brown.cs.board.Intersection;
 
 public class MasterReferee implements Referee {
 
@@ -189,13 +190,27 @@ public class MasterReferee implements Referee {
 
   @Override
   public Map<Resource, Double> getBankRates(int id) {
-    // Player player = getPlayerByID(id);
+    Player player = getPlayerByID(id);
     Map<Resource, Double> rates = new HashMap<>();
     for (Resource r : Resource.values()) {
       rates.put(r, _bank.getBankRate());
     }
-    for (Map.Entry<Resource, Double> r : _bank.getPortRates().entrySet()) {
-      // TODO: check if player has port
+    for (Intersection i : _board.getIntersections().values()) {
+      if (i.getPort() != null && i.getBuilding() != null && i.getBuilding().getPlayer().equals(player)) {
+        if (i.getPort().getResource() == Resource.WILDCARD) {
+          for (Resource r : Resource.values()) {
+            double rate = Math.min(rates.get(r),
+                _bank.getPortRates().get(Resource.WILDCARD));
+            rates.put(r, rate);
+          }
+        }
+        else{
+          Resource r = i.getPort().getResource();
+          double rate = Math.min(rates.get(r),
+              _bank.getPortRates().get(r));
+          rates.put(r, rate);
+        }
+      }
     }
     return rates;
   }

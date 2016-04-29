@@ -169,7 +169,32 @@ public class MasterRefereeTest {
     assertTrue(ref.getNumTotalPoints(id1) == 2 + Settings.SETTLEMENT_POINT_VAL);
   }
 
+  @Test
+  public void getBankRatesTest() {
+    Referee ref = new MasterReferee();
+    int id1 = ref.addPlayer("Blah");
+    assertTrue(ref.getBankRates(id1) != null);
+  }
 
-  //TODO: check getBankRates();
+  @Test
+  public void getBankRatesSimpleBank() {
+    Referee ref = new MasterReferee();
+    int id1 = ref.addPlayer("Blah");
+    assertTrue(ref.getBankRates(id1).get(Resource.BRICK)
+        .equals(Settings.BANK_RATE));
+    assertTrue(ref.getBankRates(id1).get(Resource.WOOD)
+        .equals(Settings.BANK_RATE));
+    assertTrue(ref.getBankRates(id1).get(Resource.ORE)
+        .equals(Settings.BANK_RATE));
+    assertTrue(ref.getBankRates(id1).get(Resource.WHEAT)
+        .equals(Settings.BANK_RATE));
+    assertTrue(ref.getBankRates(id1).get(Resource.SHEEP)
+        .equals(Settings.BANK_RATE));
+  }
+
+  @Test
+  public void getBankRatesWithWildCardPort() {
+    //TODO: draw out ports
+  }
 
 }
