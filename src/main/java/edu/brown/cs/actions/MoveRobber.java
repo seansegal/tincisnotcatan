@@ -71,7 +71,9 @@ public class MoveRobber implements FollowUpAction {
 
   @Override
   public JsonObject getData() {
-    return null;
+    JsonObject toReturn = new JsonObject();
+    toReturn.addProperty("message", "Please move the robber.");
+    return toReturn;
   }
 
   @Override

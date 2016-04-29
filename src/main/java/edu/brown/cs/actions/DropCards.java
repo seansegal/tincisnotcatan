@@ -76,6 +76,7 @@ public class DropCards implements FollowUpAction {
   public JsonObject getData() {
     JsonObject toReturn = new JsonObject();
     toReturn.addProperty("numToDrop", _numToDrop);
+    toReturn.addProperty("message", "A 7 was rolled. Please drop half of your cards.");
     return toReturn;
   }
 

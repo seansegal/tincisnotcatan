@@ -109,6 +109,7 @@ public class TakeCardAction implements Action, FollowUpAction {
       playerIDs.add(new JsonPrimitive(id));
     }
     json.add("toTake", playerIDs);
+    json.addProperty("message", "Please pick an opponent to steal a card from.");
     return json;
   }
 
