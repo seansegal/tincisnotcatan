@@ -42,16 +42,36 @@ Player.prototype.addPlayerTab = function() {
 			+ "<p><strong>Settlements:</strong> " + this.settlements + "</p>"
 			+ "<p><strong>Cities:</strong> " + this.cities + "</p></div></div>");
 
+	// Add longest road banner if applicable
+	if (this.longestRoad) {
+		tab.append("<div class='longest-road-banner text-center'><h4>Longest Road"
+				+ "<img src='images/icon-road-building.svg' alt='Road Building'></h4></div>");
+	}
+
+	// Add largest army banner if applicable
+	if (this.largestArmy) {
+		tab.append("<div class='largest-army-banner text-center'><h4>Largest Army"
+				+ "<img src='images/icon-knight.svg' alt='Knight'></h4></div>");
+	}
+
 	// Modify color scheme to fit this player's color
 	var rgb = hexToRgb(this.color);
 	tab.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.2)");
 
 	var panels = $("#p" + this.id + "-tab .panel");
-	panels.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)")
+	panels.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)");
 
 	var panelHeadings = panels.children(".panel-heading");
-	panelHeadings.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.4)")
-	panelHeadings.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)")
+	panelHeadings.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.4)");
+	panelHeadings.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)");
+
+	var longestRoad = $("#p" + this.id + "-tab .longest-road-banner");
+	longestRoad.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.4)");
+	longestRoad.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)");
+
+	var largestArmy = $("#p" + this.id + "-tab .largest-army-banner");
+	largestArmy.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.4)");
+	largestArmy.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)");
 }
 
 function parsePlayers(playersData) {

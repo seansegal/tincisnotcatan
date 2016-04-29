@@ -88,6 +88,14 @@ body {
 	padding-right: 0px;
 }
 
+#right-tab-tabs > li {
+	border-radius: 4px 0px 0px 4px;
+}
+
+#right-tab-tabs > li > a {
+	border-radius: inherit;
+}
+
 .right-tab {
 	background-color: #FFFFFF;
 }
@@ -133,6 +141,19 @@ body {
 .player-tab-vp-icon {
 	height: 40px;
 	width: 40px;
+}
+
+.longest-road-banner, .largest-army-banner {
+	padding: 0px;
+	border: 1px solid black;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+.longest-road-banner img, .largest-army-banner img {
+	height: 30px;
+	width: 30px;
+	margin-left: 10px;
 }
 
 /* Build tab */

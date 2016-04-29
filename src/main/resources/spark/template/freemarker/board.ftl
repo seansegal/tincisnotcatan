@@ -14,7 +14,7 @@
 	</div>
 	<div class="col-xs-6"></div>
 	<div class="col-xs-3" id="right-menu-container">
-		<ul class="nav nav-pills nav-stacked col-xs-3" role="tablist">
+		<ul class="nav nav-pills nav-stacked col-xs-3" id="right-tab-tabs" role="tablist">
 	    	<li role="presentation" id="players-tab-toggle" class="active right-tab"><a href="#players-tab" aria-controls="players-tab" role="tab" data-toggle="tab">Players</a></li>
 	    	<li role="presentation" id="build-tab-toggle" class="right-tab"><a href="#build-tab" aria-controls="build-tab" role="tab" data-toggle="tab">Build</a></li>
 	    	<li role="presentation" id="trade-tab-toggle" class="right-tab"><a href="#trade-tab" aria-controls="trade-tab" role="tab" data-toggle="tab">Trade</a></li>
