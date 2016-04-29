@@ -141,6 +141,7 @@ Tile.prototype.draw = function(transX, transY, scale) {
 		// Set number to red if 6 or 8
 		if (this.number === 6 || this.number === 8) {
 			numberCircle.children("span").addClass("red-number");
+			numberCircle.find(".number-dot").addClass("red-number-dot");
 		}
 	}
 
