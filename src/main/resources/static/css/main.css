@@ -277,6 +277,10 @@ body {
 	cursor: pointer;
 }
 
+.red-number {
+	color: #D35443;
+}
+
 .dots-container {
 	display: inline-block;
 }
