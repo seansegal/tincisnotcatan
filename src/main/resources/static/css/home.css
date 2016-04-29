@@ -10,21 +10,21 @@
 	z-index: -1;
 }
 
-.hexagon-wrapper {
+.hexagon-wrapper-home {
   text-align: center;
   position: absolute;
   display: inline-block;
   z-index: 1;
 }
 
-.hexagon {
+.hexagon-home {
   height: 100%;
   width: 57.735%;
   display: inline-block;
   z-index: 1;
 }
 
-.hexagon:before {
+.hexagon-home:before {
   position: absolute;
   top: 0;
   right: calc((100% / 2) - ((100% * 0.57735) / 2));
@@ -36,7 +36,7 @@
   z-index: 1;
 }
 
-.hexagon:after {
+.hexagon-home:after {
   position: absolute;
   top: 0;
   right: calc((100% / 2) - ((100% * 0.57735) / 2));
@@ -48,7 +48,7 @@
   z-index: 1;
 }
 
-.hexagon, .hexagon:before, .hexagon:after {
+.hexagon-home, .hexagon-home:before, .hexagon-home:after {
 	border-top: 2px solid black;
 	border-bottom: 2px solid black;
 }

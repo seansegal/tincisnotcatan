@@ -1,8 +1,8 @@
 <#assign content>
 
 <div class="background-viewport">
-	<div class="hexagon-wrapper" id="animated-hex">
-		<div class="hexagon"></div>
+	<div class="hexagon-wrapper-home" id="animated-hex">
+		<div class="hexagon-home"></div>
 	</div>
 </div>
 
