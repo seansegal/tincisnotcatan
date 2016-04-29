@@ -48,8 +48,9 @@ public class MoveRobber implements FollowUpAction {
     Set<Integer> temp = new HashSet<>();
     for (int player : playersOnTile) {
       if (player != _playerID) {
-        for(Map.Entry<Resource, Double> res : _ref.getPlayerByID(player).getResources().entrySet()){
-          if(res.getValue() >= 1.0){
+        for (Map.Entry<Resource, Double> res : _ref.getPlayerByID(player)
+            .getResources().entrySet()) {
+          if (res.getValue() >= 1.0) {
             temp.add(player);
             break;
           }
@@ -62,7 +63,9 @@ public class MoveRobber implements FollowUpAction {
       FollowUpAction followUp = new TakeCardAction(_playerID, playersOnTile); // TODO!
       _ref.addFollowUp(ImmutableList.of(followUp));
     }
-    ActionResponse toPlayer = new ActionResponse(true, "You moved the Robber.",
+    ActionResponse toPlayer = new ActionResponse(
+        true,
+        "You moved the Robber. There was no one to steal from where you placed the Robber.",
         playersOnTile);
     String messageToAll = String.format("%s moved the Robber", _ref
         .getPlayerByID(_playerID).getName());
