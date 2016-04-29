@@ -20,13 +20,34 @@ webSocket.onopen = function () {
 };
 
 webSocket.onmessage = function (msg) {
-	console.log(msg.data);
+	var data = JSON.parse(msg.data);
+	console.log(data);
+
+	if (data.hasOwnProperty("groups")) {
+		createJoinableGameList(data.groups);
+	}
 }
 
+function createJoinableGameList(groups) {
+	$("#games-list").empty();
+
+	for (var i = 0; i < groups.length; i++) {
+		var group = groups[i].group;
+		$("#games-list").append("<li class='list-group-item'><div class='row'>"
+				+ "<div class='col-xs-8 text-left'><span>Available Game: <strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"
+				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' type='submit' value='Join Game' gameid='" + group.id + "'></div></div>")
+	}
+
+	$("#games-list .join-game-btn").click(function(event) {
+		var groupId = $(this).attr("gameid");
+		console.log(groupId);
+	});
+}
 
 function displayCookies() {
 	alert (document.cookie);
 }
+
 function getCookie(name) {
 	var nameEQ = name + "=";
 	//alert(document.cookie);

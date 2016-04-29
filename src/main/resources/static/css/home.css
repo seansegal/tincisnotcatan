@@ -1,0 +1,74 @@
+.join-game-btn {
+	width: 100%;
+}
+
+.background-viewport {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background-color: #EEEEEE;
+	z-index: -1;
+}
+
+.hexagon-wrapper {
+  text-align: center;
+  position: absolute;
+  display: inline-block;
+  z-index: 1;
+}
+
+.hexagon {
+  height: 100%;
+  width: 57.735%;
+  display: inline-block;
+  z-index: 1;
+}
+
+.hexagon:before {
+  position: absolute;
+  top: 0;
+  right: calc((100% / 2) - ((100% * 0.57735) / 2));
+  background-color: inherit;
+  height: inherit;
+  width: inherit;
+  content: '';
+  transform: rotateZ(60deg);
+  z-index: 1;
+}
+
+.hexagon:after {
+  position: absolute;
+  top: 0;
+  right: calc((100% / 2) - ((100% * 0.57735) / 2));
+  background-color: inherit;
+  height: inherit;
+  width: inherit;
+  content: '';
+  transform: rotateZ(-60deg);
+  z-index: 1;
+}
+
+.hexagon, .hexagon:before, .hexagon:after {
+	border-top: 2px solid black;
+	border-bottom: 2px solid black;
+}
+
+
+#animated-hex {
+	width: 400px;
+	height: 400px;
+	animation-duration: 5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-name: rotatingHex;
+}
+
+@keyframes rotatingHex {
+	from {
+		transform: translate(calc(50vw - (200px * 1.15470)), calc(65vh - 200px)) perspective(400px) rotateX(45deg) rotate(0deg);
+	}
+
+	to {
+		transform: translate(calc(50vw - (200px * 1.15470)), calc(65vh - 200px)) perspective(400px) rotateX(45deg) rotate(360deg);
+	}
+}
