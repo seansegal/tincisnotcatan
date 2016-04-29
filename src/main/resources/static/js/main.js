@@ -475,7 +475,8 @@ function enterTakeCardModal(playerIds) {
 
 	for (var i = 0; i < playerIds.length; i++) {
 		var player = playersById[playerIds[i]];
-		$("#take-card-players-list").append("<label class='btn btn-default'>"
+		var color = "rgba(" + player.rgbColor.r + "," + player.rgbColor.g + "," + player.rgbColor.b + ",0.4)";
+		$("#take-card-players-list").append("<label class='btn btn-default' style='background-color: " + color + "'>"
 				+ "<input type='radio' name='" + player.id + "' autocomplete='off'>" + player.name + "</label>");
 	}
 

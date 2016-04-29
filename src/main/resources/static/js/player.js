@@ -2,6 +2,7 @@ function Player(id, name, color) {
 	this.id = id;
 	this.name = name;
 	this.color = color;
+	this.rgbColor = hexToRgb(color);
 
 	this.victoryPoints = 0;
 	this.resourceCards = 0;
@@ -55,23 +56,23 @@ Player.prototype.addPlayerTab = function() {
 	}
 
 	// Modify color scheme to fit this player's color
-	var rgb = hexToRgb(this.color);
-	tab.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.2)");
+	var rgb = this.rgbColor.r + "," + this.rgbColor.g + "," + this.rgbColor.b;
+	tab.css("background-color", "rgba(" + rgb + ",0.2)");
 
 	var panels = $("#p" + this.id + "-tab .panel");
-	panels.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)");
+	panels.css("border-color", "rgba(" + rgb + ",0.6)");
 
 	var panelHeadings = panels.children(".panel-heading");
-	panelHeadings.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.4)");
-	panelHeadings.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)");
+	panelHeadings.css("background-color", "rgba(" + rgb + ",0.4)");
+	panelHeadings.css("border-color", "rgba(" + rgb + ",0.6)");
 
 	var longestRoad = $("#p" + this.id + "-tab .longest-road-banner");
-	longestRoad.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.4)");
-	longestRoad.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)");
+	longestRoad.css("background-color", "rgba(" + rgb  + ",0.4)");
+	longestRoad.css("border-color", "rgba(" + rgb + ",0.6)");
 
 	var largestArmy = $("#p" + this.id + "-tab .largest-army-banner");
-	largestArmy.css("background-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.4)");
-	largestArmy.css("border-color", "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + ",0.6)");
+	largestArmy.css("background-color", "rgba(" + rgb + ",0.4)");
+	largestArmy.css("border-color", "rgba(" + rgb + ",0.6)");
 }
 
 function parsePlayers(playersData) {
