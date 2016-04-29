@@ -293,6 +293,10 @@ body {
   	background-color: black;
 }
 
+.red-number-dot {
+	background-color: #D35443;
+}
+
 .desert-circle {
 	background-color: transparent;
 	box-shadow: none;
