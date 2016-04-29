@@ -25,6 +25,7 @@ public class TakeCardAction implements Action, FollowUpAction {
     assert toTake.size() > 0;
     _isSetup = false;
     _playerID = playerID;
+    _toTake = toTake;
   }
 
   @Override
