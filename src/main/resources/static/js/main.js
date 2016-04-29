@@ -470,13 +470,26 @@ function highlightRobbableTiles() {
 function enterTakeCardModal(playerIds) {
 	var toStealFrom = null;
 
+	$("#take-card-btn").prop("disabled", true);
 	$("#take-card-players-list").empty();
 
 	for (var i = 0; i < playerIds.length; i++) {
 		var player = playersById[playerIds[i]];
 		$("#take-card-players-list").append("<label class='btn btn-default'>"
-				+ "<input type='radio' name='options' id='option2' autocomplete='off'>" + player.name + "</label>");
+				+ "<input type='radio' name='" + player.id + "' autocomplete='off'>" + player.name + "</label>");
 	}
+
+	$("#take-card-players-list").find("label").click(function(event) {
+		toStealFrom = $(event.target);
+		$("#take-card-btn").prop("disabled", false);
+	});
+
+	$("#take-card-btn").click(function(event) {
+		sendTakeCardAction(parseInt(toStealFrom.find("input").prop("name")));
+		$("#take-card-players-list").find("label").off("click");
+		$("#take-card-btn").off("click");
+		$("#take-card-modal").modal("hide");
+	});
 
 	$("#take-card-modal").modal("show");
 }
