@@ -78,7 +78,6 @@ function sendMoveRobberAction(coord) {
 
 function sendTakeCardAction(playerId) {
     var takeReq = {requestType: "action", action: "takeCard", player: playerId};
-    console.log(takeReq);
     webSocket.send(JSON.stringify(takeReq));
 }
 
@@ -145,7 +144,12 @@ function updateChat(msg) {
 
 function handleActionResponse(data) {
     if (data.content.hasOwnProperty("message")) {
-        addMessage(data.content.message);
+        if (data.content.hasOwnProperty("followUpAction") 
+                && data.content.followUpAction.actionData.hasOwnProperty("message")) {
+            addMessage(data.content.followUpAction.actionData.message);
+        } else {
+            addMessage(data.content.message);
+        }
     }
     
     if (data.content.hasOwnProperty("followUpAction")) {
