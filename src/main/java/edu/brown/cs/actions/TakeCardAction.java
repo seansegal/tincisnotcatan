@@ -125,9 +125,15 @@ public class TakeCardAction implements Action, FollowUpAction {
 
   @Override
   public void setupAction(Referee ref, int playerID, JsonObject json) {
-    _playerToTake = json.get("playerToTake").getAsInt();
-    _isSetup = true;
-    _ref = ref;
+    try{
+      _playerToTake = json.get("player").getAsInt();
+      _isSetup = true;
+      _ref = ref;
+    }
+    catch(NullPointerException e){
+      throw new IllegalArgumentException("expecting player, must missing in JSON");
+    }
+
   }
 
 }
