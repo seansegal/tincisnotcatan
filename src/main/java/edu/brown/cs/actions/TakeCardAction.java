@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -103,7 +104,11 @@ public class TakeCardAction implements Action, FollowUpAction {
   @Override
   public JsonObject getData() {
     JsonObject json = new JsonObject();
-    json.addProperty("toTake", new Gson().toJson(_toTake));
+    JsonArray playerIDs = new JsonArray();
+    for(int id : _toTake){
+      playerIDs.add(new JsonPrimitive(id));
+    }
+    json.add("toTake", playerIDs);
     return json;
   }
 
