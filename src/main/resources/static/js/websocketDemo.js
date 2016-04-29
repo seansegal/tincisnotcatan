@@ -77,7 +77,7 @@ function sendMoveRobberAction(coord) {
 }
 
 function sendTakeCardAction(playerId) {
-    var takeReq = {requestType: "action", action: "takeCard", player: playerId};
+    var takeReq = {requestType: "action", action: "takeCard", takeFrom: playerId};
     webSocket.send(JSON.stringify(takeReq));
 }
 
