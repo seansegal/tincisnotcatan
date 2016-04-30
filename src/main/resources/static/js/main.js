@@ -497,4 +497,63 @@ function enterTakeCardModal(playerIds) {
 	$("#take-card-modal").modal("show");
 }
 
+//////////////////////////////////////////
+// Trade With Bank
+//////////////////////////////////////////
 
+// Bank trade button is initially disabled
+$("#bank-trade-btn").prop("disabled", true);
+
+var selectedToGiveElement = null;
+var selectedToGiveResource  = null;
+var selectedToGetElement = null;
+var selectedToGetResource  = "hey there";
+
+$(".to-give-circle-container").click(function(event) {
+	var element = $(this);
+
+	// Unhighlight previously selected resource, if one was previously selected
+	if (selectedToGiveElement) {
+		selectedToGiveElement.removeClass("highlighted-to-give-get-circle");
+	}
+
+	// Highlight this resource
+	selectedToGiveElement = element;
+	selectedToGiveElement.addClass("highlighted-to-give-get-circle");
+
+	selectedToGiveResource = selectedToGiveElement.attr("res");
+	if (selectedToGiveResource !== null && selectedToGetResource !== null) {
+		$("#bank-trade-btn").prop("disabled", false);
+	}
+});
+
+$(".to-get-circle-container").click(function(event) {
+	var element = $(this);
+
+	// Unhighlight previously selected resource, if one was previously selected
+	if (selectedToGetElement) {
+		selectedToGetElement.removeClass("highlighted-to-give-get-circle");
+	}
+
+	// Highlight this resource
+	selectedToGetElement = element;
+	selectedToGetElement.addClass("highlighted-to-give-get-circle");
+
+	selectedToGetResource = selectedToGetElement.attr("res");
+	if (selectedToGiveResource !== null && selectedToGetResource !== null) {
+		$("#bank-trade-btn").prop("disabled", false);
+	}
+});
+
+$("#bank-trade-btn").click(function(event) {
+	sendTradeWithBankAction(selectedToGiveResource, selectedToGetResource);
+
+	// Reset selected resources
+	selectedToGiveElement.removeClass("highlighted-to-give-get-circle");
+	selectedToGetElement.removeClass("highlighted-to-give-get-circle");
+
+	selectedToGiveElement = null;
+	selectedToGiveResource  = null;
+	selectedToGetElement = null;
+	selectedToGetResource  = null;
+});
