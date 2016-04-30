@@ -13,10 +13,32 @@ body {
 	overflow: hidden;
 }
 
+.above-board {
+	z-index: 10;
+}
+
+.below-board {
+	z-index: -1;
+}
+
 #end-turn-btn {
 	margin-left: 15px;
 	margin-top: 15px;
 }
+
+.pointer {
+	cursor: pointer;
+}
+
+.unselectable {
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* Hand */
 
 #hand-resources > .navbar-btn + .navbar-btn,
 #hand-dev-cards > .navbar-btn + .navbar-btn {
@@ -44,37 +66,36 @@ body {
 	margin-top: -1px;
 }
 
-.pointer {
-	cursor: pointer;
-}
+/* Messages */
 
-#message-container {
+#message-container > div {
 	margin-left: 10%;
 	margin-right: 10%;
 	border-radius: 4px 4px 0px 0px;
 	background-color: #FFFFFF;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
-#message-container > * {
+#message-container > div > * {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding: 0px;
 }
 
-.above-board {
-	z-index: 10;
+.message-popup-animation {
+	animation-name: message-popup;
+	animation-duration: 0.5s;
 }
 
-.below-board {
-	z-index: -1;
-}
+@keyframes message-popup {
+	from {
+		transform: translate(0px, 40px);
+	}
 
-.unselectable {
-	-moz-user-select: -moz-none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
-   -ms-user-select: none;
-   user-select: none;
+	to {
+		transform: translate(0px, 0px);
+	}
 }
 
 /* Right menu */

@@ -67,11 +67,7 @@ $(document).on("wheel", "#board-viewport", function(event) {
 function addMessage(message) {
 	var container = $("#message-container");
 	container.empty();
-
-	container.css("padding-top", "5px");
-	container.css("padding-bottom", "5px");
-
-	container.append("<h5>" + message + "</h5>");
+	container.append("<div class='message-popup-animation'><h5>" + message + "</h5></div>");
 }
 
 //////////////////////////////////////////

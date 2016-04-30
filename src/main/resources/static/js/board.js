@@ -2,7 +2,7 @@ var INITIAL_HEX_SIZE = 130;
 var MIN_SCALE = 100;
 var MAX_SCALE = 300;
 
-var boardX = $(window).width() / 2 - 100;
+var boardX = $(window).width() / 2 - 75;
 var boardY = $(window).height() / 2 - 100;
 var boardScale = INITIAL_HEX_SIZE;
 
