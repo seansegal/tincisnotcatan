@@ -77,9 +77,9 @@ public class IntersectionCoordinate {
   public String toString() {
     StringBuilder toRet = new StringBuilder();
     toRet.append(coord1.toString());
-    toRet.append(" ");
+    toRet.append(", ");
     toRet.append(coord2.toString());
-    toRet.append(" ");
+    toRet.append(", ");
     toRet.append(coord3.toString());
     return toRet.toString();
   }

@@ -22,6 +22,11 @@ public class Intersection {
     _paths = new ArrayList<Path>();
   }
 
+  @Override
+  public String toString() {
+    return "Intersection [_position=" + _position + "]";
+  }
+
   public Port getPort() {
     return _port;
   }

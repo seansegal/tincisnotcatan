@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import edu.brown.cs.catan.HumanPlayer;
+import edu.brown.cs.catan.Player;
+
 public class BoardTest {
 
   @Test
@@ -141,25 +144,106 @@ public class BoardTest {
     for (Tile t : tiles) {
       tileMap.put(t.getCoordinate(), t);
     }
-//    Tile portTile = tileMap.get(new HexCoordinate(0, 0, 3));
-//    assertTrue(portTile.getIntersections().size() == 2);
-//    assertTrue(portTile.getIntersections().iterator().next().getPort() != null);
-//    Iterator<Intersection> iter = portTile.getIntersections().iterator();
-//    assertTrue(iter.next().getPort().getResource() == Resource.WILDCARD);
-//    assertTrue(iter.next().getPort().getResource() == Resource.WILDCARD);
-//
-//    Tile portTile2 = tileMap.get(new HexCoordinate(0, 2, 3));
-//    assertTrue(portTile2.getIntersections().size() == 2);
-//    assertTrue(portTile2.getIntersections().iterator().next().getPort() != null);
-//    Iterator<Intersection> iter2 = portTile2.getIntersections().iterator();
-//    assertTrue(iter2.next().getPort().getResource() == Resource.WHEAT);
-//    assertTrue(iter2.next().getPort().getResource() == Resource.WHEAT);
-//
-//    Tile portTile3 = tileMap.get(new HexCoordinate(3, 0, 2));
-//    assertTrue(portTile3.getIntersections().size() == 2);
-//    assertTrue(portTile3.getIntersections().iterator().next().getPort() != null);
-//    Iterator<Intersection> iter3 = portTile3.getIntersections().iterator();
-//    assertTrue(iter3.next().getPort().getResource() == Resource.WILDCARD);
-//    assertTrue(iter3.next().getPort().getResource() == Resource.WILDCARD);
+    // Tile portTile = tileMap.get(new HexCoordinate(0, 0, 3));
+    // assertTrue(portTile.getIntersections().size() == 2);
+    // assertTrue(portTile.getIntersections().iterator().next().getPort() !=
+    // null);
+    // Iterator<Intersection> iter = portTile.getIntersections().iterator();
+    // assertTrue(iter.next().getPort().getResource() == Resource.WILDCARD);
+    // assertTrue(iter.next().getPort().getResource() == Resource.WILDCARD);
+    //
+    // Tile portTile2 = tileMap.get(new HexCoordinate(0, 2, 3));
+    // assertTrue(portTile2.getIntersections().size() == 2);
+    // assertTrue(portTile2.getIntersections().iterator().next().getPort() !=
+    // null);
+    // Iterator<Intersection> iter2 = portTile2.getIntersections().iterator();
+    // assertTrue(iter2.next().getPort().getResource() == Resource.WHEAT);
+    // assertTrue(iter2.next().getPort().getResource() == Resource.WHEAT);
+    //
+    // Tile portTile3 = tileMap.get(new HexCoordinate(3, 0, 2));
+    // assertTrue(portTile3.getIntersections().size() == 2);
+    // assertTrue(portTile3.getIntersections().iterator().next().getPort() !=
+    // null);
+    // Iterator<Intersection> iter3 = portTile3.getIntersections().iterator();
+    // assertTrue(iter3.next().getPort().getResource() == Resource.WILDCARD);
+    // assertTrue(iter3.next().getPort().getResource() == Resource.WILDCARD);
   }
+
+  @Test
+  public void testLongestRoadNoRoad() {
+    Board b = new Board();
+    HexCoordinate h1 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
+    HexCoordinate h3 = new HexCoordinate(0, 0, 1);
+    IntersectionCoordinate start = new IntersectionCoordinate(h1, h2, h3);
+
+    HexCoordinate h4 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h5 = new HexCoordinate(0, 0, 1);
+    HexCoordinate h6 = new HexCoordinate(0, -1, 0);
+    IntersectionCoordinate end = new IntersectionCoordinate(h4, h5, h6);
+
+    PathCoordinate pathCoord = new PathCoordinate(start, end);
+    Player player = new HumanPlayer(0, "", "");
+
+    b.getIntersections().get(start).placeSettlement(player);
+    Path path = b.getPaths().get(pathCoord);
+    assertTrue(path.getLongestPath(player) == 0);
+  }
+
+  @Test
+  public void testLongestRoadOneRoad() {
+    Board b = new Board();
+    HexCoordinate h1 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
+    HexCoordinate h3 = new HexCoordinate(0, 0, 1);
+    IntersectionCoordinate start = new IntersectionCoordinate(h1, h2, h3);
+
+    HexCoordinate h4 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h5 = new HexCoordinate(0, 0, 1);
+    HexCoordinate h6 = new HexCoordinate(0, -1, 0);
+    IntersectionCoordinate end = new IntersectionCoordinate(h4, h5, h6);
+
+    PathCoordinate pathCoord = new PathCoordinate(start, end);
+    Player player = new HumanPlayer(0, "", "");
+
+    b.getIntersections().get(start).placeSettlement(player);
+    Path path = b.getPaths().get(pathCoord);
+    assertTrue(path.canPlaceRoad(player));
+    path.placeRoad(player);
+    assertTrue(path.getLongestPath(player) == 1);
+  }
+
+  @Test
+  public void testLongestRoadTwoRoads() {
+    Board b = new Board();
+    HexCoordinate h1 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
+    HexCoordinate h3 = new HexCoordinate(0, 0, 1);
+    IntersectionCoordinate start = new IntersectionCoordinate(h1, h2, h3);
+
+    HexCoordinate h4 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h5 = new HexCoordinate(0, 0, 1);
+    HexCoordinate h6 = new HexCoordinate(0, -1, 0);
+    IntersectionCoordinate end = new IntersectionCoordinate(h4, h5, h6);
+
+    HexCoordinate h7 = new HexCoordinate(0, -1, 1);
+    HexCoordinate h8 = new HexCoordinate(0, 0, 1);
+    HexCoordinate h9 = new HexCoordinate(0, -1, 0);
+    IntersectionCoordinate end2 = new IntersectionCoordinate(h7, h8, h9);
+
+    PathCoordinate firstCoord = new PathCoordinate(start, end);
+    PathCoordinate secondCoord = new PathCoordinate(end, end2);
+    Player player = new HumanPlayer(0, "", "");
+
+    b.getIntersections().get(start).placeSettlement(player);
+    Path path = b.getPaths().get(firstCoord);
+    assertTrue(path.canPlaceRoad(player));
+    path.placeRoad(player);
+    assertTrue(b.getPaths().get(secondCoord).canPlaceRoad(player));
+    b.getPaths().get(secondCoord).placeRoad(player);
+    System.out.println(path.getLongestPath(player));
+    assertTrue(path.getLongestPath(player) == 2);
+
+  }
+
 }

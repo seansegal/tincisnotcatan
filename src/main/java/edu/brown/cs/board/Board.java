@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Settings;
 
 public class Board {
@@ -289,4 +290,16 @@ public class Board {
     }
     return playersOnTile;
   }
+
+  public int longestPath(Player player) {
+    int max = 0;
+    for (Path path : _paths.values()) {
+      int longestPath = path.getLongestPath(player);
+      if (longestPath > 0) {
+        max = longestPath;
+      }
+    }
+    return max;
+  }
+
 }

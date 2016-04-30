@@ -53,7 +53,7 @@ public class TradeWithBank implements Action {
         "You traded with the bank and got a %s", _toGet);
     ActionResponse respToPlayer = new ActionResponse(true, messageToPlayer,
         null);
-    String messageToAll = String.format("%s traded %d %s for a %s",
+    String messageToAll = String.format("%s traded %f %s for a %s",
         _player.getName(), rate, _toGive, _toGet);
     ActionResponse respToAll = new ActionResponse(true, messageToAll, null);
     Map<Integer, ActionResponse> toReturn = new HashMap<>();

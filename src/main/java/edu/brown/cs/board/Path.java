@@ -1,5 +1,8 @@
 package edu.brown.cs.board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.brown.cs.catan.Player;
 
 public class Path {
@@ -46,6 +49,38 @@ public class Path {
       return true;
     }
     return false;
+  }
+
+  public int getLongestPath(Player player) {
+    List<Path> visited = new ArrayList<>();
+    visited.add(this);
+    return getLongestPathHelper(visited, player);
+
+  }
+
+  private int getLongestPathHelper(List<Path> visited, Player player) {
+    if (_road == null || (!_road.getPlayer().equals(player))) {
+      return 0;
+    }
+    Player myPlayer = _road.getPlayer();
+    int max = 0;
+    for (Path p : _end.getPaths()) {
+      if (!p.equals(this) && !visited.contains(p)) {
+        if (p.getLongestPathHelper(visited, myPlayer) + 1 > max) {
+          visited.add(p);
+          max = p.getLongestPathHelper(visited, myPlayer) + 1;
+        }
+      }
+    }
+    for (Path p : _start.getPaths()) {
+      if (!p.equals(this) && !visited.contains(p)) {
+        if (p.getLongestPathHelper(visited, myPlayer) + 1 > max) {
+          visited.add(p);
+          max = p.getLongestPathHelper(visited, myPlayer) + 1;
+        }
+      }
+    }
+    return max;
   }
 
   public boolean canPlaceRoad(Player p) {
@@ -101,7 +136,7 @@ public class Path {
 
   @Override
   public String toString() {
-    return _start + " " + _end;
+    return _start + " <-->" + _end;
   }
 
 }

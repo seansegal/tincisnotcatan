@@ -37,7 +37,7 @@ public class RollDice implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    _ref.startNextTurn();
+    _ref.startNextTurn(); //TODO: is this what we want?
     Random r = new Random();
     PrimitiveIterator.OfInt rolls = r.ints(1, 7).iterator();
     int diceRoll = rolls.nextInt() + rolls.nextInt();
