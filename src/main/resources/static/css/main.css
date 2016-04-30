@@ -235,6 +235,45 @@ body {
 	border: 2px solid black;
 }
 
+#bank-trade-tab {
+	padding: 0px 10px 10px 10px;
+}
+
+.bank-to-give-container, .bank-to-get-container {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.last-to-give-get-container {
+	margin-right: 0px;
+}
+
+.bank-to-give-container .trade-circle,
+.bank-to-get-container .trade-circle {
+	margin-right: 0px;
+}
+
+.bank-to-give-container > h5 {
+	margin-top: 5px;
+}
+
+.bank-to-get-container {
+	margin-top: 5px;
+}
+
+.to-give-circle-container, .to-get-circle-container {
+	padding: 10px;
+	margin: -10px;
+}
+
+.highlighted-to-give-get-circle {
+	background: radial-gradient(closest-side, rgba(255,255,0,1), rgba(255,255,0,1) 50%, rgba(255,255,0,0) 100%);
+}
+
+#bank-trade-btn {
+	margin-top: 5px;
+}
+
 /* Board */
 
 .brick-color {
@@ -473,7 +512,6 @@ body {
 
 .highlighted-monopoly-circle {
 	background: radial-gradient(closest-side, rgba(255,255,0,1), rgba(255,255,0,1) 50%, rgba(255,255,0,0) 100%);
-	/*background: radial-gradient(closest-side, rgba(67,119,180,1), rgba(67,119,180,1) 50%, rgba(67,119,180,0) 100%);  */
 }
 
 .yop-resource-container {

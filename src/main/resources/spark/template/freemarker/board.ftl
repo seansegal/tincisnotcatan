@@ -108,8 +108,12 @@
 		    </div>
 		    <div role="tabpanel" class="tab-pane right-tab-pane" id="trade-tab">
 			    <ul class="nav nav-tabs right-inner-tabs" role="tablist">
-					<li role="presentation" class="active"><a href="#player-trade-tab" aria-controls="home" role="tab" data-toggle="tab">Interplayer</a></li>
-					<li role="presentation"><a href="#bank-trade-tab" aria-controls="profile" role="tab" data-toggle="tab">Bank</a></li>
+					<li role="presentation" class="active" id="interplayer-trade-tab-toggle">
+						<a href="#player-trade-tab" aria-controls="home" role="tab" data-toggle="tab">Interplayer</a>
+					</li>
+					<li role="presentation" id="bank-trade-tab-toggle">
+						<a href="#bank-trade-tab" aria-controls="profile" role="tab" data-toggle="tab">Bank</a>
+					</li>
 				</ul>
 		    	<div class="tab-content">
 		    		<div role="tabpanel" class="tab-pane active" id="player-trade-tab">
@@ -197,75 +201,90 @@
 		    				</div>
 		    			</div>
 		    		</div>
-				    <div role="tabpanel" class="tab-pane" id="bank-trade-tab">
-				    	<div class="row trade-row">
-		    				<div class="col-xs-4 text-right">
-		    					<div class="circle trade-circle brick-color">
+				    <div role="tabpanel" class="tab-pane text-center" id="bank-trade-tab">
+				    	<h5>Choose a resource to give</h5>
+				    	<div class="bank-to-give-container">
+				    		<div class="circle to-give-circle-container" res="brick">
+					    		<div class="circle trade-circle brick-color pointer">
 									<img src="images/icon-brick.svg" alt="Brick">
 								</div>
-		    				</div>
-		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
-		    				</div>
-		    				<div class="col-xs-4 text-left">
-		    					<h5 id="brick-trade-rate">1:1</h5>
-		    				</div>
-		    			</div>
-		    			<div class="row trade-row">
-		    				<div class="col-xs-4 text-right">
-		    					<div class="circle trade-circle wood-color">
+							</div>
+							<h5 id="brick-trade-rate">1:1</h5>
+				    	</div>
+				    	<div class="bank-to-give-container">
+				    		<div class="circle to-give-circle-container" res="wood">
+					    		<div class="circle trade-circle wood-color pointer">
 									<img src="images/icon-wood.svg" alt="Wood">
 								</div>
-		    				</div>
-		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
-		    				</div>
-		    				<div class="col-xs-4 text-left">
-		    					<h5 id="wood-trade-rate">1:1</h5>
-		    				</div>
-		    			</div>
-		    			<div class="row trade-row text">
-		    				<div class="col-xs-4 text-right">
-		    					<div class="circle trade-circle ore-color">
+							</div>
+							<h5 id="wood-trade-rate">1:1</h5>
+				    	</div>
+				    	<div class="bank-to-give-container last-to-give-get-container">
+				    		<div class="circle to-give-circle-container" res="ore">
+					    		<div class="circle trade-circle ore-color pointer">
 									<img src="images/icon-ore.svg" alt="Ore">
 								</div>
-		    				</div>
-		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
-		    				</div>
-		    				<div class="col-xs-4 text-left">
-		    					<h5 id="ore-trade-rate">1:1</h5>
-		    				</div>
-		    			</div>
-		    			<div class="row trade-row">
-		    				<div class="col-xs-4 text-right">
-		    					<div class="circle trade-circle wheat-color">
+							</div>
+							<h5 id="ore-trade-rate">1:1</h5>
+				    	</div>
+				    	<br>
+				    	<div class="bank-to-give-container">
+				    		<div class="circle to-give-circle-container" res="wheat">
+					    		<div class="circle trade-circle wheat-color pointer">
 									<img src="images/icon-wheat.svg" alt="Wheat">
 								</div>
-		    				</div>
-		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
-		    				</div>
-		    				<div class="col-xs-4 text-left">
-		    					<h5 id="wheat-trade-rate">1:1</h5>
-		    				</div>
-		    			</div>
-		    			<div class="row trade-row">
-		    				<div class="col-xs-4 text-right">
-		    					<div class="circle trade-circle sheep-color">
+							</div>
+							<h5 id="wheat-trade-rate">1:1</h5>
+				    	</div>
+				    	<div class="bank-to-give-container last-to-give-get-container">
+				    		<div class="circle to-give-circle-container" res="sheep">
+					    		<div class="circle trade-circle sheep-color pointer">
 									<img src="images/icon-sheep.svg" alt="Sheep">
 								</div>
-		    				</div>
-		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
-		    				</div>
-		    				<div class="col-xs-4 text-left">
-		    					<h5 id="sheep-trade-rate">1:1</h5>
-		    				</div>
-		    			</div>
+							</div>
+							<h5 id="sheep-trade-rate">1:1</h5>
+				    	</div>
+				    	<h5>Choose a resource to receive</h5>
+				    	<div class="bank-to-get-container">
+				    		<div class="circle to-get-circle-container" res="brick">
+					    		<div class="circle trade-circle brick-color pointer">
+									<img src="images/icon-brick.svg" alt="Brick">
+								</div>
+							</div>
+				    	</div>
+				    	<div class="bank-to-get-container">
+				    		<div class="circle to-get-circle-container" res="wood">
+					    		<div class="circle trade-circle wood-color pointer">
+									<img src="images/icon-wood.svg" alt="Wood">
+								</div>
+							</div>
+				    	</div>
+				    	<div class="bank-to-get-container last-to-give-get-container">
+				    		<div class="circle to-get-circle-container" res="ore">
+					    		<div class="circle trade-circle ore-color pointer">
+									<img src="images/icon-ore.svg" alt="Ore">
+								</div>
+							</div>
+				    	</div>
+				    	<br>
+				    	<div class="bank-to-get-container">
+				    		<div class="circle to-get-circle-container" res="wheat">
+					    		<div class="circle trade-circle wheat-color pointer">
+									<img src="images/icon-wheat.svg" alt="Wheat">
+								</div>
+							</div>
+				    	</div>
+				    	<div class="bank-to-get-container last-to-give-get-container">
+				    		<div class="circle to-get-circle-container" res="sheep">
+					    		<div class="circle trade-circle sheep-color pointer">
+									<img src="images/icon-sheep.svg" alt="Sheep">
+								</div>
+							</div>
+				    	</div>
+				    	
 		    			<div class="row trade-row">
 		    				<div class="col-xs-12 text-center">
-		    					<input type="button" class="btn btn-primary" value="Trade With Bank">
+		    					<input type="button" class="btn btn-primary" value="Trade With Bank" id="bank-trade-btn">
 		    				</div>
 		    			</div>
 		    		</div>
