@@ -44,6 +44,7 @@ public class MoveRobber implements FollowUpAction {
       toRet.put(_playerID, toAdd);
       return toRet;
     }
+    int originalPlayersOnTile = playersOnTile.size();
     // Remove the actual player & all players with no resources:
     Set<Integer> temp = new HashSet<>();
     for (int player : playersOnTile) {
@@ -55,6 +56,8 @@ public class MoveRobber implements FollowUpAction {
             break;
           }
         }
+      } else {
+        originalPlayersOnTile -= 1;
       }
     }
     playersOnTile = temp;
@@ -63,10 +66,11 @@ public class MoveRobber implements FollowUpAction {
       FollowUpAction followUp = new TakeCardAction(_playerID, playersOnTile); // TODO!
       _ref.addFollowUp(ImmutableList.of(followUp));
     }
-    ActionResponse toPlayer = new ActionResponse(
-        true,
-        "You moved the Robber. There was no one to steal from where you placed the Robber.",
-        playersOnTile);
+    String message = "You moved the Robber. There was no one to steal from where you placed the Robber.";
+    if (originalPlayersOnTile > 0) {
+      message = "You moved the Robber. No player has enough cards for you to steal.";
+    }
+    ActionResponse toPlayer = new ActionResponse(true, message, playersOnTile);
     String messageToAll = String.format("%s moved the Robber", _ref
         .getPlayerByID(_playerID).getName());
     ActionResponse toAll = new ActionResponse(true, messageToAll, null);

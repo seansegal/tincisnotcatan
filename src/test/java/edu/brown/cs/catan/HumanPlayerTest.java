@@ -1,5 +1,6 @@
 package edu.brown.cs.catan;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
@@ -107,6 +108,31 @@ public class HumanPlayerTest {
     assertTrue(p2.equals(p2));
     assertTrue(!p1.equals(p2));
   }
+
+  //canBuild tests
+  @Test
+  public void canBuildRoadTest(){
+    Player p1 = new HumanPlayer(2, "", "");
+    assertFalse(p1.canBuildRoad());
+    p1.addResource(Resource.BRICK, 2);
+    assertFalse(p1.canBuildRoad());
+    p1.addResource(Resource.WOOD, 2);
+    assertTrue(p1.canBuildRoad());
+    p1.buildRoad();
+    p1.useRoad();
+    p1.buildRoad();
+    p1.useRoad();
+    assertFalse(p1.canBuildRoad());
+    p1.addResource(Resource.BRICK, Settings.INITIAL_ROADS);
+    p1.addResource(Resource.WOOD, Settings.INITIAL_ROADS);
+    for(int i =0; i < Settings.INITIAL_ROADS - 2; i++){
+      p1.buildRoad();
+      p1.useRoad();
+    }
+    assertFalse(p1.canBuildRoad());
+  }
+
+
 
   // ImmutablePlayer Tests:
   @Test

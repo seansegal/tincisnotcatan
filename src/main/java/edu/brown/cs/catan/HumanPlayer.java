@@ -17,7 +17,6 @@ public class HumanPlayer implements Player {
   private final String color;
   private int _numVictoryPoints;
 
-
   public HumanPlayer(int id, String name, String color) {
     this.name = name;
     this.id = id;
@@ -77,7 +76,10 @@ public class HumanPlayer implements Player {
         return false;
       }
     }
-    return true;
+    if (numRoads > 0) {
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -101,7 +103,10 @@ public class HumanPlayer implements Player {
         return false;
       }
     }
-    return true;
+    if (numSettlements > 0) {
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -124,7 +129,10 @@ public class HumanPlayer implements Player {
         return false;
       }
     }
-    return true;
+    if (numCities > 0) {
+      return true;
+    }
+    return false;
   }
 
   @Override
