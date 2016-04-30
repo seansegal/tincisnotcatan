@@ -15,6 +15,7 @@ import edu.brown.cs.actions.PlayKnight;
 import edu.brown.cs.actions.PlayMonopoly;
 import edu.brown.cs.actions.PlayYearOfPlenty;
 import edu.brown.cs.actions.RollDice;
+import edu.brown.cs.actions.TradeWithBank;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.MasterReferee;
@@ -95,6 +96,10 @@ public class ActionFactory {
               .getAsString());
         case "playKnight":
           return new PlayKnight(_referee, playerID);
+        case "tradeWithBank":
+          String toGive = actionJSON.get("toGive").getAsString();
+          String toGet = actionJSON.get("toGet").getAsString();
+          return new TradeWithBank(_referee, playerID, toGive, toGet);
         default:
           String err = String.format("The action %s does not exist.", action);
           throw new IllegalArgumentException(err);
