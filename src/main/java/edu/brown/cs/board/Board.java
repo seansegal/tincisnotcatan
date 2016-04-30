@@ -295,7 +295,8 @@ public class Board {
     int max = 0;
     for (Path path : _paths.values()) {
       int longestPath = path.getLongestPath(player);
-      if (longestPath > 0) {
+      System.out.println(longestPath);
+      if (longestPath > max) {
         max = longestPath;
       }
     }

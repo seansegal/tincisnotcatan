@@ -53,7 +53,7 @@ public class Path {
 
   public int getLongestPath(Player player) {
     List<Path> visited = new ArrayList<>();
-    visited.add(this);
+//    visited.add(this);
     return getLongestPathHelper(visited, player);
 
   }
@@ -62,21 +62,29 @@ public class Path {
     if (_road == null || (!_road.getPlayer().equals(player))) {
       return 0;
     }
+    if(visited.contains(this)){
+      return 0;
+    }
+    visited.add(this);
     Player myPlayer = _road.getPlayer();
     int max = 0;
     for (Path p : _end.getPaths()) {
-      if (!p.equals(this) && !visited.contains(p)) {
-        if (p.getLongestPathHelper(visited, myPlayer) + 1 > max) {
-          visited.add(p);
-          max = p.getLongestPathHelper(visited, myPlayer) + 1;
+      if (!p.equals(this)) {
+//        visited.add(p);
+//        List<Path> visitedCopy = new ArrayList<>(visited);
+        int longestPath = p.getLongestPathHelper(visited, myPlayer) + 1;
+        if (longestPath > max) {
+          max = longestPath + 1;
         }
       }
     }
     for (Path p : _start.getPaths()) {
-      if (!p.equals(this) && !visited.contains(p)) {
-        if (p.getLongestPathHelper(visited, myPlayer) + 1 > max) {
-          visited.add(p);
-          max = p.getLongestPathHelper(visited, myPlayer) + 1;
+      if (!p.equals(this)) {
+//        visited.add(p);
+//        List<Path> visitedCopy = new ArrayList<>(visited);
+        int longestPath = p.getLongestPathHelper(visited, myPlayer) + 1;
+        if (longestPath + 1 > max) {
+          max = longestPath + 1;
         }
       }
     }

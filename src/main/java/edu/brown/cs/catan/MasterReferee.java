@@ -28,6 +28,7 @@ public class MasterReferee implements Referee {
   private final List<DevelopmentCard> _devCardDeck;
   private final GameSettings _gameSettings;
   private Player _largestArmy = null;
+  private Player _longestRoad = null;
   private boolean _isSetUp = true;
 
   public MasterReferee() {
@@ -144,7 +145,30 @@ public class MasterReferee implements Referee {
 
   @Override
   public boolean hasLongestRoad(int id) {
-    // TODO Auto-generated method stub
+//    if(_longestRoad == null){
+//      int max = 0;
+//      for(Player p: _players.values()){
+//        int longestPath = _board.longestPath(p);
+//        if(longestPath > max && longestPath > Settings.LONGEST_ROAD_THRESH){
+//          max = longestPath;
+//          _longestRoad = p;
+//        }
+//      }
+//    }
+//    else{
+//      int toBeat = _board.longestPath(_longestRoad);
+//      for(Player p: _players.values()){
+//        int longestPath = _board.longestPath(p);
+//        if(longestPath > toBeat){
+//          toBeat = longestPath;
+//          _longestRoad = p;
+//        }
+//      }
+//    }
+//    return _longestRoad != null ? _longestRoad.getID() == id : false;
+
+
+    System.out.println("HERE WE GO: " + _board.longestPath(_players.get(0)));
     return false;
   }
 
