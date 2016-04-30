@@ -86,6 +86,11 @@ function sendTakeCardAction(playerId) {
     webSocket.send(JSON.stringify(takeReq));
 }
 
+function sendTradeWithBankAction(toGive, toGet) {
+    var tradeReq = {requestType: "action", action: "tradeWithBank", toGive: toGive, toGet: toGet};
+    webSocket.send(JSON.stringify(tradeReq));
+}
+
 
 // ---------- RESPONSES ---------- //
 
