@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import edu.brown.cs.board.HexCoordinate;
+import edu.brown.cs.board.IntersectionCoordinate;
+
 public class MasterRefereeTest {
 
   @Test
@@ -194,7 +197,11 @@ public class MasterRefereeTest {
 
   @Test
   public void getBankRatesWithWildCardPort() {
-    //TODO: draw out ports
+    HexCoordinate h1 = new HexCoordinate(0, 2, 0);
+    HexCoordinate h2 = new HexCoordinate(0, 3, 0);
+    HexCoordinate h3 = new HexCoordinate(1, 3, 0);
+    IntersectionCoordinate i = new IntersectionCoordinate(h1, h2, h3);
+    //TODO: finsih port test
   }
 
 }

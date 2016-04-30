@@ -17,6 +17,7 @@ public class HumanPlayer implements Player {
   private final String color;
   private int _numVictoryPoints;
 
+
   public HumanPlayer(int id, String name, String color) {
     this.name = name;
     this.id = id;
