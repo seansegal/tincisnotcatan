@@ -1,7 +1,10 @@
 package edu.brown.cs.board;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.brown.cs.catan.Player;
 
@@ -52,40 +55,37 @@ public class Path {
   }
 
   public int getLongestPath(Player player) {
-    List<Path> visited = new ArrayList<>();
-//    visited.add(this);
-    return getLongestPathHelper(visited, player);
-
-  }
-
-  private int getLongestPathHelper(List<Path> visited, Player player) {
-    if (_road == null || (!_road.getPlayer().equals(player))) {
-      return 0;
-    }
-    if(visited.contains(this)){
-      return 0;
-    }
-    visited.add(this);
-    Player myPlayer = _road.getPlayer();
-    int max = 0;
-    for (Path p : _end.getPaths()) {
-      if (!p.equals(this)) {
-//        visited.add(p);
-//        List<Path> visitedCopy = new ArrayList<>(visited);
-        int longestPath = p.getLongestPathHelper(visited, myPlayer) + 1;
-        if (longestPath > max) {
-          max = longestPath + 1;
+    Collection<Path> visited = new ArrayList<>();
+    List<Path> queue = new ArrayList<>();
+    Map<Path, Integer> counts = new HashMap<>();
+    queue.add(this);
+    counts.put(this, 0);
+    while (!queue.isEmpty()) {
+      Path toVisit = queue.remove(0);
+      visited.add(toVisit);
+      int curr = counts.get(toVisit) + 1;
+      for (Path p : toVisit.getStart().getPaths()) {
+        if (p.getRoad() != null && p.getRoad().getPlayer().equals(player)
+            && !visited.contains(p)) {
+          visited.add(p);
+          counts.put(p, curr);
+          queue.add(p);
+        }
+      }
+      for (Path p : toVisit.getEnd().getPaths()) {
+        if (p.getRoad() != null && p.getRoad().getPlayer().equals(player)
+            && !visited.contains(p)) {
+          visited.add(p);
+          counts.put(p, curr);
+          queue.add(p);
         }
       }
     }
-    for (Path p : _start.getPaths()) {
-      if (!p.equals(this)) {
-//        visited.add(p);
-//        List<Path> visitedCopy = new ArrayList<>(visited);
-        int longestPath = p.getLongestPathHelper(visited, myPlayer) + 1;
-        if (longestPath + 1 > max) {
-          max = longestPath + 1;
-        }
+    int max = 0;
+    for (Path p : visited) {
+      int longest = counts.get(p);
+      if (longest > max) {
+        max = longest;
       }
     }
     return max;
