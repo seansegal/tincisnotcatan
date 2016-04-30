@@ -56,6 +56,11 @@ function sendBuyDevCardAction() {
     webSocket.send(JSON.stringify(buyReq));
 }
 
+function sendPlayKnightAction() {
+    var playReq = {requestType: "action", action: "playKnight"};
+    webSocket.send(JSON.stringify(playReq));
+}
+
 function sendPlayMonopolyAction(resource) {
     var playReq = {requestType: "action", action: "playMonopoly", resource: resource};
     webSocket.send(JSON.stringify(playReq));

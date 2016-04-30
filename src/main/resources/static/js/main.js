@@ -460,6 +460,12 @@ function highlightRobbableTiles() {
 }
 
 //////////////////////////////////////////
+// Play Knight Action
+//////////////////////////////////////////
+
+$("#knight-btn").click(sendPlayKnightAction);
+
+//////////////////////////////////////////
 // Take Card Modal
 //////////////////////////////////////////
 
@@ -490,3 +496,5 @@ function enterTakeCardModal(playerIds) {
 
 	$("#take-card-modal").modal("show");
 }
+
+
