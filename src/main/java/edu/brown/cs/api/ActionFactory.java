@@ -13,6 +13,7 @@ import edu.brown.cs.actions.EmptyAction;
 import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.actions.PlayKnight;
 import edu.brown.cs.actions.PlayMonopoly;
+import edu.brown.cs.actions.PlayRoadBuilding;
 import edu.brown.cs.actions.PlayYearOfPlenty;
 import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.actions.TradeWithBank;
@@ -96,6 +97,8 @@ public class ActionFactory {
               .getAsString());
         case "playKnight":
           return new PlayKnight(_referee, playerID);
+        case "playRoadBuilding":
+          return new PlayRoadBuilding(_referee, playerID);
         case "tradeWithBank":
           String toGive = actionJSON.get("toGive").getAsString();
           String toGet = actionJSON.get("toGet").getAsString();
