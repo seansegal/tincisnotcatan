@@ -36,9 +36,9 @@ public class MasterReferee implements Referee {
     _gameSettings = new GameSettings(); // TODO customize
     _players = new HashMap<Integer, Player>();
     _turnOrder = initializeTurnOrder(_gameSettings.NUM_PLAYERS);
-    _turn = new Turn(1);
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
+    _turn = new Turn(1, Collections.emptyMap());
   }
 
   private Map<Integer, Integer> initializeTurnOrder(int numFullPlayers) {
@@ -56,7 +56,9 @@ public class MasterReferee implements Referee {
 
   @Override
   public void startNextTurn() {
-    _turn = new Turn(_turn.getTurnNum() + 1);
+    // Player nextPlayer =
+    // TODO: fill with hand of the next player for dev cards.
+    _turn = new Turn(_turn.getTurnNum() + 1, Collections.emptyMap());
   }
 
   @Override

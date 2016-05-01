@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -19,14 +20,14 @@ public class TurnTest {
 
   @Test
   public void testConstruction() {
-    Turn turn = new Turn(1);
+    Turn turn = new Turn(1, Collections.emptyMap());
     assertTrue(turn != null);
     assertTrue(turn.getTurnNum() == 1);
   }
 
   @Test
   public void testDevHasBeenPlayed() {
-    Turn turn = new Turn(2);
+    Turn turn = new Turn(2, Collections.emptyMap());
     assertFalse(turn.devHasBeenPlayed());
     turn.setDevCardHasBeenPlayed();
     assertTrue(turn.devHasBeenPlayed());
@@ -34,7 +35,7 @@ public class TurnTest {
 
   @Test
   public void testTimeElasped() {
-    Turn turn = new Turn(1);
+    Turn turn = new Turn(1, Collections.emptyMap());
     try {
       TimeUnit.MILLISECONDS.sleep(10);
       assertTrue(turn.getTimeElapsed() >= 10);
@@ -45,7 +46,7 @@ public class TurnTest {
 
   @Test
   public void testBasicFollowUp(){
-    Turn turn = new Turn(1);
+    Turn turn = new Turn(1, Collections.emptyMap());
     assertFalse(turn.waitingForFollowUp());
     Collection<FollowUpAction> followUp = ImmutableList.of(new TestFollowUp(0));
     turn.addFollowUp(followUp);

@@ -3,6 +3,7 @@ package edu.brown.cs.catan;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import edu.brown.cs.actions.FollowUpAction;
 
@@ -12,12 +13,14 @@ public class Turn {
   private boolean _devHasBeenPlayed;
   private final int _turnNum;
   private List<Collection<FollowUpAction>> _followUps;
+  private Map<DevelopmentCard, Integer> _initialDevCardHand;
 
-  public Turn(int turnNum) {
+  public Turn(int turnNum, Map<DevelopmentCard, Integer> initialDevCardHand) {
     _timeStarted = System.currentTimeMillis();
     _devHasBeenPlayed = false;
     _turnNum = turnNum;
     _followUps = new ArrayList<>();
+    _initialDevCardHand = initialDevCardHand;
   }
 
   private Turn(Turn turn) {
@@ -25,6 +28,7 @@ public class Turn {
     _devHasBeenPlayed = turn.devHasBeenPlayed();
     _turnNum = turn.getTurnNum();
     _followUps = turn.getAllFollowUps();
+
   }
 
   private List<Collection<FollowUpAction>> getAllFollowUps() {

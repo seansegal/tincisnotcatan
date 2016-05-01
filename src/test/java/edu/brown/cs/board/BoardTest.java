@@ -210,7 +210,6 @@ public class BoardTest {
     Path path = b.getPaths().get(pathCoord);
     assertTrue(path.canPlaceRoad(player));
     path.placeRoad(player);
-    System.out.println(path.getLongestPath(player));
     assertTrue(b.longestPath(player) == 1);
   }
 
@@ -242,7 +241,6 @@ public class BoardTest {
     path.placeRoad(player);
     assertTrue(b.getPaths().get(secondCoord).canPlaceRoad(player));
     b.getPaths().get(secondCoord).placeRoad(player);
-    System.out.println(path.getLongestPath(player));
     assertTrue(b.longestPath(player) == 2);
   }
 
