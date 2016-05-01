@@ -65,19 +65,29 @@ public class Path {
       visited.add(toVisit);
       int curr = counts.get(toVisit) + 1;
       for (Path p : toVisit.getStart().getPaths()) {
-        if (p.getRoad() != null && p.getRoad().getPlayer().equals(player)
-            && !visited.contains(p)) {
-          visited.add(p);
-          counts.put(p, curr);
-          queue.add(p);
+        if (p.getRoad() != null && p.getRoad().getPlayer().equals(player)) {
+          if (!visited.contains(p)) {
+            visited.add(p);
+            counts.put(p, curr);
+            queue.add(0, p);
+          } else {
+            if (curr - counts.get(p) == 5) {
+              counts.put(p, curr);
+            }
+          }
         }
       }
       for (Path p : toVisit.getEnd().getPaths()) {
-        if (p.getRoad() != null && p.getRoad().getPlayer().equals(player)
-            && !visited.contains(p)) {
-          visited.add(p);
-          counts.put(p, curr);
-          queue.add(p);
+        if (p.getRoad() != null && p.getRoad().getPlayer().equals(player)) {
+          if (!visited.contains(p)) {
+            visited.add(p);
+            counts.put(p, curr);
+            queue.add(0, p);
+          } else {
+            if (curr - counts.get(p) == 5) {
+              counts.put(p, curr);
+            }
+          }
         }
       }
     }

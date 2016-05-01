@@ -145,31 +145,26 @@ public class MasterReferee implements Referee {
 
   @Override
   public boolean hasLongestRoad(int id) {
-//    if(_longestRoad == null){
-//      int max = 0;
-//      for(Player p: _players.values()){
-//        int longestPath = _board.longestPath(p);
-//        if(longestPath > max && longestPath > Settings.LONGEST_ROAD_THRESH){
-//          max = longestPath;
-//          _longestRoad = p;
-//        }
-//      }
-//    }
-//    else{
-//      int toBeat = _board.longestPath(_longestRoad);
-//      for(Player p: _players.values()){
-//        int longestPath = _board.longestPath(p);
-//        if(longestPath > toBeat){
-//          toBeat = longestPath;
-//          _longestRoad = p;
-//        }
-//      }
-//    }
-//    return _longestRoad != null ? _longestRoad.getID() == id : false;
-
-
-    System.out.println("HERE WE GO: " + _board.longestPath(_players.get(0)));
-    return false;
+    if (_longestRoad == null) {
+      int max = 0;
+      for (Player p : _players.values()) {
+        int longestPath = _board.longestPath(p);
+        if (longestPath > max && longestPath >= Settings.LONGEST_ROAD_THRESH) {
+          max = longestPath;
+          _longestRoad = p;
+        }
+      }
+    } else {
+      int toBeat = _board.longestPath(_longestRoad);
+      for (Player p : _players.values()) {
+        int longestPath = _board.longestPath(p);
+        if (longestPath > toBeat) {
+          toBeat = longestPath;
+          _longestRoad = p;
+        }
+      }
+    }
+    return _longestRoad != null ? _longestRoad.getID() == id : false;
   }
 
   @Override
@@ -220,18 +215,17 @@ public class MasterReferee implements Referee {
       rates.put(r, _bank.getBankRate());
     }
     for (Intersection i : _board.getIntersections().values()) {
-      if (i.getPort() != null && i.getBuilding() != null && i.getBuilding().getPlayer().equals(player)) {
+      if (i.getPort() != null && i.getBuilding() != null
+          && i.getBuilding().getPlayer().equals(player)) {
         if (i.getPort().getResource() == Resource.WILDCARD) {
           for (Resource r : Resource.values()) {
             double rate = Math.min(rates.get(r),
                 _bank.getPortRates().get(Resource.WILDCARD));
             rates.put(r, rate);
           }
-        }
-        else{
+        } else {
           Resource r = i.getPort().getResource();
-          double rate = Math.min(rates.get(r),
-              _bank.getPortRates().get(r));
+          double rate = Math.min(rates.get(r), _bank.getPortRates().get(r));
           rates.put(r, rate);
         }
       }
