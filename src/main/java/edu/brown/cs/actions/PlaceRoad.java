@@ -28,7 +28,7 @@ public class PlaceRoad implements FollowUpAction {
   public Map<Integer, ActionResponse> execute() {
     if (!_isSetup) {
       throw new UnsupportedOperationException(
-          "Cannot execute a FollowUpAction that is not setup.");
+          "A FollowUpAction must be setup before it is executed.");
     }
     // Build the road
     new BuildRoad(_ref, _playerID, _start, _end, false).execute();

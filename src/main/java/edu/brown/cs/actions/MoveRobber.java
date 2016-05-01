@@ -32,7 +32,7 @@ public class MoveRobber implements FollowUpAction {
   public Map<Integer, ActionResponse> execute() {
     if (!_isSetup) {
       throw new UnsupportedOperationException(
-          "An unsetup action cannot be executed");
+          "A FollowUpAction must be setup before it is executed.");
     }
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
     Set<Integer> playersOnTile = Collections.emptySet();

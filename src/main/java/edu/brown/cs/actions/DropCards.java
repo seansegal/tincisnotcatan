@@ -33,7 +33,7 @@ public class DropCards implements FollowUpAction {
   public Map<Integer, ActionResponse> execute() {
     if (!_isSetup) {
       throw new UnsupportedOperationException(
-          "Cannot call execute on a FollowUpAction that is not setup.");
+          "A FollowUpAction must be setup before it is executed.");
     }
     // Validation:
     double droppedCards = 0.0;

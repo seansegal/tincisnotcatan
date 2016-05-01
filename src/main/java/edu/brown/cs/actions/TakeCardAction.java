@@ -39,7 +39,7 @@ public class TakeCardAction implements Action, FollowUpAction {
     // Validation:
     if (!_isSetup) {
       throw new UnsupportedOperationException(
-          "A FollowupAction must be setup before execution.");
+          "A FollowUpAction must be setup before it is executed.");
     }
     if (!_toTake.contains(_playerToTake)) {
       System.out.println("HERE with toTake: " + _toTake + " and playerToTake:" + _playerToTake);
