@@ -192,59 +192,58 @@ public class BoardTest {
 
   @Test
   public void testLongestRoadOneRoad() {
-//    Board b = new Board();
-//    HexCoordinate h1 = new HexCoordinate(0, 0, 0);
-//    HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
-//    HexCoordinate h3 = new HexCoordinate(0, 0, 1);
-//    IntersectionCoordinate start = new IntersectionCoordinate(h1, h2, h3);
-//
-//    HexCoordinate h4 = new HexCoordinate(0, 0, 0);
-//    HexCoordinate h5 = new HexCoordinate(0, 0, 1);
-//    HexCoordinate h6 = new HexCoordinate(0, -1, 0);
-//    IntersectionCoordinate end = new IntersectionCoordinate(h4, h5, h6);
-//
-//    PathCoordinate pathCoord = new PathCoordinate(start, end);
-//    Player player = new HumanPlayer(0, "", "");
-//
-//    b.getIntersections().get(start).placeSettlement(player);
-//    Path path = b.getPaths().get(pathCoord);
-//    assertTrue(path.canPlaceRoad(player));
-//    path.placeRoad(player);
-//    System.out.println(path.getLongestPath(player));
-//    assertTrue(path.getLongestPath(player) == 1);
+    Board b = new Board();
+    HexCoordinate h1 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
+    HexCoordinate h3 = new HexCoordinate(0, 0, 1);
+    IntersectionCoordinate start = new IntersectionCoordinate(h1, h2, h3);
+
+    HexCoordinate h4 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h5 = new HexCoordinate(0, 0, 1);
+    HexCoordinate h6 = new HexCoordinate(0, -1, 0);
+    IntersectionCoordinate end = new IntersectionCoordinate(h4, h5, h6);
+
+    PathCoordinate pathCoord = new PathCoordinate(start, end);
+    Player player = new HumanPlayer(0, "", "");
+
+    b.getIntersections().get(start).placeSettlement(player);
+    Path path = b.getPaths().get(pathCoord);
+    assertTrue(path.canPlaceRoad(player));
+    path.placeRoad(player);
+    System.out.println(path.getLongestPath(player));
+    assertTrue(b.longestPath(player) == 1);
   }
 
   @Test
   public void testLongestRoadTwoRoads() {
-//    Board b = new Board();
-//    HexCoordinate h1 = new HexCoordinate(0, 0, 0);
-//    HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
-//    HexCoordinate h3 = new HexCoordinate(0, 0, 1);
-//    IntersectionCoordinate start = new IntersectionCoordinate(h1, h2, h3);
-//
-//    HexCoordinate h4 = new HexCoordinate(0, 0, 0);
-//    HexCoordinate h5 = new HexCoordinate(0, 0, 1);
-//    HexCoordinate h6 = new HexCoordinate(0, -1, 0);
-//    IntersectionCoordinate end = new IntersectionCoordinate(h4, h5, h6);
-//
-//    HexCoordinate h7 = new HexCoordinate(0, -1, 1);
-//    HexCoordinate h8 = new HexCoordinate(0, 0, 1);
-//    HexCoordinate h9 = new HexCoordinate(0, -1, 0);
-//    IntersectionCoordinate end2 = new IntersectionCoordinate(h7, h8, h9);
-//
-//    PathCoordinate firstCoord = new PathCoordinate(start, end);
-//    PathCoordinate secondCoord = new PathCoordinate(end, end2);
-//    Player player = new HumanPlayer(0, "", "");
-//
-//    b.getIntersections().get(start).placeSettlement(player);
-//    Path path = b.getPaths().get(firstCoord);
-//    assertTrue(path.canPlaceRoad(player));
-//    path.placeRoad(player);
-//    assertTrue(b.getPaths().get(secondCoord).canPlaceRoad(player));
-//    b.getPaths().get(secondCoord).placeRoad(player);
-//    System.out.println(path.getLongestPath(player));
-//    assertTrue(path.getLongestPath(player) == 2);
+    Board b = new Board();
+    HexCoordinate h1 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
+    HexCoordinate h3 = new HexCoordinate(0, 0, 1);
+    IntersectionCoordinate start = new IntersectionCoordinate(h1, h2, h3);
 
+    HexCoordinate h4 = new HexCoordinate(0, 0, 0);
+    HexCoordinate h5 = new HexCoordinate(0, 0, 1);
+    HexCoordinate h6 = new HexCoordinate(0, -1, 0);
+    IntersectionCoordinate end = new IntersectionCoordinate(h4, h5, h6);
+
+    HexCoordinate h7 = new HexCoordinate(0, -1, 1);
+    HexCoordinate h8 = new HexCoordinate(0, 0, 1);
+    HexCoordinate h9 = new HexCoordinate(0, -1, 0);
+    IntersectionCoordinate end2 = new IntersectionCoordinate(h7, h8, h9);
+
+    PathCoordinate firstCoord = new PathCoordinate(start, end);
+    PathCoordinate secondCoord = new PathCoordinate(end, end2);
+    Player player = new HumanPlayer(0, "", "");
+
+    b.getIntersections().get(start).placeSettlement(player);
+    Path path = b.getPaths().get(firstCoord);
+    assertTrue(path.canPlaceRoad(player));
+    path.placeRoad(player);
+    assertTrue(b.getPaths().get(secondCoord).canPlaceRoad(player));
+    b.getPaths().get(secondCoord).placeRoad(player);
+    System.out.println(path.getLongestPath(player));
+    assertTrue(b.longestPath(player) == 2);
   }
 
 }

@@ -1,5 +1,7 @@
 package edu.brown.cs.actions;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,9 +44,10 @@ public class PlayMonopoly implements Action {
         double numResource = otherPlayer.getResources().get(_res);
         totalResCount += numResource;
         otherPlayer.removeResource(_res, numResource);
+        NumberFormat nf = new DecimalFormat("##.##");
         String message = String.format(
-            "%s played a Monopoly card. You lost %.2f %s.", _player.getName(),
-            numResource, _res.toString());
+            "%s played a Monopoly card. You lost %s %s.", _player.getName(),
+            nf.format(numResource), _res.toString());
         Map<Resource, Double> resourceMap = new HashMap<Resource, Double>();
         resourceMap.put(_res, numResource);
         ActionResponse toAdd = new ActionResponse(true, message, resourceMap);
@@ -54,8 +57,9 @@ public class PlayMonopoly implements Action {
     _player.addResource(_res, totalResCount);
     Map<Resource, Double> resourceMap = new HashMap<Resource, Double>();
     resourceMap.put(_res, totalResCount);
+    NumberFormat nf = new DecimalFormat("##.##");
     String message = String.format(
-        "You played a Monopoly card and gained %.2f %s", totalResCount,
+        "You played a Monopoly card and gained %s %s", nf.format(totalResCount),
         _res.toString());
     ActionResponse toAdd = new ActionResponse(true, message, resourceMap);
     toRet.put(_player.getID(), toAdd);

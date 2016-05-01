@@ -1,5 +1,7 @@
 package edu.brown.cs.actions;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,8 +55,9 @@ public class TradeWithBank implements Action {
         "You traded with the bank and got a %s", _toGet);
     ActionResponse respToPlayer = new ActionResponse(true, messageToPlayer,
         null);
-    String messageToAll = String.format("%s traded %f %s for a %s",
-        _player.getName(), rate, _toGive, _toGet);
+    NumberFormat nf = new DecimalFormat("##.##");
+    String messageToAll = String.format("%s traded %s %s for a %s",
+        _player.getName(), nf.format(rate), _toGive, _toGet);
     ActionResponse respToAll = new ActionResponse(true, messageToAll, null);
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
     for (Player p : _ref.getPlayers()) {
@@ -66,5 +69,4 @@ public class TradeWithBank implements Action {
     }
     return toReturn;
   }
-
 }
