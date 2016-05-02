@@ -58,6 +58,10 @@ public class Main {
     // Set up board
     Spark.get("/board", new BoardHandler(), freeMarker);
     Spark.get("/home", new HomeHandler(), freeMarker);
+    Spark.before("/", (request, response) -> {
+      System.out.println("Redirect causes an extra open/close on GroupView. Disregard.");
+      response.redirect("/home");
+    });
 
     // secure("", "", "", ""); // use this for https!
 
