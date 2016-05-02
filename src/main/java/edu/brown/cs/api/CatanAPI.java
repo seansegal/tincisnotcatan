@@ -27,11 +27,13 @@ public class CatanAPI implements API {
     _actionFactory = new ActionFactory(_referee);
   }
 
+
   public CatanAPI(String settings) {
     _converter = new CatanConverter();
+    _referee = new MasterReferee();
     CatanSettings catanSettings = _converter.getSettings(settings);
     // TODO: use settings for number of players etc.
-    _referee = new MasterReferee();
+
     _actionFactory = new ActionFactory(_referee);
   }
 

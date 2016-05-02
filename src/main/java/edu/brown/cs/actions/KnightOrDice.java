@@ -15,7 +15,7 @@ public class KnightOrDice implements FollowUpAction {
   private final int _playerID;
   private Referee _ref;
   private static final String VERB = "start the next turn";
-  private static final String ID = "rollDice";
+  private static final String ID = "knightOrDice";
   private boolean _isSetUp = false;
   private boolean _choseKnight = false;
 
@@ -44,7 +44,8 @@ public class KnightOrDice implements FollowUpAction {
   @Override
   public JsonObject getData() {
     JsonObject toRet = new JsonObject();
-    String message = String.format("%s, please roll the dice.",
+    String message = String.format(
+        "%s, please choose to roll the dice or play a knight.",
         _player.getName());
     toRet.addProperty("message", message);
     return null;
