@@ -115,6 +115,7 @@ webSocket.onmessage = function (msg) {
     if(data.hasOwnProperty("requestType")) {
         switch(data.requestType) {
         case "chat":
+            updateChat(data);
             break;
         case "getGameState":
             handleGetGameState(data);
@@ -152,13 +153,12 @@ function sendMessage(message) {
 
 //Update the chat-panel, and the list of connected users
 function updateChat(msg) {
-    console.log(msg);
     if(msg.hasOwnProperty('ERROR')) {
         alert(msg.ERROR);
     } else {
-        insert("chat", msg.userMessage);
+        var fromPlayer = playersById[msg.fromUser];
+        insert("chat", "<div style='border-left-color: " + fromPlayer.color + "'>" + msg.userMessage + "</div>");
     }
-
 }
 
 //////////////////////////////////////////

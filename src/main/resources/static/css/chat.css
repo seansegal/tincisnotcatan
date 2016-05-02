@@ -51,13 +51,13 @@
     padding: 10px;
     margin: 10px 0;
     border-left: 5px solid #aaa;
+    border-left-color: inherit;
     position: relative;
     word-wrap: break-word;
 }
 
-#chat article:last-of-type {
+#chat div:last-of-type article {
     background: #c9edc3;
-    border-left-color: #74a377;
     animation: enter .2s 1;
 }
 
