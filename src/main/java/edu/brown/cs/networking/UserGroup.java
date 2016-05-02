@@ -45,6 +45,9 @@ public class UserGroup implements Timestamped, Group {
             "Error instantiating API class of type:" + b.apiClass.getName());
         e.printStackTrace();
       }
+      if(b.apiSettings != null) {
+        api.setSettings(b.apiSettings);
+      }
     }
   }
 
@@ -87,6 +90,11 @@ public class UserGroup implements Timestamped, Group {
       gs.addProperty("requestType", "getGameState");
       other.message(gs);
     }
+    if (isFull()) {
+//      JsonObject gameStart = new JsonObject();
+//      gameStart.addProperty("action", "");
+      //TODO: send game start action
+    }
     return true;
     // regardless of whether or not u was present in the set already,
     // should return true to indicate that u has "found a home"
@@ -120,6 +128,7 @@ public class UserGroup implements Timestamped, Group {
     private final Class<? extends API>   apiClass;
     private String                       identifier  = null;
     private String                       name        = null;
+    private JsonObject                   apiSettings = null;
 
 
     public UserGroupBuilder(Class<? extends API> apiClass) {
@@ -154,6 +163,12 @@ public class UserGroup implements Timestamped, Group {
 
     public UserGroupBuilder withName(String name) {
       this.name = name;
+      return this;
+    }
+
+
+    public UserGroupBuilder withApiSettings(JsonObject j) {
+      this.apiSettings = j;
       return this;
     }
 

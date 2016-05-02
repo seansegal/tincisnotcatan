@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import com.google.gson.JsonObject;
+
 import edu.brown.cs.networking.DistinctRandom;
 import edu.brown.cs.networking.Group;
 import edu.brown.cs.networking.GroupSelector;
@@ -51,11 +53,16 @@ public class CatanGroupSelector implements GroupSelector {
       }
     }
 
+    // MAKE SETTINGS :
+    JsonObject settings = new JsonObject();
+    settings.addProperty("numPlayers", desiredSize);
+
     return new UserGroupBuilder(CatanAPI.class)
         .withSize(desiredSize)
         .withRequestProcessors(
             Collections.unmodifiableCollection(catanProcessors))
         .withName("TEST")
+        .withApiSettings(settings)
         .withUniqueIdentifier(DistinctRandom.getString())
         .build();
   }
