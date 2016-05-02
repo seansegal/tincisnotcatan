@@ -16,6 +16,7 @@ import edu.brown.cs.actions.PlayMonopoly;
 import edu.brown.cs.actions.PlayRoadBuilding;
 import edu.brown.cs.actions.PlayYearOfPlenty;
 import edu.brown.cs.actions.RollDice;
+import edu.brown.cs.actions.StartGame;
 import edu.brown.cs.actions.TradeWithBank;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
@@ -73,6 +74,8 @@ public class ActionFactory {
         switch (action) {
         case "getInitialState":
           return new EmptyAction();
+        case "startGame":
+          return new StartGame(_referee);
         case "buildCity":
           return new BuildCity(_referee, playerID,
               toIntersectionCoordinate(actionJSON.get("coordinate")
