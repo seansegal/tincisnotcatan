@@ -1,6 +1,7 @@
 package edu.brown.cs.catan;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import edu.brown.cs.actions.FollowUpAction;
@@ -53,4 +54,6 @@ public interface Referee {
   void addFollowUp(Collection<FollowUpAction> actions);
 
   public void removeFollowUp(FollowUpAction action);
+
+  List<Integer> getTurnOrder();
 }

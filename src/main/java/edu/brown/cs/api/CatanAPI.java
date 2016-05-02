@@ -27,11 +27,13 @@ public class CatanAPI implements API {
     _actionFactory = new ActionFactory(_referee);
   }
 
+
   public CatanAPI(String settings) {
     _converter = new CatanConverter();
+    _referee = new MasterReferee();
     CatanSettings catanSettings = _converter.getSettings(settings);
     // TODO: use settings for number of players etc.
-    _referee = new MasterReferee();
+
     _actionFactory = new ActionFactory(_referee);
   }
 
@@ -59,9 +61,10 @@ public class CatanAPI implements API {
    */
   @Override
   public int addPlayer(JsonObject playerAttributes) {
-    synchronized(this){
+    synchronized (this) {
       try {
-        return _referee.addPlayer(playerAttributes.get("userName").getAsString());
+        return _referee.addPlayer(playerAttributes.get("userName")
+            .getAsString());
       } catch (JsonSyntaxException | NullPointerException e) {
         throw new IllegalArgumentException(
             "To add a player, you must have userName as a field.");
@@ -77,7 +80,7 @@ public class CatanAPI implements API {
    * @return A boolean indicating that the game is full.
    */
   public boolean gameIsFull() {
-    synchronized(this){
+    synchronized (this) {
       return _referee.gameIsFull();
     }
   }
@@ -109,16 +112,14 @@ public class CatanAPI implements API {
               _referee.getNextFollowUp(response.getKey()));
         }
         return _converter.responseToJSON(responses);
-      }
-      catch (IllegalArgumentException e) {
+      } catch (IllegalArgumentException e) {
         System.out
             .println("ERROR: Perform Action - " + e.getLocalizedMessage());
         JsonObject json = new JsonObject();
         json.add("requestError",
             new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
         return ImmutableMap.of(-1, json);
-      }
-      catch(WaitingOnActionException e){
+      } catch (WaitingOnActionException e) {
         System.out.println("REACHED");
         return _converter.responseToJSON(e.getResponses());
       }
@@ -145,11 +146,15 @@ public class CatanAPI implements API {
         json.add("requestError",
             new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
         return ImmutableMap.of(-1, json);
-      }
-      catch(WaitingOnActionException e){
+      } catch (WaitingOnActionException e) {
         return _converter.responseToJSON(e.getResponses());
       }
     }
+  }
+
+  @Override
+  public void setSettings(JsonObject settings) {
+    // TODO Auto-generated method stub
   }
 
 }
