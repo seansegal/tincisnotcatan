@@ -68,7 +68,7 @@ public class UserGroup implements Timestamped, Group {
   }
 
 
-  public boolean add(User u) {
+  synchronized public boolean add(User u) {
     if (users.size() == desiredSize) {
       return false; // we're full, don't give me any more users.
     }
@@ -87,13 +87,13 @@ public class UserGroup implements Timestamped, Group {
   }
 
 
-  public boolean remove(User u) {
+  synchronized public boolean remove(User u) {
     return users.remove(u); // could it be this simple? we can add more logic
                             // for timeouts etc later.
   }
 
 
-  public boolean handleMessage(User u, JsonObject j) {
+  synchronized public boolean handleMessage(User u, JsonObject j) {
     if (!users.contains(u)) {
       System.out.println("Error : user not contained");
       return false;
