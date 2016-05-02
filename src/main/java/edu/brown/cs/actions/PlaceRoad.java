@@ -18,6 +18,7 @@ public class PlaceRoad implements FollowUpAction {
   private Referee _ref;
   private IntersectionCoordinate _start;
   private IntersectionCoordinate _end;
+  private static final String VERB = "place a road";
 
   public PlaceRoad(int playerID) {
     _playerID = playerID;
@@ -90,5 +91,10 @@ public class PlaceRoad implements FollowUpAction {
     HexCoordinate h3 = new HexCoordinate(coord3.get("x").getAsInt(), coord3
         .get("y").getAsInt(), coord3.get("z").getAsInt());
     return new IntersectionCoordinate(h1, h2, h3);
+  }
+
+  @Override
+  public String getVerb() {
+    return VERB;
   }
 }

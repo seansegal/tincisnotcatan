@@ -109,13 +109,18 @@ public class CatanAPI implements API {
               _referee.getNextFollowUp(response.getKey()));
         }
         return _converter.responseToJSON(responses);
-      } catch (IllegalArgumentException e) {
+      }
+      catch (IllegalArgumentException e) {
         System.out
             .println("ERROR: Perform Action - " + e.getLocalizedMessage());
         JsonObject json = new JsonObject();
         json.add("requestError",
             new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
         return ImmutableMap.of(-1, json);
+      }
+      catch(WaitingOnActionException e){
+        System.out.println("REACHED");
+        return _converter.responseToJSON(e.getResponses());
       }
     }
   }
@@ -140,6 +145,9 @@ public class CatanAPI implements API {
         json.add("requestError",
             new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
         return ImmutableMap.of(-1, json);
+      }
+      catch(WaitingOnActionException e){
+        return _converter.responseToJSON(e.getResponses());
       }
     }
   }

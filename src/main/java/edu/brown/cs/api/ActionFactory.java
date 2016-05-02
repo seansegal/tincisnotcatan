@@ -37,7 +37,7 @@ public class ActionFactory {
     return GSON.fromJson(string, JsonObject.class);
   }
 
-  public Action createAction(String json) {
+  public Action createAction(String json) throws WaitingOnActionException {
     try {
       JsonObject actionJSON = convertFromStringToJson(json);
       return createAction(actionJSON);
@@ -47,7 +47,8 @@ public class ActionFactory {
     }
   }
 
-  public Action createAction(JsonObject actionJSON) {
+  public Action createAction(JsonObject actionJSON)
+    throws WaitingOnActionException {
     int playerID;
     String action;
     try {
@@ -64,7 +65,8 @@ public class ActionFactory {
         nextAction.setupAction(_referee, playerID, actionJSON);
         return nextAction;
       }
-      throw new IllegalArgumentException("WAITING ON ACTION");
+      throw new WaitingOnActionException(String.format(
+          "You must %s before perfoming other actions", nextAction.getVerb()), playerID);
     } else {
       try {
         switch (action) {

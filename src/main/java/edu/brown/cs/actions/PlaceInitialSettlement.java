@@ -22,6 +22,7 @@ public class PlaceInitialSettlement implements FollowUpAction {
   private int _settlementNum;
   private Referee _ref;
   private Intersection _intersection;
+  private static final String VERB = "place a Settlement";
 
   public PlaceInitialSettlement(int playerID, int settlementNum) {
     _playerID = playerID;
@@ -106,6 +107,11 @@ public class PlaceInitialSettlement implements FollowUpAction {
   public void setupAction(Referee ref, int playerID, JsonObject params) {
 
     _isSetup = true;
+  }
+
+  @Override
+  public String getVerb() {
+    return VERB;
   }
 
 }

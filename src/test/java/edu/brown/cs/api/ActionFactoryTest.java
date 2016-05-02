@@ -19,6 +19,9 @@ public class ActionFactoryTest {
       assertTrue(false);
     } catch (IllegalArgumentException e) {
       assertTrue(true);
+    } catch (WaitingOnActionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 
@@ -32,6 +35,9 @@ public class ActionFactoryTest {
       assertTrue(false);
     } catch (IllegalArgumentException e) {
       assertTrue(true);
+    } catch (WaitingOnActionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 
@@ -41,10 +47,15 @@ public class ActionFactoryTest {
     ActionFactory factory = new ActionFactory(ref);
     try {
       String json = "{action: rollDice}";
+
       factory.createAction(json);
+
       assertTrue(false);
     } catch (IllegalArgumentException e) {
       assertTrue(true);
+    } catch (WaitingOnActionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 }

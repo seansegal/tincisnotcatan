@@ -22,6 +22,7 @@ public class MoveRobber implements FollowUpAction {
   private int _playerID;
   private HexCoordinate _newLocation;
   public final static String ID = "moveRobber";
+  private final static String VERB = "move the Robber";
 
   public MoveRobber(int playerID) {
     _playerID = playerID;
@@ -125,6 +126,11 @@ public class MoveRobber implements FollowUpAction {
     } catch (NullPointerException | JsonSyntaxException e) {
       throw new IllegalArgumentException("Missing coordinate x,y, or z");
     }
+  }
+
+  @Override
+  public String getVerb() {
+    return MoveRobber.VERB;
   }
 
 }

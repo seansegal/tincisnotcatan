@@ -14,4 +14,6 @@ public interface FollowUpAction extends Action {
 
   void setupAction(Referee ref, int playerID, JsonObject params);
 
+  String getVerb();
+
 }

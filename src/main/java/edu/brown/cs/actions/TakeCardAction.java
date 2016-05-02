@@ -19,6 +19,7 @@ import edu.brown.cs.catan.Resource;
 public class TakeCardAction implements Action, FollowUpAction {
 
   public final static String ID = "takeCard";
+  private final static String VERB = "take a card";
   private final int _playerID;
   private boolean _isSetup;
   private Collection<Integer> _toTake;
@@ -133,6 +134,11 @@ public class TakeCardAction implements Action, FollowUpAction {
       throw new IllegalArgumentException("expecting takeFrom, must missing in JSON");
     }
 
+  }
+
+  @Override
+  public String getVerb() {
+    return VERB;
   }
 
 }

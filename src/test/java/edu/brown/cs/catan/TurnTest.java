@@ -88,6 +88,11 @@ public class TurnTest {
       // TODO Auto-generated method stub
     }
 
+    @Override
+    public String getVerb() {
+      return "";
+    }
+
   }
 
 }
