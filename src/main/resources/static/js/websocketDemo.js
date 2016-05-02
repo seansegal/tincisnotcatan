@@ -51,6 +51,11 @@ function sendBuildRoadAction(start, end) {
     webSocket.send(JSON.stringify(buildReq));
 }
 
+function sendPlaceRoadAction(start, end) {
+    var placeReq  = {requestType: "action", action: "placeRoad", start: start, end: end};
+    webSocket.send(JSON.stringify(placeReq));
+}
+
 function sendBuyDevCardAction() {
     var buyReq = {requestType: "action", action: "buyDevCard"};
     webSocket.send(JSON.stringify(buyReq));
@@ -68,6 +73,11 @@ function sendPlayMonopolyAction(resource) {
 
 function sendPlayYearOfPlentyAction(res1, res2) {
     var playReq = {requestType: "action", action: "playYearOfPlenty", firstRes: res1, secondRes: res2};
+    webSocket.send(JSON.stringify(playReq));
+}
+
+function sendPlayRoadBuildingAction() {
+    var playReq = {requestType: "action", action: "playRoadBuilding"};
     webSocket.send(JSON.stringify(playReq));
 }
 
@@ -90,7 +100,6 @@ function sendTradeWithBankAction(toGive, toGet) {
     var tradeReq = {requestType: "action", action: "tradeWithBank", toGive: toGive, toGet: toGet};
     webSocket.send(JSON.stringify(tradeReq));
 }
-
 
 // ---------- RESPONSES ---------- //
 
@@ -174,6 +183,9 @@ function handleActionResponse(data) {
             case "takeCard":
                 enterTakeCardModal(action.actionData.toTake);
                 break;
+            case "placeRoad":
+                inPlaceRoadMode = true;
+                break;
             default:
                 break;
         }
@@ -219,6 +231,11 @@ function handleGetGameState(gameStateData) {
     board = new Board();
     board.createBoard(gameStateData.board);
     board.draw();
+
+    // If in place road mode, enter build rode mode
+    if (inPlaceRoadMode) {
+        enterPlaceRoadMode();
+    }
 }
 
 //Send message if enter is pressed in the input field
