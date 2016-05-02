@@ -66,7 +66,8 @@ public class ActionFactory {
         return nextAction;
       }
       throw new WaitingOnActionException(String.format(
-          "You must %s before perfoming other actions", nextAction.getVerb()), playerID);
+          "You must %s before perfoming other actions", nextAction.getVerb()),
+          playerID);
     } else {
       try {
         switch (action) {
