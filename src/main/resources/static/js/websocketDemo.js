@@ -115,7 +115,6 @@ webSocket.onmessage = function (msg) {
     if(data.hasOwnProperty("requestType")) {
         switch(data.requestType) {
         case "chat":
-            updateChat(data);
             break;
         case "getGameState":
             handleGetGameState(data);

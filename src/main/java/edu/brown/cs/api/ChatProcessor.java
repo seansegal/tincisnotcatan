@@ -29,6 +29,7 @@ public class ChatProcessor implements RequestProcessor {
     JsonObject toSend =
         Chat.createMessage(String.format("%s%n", user.getField("userName")),
             json.get("message").getAsString(), userIds);
+    toSend.addProperty("fromUser", user.userID());
 
     boolean success = true;
     for (User other : group) {

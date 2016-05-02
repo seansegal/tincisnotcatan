@@ -17,6 +17,7 @@ public class GroupSerializer implements JsonSerializer<Group> {
     j.addProperty("id", src.identifier());
     j.addProperty("maxSize", src.maxSize());
     j.addProperty("currentSize", src.currentSize());
+    j.addProperty("groupName", src.groupName());
     return j;
   }
 
