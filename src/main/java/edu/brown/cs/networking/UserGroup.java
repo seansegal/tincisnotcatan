@@ -10,15 +10,15 @@ import com.google.gson.JsonObject;
 public class UserGroup implements Timestamped, Group {
 
 
+  // for timestampted
+  private long                         initTime;
+  // for group
   private Collection<RequestProcessor> reqs;
-
   private Set<User>                    users;
   private API                          api;
-  private long                         initTime;
-
   private String                       identifier;
-
   private final int                    desiredSize;
+  private String                       groupName;
 
 
   private UserGroup() {
@@ -33,6 +33,7 @@ public class UserGroup implements Timestamped, Group {
     this.reqs = b.reqs;
     this.desiredSize = b.desiredSize;
     this.identifier = b.identifier;
+    this.groupName = b.name;
     // default inits
     this.users = new HashSet<>();
 
@@ -50,6 +51,11 @@ public class UserGroup implements Timestamped, Group {
 
   public String identifier() {
     return identifier;
+  }
+
+
+  public String groupName() {
+    return groupName;
   }
 
 
@@ -113,6 +119,7 @@ public class UserGroup implements Timestamped, Group {
     private int                          desiredSize = 1;
     private final Class<? extends API>   apiClass;
     private String                       identifier  = null;
+    private String                       name        = null;
 
 
     public UserGroupBuilder(Class<? extends API> apiClass) {
@@ -141,6 +148,12 @@ public class UserGroup implements Timestamped, Group {
 
     public UserGroupBuilder withUniqueIdentifier(String id) {
       this.identifier = id;
+      return this;
+    }
+
+
+    public UserGroupBuilder withName(String name) {
+      this.name = name;
       return this;
     }
 

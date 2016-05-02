@@ -55,6 +55,7 @@ public class CatanGroupSelector implements GroupSelector {
         .withSize(desiredSize)
         .withRequestProcessors(
             Collections.unmodifiableCollection(catanProcessors))
+        .withName("TEST")
         .withUniqueIdentifier(DistinctRandom.getString())
         .build();
   }

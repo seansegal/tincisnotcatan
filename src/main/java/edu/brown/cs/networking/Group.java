@@ -16,6 +16,9 @@ public interface Group {
   String identifier();
 
 
+  String groupName();
+
+
   int maxSize();
 
 
