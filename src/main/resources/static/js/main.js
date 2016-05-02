@@ -279,9 +279,19 @@ function openMonopolyModal() {
 			selectedElement.removeClass("highlighted-monopoly-circle");
 		}
 	});
+
+	$("#monopoly-modal").modal("show");
 }
 
-$("#monopoly-btn").click(openMonopolyModal);
+$("#monopoly-btn").click(function(event) {
+	// Check that player had a monopoly card to play
+	if (playersById[playerId].hand.monopoly <= 0) {
+		addMessage("You don't have Monopoly");
+		return;
+	}
+
+	openMonopolyModal();
+});
 
 //////////////////////////////////////////
 // Year of Plenty Modal
@@ -349,6 +359,16 @@ $("#play-yop-btn").click(function(event) {
 		sendPlayYearOfPlentyAction(res1, res2);
 		$("#year-of-plenty-modal").modal("hide");
 	}
+});
+
+$("#year-of-plenty-btn").click(function(event) {
+	// Check that player actually year of plenty card to play
+	if (playersById[playerId].hand.yearOfPlenty <= 0) {
+		addMessage("You don't have Year of Plenty");
+		return;
+	}
+
+	$("#year-of-plenty-modal").modal("show");
 });
 
 $("#year-of-plenty-modal").on("hide.bs.modal", function() {

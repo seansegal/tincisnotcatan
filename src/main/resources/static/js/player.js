@@ -102,6 +102,7 @@ function parsePlayers(playersData) {
 function fillPlayerHand(handData) {
 	var player = playersById[playerId];
 
+	// Add resource cards to this player's hand
 	$("#brick-number").text(handData.resources.brick);
 	player.hand.brick = handData.resources.brick;
 
@@ -117,10 +118,19 @@ function fillPlayerHand(handData) {
 	$("#sheep-number").text(handData.resources.sheep);
 	player.hand.sheep = handData.resources.sheep;
 
+	// Add dev cards to this player's hand
 	$("#knight-number").text(handData.devCards["Knight"]);
+	player.hand.knight = handData.devCards["Knight"];
+
 	$("#year-of-plenty-number").text(handData.devCards["Year of Plenty"]);
+	player.hand.yearOfPlenty = handData.devCards["Year of Plenty"];
+
 	$("#monopoly-number").text(handData.devCards["Monopoly"]);
+	player.hand.monopoly = handData.devCards["Monopoly"];
+
 	$("#road-building-number").text(handData.devCards["Road Building"]);
+	player.hand.roadBuilding = handData.devCards["Road Building"];
+
 	$("#victory-point-number").text(handData.devCards["Victory Point"]);
 }
 
