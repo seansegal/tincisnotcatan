@@ -35,14 +35,30 @@ function createJoinableGameList(groups) {
 		var group = groups[i].group;
 		$("#games-list").append("<li class='list-group-item'><div class='row'>"
 				+ "<div class='col-xs-8 text-left'><span>Available Game: <strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"
-				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' type='submit' value='Join Game' gameid='" + group.id + "'></div></div>")
+				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "'></div></div>")
 	}
 
-	$("#games-list .join-game-btn").click(function(event) {
-		var groupId = $(this).attr("gameid");
-		console.log(groupId);
-	});
 }
+
+function existingGameSelected(caller) {
+	console.log(caller);
+	var userName = id("nameEntry").value;
+	var groupId = $(caller).attr("gameid");
+	var groupSize = -1;
+	console.log(userName);
+	console.log(groupId);
+	console.log(groupSize);
+ 	if(userName == undefined || userName == "") {
+		alert("Please select a username");
+		return false;
+	}
+ 	setCookie("desiredGroupId", groupId);
+ 	setCookie("userName", userName);
+	setCookie("numPlayersDesired", groupSize);
+	deleteCookie("USER_ID");
+	return true;
+}
+
 
 function displayCookies() {
 	alert (document.cookie);
@@ -85,6 +101,7 @@ function startGamePressed() {
 	return true; // will allow the get request to process.
 	
 }
+
 
 function deleteCookie(name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';

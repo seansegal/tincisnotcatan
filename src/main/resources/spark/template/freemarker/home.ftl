@@ -35,9 +35,11 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">Join a Game</h3>
 				</div>
-				<ul class="list-group" id="games-list">
-					<li class="list-group-item">No available games. Create your own!</li>
-				</ul>
+				<form action="/board" method="get" id="existingGameForm">
+					<ul class="list-group" id="games-list">
+						<li class="list-group-item">No available games. Create your own!</li>
+					</ul>
+				</form>
 			</div>
 		</div>
 		<div class="col-xs-3"></div>
