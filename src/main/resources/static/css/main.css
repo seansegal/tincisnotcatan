@@ -49,11 +49,13 @@ body {
 }
 
 .turn-square:first-of-type {
-	border-radius: 5px 0px 0px 5px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
 .turn-square:last-of-type {
-	border-radius: 0px 5px 5px 0px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 	border-right-width: 1px;
 }
 
@@ -565,4 +567,10 @@ body {
 	display: inline-block;
 	width: 60px;
 	margin-left: 5px;
+}
+
+.welcome-inline-container {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
 }

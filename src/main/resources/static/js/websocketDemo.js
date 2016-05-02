@@ -101,6 +101,11 @@ function sendTradeWithBankAction(toGive, toGet) {
     webSocket.send(JSON.stringify(tradeReq));
 }
 
+function startSetupAction() {
+    var startReq = {requestType: "action", action: "startSetup"};
+    webSocket.send(JSON.stringify(startReq));
+}
+
 // ---------- RESPONSES ---------- //
 
 webSocket.onmessage = function (msg) {
@@ -169,6 +174,14 @@ function handleActionResponse(data) {
         } else {
             addMessage(data.content.message);
         }
+    }
+
+    switch (data.action) {
+        case "startGame":
+            showStartGameDialogue(data.content);
+            break
+        default:
+            break;
     }
     
     if (data.content.hasOwnProperty("followUpAction")) {

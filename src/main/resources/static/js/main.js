@@ -397,6 +397,11 @@ function enterDiscardModal(numToDiscard) {
 	$("#discard-btn").prop("disabled", true);
 
 	var playerHand = playersById[playerId].hand;
+	var maxHand = {brick: playerHand.brick, 
+					wood: playerHand.wood, 
+					ore: playerHand.ore, 
+					wheat: playerHand.wheat, 
+					sheep: playerHand.sheep};
 	var currHand = {brick: playerHand.brick, 
 					wood: playerHand.wood, 
 					ore: playerHand.ore, 
@@ -640,3 +645,29 @@ $("#bank-trade-btn").click(function(event) {
 	selectedToGetElement = null;
 	selectedToGetResource  = null;
 });
+
+//////////////////////////////////////////
+// Start Game Dialog
+//////////////////////////////////////////
+
+function showStartGameDialogue(content) {
+	var turnOrder = content.data.turnOrder;
+	var isFirst = content.data.isFirst;
+
+	if (isFirst) {
+		$("#welcome-modal").prop("data-backdrop", "static");
+		$("#welcome-start-btn").text("Place First Settlements");
+		$("#welcome-start-btn").click(startSetupAction);
+	} else {
+		$("#welcome-start-btn").text("Ready");
+	}
+
+	var container = $("#welcome-turn-order-container");
+
+	for (var i = 0; i < turnOrder.length; i++) {
+		var player = playersById[turnOrder[i]];
+		container.append("<li><span>" + (i + 1) + "</span>"
+				+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div></li>");
+	}
+
+}

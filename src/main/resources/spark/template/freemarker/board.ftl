@@ -597,6 +597,23 @@
 	</div>
 </div>
 
+<div class="modal fade" id="welcome-modal" tabindex="-1" role="dialog" aria-labelledby="welcomeLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="welcomeLabel">Welcome to Settlers of Catan</h4>
+      		</div>
+      		<div class="modal-body">
+       			<p>The game is about to begin. The turn order is shown below:</p>
+       			<ul id="welcome-turn-order-container"></ul>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" id="welcome-start-btn" class="btn btn-success" data-dismiss="modal">Ready</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>
