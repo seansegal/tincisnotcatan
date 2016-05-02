@@ -243,10 +243,12 @@ public class Board {
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, Integer currRoll, Integer currTile) {
     if (tileType != DESERT) {
+      System.out.println(coord + " " + ROLL_NUMS[currRoll]);
       _tiles.add(new Tile(ROLL_NUMS[currRoll], coord, intersections, paths,
           tileType));
       return currRoll + 1;
     } else {
+      System.out.println(coord + " " + 0);
       _tiles.add(new Tile(0, coord, intersections, paths, tileType, true));
       return currRoll;
     }
