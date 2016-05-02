@@ -28,9 +28,14 @@ Player.prototype.addPlayerTab = function() {
 
 	var tab = $("#p" + this.id + "-tab");
 	tab.empty();
+
+	var victoryPointsToDisplay = this.victoryPoints;
+	if (this.hand.hasOwnProperty("victoryPoint")) {
+		victoryPointsToDisplay = victoryPointsToDisplay + this.hand.victoryPoint;
+	}
 	
 	tab.append("<div class='player-name text-center'><h4>" + this.name + "</h4></div>");
-	tab.append("<h4 class='text-center'>" + this.victoryPoints 
+	tab.append("<h4 class='text-center'>" + victoryPointsToDisplay
 			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>");
 	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
 			+ "<h5 class='panel-title-small'>Hand</h5></div><div class='panel-body'>"
@@ -102,6 +107,7 @@ function parsePlayers(playersData) {
 function fillPlayerHand(handData) {
 	var player = playersById[playerId];
 
+	// Add resource cards to this player's hand
 	$("#brick-number").text(handData.resources.brick);
 	player.hand.brick = handData.resources.brick;
 
@@ -117,11 +123,21 @@ function fillPlayerHand(handData) {
 	$("#sheep-number").text(handData.resources.sheep);
 	player.hand.sheep = handData.resources.sheep;
 
+	// Add dev cards to this player's hand
 	$("#knight-number").text(handData.devCards["Knight"]);
+	player.hand.knight = handData.devCards["Knight"];
+
 	$("#year-of-plenty-number").text(handData.devCards["Year of Plenty"]);
+	player.hand.yearOfPlenty = handData.devCards["Year of Plenty"];
+
 	$("#monopoly-number").text(handData.devCards["Monopoly"]);
+	player.hand.monopoly = handData.devCards["Monopoly"];
+
 	$("#road-building-number").text(handData.devCards["Road Building"]);
+	player.hand.roadBuilding = handData.devCards["Road Building"];
+
 	$("#victory-point-number").text(handData.devCards["Victory Point"]);
+	player.hand.victoryPoint = handData.devCards["Victory Point"];
 }
 
 function fillPlayerBuyOptions(handData) {

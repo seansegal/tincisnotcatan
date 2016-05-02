@@ -204,6 +204,9 @@ function handleGetGameState(gameStateData) {
         playersById[players[i].id] = players[i];
     }
 
+    // Parse and draw hand
+    fillPlayerHand(gameStateData.hand);
+
     // Create player tabs
     $("#player-tabs").empty();
     $("#player-tabs-content").empty();
@@ -217,9 +220,6 @@ function handleGetGameState(gameStateData) {
         $("#player-tabs").children().first().addClass("active");
         $("#player-tabs-content").children().first().addClass("active");
     }
-
-    // Draw hand
-    fillPlayerHand(gameStateData.hand);
 
     // Show what buildings player can currently buy
     fillPlayerBuyOptions(gameStateData.hand);

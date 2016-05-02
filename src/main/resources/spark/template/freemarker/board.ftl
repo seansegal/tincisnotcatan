@@ -341,7 +341,7 @@
 					<div class="card-number" id="knight-number">0</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle pointer" data-toggle="modal" data-target="#year-of-plenty-modal" id="year-of-plenty-btn">
+					<div class="circle card-circle pointer" id="year-of-plenty-btn">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Year of Plenty" data-content="When you play this card, you can select 2 resources of your choice from the bank.">
 							<img src="images/icon-year-of-plenty.svg" alt="Year of Plenty">
 						</div>
@@ -349,7 +349,7 @@
 					<div class="card-number" id="year-of-plenty-number">0</div>
 				</li>
 				<li class="navbar-btn">
-					<div class="circle card-circle pointer" data-toggle="modal" data-target="#monopoly-modal" id="monopoly-btn">
+					<div class="circle card-circle pointer" id="monopoly-btn">
 						<div data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" title="Monopoly" data-content="When you play this card, choose one type of resource. All other players must give you all their resource cards of that type.">
 							<img src="images/icon-monopoly.svg" alt="Monopoly">
 						</div>
