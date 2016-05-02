@@ -28,9 +28,14 @@ Player.prototype.addPlayerTab = function() {
 
 	var tab = $("#p" + this.id + "-tab");
 	tab.empty();
+
+	var victoryPointsToDisplay = this.victoryPoints;
+	if (this.hand.hasOwnProperty("victoryPoint")) {
+		victoryPointsToDisplay = victoryPointsToDisplay + this.hand.victoryPoint;
+	}
 	
 	tab.append("<div class='player-name text-center'><h4>" + this.name + "</h4></div>");
-	tab.append("<h4 class='text-center'>" + this.victoryPoints 
+	tab.append("<h4 class='text-center'>" + victoryPointsToDisplay
 			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>");
 	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
 			+ "<h5 class='panel-title-small'>Hand</h5></div><div class='panel-body'>"
@@ -132,6 +137,7 @@ function fillPlayerHand(handData) {
 	player.hand.roadBuilding = handData.devCards["Road Building"];
 
 	$("#victory-point-number").text(handData.devCards["Victory Point"]);
+	player.hand.victoryPoint = handData.devCards["Victory Point"];
 }
 
 function fillPlayerBuyOptions(handData) {
