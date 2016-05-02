@@ -73,6 +73,7 @@ function addMessage(message) {
 //////////////////////////////////////////
 // Build Tab
 //////////////////////////////////////////
+
 var BUILD_MODE = {
 	NONE: 0,
 	SETTLEMENT: 1,
@@ -158,6 +159,22 @@ function exitCityMode() {
 	}
 }
 
+function highlightRoads() {
+	for (var i = 0; i < board.paths.length; i++) {
+		if (board.paths[i].canBuildRoad) {
+			board.paths[i].highlight();
+		}
+	}
+}
+
+function unHighlightRoads() {
+	for (var i = 0; i < board.paths.length; i++) {
+		if (board.paths[i].highlighted) {
+			board.paths[i].unHighlight();
+		}
+	}
+}
+
 function enterRoadMode() {
 	exitBuildMode();
 	currentMode = BUILD_MODE.ROAD;
@@ -170,11 +187,7 @@ function enterRoadMode() {
 	btnElement.addClass("btn-danger");
 	btnElement.val("Cancel Build");
 
-	for (var i = 0; i < board.paths.length; i++) {
-		if (board.paths[i].canBuildRoad) {
-			board.paths[i].highlight();
-		}
-	}
+	highlightRoads();
 }
 
 function exitRoadMode() {
@@ -188,11 +201,7 @@ function exitRoadMode() {
 	btnElement.addClass("btn-default");
 	btnElement.val("Build Road");
 
-	for (var i = 0; i < board.paths.length; i++) {
-		if (board.paths[i].highlighted) {
-			board.paths[i].unHighlight();
-		}
-	}
+	unHighlightRoads();
 }
 
 function exitBuildMode() {
@@ -464,6 +473,60 @@ function highlightRobbableTiles() {
 //////////////////////////////////////////
 
 $("#knight-btn").click(sendPlayKnightAction);
+
+//////////////////////////////////////////
+// Road Building
+//////////////////////////////////////////
+
+var inPlaceRoadMode = false;
+var buttonState = {};
+
+function saveAndDisable(id, stateMap) {
+	stateMap[id] = $(id).prop("disabled");
+	$(id).prop("disabled", true);
+}
+
+function enterPlaceRoadMode() {
+	inPlaceRoadMode = true;
+	highlightRoads();
+
+	buttonState = {};
+
+	saveAndDisable("#settlement-build-btn", buttonState);
+	saveAndDisable("#city-build-btn", buttonState);
+	saveAndDisable("#road-build-btn", buttonState);
+	saveAndDisable("#buy-dev-card-modal-open", buttonState);
+
+	saveAndDisable("#end-turn-btn", buttonState);
+	saveAndDisable("#knight-btn", buttonState);
+	saveAndDisable("#year-of-plenty-btn", buttonState);
+	saveAndDisable("#monopoly-btn", buttonState);
+	saveAndDisable("#road-building-btn", buttonState);
+}
+
+function restoreState(id, stateMap) {
+	var oldState = stateMap[id];
+	$(id).prop("disabled", oldState);
+}
+
+function exitPlaceRoadMode() {
+	restoreState("#settlement-build-btn", buttonState);
+	restoreState("#city-build-btn", buttonState);
+	restoreState("#road-build-btn", buttonState);
+	restoreState("#buy-dev-card-modal-open", buttonState);
+
+	restoreState("#end-turn-btn", buttonState);
+	restoreState("#knight-btn", buttonState);
+	restoreState("#year-of-plenty-btn", buttonState);
+	restoreState("#monopoly-btn", buttonState);
+	restoreState("#road-building-btn", buttonState);
+
+	inPlaceRoadMode = false;
+
+	unHighlightRoads();
+}
+
+$("#road-building-btn").click(sendPlayRoadBuildingAction);
 
 //////////////////////////////////////////
 // Take Card Modal

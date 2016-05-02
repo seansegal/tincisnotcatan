@@ -96,8 +96,13 @@ Path.prototype.addRoad = function(player) {
 Path.prototype.createPathClickHandler = function() {
 	var that = this;
 	return function(event) {
-		sendBuildRoadAction(that.originalStart, that.originalEnd);
-		exitBuildMode();
+		if (inPlaceRoadMode) {
+			sendPlaceRoadAction(that.originalStart, that.originalEnd);
+			exitPlaceRoadMode();
+		} else {
+			sendBuildRoadAction(that.originalStart, that.originalEnd);
+			exitBuildMode();
+		}
 	};
 }
 
