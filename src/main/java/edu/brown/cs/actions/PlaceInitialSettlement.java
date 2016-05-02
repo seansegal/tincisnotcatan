@@ -1,6 +1,7 @@
 package edu.brown.cs.actions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,41 +50,61 @@ public class PlaceInitialSettlement implements FollowUpAction {
     // The Action:
     player.useSettlement();
     _intersection.placeSettlement(player);
+    _ref.removeFollowUp(this);
 
-    HexCoordinate coord1 = _intersection.getPosition().getCoord1();
-    HexCoordinate coord2 = _intersection.getPosition().getCoord2();
-    HexCoordinate coord3 = _intersection.getPosition().getCoord3();
-    // Formulate responses and send:
-
-    // TODO: finish
-    _intersection.getPosition();
-    List<Resource> resToAdd = new ArrayList<>();
-    _ref.getBoard()
-        .getTiles()
-        .forEach(
-            (tile) -> {
-              if (tile.getCoordinate().equals(coord1)
-                  || tile.getCoordinate().equals(coord2)
-                  || tile.getCoordinate().equals(coord3)) {
-                if (tile.getType().getType() != null) {
-                  resToAdd.add(tile.getType().getType());
-                }
-              }
-            });
-    ActionResponse respToBuyer = new ActionResponse(true,
-        "You built your first Settlement.", null);
-    String message = String.format("%s built a settlement.", player.getName());
-    ActionResponse respToRest = new ActionResponse(true, message, null);
+    ActionResponse respToPlayer = null;
+    ActionResponse respToRest = null;
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
+    switch (_settlementNum) {
+    case 1:
+      respToPlayer = new ActionResponse(true,
+          "You placed your first Settlement.", null);
+      String message1 = String.format("%s placed their first Settlement.",
+          player.getName());
+      respToRest = new ActionResponse(true, message1, null);
+      break;
+    case 2:
+      respToPlayer = new ActionResponse(
+          true,
+          "You placed your second Settlement. You've received your initial resources based on this Settlement.",
+          null);
+      String message2 = String.format("%s placed their second Settlement.",
+          player.getName());
+      respToRest = new ActionResponse(true, message2, null);
+      HexCoordinate coord1 = _intersection.getPosition().getCoord1();
+      HexCoordinate coord2 = _intersection.getPosition().getCoord2();
+      HexCoordinate coord3 = _intersection.getPosition().getCoord3();
+      List<Resource> resToAdd = new ArrayList<>();
+      _ref.getBoard()
+          .getTiles()
+          .forEach(
+              (tile) -> {
+                if (tile.getCoordinate().equals(coord1)
+                    || tile.getCoordinate().equals(coord2)
+                    || tile.getCoordinate().equals(coord3)) {
+                  if (tile.getType().getType() != null) {
+                    resToAdd.add(tile.getType().getType());
+
+                  }
+                }
+              });
+      resToAdd.forEach((res) -> {
+        player.addResource(res);
+      });
+      break;
+    default:
+      return Collections.emptyMap();
+    }
+
+    // Formulate responses and send:
     for (Player p : _ref.getPlayers()) {
       if (p.equals(player)) {
-        toReturn.put(p.getID(), respToBuyer);
+        toReturn.put(p.getID(), respToPlayer);
       } else {
         toReturn.put(p.getID(), respToRest);
       }
     }
     return toReturn;
-
   }
 
   @Override
