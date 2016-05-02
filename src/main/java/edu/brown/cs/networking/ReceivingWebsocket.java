@@ -110,7 +110,7 @@ public class ReceivingWebsocket {
   public void onClose(Session session, int statusCode, String reason) {
     User u = getUserFor(session);
     if (u != null) {
-      System.out.format("User %s was disconnected due to: %s%n", u, reason);
+      System.out.format("User %s was disconnected due to: %s%n", u, reason == null ? "hard disconnect" : reason);
       System.out.format("Marking user %s as AFK %n", u);
       afkMap.put(u, System.currentTimeMillis());
     } else {
