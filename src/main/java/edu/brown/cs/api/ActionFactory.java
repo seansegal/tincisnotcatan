@@ -21,6 +21,7 @@ import edu.brown.cs.actions.TradeWithBank;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.MasterReferee;
+import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
 public class ActionFactory {
@@ -66,9 +67,16 @@ public class ActionFactory {
         nextAction.setupAction(_referee, playerID, actionJSON);
         return nextAction;
       }
-      throw new WaitingOnActionException(String.format(
-          "You must %s before perfoming other actions", nextAction.getVerb()),
-          playerID);
+      if (nextAction == null) {
+        for (Player p : _referee.getPlayers()) {
+          nextAction = _referee.getNextFollowUp(p.getID());
+          if (nextAction != null) {
+            throw new WaitingOnActionException(nextAction.getVerb(), p.getID(),
+                _referee.getReadOnlyReferee());
+          }
+        }
+      }
+      return new EmptyAction(); //Should never be reached
     } else {
       try {
         switch (action) {
