@@ -91,9 +91,11 @@ public class UserGroup implements Timestamped, Group {
       other.message(gs);
     }
     if (isFull()) {
-//      JsonObject gameStart = new JsonObject();
-//      gameStart.addProperty("action", "");
-      //TODO: send game start action
+      JsonObject gameStart = new JsonObject();
+      gameStart.addProperty("typeOfRequest", "action");
+      gameStart.addProperty("action", "startGame");
+      handleMessage(u, gameStart);
+      System.out.println("Game start called");
     }
     return true;
     // regardless of whether or not u was present in the set already,
