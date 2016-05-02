@@ -129,19 +129,23 @@ public class Board {
     return Collections.unmodifiableMap(_paths);
   }
 
+  private List<HexCoordinate> setPortLocations() {
+    List<HexCoordinate> toRet = new ArrayList<HexCoordinate>();
+    toRet.add(new HexCoordinate(0, 0, 3));
+    toRet.add(new HexCoordinate(0, 2, 3));
+    toRet.add(new HexCoordinate(0, 3, 2));
+    toRet.add(new HexCoordinate(0, 3, 0));
+    toRet.add(new HexCoordinate(2, 3, 0));
+    toRet.add(new HexCoordinate(3, 2, 0));
+    toRet.add(new HexCoordinate(3, 0, 0));
+    toRet.add(new HexCoordinate(3, 0, 2));
+    toRet.add(new HexCoordinate(2, 0, 3));
+    return toRet;
+  }
+
   public Board() {
     List<TileType> availTiles = new ArrayList<TileType>();
-    PORT_LOCATION = new ArrayList<HexCoordinate>();
-    PORT_LOCATION.add(new HexCoordinate(0, 0, 3));
-    PORT_LOCATION.add(new HexCoordinate(0, 2, 3));
-    PORT_LOCATION.add(new HexCoordinate(0, 3, 2));
-    PORT_LOCATION.add(new HexCoordinate(0, 3, 0));
-    PORT_LOCATION.add(new HexCoordinate(2, 3, 0));
-    PORT_LOCATION.add(new HexCoordinate(3, 2, 0));
-    PORT_LOCATION.add(new HexCoordinate(3, 0, 0));
-    PORT_LOCATION.add(new HexCoordinate(3, 0, 2));
-    PORT_LOCATION.add(new HexCoordinate(2, 0, 3));
-
+    PORT_LOCATION = setPortLocations();
     addTiles(availTiles, WOOD, NUM_WOOD_TILE);
     addTiles(availTiles, BRICK, NUM_BRICK_TILE);
     addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
@@ -150,96 +154,79 @@ public class Board {
     addTiles(availTiles, DESERT, NUM_DESERT_TILE);
     do {
       Collections.shuffle(availTiles);
-    } while ((availTiles.get(7) == DESERT));
+    } while ((availTiles.get(0) == DESERT));
 
     Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
     _tiles = new ArrayList<>();
     int currRoll = 0;
     int currTile = 0;
-    int x = 0;
+    int currDepth = DEPTH;
+    int x = DEPTH;
     int y = 0;
     int z = 0;
-    // (0,0,0)
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    z++; // (0,0,1)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    x++; // (1,0,1)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    z--; // // (1,0,0)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    y++; // (1,1,0)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    x--; // (0,1,0)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    z++; // (0,1,1)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    y--; // (0,0,1)
-    z++; // (0,0,2)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    x++; // (1,0,2)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    x++; // (2,0,2)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    z--; // (2,0,1)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    z--; // (2,0,0)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    y++; // (2,1,0)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    y++; // (2,2,0)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    x--; // (1,2,0)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    x--; // (0,2,0)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    z++; // (0,2,1)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    z++; // (0,2,2)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
-    y--; // (0,1,2)
-    currTile++;
-    currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-        intersections, paths, currRoll, currTile);
+    int i = 0;
+
+    while (currDepth >= 0) {
+      currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
+          intersections, paths, currRoll, currTile);
+      currTile++;
+
+      for (i = 0; i < currDepth; i++) {
+        y++;
+        currRoll = addTile(availTiles.get(currTile),
+            new HexCoordinate(x, y, z), intersections, paths, currRoll,
+            currTile);
+        currTile++;
+      }
+
+      for (i = 0; i < currDepth; i++) {
+        x--;
+        currRoll = addTile(availTiles.get(currTile),
+            new HexCoordinate(x, y, z), intersections, paths, currRoll,
+            currTile);
+        currTile++;
+      }
+
+      for (i = 0; i < currDepth; i++) {
+        z++;
+        currRoll = addTile(availTiles.get(currTile),
+            new HexCoordinate(x, y, z), intersections, paths, currRoll,
+            currTile);
+        currTile++;
+      }
+
+      for (i = 0; i < currDepth; i++) {
+        y--;
+        currRoll = addTile(availTiles.get(currTile),
+            new HexCoordinate(x, y, z), intersections, paths, currRoll,
+            currTile);
+        currTile++;
+      }
+
+      for (i = 0; i < currDepth; i++) {
+        x++;
+        currRoll = addTile(availTiles.get(currTile),
+            new HexCoordinate(x, y, z), intersections, paths, currRoll,
+            currTile);
+        currTile++;
+      }
+
+      for (i = 1; i < currDepth; i++) {
+        z--;
+        currRoll = addTile(availTiles.get(currTile),
+            new HexCoordinate(x, y, z), intersections, paths, currRoll,
+            currTile);
+        currTile++;
+      }
+      z--;
+      x--;
+      currDepth--;
+    }
 
     _intersections = intersections;
     _paths = paths;
-    int i = 0;
+    i = 0;
     List<HexCoordinate> seaCoords = getSeaPermutations();
     for (HexCoordinate hc : seaCoords) {
       Tile seaTile = new Tile(hc, SEA, _intersections);
