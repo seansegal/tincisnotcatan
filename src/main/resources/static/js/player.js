@@ -80,6 +80,24 @@ Player.prototype.addPlayerTab = function() {
 	largestArmy.css("border-color", "rgba(" + rgb + ",0.6)");
 }
 
+Player.prototype.fillTurnDisplay = function() {
+	var displayContainer = $("#turn-display-container");
+	displayContainer.append("<div id='" + this.id + "-turn-square' class='turn-square'></div>");
+
+	var width = $("#end-turn-btn").outerWidth() / 4;
+
+	var turnSquare = $("#" + this.id + "-turn-square");
+	turnSquare.css("width", width);
+	turnSquare.css("height", width);
+	turnSquare.css("background-color", this.color);
+
+	if (currentPlayerTurn === this.id) {
+		turnSquare.addClass("selected-turn-square");
+	} else {
+		// TODO: Disable turn button
+	}
+}
+
 function parsePlayers(playersData) {
 	var players = [];
 

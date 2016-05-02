@@ -207,12 +207,14 @@ function handleGetGameState(gameStateData) {
     // Parse and draw hand
     fillPlayerHand(gameStateData.hand);
 
-    // Create player tabs
+    // Create player tabs and turn counter
     $("#player-tabs").empty();
     $("#player-tabs-content").empty();
+    $("#turn-display-container").empty();
 
     for (var i = 0; i < players.length; i++) {
         players[i].addPlayerTab();
+        players[i].fillTurnDisplay();
     }
 
     // Select first players tab
