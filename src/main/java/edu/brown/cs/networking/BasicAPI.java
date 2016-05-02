@@ -27,4 +27,11 @@ class BasicAPI implements API {
     return 0;
   }
 
+
+  @Override
+  public void setSettings(JsonObject settings) {
+    // TODO Auto-generated method stub
+
+  }
+
 }

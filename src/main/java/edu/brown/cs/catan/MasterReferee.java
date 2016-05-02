@@ -22,7 +22,7 @@ public class MasterReferee implements Referee {
 
   private final Board _board;
   private final Map<Integer, Player> _players;
-  private final Map<Integer, Integer> _turnOrder;
+  private final List<Integer> _turnOrder;
   private Turn _turn;
   private final Bank _bank;
   private final List<DevelopmentCard> _devCardDeck;
@@ -41,16 +41,12 @@ public class MasterReferee implements Referee {
     _turn = new Turn(1, Collections.emptyMap());
   }
 
-  private Map<Integer, Integer> initializeTurnOrder(int numFullPlayers) {
-    Map<Integer, Integer> toReturn = new HashMap<>();
-    List<Integer> players = new ArrayList<>(_players.keySet());
-    for (int i = 0; i < numFullPlayers; i++) {
-      players.add(i);
+  private List<Integer> initializeTurnOrder(int numFullPlayers) {
+    List<Integer> toReturn = new ArrayList<>();
+    for (int i = 0; i < _gameSettings.NUM_PLAYERS; i++) {
+      toReturn.add(i);
     }
-    Collections.shuffle(players);
-    for (int i = 1; i <= numFullPlayers; i++) {
-      toReturn.put(i, players.get(i - 1));
-    }
+    Collections.shuffle(toReturn);
     return toReturn;
   }
 
@@ -277,6 +273,11 @@ public class MasterReferee implements Referee {
 
   }
 
+  @Override
+  public List<Integer> getTurnOrder() {
+    return _turnOrder;
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -412,6 +413,11 @@ public class MasterReferee implements Referee {
       throw new UnsupportedOperationException(
           "A ReadOnlyReferee cannot removeFollowUp.");
 
+    }
+
+    @Override
+    public List<Integer> getTurnOrder() {
+      return Collections.unmodifiableList(_turnOrder);
     }
 
   }
