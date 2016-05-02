@@ -17,26 +17,40 @@ import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 import edu.brown.cs.catan.Settings;
 
-public class RollDice implements Action {
+public class RollDice implements FollowUpAction {
 
   private Player _player;
+  private final int _playerID;
   private Referee _ref;
   private Bank _bank;
+  private static final String VERB = "start the next turn";
+  private static final String ID = "rollDice";
+  private boolean _isSetUp = false;
 
   public RollDice(Referee ref, int playerID) {
     assert ref != null;
     _ref = ref;
+    _playerID = playerID;
     _player = _ref.getPlayerByID(playerID);
     _bank = _ref.getBank();
     if (_player == null) {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
     }
-    // assert ref.currentPlayer().equals(_player);
+    if (!ref.currentPlayer().equals(_player)) {
+      throw new IllegalArgumentException();
+    }
+  }
+
+  public RollDice(int playerID) {
+    _playerID = playerID;
   }
 
   @Override
   public Map<Integer, ActionResponse> execute() {
+    if (!_isSetUp) {
+      throw new IllegalArgumentException();
+    }
     _ref.startNextTurn(); //TODO: is this what we want?
     Random r = new Random();
     PrimitiveIterator.OfInt rolls = r.ints(1, 7).iterator();
@@ -173,6 +187,50 @@ public class RollDice implements Action {
       // Follow up MoveRobber action:
       _ref.addFollowUp(ImmutableList.of(new MoveRobber(_player.getID())));
     }
+    _ref.removeFollowUp(this);
     return toRet;
+  }
+
+  @Override
+  public JsonObject getData() {
+    JsonObject toRet = new JsonObject();
+    String message = String.format("%s, please roll the dice.",
+        _player.getName());
+    toRet.addProperty("message", message);
+    return null;
+  }
+
+  @Override
+  public String getID() {
+    return ID;
+  }
+
+  @Override
+  public int getPlayerID() {
+    return _player.getID();
+  }
+
+  @Override
+  public void setupAction(Referee ref, int playerID, JsonObject params) {
+    if (playerID != _playerID) {
+      throw new IllegalArgumentException();
+    }
+    assert ref != null;
+    _ref = ref;
+    _player = _ref.getPlayerByID(playerID);
+    _bank = _ref.getBank();
+    if (_player == null) {
+      String err = String.format("No player exists with the id: %d", playerID);
+      throw new IllegalArgumentException(err);
+    }
+    if (!ref.currentPlayer().equals(_player)) {
+      throw new IllegalArgumentException();
+    }
+    _isSetUp = true;
+  }
+
+  @Override
+  public String getVerb() {
+    return VERB;
   }
 }
