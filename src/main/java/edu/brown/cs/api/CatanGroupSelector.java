@@ -33,7 +33,7 @@ public class CatanGroupSelector implements GroupSelector {
   @Override
   public Group selectFor(User u, Collection<Group> coll) {
     if(u.getFieldsAsJson().has(GAME_REQUEST_ID)) {
-      System.out.println(u.getField(GAME_REQUEST_ID));
+      System.out.println("Game requested with ID: " + u.getField(GAME_REQUEST_ID));
       for(Group ug : coll) {
         if (!ug.isFull() && ug.identifier().equals(u.getField(GAME_REQUEST_ID))) {
           return ug;
