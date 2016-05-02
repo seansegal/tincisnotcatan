@@ -63,4 +63,10 @@ public class GroupView implements Group {
     return inner.isEmpty();
   }
 
+
+  @Override
+  public String groupName() {
+    return inner.groupName();
+  }
+
 }
