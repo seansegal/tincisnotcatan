@@ -1,4 +1,11 @@
 
+$(window).load(function() {    
+    var href = window.location.pathname;
+    if(href == "/home"){
+    	deleteCookie("desiredGroupId");
+    }
+});
+
 // ---------- Setup ---------- //
 
 //Establish the WebSocket connection and set up event handlers
@@ -35,7 +42,7 @@ function createJoinableGameList(groups) {
 		var group = groups[i].group;
 		$("#games-list").append("<li class='list-group-item'><div class='row'>"
 				+ "<div class='col-xs-8 text-left'><span>Available Game: <strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"
-				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "'></div></div>")
+				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "' maxSize='"+ group.maxSize +"'></div></div>")
 	}
 
 }
@@ -44,7 +51,7 @@ function existingGameSelected(caller) {
 	console.log(caller);
 	var userName = id("nameEntry").value;
 	var groupId = $(caller).attr("gameid");
-	var groupSize = -1;
+	var groupSize = $(caller).attr("maxSize");
 	console.log(userName);
 	console.log(groupId);
 	console.log(groupSize);

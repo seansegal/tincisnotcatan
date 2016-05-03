@@ -92,10 +92,10 @@ public class UserGroup implements Timestamped, Group {
     }
     if (isFull()) {
       JsonObject gameStart = new JsonObject();
-      gameStart.addProperty("typeOfRequest", "action");
+      gameStart.addProperty("requestType", "action");
       gameStart.addProperty("action", "startGame");
       handleMessage(u, gameStart);
-      System.out.println("Game start called: " + identifier());
+      System.out.println("Game start called: " + identifier);
     }
     return true;
     // regardless of whether or not u was present in the set already,
