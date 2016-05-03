@@ -194,10 +194,9 @@ public class RollDice implements FollowUpAction {
   @Override
   public JsonObject getData() {
     JsonObject toRet = new JsonObject();
-    String message = String.format("%s, please roll the dice.",
-        _player.getName());
+    String message = String.format("Please roll the dice.");
     toRet.addProperty("message", message);
-    return null;
+    return toRet;
   }
 
   @Override
@@ -207,7 +206,7 @@ public class RollDice implements FollowUpAction {
 
   @Override
   public int getPlayerID() {
-    return _player.getID();
+    return _playerID;
   }
 
   @Override

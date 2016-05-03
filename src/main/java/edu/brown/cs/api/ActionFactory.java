@@ -16,7 +16,6 @@ import edu.brown.cs.actions.PlayKnight;
 import edu.brown.cs.actions.PlayMonopoly;
 import edu.brown.cs.actions.PlayRoadBuilding;
 import edu.brown.cs.actions.PlayYearOfPlenty;
-import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.actions.StartGame;
 import edu.brown.cs.actions.StartGameSetup;
 import edu.brown.cs.actions.TradeWithBank;
@@ -104,8 +103,8 @@ public class ActionFactory {
           return new BuildRoad(_referee, playerID, start, end, true);
         case "buyDevCard":
           return new BuyDevelopmentCard(_referee, playerID);
-        case "rollDice":
-          return new RollDice(_referee, playerID);
+//        case "rollDice":
+//          return new RollDice(_referee, playerID);
         case "playMonopoly":
           return new PlayMonopoly(_referee, playerID, actionJSON
               .get("resource").getAsString());

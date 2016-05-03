@@ -32,7 +32,7 @@ public class EndTurn implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    if (_ref.currentPlayer().equals(_player)) {
+    if (!_ref.currentPlayer().equals(_player)) {
       return ImmutableMap.of(_player.getID(), new ActionResponse(false,
           "It is not your turn.", null));
     }
@@ -56,9 +56,9 @@ public class EndTurn implements Action {
       } else {
         FollowUpAction toDoNext = null;
         if (!_hasKnight) {
-          toDoNext = new RollDice(_player.getID());
+          toDoNext = new RollDice(nextPlayer.getID());
         } else {
-          toDoNext = new KnightOrDice(_player.getID());
+          toDoNext = new KnightOrDice(nextPlayer.getID());
         }
         Collection<FollowUpAction> followUp = new ArrayList<FollowUpAction>();
         followUp.add(toDoNext);
