@@ -86,7 +86,7 @@ public class ActionFactory {
           return new EmptyAction();
         case "startGame":
           return new StartGame(_referee);
-        case "setupGame":
+        case "startSetup":
           return new StartGameSetup(_referee);
         case "buildCity":
           return new BuildCity(_referee, playerID,
