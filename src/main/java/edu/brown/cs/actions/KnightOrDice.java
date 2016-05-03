@@ -58,7 +58,7 @@ public class KnightOrDice implements FollowUpAction {
 
   @Override
   public int getPlayerID() {
-    return _player.getID();
+    return _playerID;
   }
 
   @Override
