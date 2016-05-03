@@ -15,9 +15,11 @@ import edu.brown.cs.networking.UserGroup.UserGroupBuilder;
 
 public class CatanGroupSelector implements GroupSelector {
 
-  private static final String                NUM_PLAYERS     =
+  private static final String                NUM_PLAYERS          =
       "numPlayersDesired";
-  private static final String                GAME_REQUEST_ID = "desiredGroupId";
+  private static final String                GAME_REQUEST_ID      =
+      "desiredGroupId";
+  private static final String                GAME_NAME_IDENTIFIER = "groupName";
   private final Collection<RequestProcessor> catanProcessors;
 
 
@@ -55,6 +57,11 @@ public class CatanGroupSelector implements GroupSelector {
       }
     }
 
+    // name the game
+    String name = u.hasField(GAME_NAME_IDENTIFIER) ? u.getField(GAME_NAME_IDENTIFIER) :
+      "Unnamed game";
+
+
     // MAKE SETTINGS :
     JsonObject settings = new JsonObject();
     settings.addProperty("numPlayers", desiredSize);
@@ -63,7 +70,7 @@ public class CatanGroupSelector implements GroupSelector {
         .withSize(desiredSize)
         .withRequestProcessors(
             Collections.unmodifiableCollection(catanProcessors))
-        .withName("TEST")
+        .withName(name)
         .withApiSettings(settings)
         .withUniqueIdentifier(DistinctRandom.getString()).build();
   }
