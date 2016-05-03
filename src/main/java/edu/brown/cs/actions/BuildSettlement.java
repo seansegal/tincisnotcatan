@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonObject;
 
+import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
@@ -72,5 +74,18 @@ public class BuildSettlement implements Action {
       }
     }
     return toReturn;
+  }
+
+  private IntersectionCoordinate toIntersectionCoordinate(JsonObject object) {
+    JsonObject coord1 = object.get("coord1").getAsJsonObject();
+    JsonObject coord2 = object.get("coord2").getAsJsonObject();
+    JsonObject coord3 = object.get("coord3").getAsJsonObject();
+    HexCoordinate h1 = new HexCoordinate(coord1.get("x").getAsInt(), coord1
+        .get("y").getAsInt(), coord1.get("z").getAsInt());
+    HexCoordinate h2 = new HexCoordinate(coord2.get("x").getAsInt(), coord2
+        .get("y").getAsInt(), coord2.get("z").getAsInt());
+    HexCoordinate h3 = new HexCoordinate(coord3.get("x").getAsInt(), coord3
+        .get("y").getAsInt(), coord3.get("z").getAsInt());
+    return new IntersectionCoordinate(h1, h2, h3);
   }
 }
