@@ -2,7 +2,7 @@ package edu.brown.cs.actions;
 
 import java.util.Map;
 
-public class Trade implements Action{
+public class ProposeTrade implements Action{
 
   @Override
   public Map<Integer, ActionResponse> execute() {
