@@ -101,7 +101,7 @@ public class UserGroup implements Timestamped, Group {
       gameStart.addProperty("requestType", "action");
       gameStart.addProperty("action", "startGame");
       handleMessage(u, gameStart);
-      System.out.println("Game start called: " + identifier());
+      System.out.println("Game start called: " + identifier);
     }
     return true;
     // regardless of whether or not u was present in the set already,

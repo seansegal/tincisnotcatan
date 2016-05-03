@@ -19,7 +19,6 @@ $(window).load(function() {
     if(href != "/home" && !document.cookie){
     	window.location = "/home"; // redirect to home
     }
-    
 });
 
 function redrawCatan() {
@@ -666,10 +665,7 @@ function showStartGameDialogue(content) {
 	container.empty();
 
 	for (var i = 0; i < turnOrder.length; i++) {
-		console.log(playersById);
-		console.log(turnOrder[i]);
 		var player = playersById[turnOrder[i]];
-		console.log(player);
 		container.append("<li><span>"
 				+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div></li>");
 	}

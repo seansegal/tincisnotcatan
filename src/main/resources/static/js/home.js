@@ -1,4 +1,11 @@
 
+$(window).load(function() {    
+    var href = window.location.pathname;
+    if(href == "/home"){
+    	deleteCookie("desiredGroupId");
+    }
+});
+
 // ---------- Setup ---------- //
 
 //Establish the WebSocket connection and set up event handlers
@@ -31,56 +38,53 @@ webSocket.onmessage = function (msg) {
 function createJoinableGameList(groups) {
 	$("#games-list").empty();
 
+	// Add message if no groups exist yet
+	if (groups.length === 0) {
+		$("#games-list").append("<li class='list-group-item'>No available games. Create your own!</li>");
+		return;
+	}
+
 	// Add to list of joinable games
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i].group;
 		$("#games-list").append("<li class='list-group-item'><div class='row'>"
+
 				+ "<div class='col-xs-4 text-left vertical-center'><span>" + group.groupName + ":</span></div>"
 				+ "<div class='col-xs-4 text-center vertical-center'>" 
 				+ "<span><strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"
 				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' "
-				+ "type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "'></div></div>");
+				+ "type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "' maxSize='"+ group.maxSize +"'></div></div>");
+
 	}
-
-	// Vertically center text
-	var btnHeight = $("#games-list .join-game-btn").outerHeight();
-	$("#games-list .vertical-center").css("height", btnHeight);
-	$("#games-list .vertical-center *").css("line-height", btnHeight + "px");
-
-	// Add click handlers to join game buttons
-	// $("#games-list .join-game-btn").click(onJoinGameButtonClick);
 }
 
-// function onJoinGameButtonClick(event) {
-// 	$("#enter-game-btn").click(function(e) {
-// 		existingGameSelected(event.target);
-// 	});
+$("#enter-name-begin-btn").click(openCreateJoinGame);
+$("#nameEntry").keypress(function(event) {
+	var keyPressed = (event.keyCode ? event.keyCode : event.which);
+	console.log
+	if (keyPressed === 13) {
+		openCreateJoinGame();
+	}
+});
 
-// 	$("#name-entry-modal").modal("show");
-// }
+function openCreateJoinGame() {
+	var name = $("#nameEntry").val();
+	if (name !== undefined && name !== "") {
+		$("#pre-name-container").addClass("hidden");
+		$("#post-name-container").removeClass("hidden");
 
-// $("#startGameButton").click(function(event) {
-// 	$("#enter-game-btn").click(function(e) {
-// 		if (startGamePressed()) {
-// 			var select = $("#numPlayersDesired");
-// 			var playersDesired = select[0].options[select[0].selectedIndex].value;
-// 			var name = $("#nameEntry").val();
-// 			$.get("/board", {numPlayersDesired: playersDesired, nameEntry: name});
-// 		}
-// 	});
-
-// 	$("#name-entry-modal").on("hide.bs.modal", function(event) {
-// 		$("#enter-game-btn").off("click");
-// 	});
-
-// 	$("#name-entry-modal").modal("show");
-// });
+		// Vertically center text
+		var btnHeight = $("#games-list .join-game-btn").outerHeight();
+		$("#games-list .vertical-center").css("height", btnHeight);
+		$("#games-list .vertical-center *").css("line-height", btnHeight + "px");
+	}
+}
 
 function existingGameSelected(caller) {
 	console.log(caller);
 	var userName = id("nameEntry").value;
 	var groupId = $(caller).attr("gameid");
-	var groupSize = -1;
+	var groupSize = $(caller).attr("maxSize");
 	console.log(userName);
 	console.log(groupId);
 	console.log(groupSize);
@@ -127,12 +131,20 @@ function stopReturnKey(evt) {
 function startGamePressed() {
 	var userName = id("nameEntry").value;
 	var numPlayers = id("numPlayersDesired").value;
+	var groupName = id("game-name-entry").value;
 	if(userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false; // will not allow the get reqeust to process.
 	}
+
+	if (groupName === undefined || groupName === "") {
+		alert("Please select a name for your game");
+		return false;
+	}
+
 	setCookie("userName", userName);
 	setCookie("numPlayersDesired", numPlayers);
+	setCookie("groupName", groupName);
 	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.
 }

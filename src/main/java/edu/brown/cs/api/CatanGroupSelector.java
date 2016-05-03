@@ -15,53 +15,64 @@ import edu.brown.cs.networking.UserGroup.UserGroupBuilder;
 
 public class CatanGroupSelector implements GroupSelector {
 
-	private static final String NUM_PLAYERS = "numPlayersDesired";
-	private static final String GAME_REQUEST_ID = "desiredGroupId";
-	private final Collection<RequestProcessor> catanProcessors;
+  private static final String                NUM_PLAYERS          =
+      "numPlayersDesired";
+  private static final String                GAME_REQUEST_ID      =
+      "desiredGroupId";
+  private static final String                GAME_NAME_IDENTIFIER = "groupName";
+  private final Collection<RequestProcessor> catanProcessors;
 
-	public CatanGroupSelector() {
-		catanProcessors = new ArrayList<>();
-		catanProcessors.add(new GetGameStateProcessor());
-		catanProcessors.add(new ActionProcessor());
-		catanProcessors.add(new ChatProcessor());
-	}
 
-	@Override
-	public Group selectFor(User u, Collection<Group> coll) {
-		if (u.getFieldsAsJson().has(GAME_REQUEST_ID)) {
-			System.out.println("Game requested with ID: "
-					+ u.getField(GAME_REQUEST_ID));
-			for (Group ug : coll) {
-				if (!ug.isFull()
-						&& ug.identifier().equals(u.getField(GAME_REQUEST_ID))) {
-					return ug;
-				}
-			}
-			System.out
-					.println("ERROR: Requested game is either full or nonexistent");
-		}
+  public CatanGroupSelector() {
+    catanProcessors = new ArrayList<>();
+    catanProcessors.add(new GetGameStateProcessor());
+    catanProcessors.add(new ActionProcessor());
+    catanProcessors.add(new ChatProcessor());
+  }
 
-		int desiredSize = Integer.parseInt(u.getField(NUM_PLAYERS));
-		if (desiredSize < 2 || desiredSize > 4) {
-			System.out.println("Error! Line 45 of catan group selector.");
-			return null;
-		}
-		for (Group ug : coll) {
-			if (!ug.isFull() && ug.maxSize() == desiredSize) {
-				return ug;
-			}
-		}
 
-		// MAKE SETTINGS :
-		JsonObject settings = new JsonObject();
-		settings.addProperty("numPlayers", desiredSize);
+  @Override
+  public Group selectFor(User u, Collection<Group> coll) {
+    if (u.getFieldsAsJson().has(GAME_REQUEST_ID)) {
+      System.out.println("Game requested with ID: "
+          + u.getField(GAME_REQUEST_ID));
+      for (Group ug : coll) {
+        if (!ug.isFull()
+            && ug.identifier().equals(u.getField(GAME_REQUEST_ID))) {
+          return ug;
+        }
+      }
+      System.out
+          .println("ERROR: Requested game is either full or nonexistent");
+    }
 
-		return new UserGroupBuilder(CatanAPI.class)
-				.withSize(desiredSize)
-				.withRequestProcessors(
-						Collections.unmodifiableCollection(catanProcessors))
-				.withName("TEST").withApiSettings(settings)
-				.withUniqueIdentifier(DistinctRandom.getString()).build();
-	}
+    int desiredSize = Integer.parseInt(u.getField(NUM_PLAYERS));
+    if (desiredSize < 2 || desiredSize > 4) {
+      System.out.println("Error! Line 45 of catan group selector.");
+      return null;
+    }
+    for (Group ug : coll) {
+      if (!ug.isFull() && ug.maxSize() == desiredSize) {
+        return ug;
+      }
+    }
+
+    // name the game
+    String name = u.hasField(GAME_NAME_IDENTIFIER) ? u.getField(GAME_NAME_IDENTIFIER) :
+      "Unnamed game";
+
+
+    // MAKE SETTINGS :
+    JsonObject settings = new JsonObject();
+    settings.addProperty("numPlayers", desiredSize);
+
+    return new UserGroupBuilder(CatanAPI.class)
+        .withSize(desiredSize)
+        .withRequestProcessors(
+            Collections.unmodifiableCollection(catanProcessors))
+        .withName(name)
+        .withApiSettings(settings)
+        .withUniqueIdentifier(DistinctRandom.getString()).build();
+  }
 
 }
