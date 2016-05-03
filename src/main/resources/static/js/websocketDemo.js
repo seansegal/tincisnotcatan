@@ -35,6 +35,11 @@ function sendGetGameStateAction() {
     webSocket.send(JSON.stringify(playersReq));
 }
 
+function sendGetInitialStateAction() {
+    var stateReq = {requestType: "action", action: "getInitialState"};
+    webSocket.send(JSON.stringify(stateReq));
+}
+
 function sendRollDiceAction() {
     var rollDiceReq  = {requestType: "action", action: "rollDice", player: playerId};
     webSocket.send(JSON.stringify(rollDiceReq));
