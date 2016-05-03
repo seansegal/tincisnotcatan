@@ -258,13 +258,20 @@ function handleGetGameState(gameStateData) {
 
     for (var i = 0; i < players.length; i++) {
         players[i].addPlayerTab();
-        players[i].fillTurnDisplay();
     }
 
     // Select first players tab
     if (players.length > 0) {
         $("#player-tabs").children().first().addClass("active");
         $("#player-tabs-content").children().first().addClass("active");
+    }
+
+    // Draw turn counter
+    if (gameStateData.hasOwnProperty("turnOrder")) {
+        var turnOrder = gameStateData.turnOrder;
+        for (var i = 0; i < turnOrder.length; i++) {
+            playersById[turnOrder[i]].fillTurnDisplay();
+        }
     }
 
     // Show what buildings player can currently buy

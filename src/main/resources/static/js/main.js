@@ -689,8 +689,9 @@ function showStartGameDialogue(content) {
 
 	for (var i = 0; i < turnOrder.length; i++) {
 		var player = playersById[turnOrder[i]];
-		container.append("<li><span>"
-				+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div></li>");
+		container.append("<li><span class='welcome-list-item'>"
+				+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div>"
+				+ player.name + "</li>");
 	}
 
 	$("#welcome-modal").modal("show");
