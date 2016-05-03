@@ -15,12 +15,16 @@ function heartbeat() {
 	webSocket.send(JSON.stringify(beat));
 }
 
-webSocket.onopen = function () {
+webSocket.onopen = function() {
 	if(document.cookie.indexOf("USER_ID") > -1) {
 		sendGetGameStateAction();
 	}
 	window.setInterval(heartbeat, 60 * 1000);
 };
+
+webSocket.onclose = function() {
+    window.location.reload(true);
+}
 
 //////////////////////////////////////////
 // Action Senders
@@ -104,6 +108,11 @@ function sendTradeWithBankAction(toGive, toGet) {
 function startSetupAction() {
     var startReq = {requestType: "action", action: "startSetup"};
     webSocket.send(JSON.stringify(startReq));
+}
+
+function sendEndTurnAction() {
+    var endReq = {requestType: "action", action: "endTurn"};
+    webSocket.send(JSON.stringify(endReq));
 }
 
 // ---------- RESPONSES ---------- //
@@ -197,6 +206,12 @@ function handleActionResponse(data) {
                 break;
             case "placeRoad":
                 inPlaceRoadMode = true;
+                break;
+            case "rollDice":
+                showRollDiceModal();
+                break;
+            case "knightOrDice":
+                showKnightOrDiceModal();
                 break;
             default:
                 break;

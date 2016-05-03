@@ -13,7 +13,7 @@ $(window).load(function() {
   		$('[data-toggle="popover"]').popover();
 	})
 
-    $("#end-turn-btn").click(sendRollDiceAction);
+    $("#end-turn-btn").click(sendEndTurnAction);
     
     var href = window.location.pathname;
     if(href != "/home" && !document.cookie){
@@ -662,11 +662,30 @@ function showStartGameDialogue(content) {
 	}
 
 	var container = $("#welcome-turn-order-container");
+	container.empty();
 
 	for (var i = 0; i < turnOrder.length; i++) {
 		var player = playersById[turnOrder[i]];
-		container.append("<li><span>" + (i + 1) + "</span>"
+		container.append("<li><span>"
 				+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div></li>");
 	}
 
+	$("#welcome-modal").modal("show");
+}
+
+//////////////////////////////////////////
+// Roll Dice and Knight or Dice Modal
+//////////////////////////////////////////
+
+$("#roll-dice-btn").click(sendRollDiceAction);
+
+function showRollDiceModal() {
+	$("#roll-dice-modal").modal("show");
+}
+
+$("#knight-dice-play-knight-btn").click(sendPlayKnightAction);
+$("#knight-dice-roll-dice-btn").click(sendRollDiceAction);
+
+function showKnightOrDiceModal() {
+	$("#knight-or-dice-modal").modal("show");
 }

@@ -17,15 +17,16 @@
 				</div>
 				<div class="panel-body">
 					<form action="/board" method="get" id="inputForm">
-						<input id="nameEntry" class="form-control" placeholder="Username">
+						<input id="nameEntry" class="form-control" placeholder="Lobby name">
 						<div class="form-group">
-							<label for="numPlayersDesired">How many players to a game?</label>
+							<label for="numPlayersDesired">How many players in this game?</label>
 							<select id="numPlayersDesired" class="form-control">
 								<option value="4">4 players</option>
 								<option value="3">3 players</option>
+								<option value="2">2 players</option>
 							</select>
 						</div>
-						<button id="startGameButton" class="btn btn-success" onclick="return startGamePressed()">Start!</button>
+						<button id="startGameButton" class="btn btn-success" onclick="return startGamePressed()">Create Game!</button>
 					</form>
 				</div>
 			</div>
@@ -45,6 +46,7 @@
 		<div class="col-xs-3"></div>
 	</div>
 </div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/home.js"></script>

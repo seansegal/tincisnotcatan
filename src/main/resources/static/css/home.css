@@ -1,5 +1,17 @@
+#nameEntry {
+/*  margin-bottom: 10px;
+*/}
+
 .join-game-btn {
 	width: 100%;
+}
+
+.vertical-center {
+  overflow-x: scroll;
+}
+
+.vertical-center span {
+  white-space: nowrap;
 }
 
 .background-viewport {

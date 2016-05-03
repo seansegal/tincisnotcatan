@@ -38,14 +38,52 @@ webSocket.onmessage = function (msg) {
 function createJoinableGameList(groups) {
 	$("#games-list").empty();
 
+	// Add to list of joinable games
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i].group;
 		$("#games-list").append("<li class='list-group-item'><div class='row'>"
-				+ "<div class='col-xs-8 text-left'><span>Available Game: <strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"
-				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "' maxSize='"+ group.maxSize +"'></div></div>")
+
+				+ "<div class='col-xs-4 text-left vertical-center'><span>" + group.groupName + ":</span></div>"
+				+ "<div class='col-xs-4 text-center vertical-center'>" 
+				+ "<span><strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"
+				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' "
+				+ "type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "' maxSize='"+ group.maxSize +"'></div></div>");
+
 	}
 
+	// Vertically center text
+	var btnHeight = $("#games-list .join-game-btn").outerHeight();
+	$("#games-list .vertical-center").css("height", btnHeight);
+	$("#games-list .vertical-center *").css("line-height", btnHeight + "px");
+
+	// Add click handlers to join game buttons
+	// $("#games-list .join-game-btn").click(onJoinGameButtonClick);
 }
+
+// function onJoinGameButtonClick(event) {
+// 	$("#enter-game-btn").click(function(e) {
+// 		existingGameSelected(event.target);
+// 	});
+
+// 	$("#name-entry-modal").modal("show");
+// }
+
+// $("#startGameButton").click(function(event) {
+// 	$("#enter-game-btn").click(function(e) {
+// 		if (startGamePressed()) {
+// 			var select = $("#numPlayersDesired");
+// 			var playersDesired = select[0].options[select[0].selectedIndex].value;
+// 			var name = $("#nameEntry").val();
+// 			$.get("/board", {numPlayersDesired: playersDesired, nameEntry: name});
+// 		}
+// 	});
+
+// 	$("#name-entry-modal").on("hide.bs.modal", function(event) {
+// 		$("#enter-game-btn").off("click");
+// 	});
+
+// 	$("#name-entry-modal").modal("show");
+// });
 
 function existingGameSelected(caller) {
 	console.log(caller);
@@ -90,9 +128,9 @@ function setCookie(cookie, value) {
 }
 
 function stopReturnKey(evt) { 
-	  var evt = (evt) ? evt : ((event) ? event : null); 
-	  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
-	  if ((evt.keyCode == 13) && (evt.target.id != "startGameButton"))  {return false;} 
+	var evt = (evt) ? evt : ((event) ? event : null); 
+	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+	if ((evt.keyCode == 13) && (evt.target.id != "startGameButton"))  {return false;} 
 }
 
 function startGamePressed() {
@@ -106,7 +144,6 @@ function startGamePressed() {
 	setCookie("numPlayersDesired", numPlayers);
 	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.
-	
 }
 
 
