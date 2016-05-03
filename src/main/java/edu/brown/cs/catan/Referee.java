@@ -47,6 +47,10 @@ public interface Referee {
 
   boolean isSetUp();
 
+  GameStatus getGameStatus();
+
+  void setGameStatus(GameStatus state);
+
   FollowUpAction getNextFollowUp(int playerID);
 
   void addFollowUp(Collection<FollowUpAction> actions);
@@ -54,5 +58,12 @@ public interface Referee {
   public void removeFollowUp(FollowUpAction action);
 
   List<Integer> getTurnOrder();
+
+  public enum GameStatus {
+    WAITING, // Waiting for players (pre-game)
+    SETUP, // Placement of settlements
+    PROGRESS; // Regular game in progress
+
+  }
 
 }

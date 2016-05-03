@@ -30,6 +30,7 @@ public class MasterReferee implements Referee {
   private Player _largestArmy = null;
   private Player _longestRoad = null;
   private boolean _isSetUp = true;
+  private GameStatus _gameState;
 
   public MasterReferee() {
     _board = new Board();
@@ -39,6 +40,7 @@ public class MasterReferee implements Referee {
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
+    _gameState = GameStatus.WAITING;
   }
 
   public MasterReferee(GameSettings gameSettings) {
@@ -49,6 +51,7 @@ public class MasterReferee implements Referee {
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
+    _gameState = GameStatus.WAITING;
   }
 
   private List<Integer> initializeTurnOrder(int numFullPlayers) {
@@ -72,7 +75,7 @@ public class MasterReferee implements Referee {
     if (_players.size() != _gameSettings.NUM_PLAYERS) {
       return null;
     }
-    return _players.get(_turnOrder.get((_turn.getTurnNum() -1)
+    return _players.get(_turnOrder.get((_turn.getTurnNum() - 1)
         % _gameSettings.NUM_PLAYERS));
   }
 
@@ -283,6 +286,16 @@ public class MasterReferee implements Referee {
     return Collections.unmodifiableList(_turnOrder);
   }
 
+  @Override
+  public GameStatus getGameStatus() {
+    return _gameState;
+  }
+
+  @Override
+  public void setGameStatus(GameStatus state) {
+    _gameState = state;
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -420,6 +433,17 @@ public class MasterReferee implements Referee {
       return Collections.unmodifiableList(_turnOrder);
     }
 
+    @Override
+    public GameStatus getGameStatus() {
+      return _referee.getGameStatus();
+    }
+
+    @Override
+    public void setGameStatus(GameStatus state) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot setGameState.");
+
+    }
 
   }
 

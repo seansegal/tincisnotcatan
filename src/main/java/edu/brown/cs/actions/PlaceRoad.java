@@ -10,6 +10,7 @@ import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Referee.GameStatus;
 
 public class PlaceRoad implements FollowUpAction {
 
@@ -53,6 +54,7 @@ public class PlaceRoad implements FollowUpAction {
       }
     }
     if (_isFinal) {
+      _ref.setGameStatus(GameStatus.PROGRESS);
       _ref.addFollowUp(ImmutableList.of(new RollDice(_ref, _ref.getTurnOrder().get(0))));
     }
     return toReturn;
