@@ -110,7 +110,7 @@ public class PlaceInitialSettlement implements FollowUpAction {
   @Override
   public JsonObject getData() {
     JsonObject json = new JsonObject();
-    json.addProperty("message", "Please place a Settelement");
+    json.addProperty("message", "Please place a Settlement");
     return json;
   }
 

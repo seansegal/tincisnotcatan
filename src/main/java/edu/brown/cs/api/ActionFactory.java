@@ -95,7 +95,7 @@ public class ActionFactory {
         case "buildSettlement":
           return new BuildSettlement(_referee, playerID,
               toIntersectionCoordinate(actionJSON.get("coordinate")
-                  .getAsJsonObject()), false); // TODO: Referee
+                  .getAsJsonObject()), true);
         case "buildRoad":
           IntersectionCoordinate start = toIntersectionCoordinate(actionJSON
               .get("start").getAsJsonObject());
