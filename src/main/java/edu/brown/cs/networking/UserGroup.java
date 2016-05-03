@@ -52,31 +52,37 @@ public class UserGroup implements Timestamped, Group {
   }
 
 
+  @Override
   public String identifier() {
     return identifier;
   }
 
 
+  @Override
   public String groupName() {
     return groupName;
   }
 
 
+  @Override
   public int maxSize() {
     return this.desiredSize;
   }
 
 
+  @Override
   public int currentSize() {
     return users.size();
   }
 
 
+  @Override
   public boolean isFull() {
     return this.desiredSize == users.size();
   }
 
 
+  @Override
   synchronized public boolean add(User u) {
     if (users.size() == desiredSize) {
       return false; // we're full, don't give me any more users.
@@ -92,7 +98,7 @@ public class UserGroup implements Timestamped, Group {
     }
     if (isFull()) {
       JsonObject gameStart = new JsonObject();
-      gameStart.addProperty("typeOfRequest", "action");
+      gameStart.addProperty("requestType", "action");
       gameStart.addProperty("action", "startGame");
       handleMessage(u, gameStart);
       System.out.println("Game start called: " + identifier());
@@ -103,12 +109,14 @@ public class UserGroup implements Timestamped, Group {
   }
 
 
+  @Override
   synchronized public boolean remove(User u) {
     return users.remove(u); // could it be this simple? we can add more logic
                             // for timeouts etc later.
   }
 
 
+  @Override
   synchronized public boolean handleMessage(User u, JsonObject j) {
     if (!users.contains(u)) {
       System.out.println("Error : user not contained");
