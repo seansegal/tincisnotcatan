@@ -84,11 +84,12 @@ Player.prototype.fillTurnDisplay = function() {
 	var displayContainer = $("#turn-display-container");
 	displayContainer.append("<div id='" + this.id + "-turn-square' class='turn-square'></div>");
 
-	var width = $("#end-turn-btn").outerWidth() / 4;
+	var width = $("#end-turn-btn").outerWidth() / players.length;
+	var height = $("#end-turn-btn").outerWidth() / 4;
 
 	var turnSquare = $("#" + this.id + "-turn-square");
 	turnSquare.css("width", width);
-	turnSquare.css("height", width);
+	turnSquare.css("height", height);
 	turnSquare.css("background-color", this.color);
 
 	if (currentPlayerTurn === this.id) {
