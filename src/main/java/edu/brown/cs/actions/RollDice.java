@@ -28,6 +28,7 @@ public class RollDice implements FollowUpAction {
   private boolean _isSetUp = false;
 
   public RollDice(Referee ref, int playerID) {
+    System.out.println("ROLL DICE ACTION CREATED WITH: " + playerID);
     assert ref != null;
     _ref = ref;
     _playerID = playerID;

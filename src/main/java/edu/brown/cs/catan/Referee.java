@@ -55,5 +55,4 @@ public interface Referee {
 
   List<Integer> getTurnOrder();
 
-  void setGameSettings(GameSettings gameSettings);
 }

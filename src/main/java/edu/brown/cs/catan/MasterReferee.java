@@ -72,7 +72,7 @@ public class MasterReferee implements Referee {
     if (_players.size() != _gameSettings.NUM_PLAYERS) {
       return null;
     }
-    return _players.get(_turnOrder.get(_turn.getTurnNum()
+    return _players.get(_turnOrder.get((_turn.getTurnNum() -1)
         % _gameSettings.NUM_PLAYERS));
   }
 
@@ -257,7 +257,6 @@ public class MasterReferee implements Referee {
         "Cannot currently add players during a game.");
   }
 
-
   @Override
   public Bank getBank() {
     return _bank;
@@ -281,13 +280,7 @@ public class MasterReferee implements Referee {
 
   @Override
   public List<Integer> getTurnOrder() {
-    return _turnOrder;
-  }
-
-  @Override
-  public void setGameSettings(GameSettings gameSettings) {
-    //_gameSettings = gameSettings;
-
+    return Collections.unmodifiableList(_turnOrder);
   }
 
   private class ReadOnlyReferee implements Referee {
@@ -427,13 +420,7 @@ public class MasterReferee implements Referee {
       return Collections.unmodifiableList(_turnOrder);
     }
 
-    @Override
-    public void setGameSettings(GameSettings gameSettings) {
-      throw new UnsupportedOperationException(
-          "A ReadOnlyReferee cannot setGameSettings.");
-    }
 
   }
-
 
 }
