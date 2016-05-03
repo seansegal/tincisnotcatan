@@ -149,7 +149,7 @@ webSocket.onmessage = function (msg) {
             handleErrorFromSocket(data);
             break;
         case "disconnectedUsers":
-        	console.log(data);
+        	handleDisconnectedUsers(data);
         	break;
         default:
             console.log("unsupported request type");
@@ -300,6 +300,10 @@ function handleGetGameState(gameStateData) {
 id("message").addEventListener("keypress", function (e) {
     if (e.keyCode === 13) { sendMessage(e.target.value); }
 });
+
+function handleDisconnectedUsers(disconnectData) {
+    showDisconnectedUsersModal(disconnectData);
+}
 
 
 // ---------- SET COOKIE FROM SERVER ---------- //

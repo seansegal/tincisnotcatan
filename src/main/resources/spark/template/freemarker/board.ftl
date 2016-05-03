@@ -641,6 +641,19 @@
 	</div>
 </div>
 
+<div class="modal fade" id="disconnected-user-modal" tabindex="-1" role="dialog" aria-labelledby="diconnectedUserLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="diconnectedUserLabel">Disconnected User</h4>
+      		</div>
+      		<div class="modal-body">
+       			<p><span id="disconnected-user-name"></span> has disconnected from the game. The game will exit in <span id="disconnected-user-time"></span> seconds unless this user reconnects.</p>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>
@@ -648,5 +661,5 @@
 <script src="js/intersection.js"></script>
 <script src="js/path.js"></script>
 <script src="js/board.js"></script>
-<script src="js/websocketDemo.js"></script>
+<script src="js/websocket.js"></script>
 <script src="js/main.js"></script>

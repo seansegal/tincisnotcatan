@@ -566,14 +566,14 @@ body {
 .discard-resource-container {
 	display: inline-block;
 	width: 60px;
-	margin-right: 5px;
+	margin-left: 5px;
 }
 
 .welcome-inline-color {
 	display: inline-block;
 	width: 20px;
 	height: 20px;
-	margin-left: 5px;
+	margin-right: 5px;
 }
 
 #welcome-turn-order-container {

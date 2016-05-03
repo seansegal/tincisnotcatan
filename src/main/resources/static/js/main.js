@@ -713,3 +713,17 @@ $("#knight-dice-roll-dice-btn").click(sendRollDiceAction);
 function showKnightOrDiceModal() {
 	$("#knight-or-dice-modal").modal("show");
 }
+
+//////////////////////////////////////////
+// Disconnected Users
+//////////////////////////////////////////
+
+function showDisconnectedUsersModal(disconnectData) {
+	var millisLeft = disconnectData.expiresAt - Date.now();
+	var secondsLeft = Math.round(millisLeft / 1000);
+
+	$("#disconnected-user-name").text(disconnectData.users[0].userName);
+	$("#disconnected-user-time").text(secondsLeft);
+
+	$("#disconnected-user-modal").modal("show");
+}
