@@ -130,6 +130,7 @@ public class ActionFactory {
           throw new IllegalArgumentException(err);
         }
       } catch (NullPointerException e) {
+        e.printStackTrace();
         throw new IllegalArgumentException(
             "The JSON is missing a required parameter. Check documentation for more information.");
       }

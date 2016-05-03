@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -22,9 +24,6 @@ public class EndTurn implements Action {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
     }
-    if (!ref.currentPlayer().equals(_player)) {
-      throw new IllegalArgumentException();
-    }
 
     if (_player.getDevCards().get(DevelopmentCard.KNIGHT) != 0) {
       _hasKnight = true;
@@ -33,6 +32,9 @@ public class EndTurn implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
+    if(_ref.currentPlayer().equals(_player)){
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false, "It is not your turn.", null));
+    }
     _ref.startNextTurn();
     Player nextPlayer = _ref.currentPlayer();
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
