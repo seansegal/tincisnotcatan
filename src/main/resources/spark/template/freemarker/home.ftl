@@ -26,7 +26,7 @@
 								<option value="2">2 players</option>
 							</select>
 						</div>
-						<button id="startGameButton" class="btn btn-success">Create Game!</button>
+						<button id="startGameButton" class="btn btn-success" onclick="return startGamePressed()">Create Game!</button>
 					</form>
 				</div>
 			</div>
