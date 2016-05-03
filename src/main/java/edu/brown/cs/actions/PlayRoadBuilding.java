@@ -56,8 +56,8 @@ public class PlayRoadBuilding implements Action {
     }
 
     // Follow up PlaceRoad actions:
-    _ref.addFollowUp(ImmutableList.of(new PlaceRoad(_player.getID())));
-    _ref.addFollowUp(ImmutableList.of(new PlaceRoad(_player.getID())));
+    _ref.addFollowUp(ImmutableList.of(new PlaceRoad(_player.getID(), false)));
+    _ref.addFollowUp(ImmutableList.of(new PlaceRoad(_player.getID(), false)));
 
     return toReturn;
 

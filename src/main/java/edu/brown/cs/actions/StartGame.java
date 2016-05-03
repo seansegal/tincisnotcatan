@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Referee.GameStatus;
 
 public class StartGame implements Action {
 
@@ -16,6 +17,9 @@ public class StartGame implements Action {
 
   public StartGame(Referee ref) {
     _ref = ref;
+    if(_ref.getGameStatus() != GameStatus.WAITING){
+      throw new IllegalArgumentException("The game has already started");
+    }
   }
 
   @Override
@@ -34,6 +38,7 @@ public class StartGame implements Action {
               firstToGo == player.getID());
           toReturn.put(player.getID(), new ActionResponse(true, "", json));
         });
+    _ref.setGameStatus(GameStatus.SETUP);
     return toReturn;
   }
 }

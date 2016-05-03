@@ -3,12 +3,14 @@ package edu.brown.cs.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Referee.GameStatus;
 
 public class PlaceRoad implements FollowUpAction {
 
@@ -19,10 +21,12 @@ public class PlaceRoad implements FollowUpAction {
   private IntersectionCoordinate _start;
   private IntersectionCoordinate _end;
   private static final String VERB = "place a road";
+  private boolean _isFinal;
 
-  public PlaceRoad(int playerID) {
+  public PlaceRoad(int playerID, boolean isFinal) {
     _playerID = playerID;
     _isSetup = false;
+    _isFinal = isFinal;
   }
 
   @Override
@@ -48,6 +52,10 @@ public class PlaceRoad implements FollowUpAction {
       } else {
         toReturn.put(p.getID(), respToAll);
       }
+    }
+    if (_isFinal) {
+      _ref.setGameStatus(GameStatus.PROGRESS);
+      _ref.addFollowUp(ImmutableList.of(new RollDice(_ref, _ref.getTurnOrder().get(0))));
     }
     return toReturn;
   }

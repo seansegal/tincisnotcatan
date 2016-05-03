@@ -21,13 +21,14 @@ public class StartGameSetup implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    List<Integer> turnOrder = _ref.getTurnOrder();
+    //Get copy of turn order:
+    List<Integer> turnOrder = new ArrayList<>(_ref.getTurnOrder());
     for (int id : turnOrder) {
       Collection<FollowUpAction> followUp = new ArrayList<>();
       followUp.add(new PlaceInitialSettlement(id, 1));
       _ref.addFollowUp(followUp);
       followUp = new ArrayList<>();
-      followUp.add(new PlaceRoad(id));
+      followUp.add(new PlaceRoad(id, false));
       _ref.addFollowUp(followUp);
     }
     Collections.reverse(turnOrder);
@@ -36,7 +37,11 @@ public class StartGameSetup implements Action {
       followUp.add(new PlaceInitialSettlement(id, 2));
       _ref.addFollowUp(followUp);
       followUp = new ArrayList<>();
-      followUp.add(new PlaceRoad(id));
+      if(id == turnOrder.get(turnOrder.size() -1)){
+        followUp.add(new PlaceRoad(id, true));
+      }else{
+        followUp.add(new PlaceRoad(id, false));
+      }
       _ref.addFollowUp(followUp);
     }
     Map<Integer, ActionResponse> toReturn = new HashMap<>();

@@ -24,6 +24,7 @@ import edu.brown.cs.board.TileType;
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Referee.GameStatus;
 import edu.brown.cs.catan.Resource;
 
 public class CatanConverter {
@@ -59,6 +60,7 @@ public class CatanConverter {
 
   private static class GameState {
     private int playerID;
+    private List<Integer> turnOrder;
     private Hand hand;
     private BoardRaw board;
     private int currentTurn;
@@ -71,6 +73,7 @@ public class CatanConverter {
       this.hand = new Hand(ref.getPlayerByID(playerID));
       this.board = new BoardRaw(ref.getReadOnlyReferee(), ref.getBoard(),
           playerID);
+      this.turnOrder = (ref.getGameStatus() != GameStatus.WAITING) ? ref.getTurnOrder() : null;
       this.players = new ArrayList<>();
       for (Player p : ref.getPlayers()) {
         players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));
