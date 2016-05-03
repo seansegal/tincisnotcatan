@@ -25,9 +25,6 @@ public class EndTurn implements Action {
       throw new IllegalArgumentException(err);
     }
 
-    if (_player.getDevCards().get(DevelopmentCard.KNIGHT) != 0) {
-      _hasKnight = true;
-    }
   }
 
   @Override
@@ -38,6 +35,9 @@ public class EndTurn implements Action {
     }
     _ref.startNextTurn();
     Player nextPlayer = _ref.currentPlayer();
+    if (nextPlayer.getDevCards().get(DevelopmentCard.KNIGHT) != 0) {
+      _hasKnight = true;
+    }
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
 
     for (Player p : _ref.getPlayers()) {
