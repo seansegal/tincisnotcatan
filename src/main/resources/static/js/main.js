@@ -19,7 +19,6 @@ $(window).load(function() {
     if(href != "/home" && !document.cookie){
     	window.location = "/home"; // redirect to home
     }
-    
 });
 
 function redrawCatan() {
