@@ -143,6 +143,9 @@ webSocket.onmessage = function (msg) {
         case "ERROR" :
             handleErrorFromSocket(data);
             break;
+        case "disconnectedUsers":
+        	console.log(data);
+        	break;
         default:
             console.log("unsupported request type");
             break;

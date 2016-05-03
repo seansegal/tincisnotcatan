@@ -69,4 +69,23 @@ public class GroupView implements Group {
     return inner.groupName();
   }
 
+
+  @Override
+  public void userDisconnected(User u, long expiresAt) {
+    throw new UnsupportedOperationException("Can't modify a GroupView");
+  }
+
+
+  @Override
+  public void userReconnected(User u) {
+    throw new UnsupportedOperationException("Can't modify a GroupView");
+  }
+
+
+  @Override
+  public boolean afkTick() {
+    throw new UnsupportedOperationException(
+        "Illegal action for a GroupView : afkTick()");
+  }
+
 }
