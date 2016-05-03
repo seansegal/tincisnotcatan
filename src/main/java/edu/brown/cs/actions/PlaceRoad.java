@@ -55,7 +55,8 @@ public class PlaceRoad implements FollowUpAction {
     }
     if (_isFinal) {
       _ref.setGameStatus(GameStatus.PROGRESS);
-      _ref.addFollowUp(ImmutableList.of(new RollDice(_ref, _ref.getTurnOrder().get(0))));
+      _ref.addFollowUp(ImmutableList.of(new RollDice(_ref.getTurnOrder()
+          .get(0))));
     }
     return toReturn;
   }
