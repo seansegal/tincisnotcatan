@@ -32,11 +32,26 @@ public class TradeResponse implements FollowUpAction {
     if (!_isSetUp) {
       throw new IllegalArgumentException();
     }
+    Map<Integer, ActionResponse> toRet = new HashMap<>();
+    // On cancel
     if(!_acceptedTrade) {
-
+      for (Player p : _ref.getPlayers()) {
+        if (!p.equals(_player)) {
+          _ref.removeFollowUp(new ReviewTrade(p.getID(), _resources));
+          String message = String.format("%s canceled the trade.",
+              _player.getName());
+          ActionResponse toAdd = new ActionResponse(true, message, null);
+          toRet.put(p.getID(), toAdd);
+        } else {
+          String message = "You canceled the trade.";
+          ActionResponse toAdd = new ActionResponse(true, message, null);
+          toRet.put(p.getID(), toAdd);
+        }
+      }
+      return toRet;
     }
     
-    Map<Integer, ActionResponse> toRet = new HashMap<>();
+    // On accept
     for (Resource res : _resources.keySet()) {
       if (_resources.get(res) < 0
           && _player.getResources().get(res) < Math.abs(_resources.get(res))) {
