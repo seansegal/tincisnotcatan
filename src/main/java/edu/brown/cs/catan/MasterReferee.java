@@ -41,6 +41,16 @@ public class MasterReferee implements Referee {
     _turn = new Turn(1, Collections.emptyMap());
   }
 
+  public MasterReferee(GameSettings gameSettings) {
+    _board = new Board();
+    _gameSettings = gameSettings; // TODO customize
+    _players = new HashMap<Integer, Player>();
+    _turnOrder = initializeTurnOrder(_gameSettings.NUM_PLAYERS);
+    _bank = initializeBank(false);
+    _devCardDeck = initializeDevDeck();
+    _turn = new Turn(1, Collections.emptyMap());
+  }
+
   private List<Integer> initializeTurnOrder(int numFullPlayers) {
     List<Integer> toReturn = new ArrayList<>();
     for (int i = 0; i < _gameSettings.NUM_PLAYERS; i++) {
@@ -247,10 +257,6 @@ public class MasterReferee implements Referee {
         "Cannot currently add players during a game.");
   }
 
-  @Override
-  public boolean gameIsFull() {
-    return _gameSettings.NUM_PLAYERS == _players.size();
-  }
 
   @Override
   public Bank getBank() {
@@ -276,6 +282,12 @@ public class MasterReferee implements Referee {
   @Override
   public List<Integer> getTurnOrder() {
     return _turnOrder;
+  }
+
+  @Override
+  public void setGameSettings(GameSettings gameSettings) {
+    //_gameSettings = gameSettings;
+
   }
 
   private class ReadOnlyReferee implements Referee {
@@ -377,11 +389,6 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public boolean gameIsFull() {
-      return _referee.gameIsFull();
-    }
-
-    @Override
     public Bank getBank() {
       return _referee.getBank();
     }
@@ -420,6 +427,13 @@ public class MasterReferee implements Referee {
       return Collections.unmodifiableList(_turnOrder);
     }
 
+    @Override
+    public void setGameSettings(GameSettings gameSettings) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyReferee cannot setGameSettings.");
+    }
+
   }
+
 
 }

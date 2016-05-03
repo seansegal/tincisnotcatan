@@ -8,7 +8,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 
 import edu.brown.cs.actions.ActionResponse;
-import edu.brown.cs.api.CatanConverter.CatanSettings;
+import edu.brown.cs.catan.GameSettings;
 import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.networking.API;
@@ -24,16 +24,6 @@ public class CatanAPI implements API {
   public CatanAPI() {
     _referee = new MasterReferee();
     _converter = new CatanConverter();
-    _actionFactory = new ActionFactory(_referee);
-  }
-
-
-  public CatanAPI(String settings) {
-    _converter = new CatanConverter();
-    _referee = new MasterReferee();
-    CatanSettings catanSettings = _converter.getSettings(settings);
-    // TODO: use settings for number of players etc.
-
     _actionFactory = new ActionFactory(_referee);
   }
 
@@ -73,19 +63,6 @@ public class CatanAPI implements API {
   }
 
   /**
-   * Should be called after adding a Player. Indicates whether the game has
-   * reached it's player limit. If this method returns true, the Start Game
-   * action should be called to start a game.
-   *
-   * @return A boolean indicating that the game is full.
-   */
-  public boolean gameIsFull() {
-    synchronized (this) {
-      return _referee.gameIsFull();
-    }
-  }
-
-  /**
    * Performs Catan Actions. See the README for specific Action JSON
    * documentation.
    *
@@ -100,7 +77,6 @@ public class CatanAPI implements API {
    */
   @Override
   public Map<Integer, JsonObject> performAction(String action) {
-    System.out.println("THIS IS DEFINITELY CALLED, RIGHT?");
     synchronized (this) {
       if (action == null) {
         throw new IllegalArgumentException("Input cannot be null.");
@@ -121,14 +97,12 @@ public class CatanAPI implements API {
             new JsonPrimitive("REQUEST ERROR: " + e.getLocalizedMessage()));
         return ImmutableMap.of(-1, json);
       } catch (WaitingOnActionException e) {
-        System.out.println("REACHED");
         return _converter.responseToJSON(e.getResponses());
       }
     }
   }
 
   public Map<Integer, JsonObject> performAction(JsonObject action) {
-    System.out.println("THIS IS DEFINITELY CALLED, RIGHT? - 2");
     if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");
     }
@@ -156,8 +130,8 @@ public class CatanAPI implements API {
 
   @Override
   public void setSettings(JsonObject settings) {
-    System.out.println("BACKEND RECIEVED SETTINGS");
-
+    _referee = new MasterReferee(new GameSettings(settings));
+    _actionFactory = new ActionFactory(_referee);
   }
 
 }

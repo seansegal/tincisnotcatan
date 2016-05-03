@@ -53,7 +53,6 @@ public class ActionFactory {
 
   public Action createAction(JsonObject actionJSON)
     throws WaitingOnActionException {
-    System.out.println("THIS WAS CALLED!!!");
     int playerID;
     String action;
     try {
@@ -86,7 +85,6 @@ public class ActionFactory {
         case "getInitialState":
           return new EmptyAction();
         case "startGame":
-          System.out.println("START GAME CALLED ON BACKEND");
           return new StartGame(_referee);
         case "setupGame":
           return new StartGameSetup(_referee);
