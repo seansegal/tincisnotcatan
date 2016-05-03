@@ -22,11 +22,6 @@ import com.google.gson.JsonSyntaxException;
 @WebSocket
 public class ReceivingWebsocket {
 
-  // standing bugs : if a current user in a game goes back to home, and reenters
-  // a name, their name doesn't change.
-  // on /home, a user that has an existing USER_ID cookie will go to /board, but
-  // then redirect to home. probably just js logic.
-
   private static GCT              gct;
   private final Map<String, User> uuidToUser      = new HashMap<>();
   private final Gson              GSON            = new Gson();
@@ -37,8 +32,8 @@ public class ReceivingWebsocket {
   private static final String     USER_IDENTIFIER = "USER_ID";
   private static final String     HEARTBEAT       = "\"HEARTBEAT\"";
 
-  private static final long       ONE_MINUTE      = 60 * 1000;
-  private static final long       FIVE_MINUTES    = 5 * ONE_MINUTE;
+  private static final long       ONE_SECOND      = 1000;
+  private static final long       ONE_MINUTE      = ONE_SECOND * 60;
 
 
   public ReceivingWebsocket() {
@@ -51,17 +46,20 @@ public class ReceivingWebsocket {
         synchronized (ReceivingWebsocket.this) {
           long now = System.currentTimeMillis();
           for (User u : afkMap.keySet()) {
-            if (now - afkMap.get(u) > FIVE_MINUTES) {
+            if (now - afkMap.get(u) > ONE_MINUTE) {
               String id = u.getField(USER_IDENTIFIER);
               uuidToUser.remove(id);
               afkMap.remove(u);
               gct.remove(u);
+              System.out.println("Removed user entirely! TODO Cancel game?");
+            } else {
+              gct.groupForUser(u).afkTick();
             }
           }
         }
       }
     };
-    timer.schedule(cleanup, 0L, ONE_MINUTE);
+    timer.schedule(cleanup, 0L, ONE_SECOND);
 
   }
 
@@ -87,6 +85,7 @@ public class ReceivingWebsocket {
         u.updateSession(session);
         u.updateCookies(list);
         afkMap.remove(u);
+        gct.groupForUser(u).userReconnected(u);
         System.out.println("Updated User object with new session");
       }
     } else {
@@ -110,9 +109,11 @@ public class ReceivingWebsocket {
   public void onClose(Session session, int statusCode, String reason) {
     User u = getUserFor(session);
     if (u != null) {
-      System.out.format("User %s was disconnected due to: %s%n", u, reason == null ? "hard disconnect" : reason);
+      System.out.format("User %s was disconnected due to: %s%n", u,
+          reason == null ? "hard disconnect" : reason);
       System.out.format("Marking user %s as AFK %n", u);
       afkMap.put(u, System.currentTimeMillis());
+      gct.groupForUser(u).userDisconnected(u, afkMap.get(u));
     } else {
       System.out.format("Unregistered session %s was disconnected due to: %s%n",
           session.getLocalAddress(), reason);
