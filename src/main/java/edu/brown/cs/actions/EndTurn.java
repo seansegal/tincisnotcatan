@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
-
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -32,9 +30,10 @@ public class EndTurn implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    if(_ref.currentPlayer().equals(_player)){
-      return ImmutableMap.of(_player.getID(), new ActionResponse(false, "It is not your turn.", null));
-    }
+//    if (_ref.currentPlayer().equals(_player)) {
+//      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+//          "It is not your turn.", null));
+//    }
     _ref.startNextTurn();
     Player nextPlayer = _ref.currentPlayer();
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
@@ -62,12 +61,12 @@ public class EndTurn implements Action {
         Collection<FollowUpAction> followUp = new ArrayList<FollowUpAction>();
         followUp.add(toDoNext);
         _ref.addFollowUp(followUp);
-        String message = String.format(
-            "%s just ended their turn. It is now your turn.",
+        String message = String
+            .format("%s just ended their turn. It is now your turn.",
                 _player.getName());
         ActionResponse toAdd = new ActionResponse(true, message, null);
         toRet.put(p.getID(), toAdd);
-     }
+      }
     }
     return toRet;
   }
