@@ -190,6 +190,7 @@ function updateChat(msg) {
 function handleActionResponse(data) {
     if (data.content.hasOwnProperty("message")) {
         if (data.content.hasOwnProperty("followUpAction") 
+                && data.content.followUpAction.hasOwnProperty("actionData")
                 && data.content.followUpAction.actionData.hasOwnProperty("message")) {
             addMessage(data.content.followUpAction.actionData.message);
         } else {
