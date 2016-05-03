@@ -31,6 +31,12 @@ webSocket.onmessage = function (msg) {
 function createJoinableGameList(groups) {
 	$("#games-list").empty();
 
+	// Add message if no groups exist yet
+	if (groups.length === 0) {
+		$("#games-list").append("<li class='list-group-item'>No available games. Create your own!</li>");
+		return;
+	}
+
 	// Add to list of joinable games
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i].group;
@@ -46,35 +52,14 @@ function createJoinableGameList(groups) {
 	var btnHeight = $("#games-list .join-game-btn").outerHeight();
 	$("#games-list .vertical-center").css("height", btnHeight);
 	$("#games-list .vertical-center *").css("line-height", btnHeight + "px");
-
-	// Add click handlers to join game buttons
-	// $("#games-list .join-game-btn").click(onJoinGameButtonClick);
 }
 
-// function onJoinGameButtonClick(event) {
-// 	$("#enter-game-btn").click(function(e) {
-// 		existingGameSelected(event.target);
-// 	});
+$("#enter-name-begin-btn").click(openCreateJoinGame);
 
-// 	$("#name-entry-modal").modal("show");
-// }
-
-// $("#startGameButton").click(function(event) {
-// 	$("#enter-game-btn").click(function(e) {
-// 		if (startGamePressed()) {
-// 			var select = $("#numPlayersDesired");
-// 			var playersDesired = select[0].options[select[0].selectedIndex].value;
-// 			var name = $("#nameEntry").val();
-// 			$.get("/board", {numPlayersDesired: playersDesired, nameEntry: name});
-// 		}
-// 	});
-
-// 	$("#name-entry-modal").on("hide.bs.modal", function(event) {
-// 		$("#enter-game-btn").off("click");
-// 	});
-
-// 	$("#name-entry-modal").modal("show");
-// });
+function openCreateJoinGame() {
+	$("#pre-name-container").addClass("hidden");
+	$("#post-name-container").removeClass("hidden");
+}
 
 function existingGameSelected(caller) {
 	console.log(caller);
@@ -127,12 +112,20 @@ function stopReturnKey(evt) {
 function startGamePressed() {
 	var userName = id("nameEntry").value;
 	var numPlayers = id("numPlayersDesired").value;
+	var groupName = id("game-name-entry").value;
 	if(userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false; // will not allow the get reqeust to process.
 	}
+
+	if (groupName === undefined || groupName === "") {
+		alert("Please select a name for your game");
+		return false;
+	}
+
 	setCookie("userName", userName);
 	setCookie("numPlayersDesired", numPlayers);
+	setCookie("groupName", groupName);
 	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.
 }

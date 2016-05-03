@@ -6,6 +6,10 @@
 	width: 100%;
 }
 
+#join-game-panel {
+  margin-bottom: 0px;
+}
+
 .vertical-center {
   overflow-x: scroll;
 }
