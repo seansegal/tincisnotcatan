@@ -23,7 +23,7 @@ public class RollDice implements FollowUpAction {
   private final int _playerID;
   private Referee _ref;
   private Bank _bank;
-  private static final String VERB = "start the next turn";
+  private static final String VERB = "start the next turn.";
   private static final String ID = "rollDice";
   private boolean _isSetUp = false;
 
@@ -51,7 +51,6 @@ public class RollDice implements FollowUpAction {
     if (!_isSetUp) {
       throw new IllegalArgumentException();
     }
-    _ref.startNextTurn(); //TODO: is this what we want?
     Random r = new Random();
     PrimitiveIterator.OfInt rolls = r.ints(1, 7).iterator();
     int diceRoll = rolls.nextInt() + rolls.nextInt();

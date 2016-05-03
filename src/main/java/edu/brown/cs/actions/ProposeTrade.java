@@ -61,13 +61,13 @@ public class ProposeTrade implements Action{
 
     for (Player p : _ref.getPlayers()) {
       if (!p.equals(_player)) {
-        FollowUpAction toDo = new ReviewTrade();
+        FollowUpAction toDo = new ReviewTrade(p.getID(), _resources);
         toDoNext.add(toDo);
         String message = String.format("%s wants to trade", _player.getName());
         ActionResponse toAdd = new ActionResponse(true, message, _resources);
         toRet.put(p.getID(), toAdd);
       } else {
-        FollowUpAction toDo = new TradeResponse();
+        FollowUpAction toDo = new TradeResponse(p.getID(), _resources);
         toDoNext.add(toDo);
         String message = "See who wants to trade with you.";
         ActionResponse toAdd = new ActionResponse(true, message, _resources);

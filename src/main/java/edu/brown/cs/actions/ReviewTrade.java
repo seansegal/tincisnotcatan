@@ -1,47 +1,87 @@
 package edu.brown.cs.actions;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Resource;
 
 public class ReviewTrade implements FollowUpAction {
+  private Player _player;
+  private final int _playerID;
+  private Referee _ref;
+  private static final String VERB = "review the trade.";
+  private static final String ID = "reviewTrade";
+  private boolean _isSetUp = false;
+  private boolean _acceptedTrade;
+  private Map<Resource, Double> _resources;
+  private Gson gson = new Gson();
+
+  public ReviewTrade(int playerID,
+      Map<Resource, Double> resources) {
+    _playerID = playerID;
+    _resources = resources;
+  }
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    // TODO Auto-generated method stub
-    return null;
+    if (!_isSetUp) {
+      throw new IllegalArgumentException();
+    }
+    Map<Integer, ActionResponse> toRet = new HashMap<>();
+    String message = "";
+    if (_acceptedTrade) {
+      message = "You accepted the trade";
+    } else {
+      message = "You declined the trade";
+    }
+    ActionResponse toAdd = new ActionResponse(true, message, _acceptedTrade);
+    toRet.put(_player.getID(), toAdd);
+    _ref.removeFollowUp(this);
+    return toRet;
   }
 
   @Override
   public JsonObject getData() {
-    // TODO Auto-generated method stub
-    return null;
+    String message = "Please review the proposed trade and decide"
+        + " whether or not to accept the offer.";
+    JsonObject toRet = new JsonObject();
+    toRet.addProperty("message", message);
+    String trade = gson.toJson(_resources);
+    toRet.addProperty("trade", trade);
+    return toRet;
   }
 
   @Override
   public String getID() {
-    // TODO Auto-generated method stub
-    return null;
+    return ID;
   }
 
   @Override
   public int getPlayerID() {
-    // TODO Auto-generated method stub
-    return 0;
+    return _playerID;
   }
 
   @Override
   public void setupAction(Referee ref, int playerID, JsonObject params) {
-    // TODO Auto-generated method stub
-
+    assert ref != null;
+    _ref = ref;
+    _player = _ref.getPlayerByID(playerID);
+    if (_player == null) {
+      String err = String.format("No player exists with the id: %d", playerID);
+      throw new IllegalArgumentException(err);
+    }
+    _acceptedTrade = params.get("acceptedTrade").getAsBoolean();
+    _isSetUp = true;
   }
 
   @Override
   public String getVerb() {
-    // TODO Auto-generated method stub
-    return null;
+    return VERB;
   }
 
 }
