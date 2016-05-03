@@ -10,6 +10,7 @@ import edu.brown.cs.actions.BuildRoad;
 import edu.brown.cs.actions.BuildSettlement;
 import edu.brown.cs.actions.BuyDevelopmentCard;
 import edu.brown.cs.actions.EmptyAction;
+import edu.brown.cs.actions.EndTurn;
 import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.actions.PlayKnight;
 import edu.brown.cs.actions.PlayMonopoly;
@@ -17,6 +18,7 @@ import edu.brown.cs.actions.PlayRoadBuilding;
 import edu.brown.cs.actions.PlayYearOfPlenty;
 import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.actions.StartGame;
+import edu.brown.cs.actions.StartGameSetup;
 import edu.brown.cs.actions.TradeWithBank;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
@@ -51,6 +53,7 @@ public class ActionFactory {
 
   public Action createAction(JsonObject actionJSON)
     throws WaitingOnActionException {
+    System.out.println("THIS WAS CALLED!!!");
     int playerID;
     String action;
     try {
@@ -83,7 +86,10 @@ public class ActionFactory {
         case "getInitialState":
           return new EmptyAction();
         case "startGame":
+          System.out.println("START GAME CALLED ON BACKEND");
           return new StartGame(_referee);
+        case "setupGame":
+          return new StartGameSetup(_referee);
         case "buildCity":
           return new BuildCity(_referee, playerID,
               toIntersectionCoordinate(actionJSON.get("coordinate")
@@ -117,6 +123,8 @@ public class ActionFactory {
           String toGive = actionJSON.get("toGive").getAsString();
           String toGet = actionJSON.get("toGet").getAsString();
           return new TradeWithBank(_referee, playerID, toGive, toGet);
+        case "endTurn":
+          return new EndTurn(_referee, playerID);
         default:
           String err = String.format("The action %s does not exist.", action);
           throw new IllegalArgumentException(err);

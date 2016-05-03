@@ -100,6 +100,7 @@ public class CatanAPI implements API {
    */
   @Override
   public Map<Integer, JsonObject> performAction(String action) {
+    System.out.println("THIS IS DEFINITELY CALLED, RIGHT?");
     synchronized (this) {
       if (action == null) {
         throw new IllegalArgumentException("Input cannot be null.");
@@ -127,6 +128,7 @@ public class CatanAPI implements API {
   }
 
   public Map<Integer, JsonObject> performAction(JsonObject action) {
+    System.out.println("THIS IS DEFINITELY CALLED, RIGHT? - 2");
     if (action == null) {
       throw new IllegalArgumentException("Input cannot be null.");
     }
@@ -154,7 +156,8 @@ public class CatanAPI implements API {
 
   @Override
   public void setSettings(JsonObject settings) {
-    // TODO Auto-generated method stub
+    System.out.println("BACKEND RECIEVED SETTINGS");
+
   }
 
 }
