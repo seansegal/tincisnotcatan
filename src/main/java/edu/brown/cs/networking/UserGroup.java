@@ -254,7 +254,7 @@ public class UserGroup implements Timestamped, Group {
           "Error! Disconnected user, but I don't have a reference to them!");
       return;
     }
-    System.out.println("Called user disconnected for time " + expiresAt);
+    System.out.println("DISCONNECTED AT " + expiresAt + " " + u);
     afk.put(u, expiresAt);
 
   }
@@ -262,7 +262,7 @@ public class UserGroup implements Timestamped, Group {
 
   @Override
   public void userReconnected(User u) {
-    System.out.println("Called user reconnected");
+    System.out.println("RECONNECTED " + u);
     afk.remove(u);
   }
 }
