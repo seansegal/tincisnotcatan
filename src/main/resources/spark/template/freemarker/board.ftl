@@ -597,7 +597,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="welcome-modal" tabindex="-1" role="dialog" aria-labelledby="welcomeLabel">
+<div class="modal fade" id="welcome-modal" tabindex="-1" role="dialog" aria-labelledby="welcomeLabel" data-backdrop="static">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
       		<div class="modal-header">

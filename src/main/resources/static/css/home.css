@@ -1,6 +1,21 @@
-#nameEntry {
-/*  margin-bottom: 10px;
-*/}
+h1 {
+  font-size: 72px;
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#pre-name-container {
+  position: absolute;
+  top: 25%;
+}
+
+#post-name-container {
+  position: absolute;
+  top: 25%;
+  width: 100vw;
+}
 
 .join-game-btn {
 	width: 100%;

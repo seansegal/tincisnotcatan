@@ -160,11 +160,11 @@ function fillPlayerHand(handData) {
 }
 
 function fillPlayerBuyOptions(handData) {
-	// if (handData.canBuildSettlement) {
-	// 	$("#settlement-build-btn").prop("disabled", false);
-	// } else {
-	// 	$("#settlement-build-btn").prop("disabled", true);
-	// }
+	if (handData.canBuildSettlement) {
+		$("#settlement-build-btn").prop("disabled", false);
+	} else {
+		$("#settlement-build-btn").prop("disabled", true);
+	}
 
 	if (handData.canBuildCity) {
 		$("#city-build-btn").prop("disabled", false);
