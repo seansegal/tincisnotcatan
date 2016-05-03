@@ -17,8 +17,6 @@ public interface Referee {
 
   void playDevCard();
 
-  boolean gameIsFull();
-
   int addPlayer(String name);
 
   int addPlayer(String name, String color);
@@ -56,4 +54,5 @@ public interface Referee {
   public void removeFollowUp(FollowUpAction action);
 
   List<Integer> getTurnOrder();
+
 }

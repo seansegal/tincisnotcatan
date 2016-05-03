@@ -41,6 +41,16 @@ public class MasterReferee implements Referee {
     _turn = new Turn(1, Collections.emptyMap());
   }
 
+  public MasterReferee(GameSettings gameSettings) {
+    _board = new Board();
+    _gameSettings = gameSettings; // TODO customize
+    _players = new HashMap<Integer, Player>();
+    _turnOrder = initializeTurnOrder(_gameSettings.NUM_PLAYERS);
+    _bank = initializeBank(false);
+    _devCardDeck = initializeDevDeck();
+    _turn = new Turn(1, Collections.emptyMap());
+  }
+
   private List<Integer> initializeTurnOrder(int numFullPlayers) {
     List<Integer> toReturn = new ArrayList<>();
     for (int i = 0; i < _gameSettings.NUM_PLAYERS; i++) {
@@ -62,7 +72,7 @@ public class MasterReferee implements Referee {
     if (_players.size() != _gameSettings.NUM_PLAYERS) {
       return null;
     }
-    return _players.get(_turnOrder.get(_turn.getTurnNum()
+    return _players.get(_turnOrder.get((_turn.getTurnNum() -1)
         % _gameSettings.NUM_PLAYERS));
   }
 
@@ -248,11 +258,6 @@ public class MasterReferee implements Referee {
   }
 
   @Override
-  public boolean gameIsFull() {
-    return _gameSettings.NUM_PLAYERS == _players.size();
-  }
-
-  @Override
   public Bank getBank() {
     return _bank;
   }
@@ -275,7 +280,7 @@ public class MasterReferee implements Referee {
 
   @Override
   public List<Integer> getTurnOrder() {
-    return _turnOrder;
+    return Collections.unmodifiableList(_turnOrder);
   }
 
   private class ReadOnlyReferee implements Referee {
@@ -377,11 +382,6 @@ public class MasterReferee implements Referee {
     }
 
     @Override
-    public boolean gameIsFull() {
-      return _referee.gameIsFull();
-    }
-
-    @Override
     public Bank getBank() {
       return _referee.getBank();
     }
@@ -419,6 +419,7 @@ public class MasterReferee implements Referee {
     public List<Integer> getTurnOrder() {
       return Collections.unmodifiableList(_turnOrder);
     }
+
 
   }
 

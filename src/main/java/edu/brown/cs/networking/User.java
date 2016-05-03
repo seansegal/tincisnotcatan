@@ -11,11 +11,11 @@ import com.google.gson.annotations.Expose;
 
 public final class User {
 
-  private Session session;
-  private List<HttpCookie>  cookies;
+  private Session          session;
+  private List<HttpCookie> cookies;
   @Expose
-  private Integer           userID;
-  private JsonObject        values;
+  private Integer          userID;
+  private JsonObject       values;
 
 
   public User(Session s, List<HttpCookie> cookies) {
@@ -57,6 +57,11 @@ public final class User {
       return values.get(field).getAsString();
     }
     return null;
+  }
+
+
+  public boolean hasField(String field) {
+    return values.has(field);
   }
 
 

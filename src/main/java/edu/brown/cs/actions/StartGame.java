@@ -21,18 +21,17 @@ public class StartGame implements Action {
   @Override
   public Map<Integer, ActionResponse> execute() {
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
-    JsonObject json = new JsonObject();
     JsonArray turnOrder = new JsonArray();
     for (int id : _ref.getTurnOrder()) {
       turnOrder.add(new JsonPrimitive(id));
     }
-    json.add("turnOrder", turnOrder);
-    json.add("isFirst", new JsonPrimitive(false));
+    int firstToGo = _ref.getTurnOrder().get(0);
     _ref.getPlayers().forEach(
         (player) -> {
-          json.remove("isFirst");
+          JsonObject json = new JsonObject();
+          json.add("turnOrder", turnOrder);
           json.addProperty("isFirst",
-              _ref.getTurnOrder().get(0) == player.getID());
+              firstToGo == player.getID());
           toReturn.put(player.getID(), new ActionResponse(true, "", json));
         });
     return toReturn;

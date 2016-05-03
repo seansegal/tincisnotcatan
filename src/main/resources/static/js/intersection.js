@@ -117,12 +117,17 @@ Intersection.prototype.createIntersectionClickHandler = function() {
 	var that = this;
 	return function(event) {
 		if (that.building === BUILDING.NONE) {
-			sendBuildSettlementAction(that.intersectCoordinates);
+			if (inPlaceSettlementMode) {
+				sendPlaceSettlementAction(that.intersectCoordinates);
+				exitPlaceSettlementMode();
+			} else {
+				sendBuildSettlementAction(that.intersectCoordinates);
+				exitBuildMode();
+			}
 		} else if (that.building === BUILDING.SETTLEMENT) {
 			sendBuildCityAction(that.intersectCoordinates);
+			exitBuildMode();
 		}
-
-		exitBuildMode();
 	};
 }
 

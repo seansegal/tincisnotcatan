@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.Intersection;
+import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
@@ -110,7 +111,7 @@ public class PlaceInitialSettlement implements FollowUpAction {
   @Override
   public JsonObject getData() {
     JsonObject json = new JsonObject();
-    json.addProperty("message", "Please place a Settelement");
+    json.addProperty("message", "Please place a Settlement");
     return json;
   }
 
@@ -126,13 +127,36 @@ public class PlaceInitialSettlement implements FollowUpAction {
 
   @Override
   public void setupAction(Referee ref, int playerID, JsonObject params) {
-
+    _ref = ref;
     _isSetup = true;
+    if(playerID != _playerID){
+      throw new IllegalArgumentException("Can only be setup with the correct player");
+    }
+    _intersection = _ref.getBoard().getIntersections().get(toIntersectionCoordinate(params.get("coordinate")
+        .getAsJsonObject()));
+    if(_intersection == null){
+      throw new IllegalArgumentException("The intersection does not exist");
+    }
+
+
   }
 
   @Override
   public String getVerb() {
     return VERB;
+  }
+
+  private IntersectionCoordinate toIntersectionCoordinate(JsonObject object) {
+    JsonObject coord1 = object.get("coord1").getAsJsonObject();
+    JsonObject coord2 = object.get("coord2").getAsJsonObject();
+    JsonObject coord3 = object.get("coord3").getAsJsonObject();
+    HexCoordinate h1 = new HexCoordinate(coord1.get("x").getAsInt(), coord1
+        .get("y").getAsInt(), coord1.get("z").getAsInt());
+    HexCoordinate h2 = new HexCoordinate(coord2.get("x").getAsInt(), coord2
+        .get("y").getAsInt(), coord2.get("z").getAsInt());
+    HexCoordinate h3 = new HexCoordinate(coord3.get("x").getAsInt(), coord3
+        .get("y").getAsInt(), coord3.get("z").getAsInt());
+    return new IntersectionCoordinate(h1, h2, h3);
   }
 
 }

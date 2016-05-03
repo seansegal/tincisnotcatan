@@ -10,6 +10,7 @@ import edu.brown.cs.actions.BuildRoad;
 import edu.brown.cs.actions.BuildSettlement;
 import edu.brown.cs.actions.BuyDevelopmentCard;
 import edu.brown.cs.actions.EmptyAction;
+import edu.brown.cs.actions.EndTurn;
 import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.actions.PlayKnight;
 import edu.brown.cs.actions.PlayMonopoly;
@@ -17,6 +18,7 @@ import edu.brown.cs.actions.PlayRoadBuilding;
 import edu.brown.cs.actions.PlayYearOfPlenty;
 import edu.brown.cs.actions.RollDice;
 import edu.brown.cs.actions.StartGame;
+import edu.brown.cs.actions.StartGameSetup;
 import edu.brown.cs.actions.TradeWithBank;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
@@ -84,6 +86,8 @@ public class ActionFactory {
           return new EmptyAction();
         case "startGame":
           return new StartGame(_referee);
+        case "startSetup":
+          return new StartGameSetup(_referee);
         case "buildCity":
           return new BuildCity(_referee, playerID,
               toIntersectionCoordinate(actionJSON.get("coordinate")
@@ -91,7 +95,7 @@ public class ActionFactory {
         case "buildSettlement":
           return new BuildSettlement(_referee, playerID,
               toIntersectionCoordinate(actionJSON.get("coordinate")
-                  .getAsJsonObject()), false); // TODO: Referee
+                  .getAsJsonObject()), true);
         case "buildRoad":
           IntersectionCoordinate start = toIntersectionCoordinate(actionJSON
               .get("start").getAsJsonObject());
@@ -117,11 +121,14 @@ public class ActionFactory {
           String toGive = actionJSON.get("toGive").getAsString();
           String toGet = actionJSON.get("toGet").getAsString();
           return new TradeWithBank(_referee, playerID, toGive, toGet);
+        case "endTurn":
+          return new EndTurn(_referee, playerID);
         default:
           String err = String.format("The action %s does not exist.", action);
           throw new IllegalArgumentException(err);
         }
       } catch (NullPointerException e) {
+        e.printStackTrace();
         throw new IllegalArgumentException(
             "The JSON is missing a required parameter. Check documentation for more information.");
       }

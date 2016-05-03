@@ -59,6 +59,7 @@ public class CatanConverter {
 
   private static class GameState {
     private int playerID;
+    private List<Integer> turnOrder;
     private Hand hand;
     private BoardRaw board;
     private int currentTurn;
@@ -72,6 +73,7 @@ public class CatanConverter {
       this.board = new BoardRaw(ref.getReadOnlyReferee(), ref.getBoard(),
           playerID);
       this.players = new ArrayList<>();
+      this.turnOrder = ref.getTurnOrder(); //TODO: change so that it isn't visible
       for (Player p : ref.getPlayers()) {
         players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));
       }

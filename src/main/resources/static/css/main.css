@@ -310,7 +310,7 @@ body {
 }
 
 .wheat-color {
-	background-color: #C9BA56;
+	background-color: #EAC932
 }
 
 .ore-color {
@@ -569,7 +569,7 @@ body {
 	margin-left: 5px;
 }
 
-.welcome-inline-container {
+.welcome-inline-color {
 	display: inline-block;
 	width: 20px;
 	height: 20px;

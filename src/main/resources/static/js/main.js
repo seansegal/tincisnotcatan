@@ -13,13 +13,12 @@ $(window).load(function() {
   		$('[data-toggle="popover"]').popover();
 	})
 
-    $("#end-turn-btn").click(sendRollDiceAction);
+    $("#end-turn-btn").click(sendEndTurnAction);
     
     var href = window.location.pathname;
     if(href != "/home" && !document.cookie){
     	window.location = "/home"; // redirect to home
     }
-    
 });
 
 function redrawCatan() {
@@ -94,11 +93,7 @@ function enterSettlementMode() {
 	btnElement.addClass("btn-danger");
 	btnElement.val("Cancel Build");
 
-	for (var i = 0; i < board.intersections.length; i++) {
-		if (board.intersections[i].canBuildSettlement) {
-			board.intersections[i].highlight();
-		}
-	}
+	highlightSettlements();
 }
 
 function exitSettlementMode() {
@@ -112,6 +107,18 @@ function exitSettlementMode() {
 	btnElement.addClass("btn-default");
 	btnElement.val("Build Settlement");
 
+	unHighlightSettlements();
+}
+
+function highlightSettlements() {
+	for (var i = 0; i < board.intersections.length; i++) {
+		if (board.intersections[i].canBuildSettlement) {
+			board.intersections[i].highlight();
+		}
+	}
+}
+
+function unHighlightSettlements() {
 	for (var i = 0; i < board.intersections.length; i++) {
 		if (board.intersections[i].highlighted) {
 			board.intersections[i].unHighlight();
@@ -554,6 +561,22 @@ function exitPlaceRoadMode() {
 $("#road-building-btn").click(sendPlayRoadBuildingAction);
 
 //////////////////////////////////////////
+// Place settlement (not building one)
+//////////////////////////////////////////
+
+var inPlaceSettlementMode = false;
+
+function enterPlaceSettlementMode() {
+	inPlaceSettlementMode = true;
+	highlightSettlements();
+}
+
+function exitPlaceSettlementMode() {
+	inPlaceSettlementMode = false;
+	unHighlightSettlements();
+}
+
+//////////////////////////////////////////
 // Take Card Modal
 //////////////////////////////////////////
 
@@ -655,7 +678,6 @@ function showStartGameDialogue(content) {
 	var isFirst = content.data.isFirst;
 
 	if (isFirst) {
-		$("#welcome-modal").prop("data-backdrop", "static");
 		$("#welcome-start-btn").text("Place First Settlements");
 		$("#welcome-start-btn").click(startSetupAction);
 	} else {
@@ -663,11 +685,30 @@ function showStartGameDialogue(content) {
 	}
 
 	var container = $("#welcome-turn-order-container");
+	container.empty();
 
 	for (var i = 0; i < turnOrder.length; i++) {
 		var player = playersById[turnOrder[i]];
-		container.append("<li><span>" + (i + 1) + "</span>"
+		container.append("<li><span>"
 				+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div></li>");
 	}
 
+	$("#welcome-modal").modal("show");
+}
+
+//////////////////////////////////////////
+// Roll Dice and Knight or Dice Modal
+//////////////////////////////////////////
+
+$("#roll-dice-btn").click(sendRollDiceAction);
+
+function showRollDiceModal() {
+	$("#roll-dice-modal").modal("show");
+}
+
+$("#knight-dice-play-knight-btn").click(sendPlayKnightAction);
+$("#knight-dice-roll-dice-btn").click(sendRollDiceAction);
+
+function showKnightOrDiceModal() {
+	$("#knight-or-dice-modal").modal("show");
 }

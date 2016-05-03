@@ -2,23 +2,30 @@ package edu.brown.cs.networking;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 public class UserGroup implements Timestamped, Group {
 
 
-  // for timestampted
+  // for timestamped
   private long                         initTime;
   // for group
   private Collection<RequestProcessor> reqs;
   private Set<User>                    users;
+  private Map<User, Long>              afk;
   private API                          api;
   private String                       identifier;
   private final int                    desiredSize;
   private String                       groupName;
+  private static final Gson            GSON = new GsonBuilder()
+      .registerTypeAdapter(User.class, new UserSerializer()).create();
 
 
   private UserGroup() {
@@ -36,7 +43,8 @@ public class UserGroup implements Timestamped, Group {
     this.groupName = b.name;
     // default inits
     this.users = new HashSet<>();
-
+    this.afk = new HashMap<>();
+    // initialize api
     if (b.apiClass != null) {
       try {
         this.api = b.apiClass.newInstance();
@@ -45,38 +53,44 @@ public class UserGroup implements Timestamped, Group {
             "Error instantiating API class of type:" + b.apiClass.getName());
         e.printStackTrace();
       }
-      if(b.apiSettings != null) {
+      if (b.apiSettings != null) {
         api.setSettings(b.apiSettings);
       }
     }
   }
 
 
+  @Override
   public String identifier() {
     return identifier;
   }
 
 
+  @Override
   public String groupName() {
     return groupName;
   }
 
 
+  @Override
   public int maxSize() {
     return this.desiredSize;
   }
 
 
+  @Override
   public int currentSize() {
     return users.size();
   }
 
 
+  @Override
   public boolean isFull() {
     return this.desiredSize == users.size();
   }
 
 
+  @Override
   synchronized public boolean add(User u) {
     if (users.size() == desiredSize) {
       return false; // we're full, don't give me any more users.
@@ -92,10 +106,10 @@ public class UserGroup implements Timestamped, Group {
     }
     if (isFull()) {
       JsonObject gameStart = new JsonObject();
-      gameStart.addProperty("typeOfRequest", "action");
+      gameStart.addProperty("requestType", "action");
       gameStart.addProperty("action", "startGame");
       handleMessage(u, gameStart);
-      System.out.println("Game start called: " + identifier());
+      System.out.println("Game start called: " + identifier);
     }
     return true;
     // regardless of whether or not u was present in the set already,
@@ -103,13 +117,18 @@ public class UserGroup implements Timestamped, Group {
   }
 
 
+  @Override
   synchronized public boolean remove(User u) {
     return users.remove(u); // could it be this simple? we can add more logic
                             // for timeouts etc later.
   }
 
 
+  @Override
   synchronized public boolean handleMessage(User u, JsonObject j) {
+    if (!allUsersConnectedWithMessage()) {
+      return false;
+    }
     if (!users.contains(u)) {
       System.out.println("Error : user not contained");
       return false;
@@ -119,6 +138,34 @@ public class UserGroup implements Timestamped, Group {
         return req.run(u, users, j, api);
       }
     }
+    return false;
+  }
+
+
+  public boolean afkTick() {
+    return allUsersConnectedWithMessage();
+  }
+
+
+  private boolean allUsersConnectedWithMessage() {
+    if (afk.isEmpty()) {
+      return true;
+    }
+    JsonObject message = new JsonObject();
+    message.addProperty("requestType", "disconnectedUsers");
+    Set<User> disconUsers = new HashSet<>();
+    long smallestExpire = Long.MAX_VALUE;
+    for (User u : afk.keySet()) {
+      if (afk.get(u) < smallestExpire) {
+        smallestExpire = afk.get(u);
+      }
+      disconUsers.add(u);
+    }
+    message.add("users", GSON.toJsonTree(disconUsers));
+    message.addProperty("expiresAt", smallestExpire);
+    users.stream()
+        .filter(u -> !afk.containsKey(u))
+        .forEach(u -> u.message(message));
     return false;
   }
 
@@ -197,5 +244,25 @@ public class UserGroup implements Timestamped, Group {
   @Override
   public boolean isEmpty() {
     return users.isEmpty();
+  }
+
+
+  @Override
+  public void userDisconnected(User u, long expiresAt) {
+    if (!users.contains(u)) {
+      System.out.println(
+          "Error! Disconnected user, but I don't have a reference to them!");
+      return;
+    }
+    System.out.println("DISCONNECTED AT " + expiresAt + " " + u);
+    afk.put(u, expiresAt);
+
+  }
+
+
+  @Override
+  public void userReconnected(User u) {
+    System.out.println("RECONNECTED " + u);
+    afk.remove(u);
   }
 }

@@ -34,7 +34,8 @@ public class GCT {
     this.full = Collections.synchronizedList(new ArrayList<>());
     this.userToUserGroup = new ConcurrentHashMap<>();
 
-    GSON = new GsonBuilder().registerTypeAdapter(Group.class, new GroupSerializer()).create();
+    GSON = new GsonBuilder()
+        .registerTypeAdapter(Group.class, new GroupSerializer()).create();
 
 
     // provided by builder:
@@ -49,6 +50,11 @@ public class GCT {
 
     // needed:
     Spark.init();
+  }
+
+
+  public Group groupForUser(User u) {
+    return userToUserGroup.get(u);
   }
 
 
@@ -76,7 +82,6 @@ public class GCT {
     Group bestFit =
         groupSelector.selectFor(u, Collections.unmodifiableCollection(pending));
     assert bestFit != null : "Select for returned a null user group!";
-
     userToUserGroup.put(u, bestFit);
     bestFit.add(u);
 
