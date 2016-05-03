@@ -44,11 +44,9 @@ public class KnightOrDice implements FollowUpAction {
   @Override
   public JsonObject getData() {
     JsonObject toRet = new JsonObject();
-    String message = String.format(
-        "%s, please choose to roll the dice or play a knight.",
-        _player.getName());
+    String message = "Please choose to roll the dice or play a knight.";
     toRet.addProperty("message", message);
-    return null;
+    return toRet;
   }
 
   @Override
