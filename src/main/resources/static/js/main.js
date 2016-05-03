@@ -93,11 +93,7 @@ function enterSettlementMode() {
 	btnElement.addClass("btn-danger");
 	btnElement.val("Cancel Build");
 
-	for (var i = 0; i < board.intersections.length; i++) {
-		if (board.intersections[i].canBuildSettlement) {
-			board.intersections[i].highlight();
-		}
-	}
+	highlightSettlements();
 }
 
 function exitSettlementMode() {
@@ -111,6 +107,18 @@ function exitSettlementMode() {
 	btnElement.addClass("btn-default");
 	btnElement.val("Build Settlement");
 
+	unHighlightSettlements();
+}
+
+function highlightSettlements() {
+	for (var i = 0; i < board.intersections.length; i++) {
+		if (board.intersections[i].canBuildSettlement) {
+			board.intersections[i].highlight();
+		}
+	}
+}
+
+function unHighlightSettlements() {
 	for (var i = 0; i < board.intersections.length; i++) {
 		if (board.intersections[i].highlighted) {
 			board.intersections[i].unHighlight();
@@ -553,6 +561,22 @@ function exitPlaceRoadMode() {
 $("#road-building-btn").click(sendPlayRoadBuildingAction);
 
 //////////////////////////////////////////
+// Place settlement (not building one)
+//////////////////////////////////////////
+
+var inPlaceSettlementMode = false;
+
+function enterPlaceSettlementMode() {
+	inPlaceSettlementMode = true;
+	highlightSettlements();
+}
+
+function exitPlaceSettlementMode() {
+	inPlaceSettlementMode = false;
+	unHighlightSettlements();
+}
+
+//////////////////////////////////////////
 // Take Card Modal
 //////////////////////////////////////////
 
@@ -654,7 +678,6 @@ function showStartGameDialogue(content) {
 	var isFirst = content.data.isFirst;
 
 	if (isFirst) {
-		$("#welcome-modal").prop("data-backdrop", "static");
 		$("#welcome-start-btn").text("Place First Settlements");
 		$("#welcome-start-btn").click(startSetupAction);
 	} else {

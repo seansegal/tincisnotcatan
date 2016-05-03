@@ -45,6 +45,11 @@ function sendBuildSettlementAction(intersectCoordinates) {
     webSocket.send(JSON.stringify(buildReq));
 }
 
+function sendPlaceSettlementAction(intersectCoordinates) {
+    var placeReq  = {requestType: "action", action: "placeSettlement", coordinate: intersectCoordinates};
+    webSocket.send(JSON.stringify(placeReq));
+}
+
 function sendBuildCityAction(intersectCoordinates) {
     var buildReq  = {requestType: "action", action : "buildCity", coordinate: intersectCoordinates};
     webSocket.send(JSON.stringify(buildReq));
@@ -210,6 +215,9 @@ function handleActionResponse(data) {
             case "placeRoad":
                 inPlaceRoadMode = true;
                 break;
+            case "placeSettlement":
+                inPlaceSettlementMode = true;
+                break;
             case "rollDice":
                 showRollDiceModal();
                 break;
@@ -225,7 +233,7 @@ function handleActionResponse(data) {
 function handleGetGameState(gameStateData) {
     // Set global data
     playerId = gameStateData.playerID;
-    currentTurn = gameStateData.currentTurn;
+    currentPlayerTurn = gameStateData.currentTurn;
 
     // Create players
     playersById = {};
@@ -267,6 +275,11 @@ function handleGetGameState(gameStateData) {
     // If in place road mode, enter build rode mode
     if (inPlaceRoadMode) {
         enterPlaceRoadMode();
+    }
+
+    // If in place settlment mode, enter place settlement mode
+    if (inPlaceSettlementMode) {
+        enterPlaceSettlementMode();
     }
 }
 

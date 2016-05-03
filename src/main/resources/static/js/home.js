@@ -56,18 +56,28 @@ function createJoinableGameList(groups) {
 				+ "type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "' maxSize='"+ group.maxSize +"'></div></div>");
 
 	}
-
-	// Vertically center text
-	var btnHeight = $("#games-list .join-game-btn").outerHeight();
-	$("#games-list .vertical-center").css("height", btnHeight);
-	$("#games-list .vertical-center *").css("line-height", btnHeight + "px");
 }
 
 $("#enter-name-begin-btn").click(openCreateJoinGame);
+$("#nameEntry").keypress(function(event) {
+	var keyPressed = (event.keyCode ? event.keyCode : event.which);
+	console.log
+	if (keyPressed === 13) {
+		openCreateJoinGame();
+	}
+});
 
 function openCreateJoinGame() {
-	$("#pre-name-container").addClass("hidden");
-	$("#post-name-container").removeClass("hidden");
+	var name = $("#nameEntry").val();
+	if (name !== undefined && name !== "") {
+		$("#pre-name-container").addClass("hidden");
+		$("#post-name-container").removeClass("hidden");
+
+		// Vertically center text
+		var btnHeight = $("#games-list .join-game-btn").outerHeight();
+		$("#games-list .vertical-center").css("height", btnHeight);
+		$("#games-list .vertical-center *").css("line-height", btnHeight + "px");
+	}
 }
 
 function existingGameSelected(caller) {
