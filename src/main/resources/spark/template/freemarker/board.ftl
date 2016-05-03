@@ -605,7 +605,7 @@
       		</div>
       		<div class="modal-body">
        			<p>The game is about to begin. The turn order is shown below:</p>
-       			<ul id="welcome-turn-order-container"></ul>
+       			<ol id="welcome-turn-order-container"></ol>
       		</div>
       		<div class="modal-footer">
         		<button type="button" id="welcome-start-btn" class="btn btn-success" data-dismiss="modal">Ready</button>

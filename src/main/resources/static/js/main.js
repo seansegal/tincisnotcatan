@@ -663,13 +663,15 @@ function showStartGameDialogue(content) {
 	}
 
 	var container = $("#welcome-turn-order-container");
+	container.empty();
 
 	for (var i = 0; i < turnOrder.length; i++) {
 		var player = playersById[turnOrder[i]];
-		container.append("<li><span>" + (i + 1) + "</span>"
+		container.append("<li><span>"
 				+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div></li>");
 	}
 
+	$("#welcome-modal").modal("show");
 }
 
 //////////////////////////////////////////
