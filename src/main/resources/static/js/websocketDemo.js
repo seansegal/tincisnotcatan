@@ -106,6 +106,11 @@ function startSetupAction() {
     webSocket.send(JSON.stringify(startReq));
 }
 
+function sendEndTurnAction() {
+    var endReq = {requestType: "action", action: "endTurn"};
+    webSocket.send(JSON.stringify(endReq));
+}
+
 // ---------- RESPONSES ---------- //
 
 webSocket.onmessage = function (msg) {
@@ -197,6 +202,12 @@ function handleActionResponse(data) {
                 break;
             case "placeRoad":
                 inPlaceRoadMode = true;
+                break;
+            case "rollDice":
+                showRollDiceModal();
+                break;
+            case "knightOrDice":
+                showKnightOrDiceModal();
                 break;
             default:
                 break;

@@ -614,6 +614,33 @@
 	</div>
 </div>
 
+<div class="modal fade" id="roll-dice-modal" tabindex="-1" role="dialog" aria-labelledby="rollDiceLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="rollDiceLabel">Please Roll the Dice</h4>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" id="roll-dice-btn" class="btn btn-success" data-dismiss="modal">Roll Dice</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="knight-or-dice-modal" tabindex="-1" role="dialog" aria-labelledby="knightOrDiceLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="knightOrDiceLabel">Choose How To Start Your Turn</h4>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" id="knight-dice-roll-dice-btn" class="btn btn-success" data-dismiss="modal">Roll Dice</button>
+        		<button type="button" id="knight-dice-play-knight-btn" class="btn btn-primary" data-dismiss="modal">Play Knight</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>

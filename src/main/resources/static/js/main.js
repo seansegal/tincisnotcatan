@@ -13,7 +13,7 @@ $(window).load(function() {
   		$('[data-toggle="popover"]').popover();
 	})
 
-    $("#end-turn-btn").click(sendRollDiceAction);
+    $("#end-turn-btn").click(sendEndTurnAction);
     
     var href = window.location.pathname;
     if(href != "/home" && !document.cookie){
@@ -670,4 +670,21 @@ function showStartGameDialogue(content) {
 				+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div></li>");
 	}
 
+}
+
+//////////////////////////////////////////
+// Roll Dice and Knight or Dice Modal
+//////////////////////////////////////////
+
+$("#roll-dice-btn").click(sendRollDiceAction);
+
+function showRollDiceModal() {
+	$("#roll-dice-modal").modal("show");
+}
+
+$("#knight-dice-play-knight-btn").click(sendPlayKnightAction);
+$("#knight-dice-roll-dice-btn").click(sendRollDiceAction);
+
+function showKnightOrDiceModal() {
+	$("#knight-or-dice-modal").modal("show");
 }
