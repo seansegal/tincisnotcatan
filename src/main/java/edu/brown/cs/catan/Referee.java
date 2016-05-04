@@ -66,4 +66,6 @@ public interface Referee {
 
   Setup getSetup();
 
+  Player getWinner();
+
 }

@@ -61,6 +61,7 @@ public class CatanConverter {
   private static class GameState {
     private int playerID;
     private List<Integer> turnOrder;
+    private Integer winner;
     private Hand hand;
     private BoardRaw board;
     private int currentTurn;
@@ -75,6 +76,7 @@ public class CatanConverter {
           playerID);
       this.turnOrder = (ref.getGameStatus() != GameStatus.WAITING) ? ref
           .getTurnOrder() : null;
+      this.winner = ref.getWinner() != null ? ref.getWinner().getID() : null;
       this.players = new ArrayList<>();
       for (Player p : ref.getPlayers()) {
         players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));

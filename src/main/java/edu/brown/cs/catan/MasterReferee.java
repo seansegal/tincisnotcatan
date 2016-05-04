@@ -34,7 +34,7 @@ public class MasterReferee implements Referee {
 
   public MasterReferee() {
     _board = new Board();
-    _gameSettings = new GameSettings(); // TODO customize
+    _gameSettings = new GameSettings(); // TODO default settings
     _players = new HashMap<Integer, Player>();
     _turnOrder = initializeTurnOrder(_gameSettings.NUM_PLAYERS);
     _bank = initializeBank(false);
@@ -237,6 +237,16 @@ public class MasterReferee implements Referee {
     int publicPoints = getNumPublicPoints(id);
     publicPoints += getPlayerByID(id).numVictoryPoints();
     return publicPoints;
+  }
+
+  @Override
+  public Player getWinner() {
+    for (Player p : _players.values()) {
+      if (getNumTotalPoints(p.getID()) >= _gameSettings.WINNING_POINT_COUNT) {
+        return p;
+      }
+    }
+    return null;
   }
 
   @Override
@@ -459,6 +469,12 @@ public class MasterReferee implements Referee {
     @Override
     public Setup getSetup() {
       return _referee.getSetup();
+    }
+
+    @Override
+    public Player getWinner() {
+      return _referee.getWinner() != null ? _referee.getWinner()
+          .getImmutableCopy() : null;
     }
 
   }
