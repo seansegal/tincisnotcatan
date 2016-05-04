@@ -77,12 +77,12 @@ public class TakeCardAction implements Action, FollowUpAction {
     _ref.removeFollowUp(this);
 
     // Format responses:
-    String messageToPlayer = String.format("You stole a %s from %s!",
-        resToTake.toString(), playerToTakeFrom.getName());
+    String messageToPlayer = String.format("You stole %s from %s!",
+        resToTake.stringWithArticle(), playerToTakeFrom.getName());
     ActionResponse respToPlayer = new ActionResponse(true, messageToPlayer,
         resToTake);
-    String messageToStolen = String.format("You lost a %s",
-        resToTake.toString());
+    String messageToStolen = String.format("You lost %s",
+        resToTake.stringWithArticle());
     ActionResponse respToStolen = new ActionResponse(true, messageToStolen,
         resToTake);
     String messageToAll = String.format("%s stole a card from %s",

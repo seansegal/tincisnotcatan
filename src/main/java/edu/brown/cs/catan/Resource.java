@@ -2,18 +2,24 @@ package edu.brown.cs.catan;
 
 public enum Resource {
 
-  WHEAT("wheat"), SHEEP("sheep"), ORE("ore"), WOOD("wood"), BRICK("brick"), WILDCARD(
-      "wildcard");
+  WHEAT("wheat", "a wheat"), SHEEP("sheep", "a sheep"), ORE("ore", "an ore"), WOOD(
+      "wood", "a wood"), BRICK("brick", "a brick"), WILDCARD("wildcard", "any card");
 
   private final String _description;
+  private final String _withArticle;
 
-  private Resource(String description) {
+  private Resource(String description, String withArticle) {
     _description = description;
+    _withArticle = withArticle;
   }
 
   @Override
   public String toString() {
     return _description;
+  }
+
+  public String stringWithArticle() {
+    return _withArticle;
   }
 
   public static Resource stringToResource(String str) {

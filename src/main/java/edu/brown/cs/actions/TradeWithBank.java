@@ -56,8 +56,9 @@ public class TradeWithBank implements Action {
     ActionResponse respToPlayer = new ActionResponse(true, messageToPlayer,
         null);
     NumberFormat nf = new DecimalFormat("##.##");
-    String messageToAll = String.format("%s traded %s %s for a %s",
-        _player.getName(), nf.format(rate), _toGive, _toGet);
+    String messageToAll = String
+        .format("%s traded %s %s for %s", _player.getName(), nf.format(rate),
+            _toGive, _toGet.stringWithArticle());
     ActionResponse respToAll = new ActionResponse(true, messageToAll, null);
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
     for (Player p : _ref.getPlayers()) {

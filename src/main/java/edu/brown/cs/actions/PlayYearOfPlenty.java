@@ -17,7 +17,7 @@ public class PlayYearOfPlenty implements Action {
   private Resource _firstRes;
   private Resource _secondRes;
   private Bank _bank;
-  
+
   public PlayYearOfPlenty(Referee ref, int playerID, String firstRes,
       String secondRes) {
     assert ref != null;
@@ -63,8 +63,8 @@ public class PlayYearOfPlenty implements Action {
     if (_firstRes == _secondRes) {
       message = String.format("You gained 2 %s", _firstRes);
     } else {
-      message = String.format("You gained a %s and a %s.", _firstRes,
-          _secondRes);
+      message = String.format("You gained %s and %s.", _firstRes.stringWithArticle(),
+          _secondRes.stringWithArticle());
     }
     ActionResponse toAdd = new ActionResponse(true, message,
         new YearOfPlentyResponse(_firstRes, _secondRes));
@@ -72,11 +72,11 @@ public class PlayYearOfPlenty implements Action {
     toRet.put(_player.getID(), toAdd);
     return toRet;
   }
-  
+
   private static class YearOfPlentyResponse {
     private Resource firstRes;
     private Resource secondRes;
-    
+
     public YearOfPlentyResponse(Resource first, Resource second) {
       firstRes = first;
       secondRes = second;
