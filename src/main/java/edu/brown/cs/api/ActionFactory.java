@@ -16,6 +16,7 @@ import edu.brown.cs.actions.PlayKnight;
 import edu.brown.cs.actions.PlayMonopoly;
 import edu.brown.cs.actions.PlayRoadBuilding;
 import edu.brown.cs.actions.PlayYearOfPlenty;
+import edu.brown.cs.actions.ProposeTrade;
 import edu.brown.cs.actions.StartGame;
 import edu.brown.cs.actions.StartGameSetup;
 import edu.brown.cs.actions.TradeWithBank;
@@ -122,6 +123,8 @@ public class ActionFactory {
           return new TradeWithBank(_referee, playerID, toGive, toGet);
         case "endTurn":
           return new EndTurn(_referee, playerID);
+        case "proposeTrade":
+          return new ProposeTrade(_referee, playerID, actionJSON);
         default:
           String err = String.format("The action %s does not exist.", action);
           throw new IllegalArgumentException(err);
