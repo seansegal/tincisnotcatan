@@ -130,6 +130,11 @@ function sendKnightOrDiceAction(choseKnight) {
     webSocket.send(JSON.stringify(playReq));
 }
 
+function sendProposeTradeAction(trade) {
+    var tradeReq = {requestType: "action", action: "proposeTrade", trade: trade};
+    webSocket.send(JSON.stringify(tradeReq));
+}
+
 // ---------- RESPONSES ---------- //
 
 webSocket.onmessage = function (msg) {

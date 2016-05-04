@@ -242,6 +242,36 @@ body {
 	padding-top: 10px;
 }
 
+.interplayer-trade-panel {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.inline-trade-icon {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-left: 5px;
+}
+
+.inline-trade-icon > img {
+	height: 100%;
+	width: 100%;
+	margin-top: -1px;
+}
+
+#to-give-panel {
+	margin-top: 10px;
+}
+
+#to-give-container, #to-get-container {
+	padding: 5px;
+}
+
+#to-give-container > p, #to-get-container > p {
+	margin-bottom: 4px;
+}
+
 .trade-circle {
 	display: inline-block;
 	height: 35px;

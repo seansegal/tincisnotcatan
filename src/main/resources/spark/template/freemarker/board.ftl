@@ -125,7 +125,7 @@
 								</div>
 		    				</div>
 		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
+		    					<input type="number" class="form-control interplayer-trade-input" res="brick">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
 		    					<h5> </h5>
@@ -138,7 +138,7 @@
 								</div>
 		    				</div>
 		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
+		    					<input type="number" class="form-control interplayer-trade-input" res="wood">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
 		    					<h5> </h5>
@@ -151,7 +151,7 @@
 								</div>
 		    				</div>
 		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
+		    					<input type="number" class="form-control interplayer-trade-input" res="ore">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
 		    					<h5> </h5>
@@ -164,7 +164,7 @@
 								</div>
 		    				</div>
 		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
+		    					<input type="number" class="form-control interplayer-trade-input" res="wheat">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
 		    					<h5> </h5>
@@ -177,7 +177,7 @@
 								</div>
 		    				</div>
 		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
+		    					<input type="number" class="form-control interplayer-trade-input" res="sheep">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
 		    					<h5> </h5>
@@ -190,7 +190,7 @@
 								</div>
 		    				</div>
 		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control">
+		    					<input type="number" class="form-control interplayer-trade-input" res="wildcard">
 		    				</div>
 		    				<div class="col-xs-4 text-left">
 		    					<h5> </h5>
@@ -198,7 +198,31 @@
 		    			</div>
 		    			<div class="row trade-row">
 		    				<div class="col-xs-12 text-center">
-		    					<input type="button" class="btn btn-primary" value="Propose Trade">
+		    					<input type="button" id="propose-interplayer-trade-btn" class="btn btn-primary" value="Propose Trade" disabled="disabled">
+		    				</div>
+		    			</div>
+		    			<div class="panel panel-default interplayer-trade-panel" id="to-give-panel">
+		    				<div class="panel-heading">
+		    					<h5 class='panel-title-small'>Resources to Give</h5>
+		    				</div>
+		    				<div class="panel-body" id="to-give-container">
+		    					<p class="to-give-list-item hidden" res="brick"><span class="trade-number"></span><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+		    					<p class="to-give-list-item hidden" res="wood"><span class="trade-number"></span><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+		    					<p class="to-give-list-item hidden" res="ore"><span class="trade-number"></span><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+		    					<p class="to-give-list-item hidden" res="wheat"><span class="trade-number"></span><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+		    					<p class="to-give-list-item hidden" res="sheep"><span class="trade-number"></span><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+		    				</div>
+		    			</div>
+		    			<div class="panel panel-default interplayer-trade-panel" id="to-get-panel">
+		    				<div class="panel-heading">
+		    					<h5 class='panel-title-small'>Resources to Receive</h5>
+		    				</div>
+		    				<div class="panel-body" id="to-get-container">
+		    					<p class="to-get-list-item hidden" res="brick"><span class="trade-number"></span><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+		    					<p class="to-get-list-item hidden" res="wood"><span class="trade-number"></span><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+		    					<p class="to-get-list-item hidden" res="ore"><span class="trade-number"></span><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+		    					<p class="to-get-list-item hidden" res="wheat"><span class="trade-number"></span><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+		    					<p class="to-get-list-item hidden" res="sheep"><span class="trade-number"></span><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
 		    				</div>
 		    			</div>
 		    		</div>

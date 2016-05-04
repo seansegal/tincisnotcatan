@@ -734,6 +734,85 @@ function showDisconnectedUsersModal(disconnectData) {
 }
 
 //////////////////////////////////////////
-// Interplayer Trades
+// Interplayer Trade Panel
 //////////////////////////////////////////
 
+var currentTrade = {brick: 0, wood: 0, ore: 0, wheat: 0, sheep: 0};
+
+function clearInterplayerTrades() {
+	// Clear currently displayed trade
+	$(".interplayer-trade-input").val("");
+
+	currentTrade = {brick: 0, wood: 0, ore: 0, wheat: 0, sheep: 0};
+
+	// Disabled trade button 
+	$("#propose-interplayer-trade-btn").prop("disabled", true);
+}
+
+function canTrade() {
+	var toGive = false;
+	var toGet = false;
+
+	for (var resource in currentTrade) {
+		if (currentTrade[resource] < 0) {
+			toGive = true;
+		} else if (currentTrade[resource] > 0) {
+			toGet = true;
+		}
+	}
+
+	return (toGive && toGet);
+}
+
+function updateToGiveGetPanels(resource, newVal, oldVal) {
+	if (oldVal !== undefined && oldVal !== 0) {
+		// Find old value container
+		var container = $(oldVal > 0 ? "#to-get-container" : "#to-give-container");
+		var element = container.children("[res=" + resource + "]");
+
+		// Empty and hide old container
+		element.addClass("hidden");
+	}
+
+	if (newVal !== undefined && newVal !== 0) {
+		// Find old value container
+		var container = $(newVal > 0 ? "#to-get-container" : "#to-give-container");
+		var element = container.children("[res=" + resource + "]");
+
+		// Show container and set correct text
+		element.removeClass("hidden");
+		element.children(".trade-number").text(Math.abs(newVal));
+	}
+}
+
+$(".interplayer-trade-input").change(function(event) {
+	var resource = $(this).attr("res");
+	var playerHand = playersById[playerId].hand;
+	var maxToGive = playerHand[resource];
+
+	var newVal = $(this).val();
+	var oldVal = $(this).data("oldVal");
+
+	if (newVal < -maxToGive) {
+		if (oldVal === undefined) {
+			$(this).val(0);
+		} else {
+			$(this).val(oldVal);
+		}
+	} else {
+		$(this).data("oldVal", newVal);
+		currentTrade[resource] = parseInt(newVal);
+		updateToGiveGetPanels(resource, parseInt(newVal), parseInt(oldVal));
+	}
+
+	if (canTrade()) {
+		$("#propose-interplayer-trade-btn").prop("disabled", false);
+	} else {
+		$("#propose-interplayer-trade-btn").prop("disabled", true);
+	}
+});
+
+$("#propose-interplayer-trade-btn").click(function(event) {
+	sendProposeTradeAction(currentTrade);
+	clearInterplayerTrades();
+});
