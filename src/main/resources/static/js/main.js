@@ -708,11 +708,11 @@ function showRollDiceModal() {
 }
 
 $("#knight-dice-play-knight-btn").click(function(event) {
-	sendPlayKnightOrDiceAction(true);
+	sendKnightOrDiceAction(true);
 });
 
 $("#knight-dice-roll-dice-btn").click(function(event) {
-	sendPlayKnightOrDiceAction(false);
+	sendKnightOrDiceAction(false);
 });
 
 function showKnightOrDiceModal() {
@@ -732,3 +732,8 @@ function showDisconnectedUsersModal(disconnectData) {
 
 	$("#disconnected-user-modal").modal("show");
 }
+
+//////////////////////////////////////////
+// Interplayer Trades
+//////////////////////////////////////////
+

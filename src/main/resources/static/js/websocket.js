@@ -125,8 +125,8 @@ function sendEndTurnAction() {
     webSocket.send(JSON.stringify(endReq));
 }
 
-function sendPlayKnightOrDiceAction(choseKnight) {
-    var playReq = {requestType: "action", action: "playKnightOrDice", choseKnight: choseKnight};
+function sendKnightOrDiceAction(choseKnight) {
+    var playReq = {requestType: "action", action: "knightOrDice", choseKnight: choseKnight};
     webSocket.send(JSON.stringify(playReq));
 }
 
