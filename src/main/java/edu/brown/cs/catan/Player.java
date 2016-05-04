@@ -34,9 +34,13 @@ public interface Player {
 
   void addResource(Resource resource, double count);
 
+  void addResource(Resource resource, double count, Bank bank);
+
   void removeResource(Resource resource);
 
   void removeResource(Resource resource, double count);
+
+  void removeResource(Resource resource, double count, Bank bank);
 
   double getNumResourceCards();
 

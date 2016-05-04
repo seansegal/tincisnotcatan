@@ -198,6 +198,19 @@ public class HumanPlayer implements Player {
   }
 
   @Override
+  public void addResource(Resource resource, double count, Bank bank) {
+    bank.getResource(resource, count);
+    addResource(resource, count);
+  }
+
+  @Override
+  public void removeResource(Resource resource, double count, Bank bank) {
+    bank.discardResource(resource, count);
+    removeResource(resource, count);
+
+  }
+
+  @Override
   public void useRoad() {
     assert numRoads > 0;
     numRoads--;
@@ -517,6 +530,20 @@ public class HumanPlayer implements Player {
     @Override
     public boolean hasResource(Resource res, double count) {
       return _player.hasResource(res, count);
+    }
+
+    @Override
+    public void addResource(Resource resource, double count, Bank bank) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyPlayer cannot add resource cards.");
+
+    }
+
+    @Override
+    public void removeResource(Resource resource, double count, Bank bank) {
+      throw new UnsupportedOperationException(
+          "A ReadOnlyPlayer cannot remove resource cards.");
+
     }
 
   }
