@@ -94,8 +94,6 @@ Player.prototype.fillTurnDisplay = function() {
 
 	if (currentPlayerTurn === this.id) {
 		turnSquare.addClass("selected-turn-square");
-	} else {
-		// TODO: Disable turn button
 	}
 }
 

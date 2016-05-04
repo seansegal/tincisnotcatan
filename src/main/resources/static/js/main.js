@@ -707,8 +707,13 @@ function showRollDiceModal() {
 	$("#roll-dice-modal").modal("show");
 }
 
-$("#knight-dice-play-knight-btn").click(sendPlayKnightAction);
-$("#knight-dice-roll-dice-btn").click(sendRollDiceAction);
+$("#knight-dice-play-knight-btn").click(function(event) {
+	sendPlayKnightOrDiceAction(true);
+});
+
+$("#knight-dice-roll-dice-btn").click(function(event) {
+	sendPlayKnightOrDiceAction(false);
+});
 
 function showKnightOrDiceModal() {
 	$("#knight-or-dice-modal").modal("show");

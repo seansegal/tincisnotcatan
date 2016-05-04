@@ -125,6 +125,11 @@ function sendEndTurnAction() {
     webSocket.send(JSON.stringify(endReq));
 }
 
+function sendPlayKnightOrDiceAction(choseKnight) {
+    var playReq = {requestType: "action", action: "playKnightOrDice", choseKnight: choseKnight};
+    webSocket.send(JSON.stringify(playReq));
+}
+
 // ---------- RESPONSES ---------- //
 
 webSocket.onmessage = function (msg) {
@@ -272,6 +277,12 @@ function handleGetGameState(gameStateData) {
         for (var i = 0; i < turnOrder.length; i++) {
             playersById[turnOrder[i]].fillTurnDisplay();
         }
+    }
+
+    if (currentPlayerTurn === playerId) {
+        $("#end-turn-btn").prop("disabled", false);
+    } else {
+        $("#end-turn-btn").prop("disabled", true);
     }
 
     // Show what buildings player can currently buy
