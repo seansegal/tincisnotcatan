@@ -95,4 +95,8 @@ public class Turn {
     return _turnNum;
   }
 
+  public boolean hadInitialDevCard(DevelopmentCard dev) {
+    return _initialDevCardHand.get(dev) > 0;
+  }
+
 }

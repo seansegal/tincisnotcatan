@@ -29,7 +29,7 @@ public class MasterReferee implements Referee {
   private final GameSettings _gameSettings;
   private Player _largestArmy = null;
   private Player _longestRoad = null;
-  private GameStatus _gameState;
+  private GameStatus _gameStatus;
 
   public MasterReferee() {
     _board = new Board();
@@ -39,7 +39,7 @@ public class MasterReferee implements Referee {
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
-    _gameState = GameStatus.WAITING;
+    _gameStatus = GameStatus.WAITING;
   }
 
   public MasterReferee(GameSettings gameSettings) {
@@ -50,7 +50,7 @@ public class MasterReferee implements Referee {
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
-    _gameState = GameStatus.WAITING;
+    _gameStatus = GameStatus.WAITING;
   }
 
   private List<Integer> initializeTurnOrder(int numFullPlayers) {
@@ -64,9 +64,14 @@ public class MasterReferee implements Referee {
 
   @Override
   public void startNextTurn() {
-    // Player nextPlayer =
-    // TODO: fill with hand of the next player for dev cards.
-    _turn = new Turn(_turn.getTurnNum() + 1, Collections.emptyMap());
+    Player nextPlayer = _players.get(_turnOrder.get((_turn.getTurnNum() + 1)
+        % _gameSettings.NUM_PLAYERS));
+    if (_gameStatus == GameStatus.PROGRESS) {
+      _turn = new Turn(_turn.getTurnNum() + 1, nextPlayer.getDevCards());
+    } else {
+      _turn = new Turn(_turn.getTurnNum() + 1, Collections.emptyMap());
+    }
+
   }
 
   @Override
@@ -282,12 +287,12 @@ public class MasterReferee implements Referee {
 
   @Override
   public GameStatus getGameStatus() {
-    return _gameState;
+    return _gameStatus;
   }
 
   @Override
   public void setGameStatus(GameStatus state) {
-    _gameState = state;
+    _gameStatus = state;
   }
 
   private class ReadOnlyReferee implements Referee {

@@ -5,6 +5,8 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -28,6 +30,16 @@ public class PlayMonopoly implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
+    if (_ref.getTurn().devHasBeenPlayed()) {
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+          "You already played a development card this turn", null));
+    }
+    if (!_ref.getTurn().hadInitialDevCard(DevelopmentCard.MONOPOLY)) {
+      return ImmutableMap
+          .of(_player.getID(), new ActionResponse(false,
+              "You cannot play a development card on the turn you bought it",
+              null));
+    }
     try {
       _player.playDevelopmentCard(DevelopmentCard.MONOPOLY);
     } catch (IllegalArgumentException e) {
