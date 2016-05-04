@@ -616,6 +616,10 @@ body {
 	font-size: 20px;
 }
 
-.review-to-give-list-item {
+.review-to-give-list-item, .review-to-get-list-item {
+	margin-bottom: 5px;
+}
+
+.trade-responses-to-give-list-item, .trade-responses-to-get-list-item {
 	margin-bottom: 5px;
 }

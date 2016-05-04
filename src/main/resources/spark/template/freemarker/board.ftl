@@ -704,7 +704,38 @@
       		</div>
       		<div class="modal-footer">
         		<button type="button" id="review-trade-accept-btn" class="btn btn-success" data-dismiss="modal">Accept Trade</button>
-        		<button type="button" id="review-trade-reject-btn" class="btn btn-danger" data-dismiss="modal">Reject Trade</button>
+        		<button type="button" id="review-trade-reject-btn" class="btn btn-danger" data-dismiss="modal">Decline Trade</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="trade-responses-modal" tabindex="-1" role="dialog" aria-labelledby="tradeResponsesLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="tradeResponsesLabel">Trade Responses</h4>
+      		</div>
+      		<div class="modal-body">
+      			<h5>Resources to Give:</h5>
+       			<div id="trade-responses-to-give-container">
+       				<p class="trade-responses-to-give-list-item hidden" res="brick"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+		    		<p class="trade-responses-to-give-list-item hidden" res="wood"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+		    		<p class="trade-responses-to-give-list-item hidden" res="ore"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+		    		<p class="trade-responses-to-give-list-item hidden" res="wheat"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+		    		<p class="trade-responses-to-give-list-item hidden" res="sheep"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+       			</div>
+       			<h5>Resources to Receive:</h5>
+       			<div id="trade-responses-to-get-container">
+       				<p class="trade-responses-to-get-list-item hidden" res="brick"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+		    		<p class="trade-responses-to-get-list-item hidden" res="wood"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+		    		<p class="trade-responses-to-get-list-item hidden" res="ore"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+		    		<p class="trade-responses-to-get-list-item hidden" res="wheat"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+		    		<p class="trade-responses-to-get-list-item hidden" res="sheep"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+       			</div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" id="trade-responses-cancel-trade-btn" class="btn btn-danger" data-dismiss="modal">Cancel Trade</button>
       		</div>
     	</div>
 	</div>
