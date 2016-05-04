@@ -822,11 +822,11 @@ $("#propose-interplayer-trade-btn").click(function(event) {
 //////////////////////////////////////////
 
 function showReviewTradeModal(tradeData) {
-	console.log(tradeData);
+	var resources = tradeData._resources;
 	
 	// Add resources in trade to review modal
-	for (var res in tradeData) {
-		var number = tradeData[res];
+	for (var res in resources) {
+		var number = resources[res];
 		
 		if (number !== 0) {
 			var container = $(number > 0 ? "#review-to-give-container" : "#review-to-get-container");
@@ -838,6 +838,10 @@ function showReviewTradeModal(tradeData) {
 	}
 	
 	$("#review-trade-modal").modal("show");
+}
+
+function exitReviewTradeModal() {
+	$("#review-trade-modal").modal("hide");
 }
 
 $("#review-trade-accept-btn").click(function(event) {
@@ -870,10 +874,17 @@ function showTradeResponseModal(tradeData) {
 		}
 	}
 
+	console.log("showing");
+	console.log($(".modal-backdrop"));
 	$("#trade-responses-modal").modal("show");
+	console.log($(".modal-backdrop"));
 }
 
 $("#trade-responses-cancel-trade-btn").click(function(event) {
 	sendTradeResponseAction(false, playerId, 0);
+	console.log("hiding");
+	console.log($(".modal-backdrop"));
+	$("#trade-responses-modal").modal("hide");
+	console.log($(".modal-backdrop"));
 });
 

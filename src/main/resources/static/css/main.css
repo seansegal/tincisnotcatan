@@ -623,3 +623,7 @@ body {
 .trade-responses-to-give-list-item, .trade-responses-to-get-list-item {
 	margin-bottom: 5px;
 }
+
+.modal-footer-center {
+	text-align: center;
+}

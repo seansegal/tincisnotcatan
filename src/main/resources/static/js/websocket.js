@@ -222,6 +222,9 @@ function handleActionResponse(data) {
         case "startGame":
             showStartGameDialogue(data.content);
             break
+        case "tradeResponse":
+            exitReviewTradeModal();
+            break;
         default:
             break;
     }
@@ -251,7 +254,7 @@ function handleActionResponse(data) {
                 showKnightOrDiceModal();
                 break;
             case "reviewTrade":
-            	showReviewTradeModal(JSON.parse(action.actionData.trade));
+            	showReviewTradeModal(action.actionData.trade);
             	break;
             case "tradeResponse":
                 showTradeResponseModal(action.actionData.trade);
