@@ -16,7 +16,7 @@ public class TradeResponse implements FollowUpAction {
   private final int _playerID;
   private Referee _ref;
   private static final String VERB = "finalize the trade.";
-  private static final String ID = "reviewTrade";
+  private static final String ID = "tradeResponse";
   private boolean _isSetUp = false;
   private Map<Resource, Double> _resources;
   private boolean _acceptedTrade = false;
@@ -50,7 +50,7 @@ public class TradeResponse implements FollowUpAction {
       }
       return toRet;
     }
-    
+
     // On accept
     for (Resource res : _resources.keySet()) {
       if (_resources.get(res) < 0
