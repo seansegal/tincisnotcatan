@@ -1,7 +1,5 @@
 package edu.brown.cs.actions;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,10 +30,8 @@ public class KnightOrDice implements FollowUpAction {
     if (!_choseKnight) {
       toRet = new RollDice(_ref, _playerID).execute();
     } else {
-      toRet = new PlayKnight(_ref, _playerID).execute();
-      Collection<FollowUpAction> toDoNext = new ArrayList<FollowUpAction>();
-      toDoNext.add(new RollDice(_playerID));
-      _ref.addFollowUp(toDoNext);
+      toRet = new PlayKnight(_ref, _playerID, true).execute();
+//      _ref.addFollowUp(ImmutableList.of(new RollDice(_playerID)));
     }
     _ref.removeFollowUp(this);
     return toRet;
