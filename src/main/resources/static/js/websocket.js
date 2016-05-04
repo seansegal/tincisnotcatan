@@ -224,7 +224,6 @@ function handleActionResponse(data) {
             break
         case "tradeResponse":
             exitReviewTradeModal();
-            break;
         default:
             break;
     }

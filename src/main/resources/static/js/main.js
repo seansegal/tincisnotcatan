@@ -874,6 +874,39 @@ function showTradeResponseModal(tradeData) {
 		}
 	}
 
+	// Add player responses
+	var playerContainer = $("#trade-responses-players-container");
+	playerContainer.empty();
+
+	for (var i = 0; i < players.length; i++) {
+		var player = playersById[players[i].id];
+		if (player.id !== tradeData._trader) {
+			// Add finalize button if player was accepted
+			if (accepted.indexOf(player.id) !== -1) {
+				playerContainer.append("<p><span class='welcome-list-item'>"
+					+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div>"
+					+ player.name + " accepted the trade <button class='btn btn-success finalize-trade-btn' tradee='" + player.id + "'>Finalize Trade</button></p>");
+			// Add message if player declined trade
+			} else if (declined.indexOf(player.id) !== -1) {
+				playerContainer.append("<p><span class='welcome-list-item'>"
+					+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div>"
+					+ player.name + " declined the trade</p>");
+			// Add message if player has not yet responded to trade
+			} else {
+				playerContainer.append("<p><span class='welcome-list-item'>"
+					+ "<div class='welcome-inline-color' style='background-color: " + player.color + "'></div>"
+					+ player.name + " has not responded</p>");
+			}
+		}
+	}
+
+	$(".finalize-trade-btn").off("click");
+	$(".finalize-trade-btn").click(function(event) {
+		var tradee = $(this).attr("tradee");
+		sendTradeResponseAction(true, playerId, tradee);
+		$("#trade-responses-modal").modal("hide");
+	});
+
 	console.log("showing");
 	console.log($(".modal-backdrop"));
 	$("#trade-responses-modal").modal("show");

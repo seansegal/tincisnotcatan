@@ -685,22 +685,28 @@
         		<h4 class="modal-title" id="reviewTradeLabel">Review Trade Proposal</h4>
       		</div>
       		<div class="modal-body">
-      			<h5>Resources to Give:</h5>
-       			<div id="review-to-give-container">
-       				<p class="review-to-give-list-item hidden" res="brick"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
-		    		<p class="review-to-give-list-item hidden" res="wood"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
-		    		<p class="review-to-give-list-item hidden" res="ore"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
-		    		<p class="review-to-give-list-item hidden" res="wheat"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
-		    		<p class="review-to-give-list-item hidden" res="sheep"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
-       			</div>
-       			<h5>Resources to Receive:</h5>
-       			<div id="review-to-get-container">
-       				<p class="review-to-get-list-item hidden" res="brick"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
-		    		<p class="review-to-get-list-item hidden" res="wood"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
-		    		<p class="review-to-get-list-item hidden" res="ore"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
-		    		<p class="review-to-get-list-item hidden" res="wheat"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
-		    		<p class="review-to-get-list-item hidden" res="sheep"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
-       			</div>
+      			<div class="row">
+      				<div class="col-xs-6">
+		      			<h5>Resources to Give:</h5>
+		       			<div id="review-to-give-container">
+		       				<p class="review-to-give-list-item hidden" res="brick"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+				    		<p class="review-to-give-list-item hidden" res="wood"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+				    		<p class="review-to-give-list-item hidden" res="ore"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+				    		<p class="review-to-give-list-item hidden" res="wheat"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+				    		<p class="review-to-give-list-item hidden" res="sheep"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+		       			</div>
+		       		</div>
+		       		<div class="col-xs-6">
+		       			<h5>Resources to Receive:</h5>
+		       			<div id="review-to-get-container">
+		       				<p class="review-to-get-list-item hidden" res="brick"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+				    		<p class="review-to-get-list-item hidden" res="wood"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+				    		<p class="review-to-get-list-item hidden" res="ore"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+				    		<p class="review-to-get-list-item hidden" res="wheat"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+				    		<p class="review-to-get-list-item hidden" res="sheep"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+		       			</div>
+		       		</div>
+		       	</div>
       		</div>
       		<div class="modal-footer">
         		<button type="button" id="review-trade-accept-btn" class="btn btn-success" data-dismiss="modal">Accept Trade</button>
@@ -717,22 +723,30 @@
         		<h4 class="modal-title" id="tradeResponsesLabel">Trade Responses</h4>
       		</div>
       		<div class="modal-body">
-      			<h5>Resources to Give:</h5>
-       			<div id="trade-responses-to-give-container">
-       				<p class="trade-responses-to-give-list-item hidden" res="brick"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
-		    		<p class="trade-responses-to-give-list-item hidden" res="wood"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
-		    		<p class="trade-responses-to-give-list-item hidden" res="ore"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
-		    		<p class="trade-responses-to-give-list-item hidden" res="wheat"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
-		    		<p class="trade-responses-to-give-list-item hidden" res="sheep"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
-       			</div>
-       			<h5>Resources to Receive:</h5>
-       			<div id="trade-responses-to-get-container">
-       				<p class="trade-responses-to-get-list-item hidden" res="brick"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
-		    		<p class="trade-responses-to-get-list-item hidden" res="wood"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
-		    		<p class="trade-responses-to-get-list-item hidden" res="ore"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
-		    		<p class="trade-responses-to-get-list-item hidden" res="wheat"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
-		    		<p class="trade-responses-to-get-list-item hidden" res="sheep"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
-       			</div>
+      			<div class="row">
+      				<div class="col-xs-6">
+      				    <h5>Resources to Give:</h5>
+		       			<div id="trade-responses-to-give-container">
+		       				<p class="trade-responses-to-give-list-item hidden" res="brick"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+				    		<p class="trade-responses-to-give-list-item hidden" res="wood"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+				    		<p class="trade-responses-to-give-list-item hidden" res="ore"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+				    		<p class="trade-responses-to-give-list-item hidden" res="wheat"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+				    		<p class="trade-responses-to-give-list-item hidden" res="sheep"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+		       			</div>
+		       		</div>
+	       			<div class="col-xs-6">
+		       			<h5>Resources to Receive:</h5>
+		       			<div id="trade-responses-to-get-container">
+		       				<p class="trade-responses-to-get-list-item hidden" res="brick"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+				    		<p class="trade-responses-to-get-list-item hidden" res="wood"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+				    		<p class="trade-responses-to-get-list-item hidden" res="ore"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+				    		<p class="trade-responses-to-get-list-item hidden" res="wheat"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+				    		<p class="trade-responses-to-get-list-item hidden" res="sheep"><strong class="trade-responses-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+		       			</div>
+		       		</div>
+	       		</div>
+       			<h5>Player Responses:</h5>
+       			<div id="trade-responses-players-container"></div>
       		</div>
       		<div class="modal-footer">
         		<button type="button" id="trade-responses-cancel-trade-btn" class="btn btn-danger">Cancel Trade</button>
