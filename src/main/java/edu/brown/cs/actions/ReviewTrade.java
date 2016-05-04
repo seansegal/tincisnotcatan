@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
+import edu.brown.cs.catan.Trade;
 
 public class ReviewTrade implements FollowUpAction {
   private Player _player;
@@ -20,11 +21,13 @@ public class ReviewTrade implements FollowUpAction {
   private boolean _acceptedTrade;
   private Map<Resource, Double> _resources;
   private Gson gson = new Gson();
+  private final Trade _trade;
 
   public ReviewTrade(int playerID,
-      Map<Resource, Double> resources) {
+ Map<Resource, Double> resources, Trade trade) {
     _playerID = playerID;
     _resources = resources;
+    _trade = trade;
   }
 
   @Override
@@ -34,13 +37,20 @@ public class ReviewTrade implements FollowUpAction {
     }
     Map<Integer, ActionResponse> toRet = new HashMap<>();
     String message = "";
+    String mForTrader = "";
     if (_acceptedTrade) {
       message = "You accepted the trade";
+      _trade.acceptedTrade(_player.getID());
+      mForTrader = String.format("%s accepted the trade.", _player.getName());
     } else {
       message = "You declined the trade";
+      _trade.declinedTrade(_player.getID());
+      mForTrader = String.format("%s declined the trade.", _player.getName());
     }
     ActionResponse toAdd = new ActionResponse(true, message, _acceptedTrade);
     toRet.put(_player.getID(), toAdd);
+    ActionResponse forTrader = new ActionResponse(true, mForTrader, null);
+    toRet.put(_trade.getTrader(), forTrader);
     _ref.removeFollowUp(this);
     return toRet;
   }

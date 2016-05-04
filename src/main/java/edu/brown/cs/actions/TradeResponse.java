@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
+import edu.brown.cs.catan.Trade;
 
 public class TradeResponse implements FollowUpAction {
   private Player _player;
@@ -21,10 +23,13 @@ public class TradeResponse implements FollowUpAction {
   private Map<Resource, Double> _resources;
   private boolean _acceptedTrade = false;
   private final Gson gson = new Gson();
+  private final Trade _trade;
 
-  public TradeResponse(int playerID, Map<Resource, Double> resources) {
+  public TradeResponse(int playerID, Map<Resource, Double> resources,
+      Trade trade) {
     _playerID = playerID;
     _resources = resources;
+    _trade = trade;
   }
 
   @Override
@@ -37,7 +42,7 @@ public class TradeResponse implements FollowUpAction {
     if(!_acceptedTrade) {
       for (Player p : _ref.getPlayers()) {
         if (!p.equals(_player)) {
-          _ref.removeFollowUp(new ReviewTrade(p.getID(), _resources));
+          _ref.removeFollowUp(new ReviewTrade(p.getID(), _resources, _trade));
           String message = String.format("%s canceled the trade.",
               _player.getName());
           ActionResponse toAdd = new ActionResponse(true, message, null);
@@ -98,8 +103,8 @@ public class TradeResponse implements FollowUpAction {
     String message = "Please finalize the trade";
     JsonObject toRet = new JsonObject();
     toRet.addProperty("message", message);
-    String trade = gson.toJson(_resources);
-    toRet.addProperty("trade", trade);
+    JsonElement trade = gson.toJsonTree(_trade);
+    toRet.add("trade", trade);
     return toRet;
   }
 
