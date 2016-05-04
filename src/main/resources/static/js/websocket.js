@@ -135,6 +135,11 @@ function sendProposeTradeAction(trade) {
     webSocket.send(JSON.stringify(tradeReq));
 }
 
+function sendReviewTradeAction(tradeAccepted) {
+	var tradeReq = {requestType: "action", action: "reviewTrade", tradeAccepted: tradeAccepted};
+	webSocket.send(JSON.stringify(tradeReq));
+}
+
 // ---------- RESPONSES ---------- //
 
 webSocket.onmessage = function (msg) {
@@ -240,6 +245,9 @@ function handleActionResponse(data) {
             case "knightOrDice":
                 showKnightOrDiceModal();
                 break;
+            case "reviewTrade":
+            	showReviewTradeModal(JSON.parse(action.actionData.trade));
+            	break;
             default:
                 break;
         }

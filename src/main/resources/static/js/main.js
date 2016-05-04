@@ -816,3 +816,35 @@ $("#propose-interplayer-trade-btn").click(function(event) {
 	sendProposeTradeAction(currentTrade);
 	clearInterplayerTrades();
 });
+
+//////////////////////////////////////////
+// Review Trade Modal
+//////////////////////////////////////////
+
+function showReviewTradeModal(tradeData) {
+	console.log(tradeData);
+	
+	// Add resources to 
+	for (var res in tradeData) {
+		var number = tradeData[res];
+		
+		if (number !== 0) {
+			var container = $(number > 0 ? "#review-to-give-container" : "#review-to-get-container");
+			var element = container.children("[res=" + res + "]");
+			
+			element.removeClass("hidden");
+			element.children(".review-trade-number").text(Math.abs(number));
+		}
+	}
+	
+	
+	$("#review-trade-modal").modal("show");
+}
+
+$("#review-trade-accept-btn").click(function(event) {
+	sendReviewTradeAction(true);
+});
+
+$("#review-trade-reject-btn").click(function(event) {
+	sendReviewTradeAction(false);
+});

@@ -206,11 +206,11 @@
 		    					<h5 class='panel-title-small'>Resources to Give</h5>
 		    				</div>
 		    				<div class="panel-body" id="to-give-container">
-		    					<p class="to-give-list-item hidden" res="brick"><span class="trade-number"></span><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
-		    					<p class="to-give-list-item hidden" res="wood"><span class="trade-number"></span><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
-		    					<p class="to-give-list-item hidden" res="ore"><span class="trade-number"></span><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
-		    					<p class="to-give-list-item hidden" res="wheat"><span class="trade-number"></span><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
-		    					<p class="to-give-list-item hidden" res="sheep"><span class="trade-number"></span><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+		    					<p class="to-give-list-item hidden" res="brick"><strong class="trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+		    					<p class="to-give-list-item hidden" res="wood"><strong class="trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+		    					<p class="to-give-list-item hidden" res="ore"><strong class="trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+		    					<p class="to-give-list-item hidden" res="wheat"><strong class="trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+		    					<p class="to-give-list-item hidden" res="sheep"><strong class="trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
 		    				</div>
 		    			</div>
 		    			<div class="panel panel-default interplayer-trade-panel" id="to-get-panel">
@@ -218,11 +218,11 @@
 		    					<h5 class='panel-title-small'>Resources to Receive</h5>
 		    				</div>
 		    				<div class="panel-body" id="to-get-container">
-		    					<p class="to-get-list-item hidden" res="brick"><span class="trade-number"></span><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
-		    					<p class="to-get-list-item hidden" res="wood"><span class="trade-number"></span><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
-		    					<p class="to-get-list-item hidden" res="ore"><span class="trade-number"></span><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
-		    					<p class="to-get-list-item hidden" res="wheat"><span class="trade-number"></span><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
-		    					<p class="to-get-list-item hidden" res="sheep"><span class="trade-number"></span><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+		    					<p class="to-get-list-item hidden" res="brick"><strong class="trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+		    					<p class="to-get-list-item hidden" res="wood"><strong class="trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+		    					<p class="to-get-list-item hidden" res="ore"><strong class="trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+		    					<p class="to-get-list-item hidden" res="wheat"><strong class="trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+		    					<p class="to-get-list-item hidden" res="sheep"><strong class="trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
 		    				</div>
 		    			</div>
 		    		</div>
@@ -673,6 +673,38 @@
       		</div>
       		<div class="modal-body">
        			<p><span id="disconnected-user-name"></span> has disconnected from the game. The game will exit in <span id="disconnected-user-time"></span> seconds unless this user reconnects.</p>
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="review-trade-modal" tabindex="-1" role="dialog" aria-labelledby="reviewTradeLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="reviewTradeLabel">Review Trade Proposal</h4>
+      		</div>
+      		<div class="modal-body">
+      			<h5>Resources to Give:</h5>
+       			<div id="review-to-give-container">
+       				<p class="review-to-give-list-item hidden" res="brick"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+		    		<p class="review-to-give-list-item hidden" res="wood"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+		    		<p class="review-to-give-list-item hidden" res="ore"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+		    		<p class="review-to-give-list-item hidden" res="wheat"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+		    		<p class="review-to-give-list-item hidden" res="sheep"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+       			</div>
+       			<h5>Resources to Receive:</h5>
+       			<div id="review-to-get-container">
+       				<p class="review-to-get-list-item hidden" res="brick"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle brick-color"><img src="images/icon-brick.svg" alt="Brick"></span></p>
+		    		<p class="review-to-get-list-item hidden" res="wood"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wood-color"><img src="images/icon-wood.svg" alt="Wood"></span></p>
+		    		<p class="review-to-get-list-item hidden" res="ore"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle ore-color"><img src="images/icon-ore.svg" alt="Ore"></span></p>
+		    		<p class="review-to-get-list-item hidden" res="wheat"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle wheat-color"><img src="images/icon-wheat.svg" alt="Wheat"></span></p>
+		    		<p class="review-to-get-list-item hidden" res="sheep"><strong class="review-trade-number"></strong><span class="inline-trade-icon circle sheep-color"><img src="images/icon-sheep.svg" alt="Sheep"></span></p>
+       			</div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" id="review-trade-accept-btn" class="btn btn-success" data-dismiss="modal">Accept Trade</button>
+        		<button type="button" id="review-trade-reject-btn" class="btn btn-danger" data-dismiss="modal">Reject Trade</button>
       		</div>
     	</div>
 	</div>
