@@ -29,7 +29,6 @@ public class MasterReferee implements Referee {
   private final GameSettings _gameSettings;
   private Player _largestArmy = null;
   private Player _longestRoad = null;
-  private boolean _isSetUp = true;
   private GameStatus _gameState;
 
   public MasterReferee() {
@@ -266,11 +265,6 @@ public class MasterReferee implements Referee {
   }
 
   @Override
-  public boolean isSetUp() {
-    return _isSetUp;
-  }
-
-  @Override
   public GameSettings getGameSettings() {
     return _gameSettings;
   }
@@ -397,11 +391,6 @@ public class MasterReferee implements Referee {
     @Override
     public Bank getBank() {
       return _referee.getBank();
-    }
-
-    @Override
-    public boolean isSetUp() {
-      return _referee.isSetUp();
     }
 
     @Override

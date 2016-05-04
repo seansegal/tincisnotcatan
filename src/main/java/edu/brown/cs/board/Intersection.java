@@ -7,6 +7,7 @@ import java.util.Map;
 
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Referee.GameStatus;
 import edu.brown.cs.catan.Resource;
 
 public class Intersection {
@@ -66,7 +67,7 @@ public class Intersection {
 
   public boolean canPlaceSettlement(Referee r) {
     if (_building == null && !hasAdjacentSettlement()) {
-      if(r.isSetUp()) {
+      if(r.getGameStatus() != GameStatus.PROGRESS) {
         return true;
       } else {
         for(Path p : _paths) {
