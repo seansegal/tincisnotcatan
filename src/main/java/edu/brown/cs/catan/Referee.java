@@ -45,8 +45,6 @@ public interface Referee {
 
   Bank getBank();
 
-  boolean isSetUp();
-
   GameStatus getGameStatus();
 
   void setGameStatus(GameStatus state);

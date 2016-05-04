@@ -23,10 +23,17 @@ public class MoveRobber implements FollowUpAction {
   private HexCoordinate _newLocation;
   public final static String ID = "moveRobber";
   private final static String VERB = "move the Robber";
+  private boolean _isTurnStart = false;
 
   public MoveRobber(int playerID) {
     _playerID = playerID;
     _isSetup = false;
+  }
+
+  public MoveRobber(int playerID, boolean isTurnStart) {
+    _playerID = playerID;
+    _isSetup = false;
+    _isTurnStart = isTurnStart;
   }
 
   @Override
@@ -66,6 +73,9 @@ public class MoveRobber implements FollowUpAction {
     if (!playersOnTile.isEmpty()) {
       FollowUpAction followUp = new TakeCardAction(_playerID, playersOnTile); // TODO!
       _ref.addFollowUp(ImmutableList.of(followUp));
+    }
+    if(_isTurnStart){
+      _ref.addFollowUp(ImmutableList.of(new RollDice(_playerID)));
     }
     String message = "You moved the Robber. There was no one to steal from where you placed the Robber.";
     if (originalPlayersOnTile > 0) {
