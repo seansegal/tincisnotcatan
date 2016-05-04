@@ -73,7 +73,8 @@ public class CatanConverter {
       this.hand = new Hand(ref.getPlayerByID(playerID));
       this.board = new BoardRaw(ref.getReadOnlyReferee(), ref.getBoard(),
           playerID);
-      this.turnOrder = (ref.getGameStatus() != GameStatus.WAITING) ? ref.getTurnOrder() : null;
+      this.turnOrder = (ref.getGameStatus() != GameStatus.WAITING) ? ref
+          .getTurnOrder() : null;
       this.players = new ArrayList<>();
       for (Player p : ref.getPlayers()) {
         players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));
@@ -150,7 +151,9 @@ public class CatanConverter {
       start = path.getStart().getPosition();
       end = path.getEnd().getPosition();
       road = path.getRoad() != null ? new RoadRaw(path.getRoad()) : null;
-      canBuildRoad = path.canPlaceRoad(ref.getPlayerByID(playerID));
+      canBuildRoad = ref.getGameStatus() == GameStatus.SETUP ? path
+          .canPlaceSetupRoad(ref.getSetup()) : path.canPlaceRoad(ref
+          .getPlayerByID(playerID));
     }
 
   }

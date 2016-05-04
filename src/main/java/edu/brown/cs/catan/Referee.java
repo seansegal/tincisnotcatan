@@ -64,4 +64,6 @@ public interface Referee {
 
   }
 
+  Setup getSetup();
+
 }

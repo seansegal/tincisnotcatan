@@ -30,6 +30,7 @@ public class MasterReferee implements Referee {
   private Player _largestArmy = null;
   private Player _longestRoad = null;
   private GameStatus _gameStatus;
+  private final Setup _setup;
 
   public MasterReferee() {
     _board = new Board();
@@ -40,6 +41,7 @@ public class MasterReferee implements Referee {
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
     _gameStatus = GameStatus.WAITING;
+    _setup = new Setup(getSetupOrder());
   }
 
   public MasterReferee(GameSettings gameSettings) {
@@ -51,6 +53,21 @@ public class MasterReferee implements Referee {
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
     _gameStatus = GameStatus.WAITING;
+    _setup = new Setup(getSetupOrder());
+  }
+
+  private List<Integer> getSetupOrder() {
+    List<Integer> toRet = new ArrayList<>();
+    toRet.addAll(_turnOrder);
+    List<Integer> copyTurnOrder = new ArrayList<>(_turnOrder);
+    Collections.reverse(copyTurnOrder);
+    toRet.addAll(copyTurnOrder);
+    return toRet;
+  }
+
+  @Override
+  public Setup getSetup() {
+    return _setup;
   }
 
   private List<Integer> initializeTurnOrder(int numFullPlayers) {
@@ -437,6 +454,11 @@ public class MasterReferee implements Referee {
       throw new UnsupportedOperationException(
           "A ReadOnlyReferee cannot setGameState.");
 
+    }
+
+    @Override
+    public Setup getSetup() {
+      return _referee.getSetup();
     }
 
   }

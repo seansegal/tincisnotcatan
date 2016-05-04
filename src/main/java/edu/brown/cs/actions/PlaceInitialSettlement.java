@@ -51,6 +51,7 @@ public class PlaceInitialSettlement implements FollowUpAction {
     // The Action:
     player.useSettlement();
     _intersection.placeSettlement(player);
+    _ref.getSetup().setLastBuiltSettlement(_intersection);
     _ref.removeFollowUp(this);
 
     ActionResponse respToPlayer = null;

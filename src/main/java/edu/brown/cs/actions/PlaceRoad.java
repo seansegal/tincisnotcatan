@@ -35,6 +35,9 @@ public class PlaceRoad implements FollowUpAction {
       throw new UnsupportedOperationException(
           "A FollowUpAction must be setup before it is executed.");
     }
+
+    // TODO: validate based on isGameSetup or based on canPlaceRoad!!!
+
     // Build the road
     new BuildRoad(_ref, _playerID, _start, _end, false).execute();
     _ref.removeFollowUp(this);
@@ -55,8 +58,8 @@ public class PlaceRoad implements FollowUpAction {
     }
     if (_isFinal) {
       _ref.setGameStatus(GameStatus.PROGRESS);
-      _ref.addFollowUp(ImmutableList.of(new RollDice(_ref.getTurnOrder()
-          .get(0))));
+      _ref.addFollowUp(ImmutableList
+          .of(new RollDice(_ref.getTurnOrder().get(0))));
     }
     return toReturn;
   }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.brown.cs.catan.Player;
+import edu.brown.cs.catan.Setup;
 
 public class Path {
   private Intersection _start;
@@ -99,6 +100,16 @@ public class Path {
       }
     }
     return max;
+  }
+
+  public boolean canPlaceSetupRoad(Setup setup) {
+    if (setup.getLastBuiltSettlement()!= null) {
+      if (getStart().equals(setup.getLastBuiltSettlement())
+          || getEnd().equals(setup.getLastBuiltSettlement())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean canPlaceRoad(Player p) {
