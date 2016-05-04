@@ -28,6 +28,7 @@ public class Turn {
     _devHasBeenPlayed = turn.devHasBeenPlayed();
     _turnNum = turn.getTurnNum();
     _followUps = turn.getAllFollowUps();
+    _initialDevCardHand = turn._initialDevCardHand;
 
   }
 
