@@ -127,7 +127,7 @@ public class TradeResponse implements FollowUpAction {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
     }
-    _acceptedTrade = params.get("acceptedTrade").getAsBoolean();
+    _acceptedTrade = params.get("tradeAccepted").getAsBoolean();
     if (_acceptedTrade) {
       Player trader = _ref.getPlayerByID(params.get("trader").getAsInt());
       if(!_player.equals(trader)) {
