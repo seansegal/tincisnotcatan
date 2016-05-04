@@ -41,6 +41,7 @@ public class RollDice implements FollowUpAction {
     if (!ref.currentPlayer().equals(_player)) {
       throw new IllegalArgumentException();
     }
+    _isSetUp = true;
   }
 
   public RollDice(int playerID) {
@@ -50,7 +51,8 @@ public class RollDice implements FollowUpAction {
   @Override
   public Map<Integer, ActionResponse> execute() {
     if (!_isSetUp) {
-      throw new IllegalArgumentException();
+      throw new UnsupportedOperationException(
+          "A FollowUpAction must be setup before executed.");
     }
     Random r = new Random();
     PrimitiveIterator.OfInt rolls = r.ints(1, 7).iterator();
