@@ -75,7 +75,7 @@ public class ReviewTrade implements FollowUpAction {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
     }
-    _acceptedTrade = params.get("acceptedTrade").getAsBoolean();
+    _acceptedTrade = params.get("tradeAccepted").getAsBoolean();
     _isSetUp = true;
   }
 
