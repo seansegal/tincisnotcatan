@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.catan.Player;
@@ -61,8 +62,8 @@ public class ReviewTrade implements FollowUpAction {
         + " whether or not to accept the offer.";
     JsonObject toRet = new JsonObject();
     toRet.addProperty("message", message);
-    String trade = gson.toJson(_resources);
-    toRet.addProperty("trade", trade);
+    JsonElement trade = gson.toJsonTree(_trade);
+    toRet.add("trade", trade);
     return toRet;
   }
 
