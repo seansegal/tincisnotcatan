@@ -44,6 +44,12 @@ public class PlayKnight implements Action {
       return ImmutableMap.of(_player.getID(), new ActionResponse(false,
           "You already played a development card this turn", null));
     }
+    if (!_ref.getTurn().hadInitialDevCard(DevelopmentCard.KNIGHT)) {
+      return ImmutableMap
+          .of(_player.getID(), new ActionResponse(false,
+              "You cannot play a development card on the turn you bought it",
+              null));
+    }
     try {
       _player.playDevelopmentCard(DevelopmentCard.KNIGHT);
     } catch (IllegalArgumentException e) {

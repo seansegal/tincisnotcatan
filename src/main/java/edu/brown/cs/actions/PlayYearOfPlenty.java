@@ -3,6 +3,8 @@ package edu.brown.cs.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
@@ -32,6 +34,16 @@ public class PlayYearOfPlenty implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
+    if (_ref.getTurn().devHasBeenPlayed()) {
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+          "You already played a development card this turn", null));
+    }
+    if (!_ref.getTurn().hadInitialDevCard(DevelopmentCard.YEAR_OF_PLENTY)) {
+      return ImmutableMap
+          .of(_player.getID(), new ActionResponse(false,
+              "You cannot play a development card on the turn you bought it",
+              null));
+    }
     try {
       _player.playDevelopmentCard(DevelopmentCard.YEAR_OF_PLENTY);
     } catch (IllegalArgumentException e) {
