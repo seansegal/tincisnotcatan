@@ -639,12 +639,12 @@
 </div>
 
 <div class="modal fade" id="roll-dice-modal" tabindex="-1" role="dialog" aria-labelledby="rollDiceLabel" data-backdrop="static">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
-      		<div class="modal-header">
+      		<div class="modal-header text-center">
         		<h4 class="modal-title" id="rollDiceLabel">Please Roll the Dice</h4>
       		</div>
-      		<div class="modal-footer">
+      		<div class="modal-footer modal-footer-center">
         		<button type="button" id="roll-dice-btn" class="btn btn-success" data-dismiss="modal">Roll Dice</button>
       		</div>
     	</div>
@@ -652,12 +652,12 @@
 </div>
 
 <div class="modal fade" id="knight-or-dice-modal" tabindex="-1" role="dialog" aria-labelledby="knightOrDiceLabel" data-backdrop="static">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
-      		<div class="modal-header">
+      		<div class="modal-header text-center">
         		<h4 class="modal-title" id="knightOrDiceLabel">Choose How To Start Your Turn</h4>
       		</div>
-      		<div class="modal-footer">
+      		<div class="modal-footer modal-footer-center">
         		<button type="button" id="knight-dice-roll-dice-btn" class="btn btn-success" data-dismiss="modal">Roll Dice</button>
         		<button type="button" id="knight-dice-play-knight-btn" class="btn btn-primary" data-dismiss="modal">Play Knight</button>
       		</div>
@@ -735,7 +735,7 @@
        			</div>
       		</div>
       		<div class="modal-footer">
-        		<button type="button" id="trade-responses-cancel-trade-btn" class="btn btn-danger" data-dismiss="modal">Cancel Trade</button>
+        		<button type="button" id="trade-responses-cancel-trade-btn" class="btn btn-danger">Cancel Trade</button>
       		</div>
     	</div>
 	</div>
