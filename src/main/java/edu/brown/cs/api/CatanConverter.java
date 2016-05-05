@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.actions.ActionResponse;
+import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.board.Board;
 import edu.brown.cs.board.BoardTile;
 import edu.brown.cs.board.Building;
@@ -65,6 +66,7 @@ public class CatanConverter {
     private Hand hand;
     private BoardRaw board;
     private int currentTurn;
+    private FollowUpActionRaw followUp;
     private Collection<PublicPlayerRaw> players;
 
     public GameState(Referee ref, int playerID) {
@@ -77,6 +79,8 @@ public class CatanConverter {
       this.turnOrder = (ref.getGameStatus() != GameStatus.WAITING) ? ref
           .getTurnOrder() : null;
       this.winner = ref.getWinner() != null ? ref.getWinner().getID() : null;
+      this.followUp = ref.getNextFollowUp(playerID) != null ? new FollowUpActionRaw(
+          ref.getNextFollowUp(playerID)) : null;
       this.players = new ArrayList<>();
       for (Player p : ref.getPlayers()) {
         players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));
@@ -261,5 +265,16 @@ public class CatanConverter {
       numDevelopmentCards = p.getNumDevelopmentCards();
     }
 
+  }
+
+  private static class FollowUpActionRaw {
+
+    private String actionName;
+    private Object actionData;
+
+    public FollowUpActionRaw(FollowUpAction followUp) {
+      actionName = followUp.getID();
+      actionData = followUp.getData();
+    }
   }
 }

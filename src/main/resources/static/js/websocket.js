@@ -209,13 +209,7 @@ function updateChat(msg) {
 
 function handleActionResponse(data) {
     if (data.content.hasOwnProperty("message")) {
-        if (data.content.hasOwnProperty("followUpAction") 
-                && data.content.followUpAction.hasOwnProperty("actionData")
-                && data.content.followUpAction.actionData.hasOwnProperty("message")) {
-            addMessage(data.content.followUpAction.actionData.message);
-        } else {
-            addMessage(data.content.message);
-        }
+        addMessage(data.content.message);
     }
 
     switch (data.action) {
@@ -227,40 +221,43 @@ function handleActionResponse(data) {
         default:
             break;
     }
-    
-    if (data.content.hasOwnProperty("followUpAction")) {
-        var action = data.content.followUpAction;
-        switch (action.actionName) {
-            case "moveRobber":
-                highlightRobbableTiles();
-                break
-            case "dropCards":
-                enterDiscardModal(action.actionData.numToDrop);
-                break;
-            case "takeCard":
-                enterTakeCardModal(action.actionData.toTake);
-                break;
-            case "placeRoad":
-                inPlaceRoadMode = true;
-                break;
-            case "placeSettlement":
-                inPlaceSettlementMode = true;
-                break;
-            case "rollDice":
-                showRollDiceModal();
-                break;
-            case "knightOrDice":
-                showKnightOrDiceModal();
-                break;
-            case "reviewTrade":
-            	showReviewTradeModal(action.actionData.trade);
-            	break;
-            case "tradeResponse":
-                showTradeResponseModal(action.actionData.trade);
-                break;
-            default:
-                break;
-        }
+}
+
+function handleFollowUp(action) {
+    if (action.hasOwnProperty("actionData") && action.actionData.hasOwnProperty("message")) {
+        addMessage(action.actionData.message);
+    }
+
+    switch (action.actionName) {
+        case "moveRobber":
+            highlightRobbableTiles();
+            break
+        case "dropCards":
+            enterDiscardModal(action.actionData.numToDrop);
+            break;
+        case "takeCard":
+            enterTakeCardModal(action.actionData.toTake);
+            break;
+        case "placeRoad":
+            enterPlaceRoadMode();
+            break;
+        case "placeSettlement":
+            enterPlaceSettlementMode();
+            break;
+        case "rollDice":
+            showRollDiceModal();
+            break;
+        case "knightOrDice":
+            showKnightOrDiceModal();
+            break;
+        case "reviewTrade":
+            showReviewTradeModal(action.actionData.trade);
+            break;
+        case "tradeResponse":
+            showTradeResponseModal(action.actionData.trade);
+            break;
+        default:
+            break;
     }
 }
 
@@ -333,6 +330,11 @@ function handleGetGameState(gameStateData) {
     if (gameStateData.hasOwnProperty("winner")) {
         var winner = gameStateData.winner;
         showWinnerModal(winner);
+    }
+
+    // Handle follow up action
+    if (gameStateData.hasOwnProperty("followUp")) {
+        handleFollowUp(gameStateData.followUp);
     }
 }
 
