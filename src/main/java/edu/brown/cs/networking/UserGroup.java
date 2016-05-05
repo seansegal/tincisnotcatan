@@ -2,6 +2,7 @@ package edu.brown.cs.networking;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -162,7 +163,7 @@ public class UserGroup implements Timestamped, Group {
       disconUsers.add(u);
     }
     message.add("users", GSON.toJsonTree(disconUsers));
-    message.addProperty("expiresAt", smallestExpire);
+    message.addProperty("expiresAt", smallestExpire + (1000 * 60));
     users.stream()
         .filter(u -> !afk.containsKey(u))
         .forEach(u -> u.message(message));
@@ -264,5 +265,13 @@ public class UserGroup implements Timestamped, Group {
   public void userReconnected(User u) {
     System.out.println("RECONNECTED " + u);
     afk.remove(u);
+    if(this.allUsersConnectedWithMessage()) {
+      System.out.println("SENDING READY TO GO MESSAGE");
+      JsonObject readyToGo = new JsonObject();
+      readyToGo.addProperty("requestType", "disconnectedUsers");
+      readyToGo.addProperty("users", GSON.toJson(Collections.emptyList()));
+      readyToGo.addProperty("expiresAt", -1);
+      users.stream().forEach(usr -> usr.message(readyToGo));
+    }
   }
 }
