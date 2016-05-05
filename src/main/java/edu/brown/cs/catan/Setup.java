@@ -21,9 +21,9 @@ public class Setup {
     return Collections.unmodifiableList(_setupOrder);
   }
 
-  public void set_setupOrder(List<Integer> _setupOrder) {
-    this._setupOrder = _setupOrder;
-  }
+//  public void setSetupOrder(List<Integer> _setupOrder) {
+//    this._setupOrder = _setupOrder;
+//  }
 
   public void setLastBuiltSettlement(Intersection i){
     _lastBuiltSettlement = i;
@@ -38,7 +38,10 @@ public class Setup {
   }
 
   public int getCurrentPlayerID(){
-    return _setupOrder.get(_currentTurn);
+    if(_currentTurn < _setupOrder.size()){
+      return _setupOrder.get(_currentTurn);
+    }
+    throw new UnsupportedOperationException("It is not the setup anymore");
   }
 
 }
