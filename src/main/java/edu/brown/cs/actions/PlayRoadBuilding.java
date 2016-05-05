@@ -28,6 +28,10 @@ public class PlayRoadBuilding implements Action {
   @Override
   public Map<Integer, ActionResponse> execute() {
     // Validation:
+    if (!(_player.getDevCards().get(DevelopmentCard.ROAD_BUILDING) > 0)) {
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+          "You don't have a Road Building card", null));
+    }
     if (_ref.getTurn().devHasBeenPlayed()) {
       return ImmutableMap.of(_player.getID(), new ActionResponse(false,
           "You already played a development card this turn", null));
