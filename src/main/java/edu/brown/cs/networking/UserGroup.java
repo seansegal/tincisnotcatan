@@ -281,7 +281,7 @@ public class UserGroup implements Timestamped, Group {
       System.out.println("SENDING READY TO GO MESSAGE");
       JsonObject readyToGo = new JsonObject();
       readyToGo.addProperty("requestType", "disconnectedUsers");
-      readyToGo.addProperty("users", GSON.toJson(Collections.emptyList()));
+      readyToGo.add("users", GSON.toJsonTree(Collections.emptyList()));
       readyToGo.addProperty("expiresAt", -1);
       users.stream().forEach(usr -> usr.message(readyToGo));
     }
