@@ -328,6 +328,12 @@ function handleGetGameState(gameStateData) {
     if (inPlaceSettlementMode) {
         enterPlaceSettlementMode();
     }
+
+    // Handle win game
+    if (gameStateData.hasOwnProperty("winner")) {
+        var winner = gameStateData.winner;
+        showWinnerModal(winner);
+    }
 }
 
 //Send message if enter is pressed in the input field

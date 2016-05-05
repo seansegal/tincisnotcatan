@@ -742,6 +742,20 @@
 	</div>
 </div>
 
+<div class="modal fade" id="winner-modal" tabindex="-1" role="dialog" aria-labelledby="winnerLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="winnerLabel"></h4>
+      		</div>
+      		<div class="modal-body"></div>
+      		<div class="modal-footer">
+        		<button type="button" id="return-home-btn" class="btn btn-success" data-dismiss="modal">Return Home</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>

@@ -924,3 +924,20 @@ $("#trade-responses-cancel-trade-btn").click(function(event) {
 	console.log($(".modal-backdrop"));
 });
 
+//////////////////////////////////////////
+// Trade Response Modal
+//////////////////////////////////////////
+
+function showWinnerModal(winnerId) {
+	var winner = playersById[winnerId];
+
+	if (playerId === winnerId) {
+		$("#winnerLabel").text("You Won the Game!");
+	} else {
+		$("#winnerLabel").text(winner.name + " Won the Game");
+	}
+
+	$("#winner-modal .modal-body").append("<p>The game is over. You can start a new game of Catan from the home screen.</p>");
+	$("#winner-modal").modal("show");
+}
+
