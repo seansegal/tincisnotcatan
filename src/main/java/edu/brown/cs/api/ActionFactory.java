@@ -18,8 +18,8 @@ import edu.brown.cs.actions.PlayRoadBuilding;
 import edu.brown.cs.actions.PlayYearOfPlenty;
 import edu.brown.cs.actions.ProposeTrade;
 import edu.brown.cs.actions.StartGame;
-import edu.brown.cs.actions.StartGameSetup;
 import edu.brown.cs.actions.TradeWithBank;
+import edu.brown.cs.actions.UpdateResource;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.MasterReferee;
@@ -86,8 +86,8 @@ public class ActionFactory {
           return new EmptyAction();
         case "startGame":
           return new StartGame(_referee);
-        case "startSetup":
-          return new StartGameSetup(_referee);
+//        case "startSetup":
+//          return new StartGameSetup(_referee);
         case "buildCity":
           return new BuildCity(_referee, playerID,
               toIntersectionCoordinate(actionJSON.get("coordinate")
@@ -125,6 +125,8 @@ public class ActionFactory {
           return new EndTurn(_referee, playerID);
         case "proposeTrade":
           return new ProposeTrade(_referee, playerID, actionJSON);
+        case "updateResource":
+          return new UpdateResource(_referee, playerID);
         default:
           String err = String.format("The action %s does not exist.", action);
           throw new IllegalArgumentException(err);
