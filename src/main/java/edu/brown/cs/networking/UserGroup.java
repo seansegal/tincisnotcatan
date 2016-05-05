@@ -128,7 +128,9 @@ public class UserGroup implements Timestamped, Group {
   @Override
   synchronized public boolean handleMessage(User u, JsonObject j) {
     if (!allUsersConnectedWithMessage()) {
-      return false;
+      if(j.has("requestType") && !j.get("requestType").getAsString().equals("gameOver")){
+        return false;
+      }
     }
     if (!users.contains(u)) {
       System.out.println("Error : user not contained");
@@ -163,7 +165,7 @@ public class UserGroup implements Timestamped, Group {
       disconUsers.add(u);
     }
     message.add("users", GSON.toJsonTree(disconUsers));
-    message.addProperty("expiresAt", smallestExpire + (1000 * 60));
+    message.addProperty("expiresAt", smallestExpire + (1000 * 10));
     users.stream()
         .filter(u -> !afk.containsKey(u))
         .forEach(u -> u.message(message));

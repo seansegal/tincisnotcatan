@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import edu.brown.cs.board.Path;
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -42,12 +43,27 @@ public class PlayRoadBuilding implements Action {
               "You cannot play a development card on the turn you bought it",
               null));
     }
+
+    boolean canPlace = false;
+    for (Path p : _ref.getBoard().getPaths().values()) {
+      if (p.canPlaceRoad(_player)) {
+        canPlace = true;
+        break;
+      }
+    }
+
+    if (!canPlace) {
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+          "There is nowhere for you to build a road", null));
+    }
+
     try {
       _player.playDevelopmentCard(DevelopmentCard.ROAD_BUILDING);
     } catch (IllegalArgumentException e) {
       return ImmutableMap.of(_player.getID(), new ActionResponse(false,
           "You don't have Road Building", null));
     }
+
 
     //Action:
     _ref.playDevCard();

@@ -33,7 +33,7 @@ public class ReceivingWebsocket {
   private static final String     HEARTBEAT       = "\"HEARTBEAT\"";
 
   private static final long       ONE_SECOND      = 1000;
-  private static final long       ONE_MINUTE      = ONE_SECOND * 60;
+  private static final long       ONE_MINUTE      = ONE_SECOND * 10; // change to 60!
 
 
   public ReceivingWebsocket() {
@@ -47,11 +47,18 @@ public class ReceivingWebsocket {
           long now = System.currentTimeMillis();
           for (User u : afkMap.keySet()) {
             if (now - afkMap.get(u) > ONE_MINUTE) {
+              // send game over
+              JsonObject endGame = new JsonObject();
+              endGame.addProperty("requestType", "gameOver");
+              endGame.addProperty("reason", "disconnectedUser");
+              gct.groupForUser(u).handleMessage(u, endGame);
+
+              // remove user from data structs.
               String id = u.getField(USER_IDENTIFIER);
               uuidToUser.remove(id);
               afkMap.remove(u);
               gct.remove(u);
-              System.out.println("Removed user entirely! TODO Cancel game?");
+              System.out.println("Removed user entirely! Cancel game sent");
             } else {
               gct.groupForUser(u).afkTick();
             }

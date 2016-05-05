@@ -22,12 +22,23 @@ webSocket.onopen = function() {
 	window.setInterval(heartbeat, 60 * 1000);
 };
 
+function deleteAllCookiesAndGoHome() {
+	deleteCookie("USER_ID");
+    deleteCookie("desiredGroupId");
+    deleteCookie("groupName");
+    deleteCookie("numPlayersDesired");
+    window.location = "/home";
+}
+
 webSocket.onclose = function() {
     window.location.reload(true);
 }
 
+
+
 $("#leave-game-btn").click(function(event) {
     console.log("leave game");
+    deleteAllCookiesAndGoHome();
 });
 
 //////////////////////////////////////////
@@ -151,7 +162,7 @@ function sendTradeResponseAction(accepted, trader, tradee) {
 
 function sendUpdateResourceAction() {
     var updateReq = {requestType: "action", action: "updateResource"};
-    // webSocket.send(JSON.stringify(updateReq));
+    webSocket.send(JSON.stringify(updateReq));
 }
 
 // ---------- RESPONSES ---------- //
@@ -179,6 +190,9 @@ webSocket.onmessage = function (msg) {
             break;
         case "disconnectedUsers":
         	handleDisconnectedUsers(data);
+        	break;
+        case "gameOver":
+        	handleGameOver(data);
         	break;
         default:
             console.log("unsupported request type");
@@ -230,6 +244,14 @@ function handleActionResponse(data) {
         default:
             break;
     }
+}
+
+function handleGameOver(data) {
+	if(data.reason == "disconnectedUser") {
+		deleteAllCookiesAndGoHome();
+	} else {
+		console.log("UNSUPPORTED REASON FOR GAME OVER!");
+	}
 }
 
 function handleFollowUp(action) {
@@ -381,8 +403,7 @@ function handleErrorFromSocket(data) {
 	if(data.hasOwnProperty("description")){
 		switch(data.description) {
 		case "RESET":
-			deleteCookie("USER_ID");
-			window.location = "/home"; // redirect to home
+			deleteAllCookiesAndGoHome();
 			break;
 		case "NOT_REGISTERED":
 			alert("Internal error : user not registered");
