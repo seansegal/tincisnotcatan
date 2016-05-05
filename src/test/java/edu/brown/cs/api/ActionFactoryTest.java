@@ -54,8 +54,8 @@ public class ActionFactoryTest {
     } catch (IllegalArgumentException e) {
       assertTrue(true);
     } catch (WaitingOnActionException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
+      assertTrue(false);
     }
   }
 }

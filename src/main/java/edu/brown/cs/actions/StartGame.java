@@ -22,7 +22,7 @@ public class StartGame implements Action {
 
   public StartGame(Referee ref) {
     _ref = ref;
-    if(_ref.getGameStatus() != GameStatus.WAITING){
+    if (_ref.getGameStatus() != GameStatus.WAITING) {
       throw new IllegalArgumentException("The game has already started");
     }
   }
@@ -39,9 +39,9 @@ public class StartGame implements Action {
         (player) -> {
           JsonObject json = new JsonObject();
           json.add("turnOrder", turnOrder);
-          json.addProperty("isFirst",
-              firstToGo == player.getID());
-          toReturn.put(player.getID(), new ActionResponse(true, "Let the games begin!", json));
+          json.addProperty("isFirst", firstToGo == player.getID());
+          toReturn.put(player.getID(), new ActionResponse(true,
+              "Let the games begin!", json));
         });
 
     List<Integer> setupOrder = _ref.getSetup().getSetupOrder();
