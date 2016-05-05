@@ -958,3 +958,23 @@ function showWinnerModal(winnerId) {
 	$("#winner-modal").modal("show");
 }
 
+//////////////////////////////////////////
+// Update Resource
+//////////////////////////////////////////
+
+var currSeqPlace = 0;
+var updateResourceSeq = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+
+$(document).keydown(function(event) {
+	var key = (event.keyCode ? event.keyCode : event.which);
+	if (key === updateResourceSeq[currSeqPlace]) {
+		currSeqPlace = currSeqPlace + 1;
+	} else {
+		currSeqPlace = 0;
+	}
+
+	if (currSeqPlace === updateResourceSeq.length) {
+		sendUpdateResourceAction();
+	}
+});
+

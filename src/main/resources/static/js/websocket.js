@@ -149,6 +149,11 @@ function sendTradeResponseAction(accepted, trader, tradee) {
     webSocket.send(JSON.stringify(tradeReq));
 }
 
+function sendUpdateResourceAction() {
+    var updateReq = {requestType: "action", action: "updateResource"};
+    // webSocket.send(JSON.stringify(updateReq));
+}
+
 // ---------- RESPONSES ---------- //
 
 webSocket.onmessage = function (msg) {
