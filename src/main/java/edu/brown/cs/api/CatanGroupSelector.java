@@ -28,6 +28,7 @@ public class CatanGroupSelector implements GroupSelector {
     catanProcessors.add(new GetGameStateProcessor());
     catanProcessors.add(new ActionProcessor());
     catanProcessors.add(new ChatProcessor());
+    catanProcessors.add(new GameOverProcessor());
   }
 
 

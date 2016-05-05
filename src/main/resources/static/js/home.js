@@ -1,5 +1,9 @@
 
-$(window).load(function() {    
+$(window).load(function() {
+	if(document.cookie.indexOf("USER_ID") > -1) {
+		window.location = "/board";
+		return;
+	}
     var href = window.location.pathname;
     if(href == "/home"){
     	deleteCookie("desiredGroupId");
