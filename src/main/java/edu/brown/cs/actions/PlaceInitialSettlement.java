@@ -91,7 +91,7 @@ public class PlaceInitialSettlement implements FollowUpAction {
                 }
               });
       resToAdd.forEach((res) -> {
-        player.addResource(res);
+        player.addResource(res, 1, _ref.getBank());
       });
       break;
     default:

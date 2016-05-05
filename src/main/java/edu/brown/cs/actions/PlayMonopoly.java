@@ -55,7 +55,7 @@ public class PlayMonopoly implements Action {
       if (!otherPlayer.equals(_player)) {
         double numResource = otherPlayer.getResources().get(_res);
         totalResCount += numResource;
-        otherPlayer.removeResource(_res, numResource);
+        otherPlayer.removeResource(_res, numResource, _ref.getBank());
         NumberFormat nf = new DecimalFormat("##.##");
         String message = String.format(
             "%s played a Monopoly card. You lost %s %s.", _player.getName(),
@@ -66,7 +66,7 @@ public class PlayMonopoly implements Action {
         toRet.put(otherPlayer.getID(), toAdd);
       }
     }
-    _player.addResource(_res, totalResCount);
+    _player.addResource(_res, totalResCount, _ref.getBank());
     Map<Resource, Double> resourceMap = new HashMap<Resource, Double>();
     resourceMap.put(_res, totalResCount);
     NumberFormat nf = new DecimalFormat("##.##");
