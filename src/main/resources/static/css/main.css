@@ -25,6 +25,10 @@ body {
 	margin-left: 15px;
 }
 
+#leave-game-btn {
+	margin-top: 15px;
+}
+
 .pointer {
 	cursor: pointer;
 }

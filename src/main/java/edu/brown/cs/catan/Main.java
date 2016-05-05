@@ -27,12 +27,13 @@ public class Main {
       System.getenv("HEROKU") != null ? "target/classes/static"
           : "src/main/resources/static";
 
-  private GCT gct;
+  private GCT                 gct;
 
 
   public static void main(String[] args) {
     new Main().run();
   }
+
 
   private Main() {
     Spark.externalStaticFileLocation(STATIC_FILE_PATH);
@@ -59,7 +60,8 @@ public class Main {
     Spark.get("/board", new BoardHandler(), freeMarker);
     Spark.get("/home", new HomeHandler(), freeMarker);
     Spark.before("/", (request, response) -> {
-      System.out.println("Redirect causes an extra open/close on GroupView. Disregard.");
+      System.out.println(
+          "Redirect causes an extra open/close on GroupView. Disregard.");
       response.redirect("/home");
     });
 
@@ -68,8 +70,8 @@ public class Main {
     Spark.init();
   }
 
-  private void run() {
-  }
+
+  private void run() {}
 
 
   // used for heroku hosting - environment variables are set by heroku.
@@ -81,7 +83,6 @@ public class Main {
     return 4567; // return default port if heroku-port isn't set (i.e. on
     // localhost)
   }
-
 
 
   private static class BoardHandler implements TemplateViewRoute {
@@ -97,10 +98,18 @@ public class Main {
   /**
    * A class which controls the initial page for maps.
    */
-  private static class HomeHandler implements TemplateViewRoute {
+  private class HomeHandler implements TemplateViewRoute {
 
     @Override
     public ModelAndView handle(Request req, Response res) {
+      Map<String, String> cookies = req.cookies();
+      if (cookies.containsKey("USER_ID")
+          && Main.this.gct.userIDIsValid(cookies.get("USER_ID"))) {
+        res.redirect("/board");
+        System.out.println("Redirect to board!");
+        return new BoardHandler().handle(req, res);
+
+      }
       Map<String, Object> variables = ImmutableMap.of("title",
           "Catan : Home");
       return new ModelAndView(variables, "home.ftl");

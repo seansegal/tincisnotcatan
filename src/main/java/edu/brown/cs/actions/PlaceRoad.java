@@ -72,6 +72,7 @@ public class PlaceRoad implements FollowUpAction {
         toReturn.put(p.getID(), respToAll);
       }
     }
+    _ref.getSetup().nextTurn();
     if (_isFinal) {
       _ref.setGameStatus(GameStatus.PROGRESS);
       _ref.addFollowUp(ImmutableList

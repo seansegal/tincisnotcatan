@@ -26,6 +26,10 @@ webSocket.onclose = function() {
     window.location.reload(true);
 }
 
+$("#leave-game-btn").click(function(event) {
+    console.log("leave game");
+});
+
 //////////////////////////////////////////
 // Action Senders
 //////////////////////////////////////////
@@ -143,6 +147,11 @@ function sendReviewTradeAction(tradeAccepted) {
 function sendTradeResponseAction(accepted, trader, tradee) {
     var tradeReq = {requestType: "action", action: "tradeResponse", tradeAccepted: accepted, trader: trader, tradee: tradee};
     webSocket.send(JSON.stringify(tradeReq));
+}
+
+function sendUpdateResourceAction() {
+    var updateReq = {requestType: "action", action: "updateResource"};
+    webSocket.send(JSON.stringify(updateReq));
 }
 
 // ---------- RESPONSES ---------- //
@@ -344,7 +353,11 @@ id("message").addEventListener("keypress", function (e) {
 });
 
 function handleDisconnectedUsers(disconnectData) {
-    showDisconnectedUsersModal(disconnectData);
+    if (disconnectData.users.length === 0) {
+        hideDisconnectedUsersModal();
+    } else {
+        showDisconnectedUsersModal(disconnectData);
+    }
 }
 
 

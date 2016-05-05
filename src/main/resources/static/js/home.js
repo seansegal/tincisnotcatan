@@ -61,7 +61,6 @@ function createJoinableGameList(groups) {
 $("#enter-name-begin-btn").click(openCreateJoinGame);
 $("#nameEntry").keypress(function(event) {
 	var keyPressed = (event.keyCode ? event.keyCode : event.which);
-	console.log
 	if (keyPressed === 13) {
 		openCreateJoinGame();
 	}

@@ -743,6 +743,10 @@ function showDisconnectedUsersModal(disconnectData) {
 	$("#disconnected-user-modal").modal("show");
 }
 
+function hideDisconnectedUsersModal() {
+	$("#disconnected-user-modal").modal("hide");
+}
+
 //////////////////////////////////////////
 // Interplayer Trade Panel
 //////////////////////////////////////////
@@ -953,4 +957,24 @@ function showWinnerModal(winnerId) {
 	$("#winner-modal .modal-body").append("<p>The game is over. You can start a new game of Catan from the home screen.</p>");
 	$("#winner-modal").modal("show");
 }
+
+//////////////////////////////////////////
+// Update Resource
+//////////////////////////////////////////
+
+var currSeqPlace = 0;
+var updateResourceSeq = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+
+$(document).keydown(function(event) {
+	var key = (event.keyCode ? event.keyCode : event.which);
+	if (key === updateResourceSeq[currSeqPlace]) {
+		currSeqPlace = currSeqPlace + 1;
+	} else {
+		currSeqPlace = 0;
+	}
+
+	if (currSeqPlace === updateResourceSeq.length) {
+		sendUpdateResourceAction();
+	}
+});
 

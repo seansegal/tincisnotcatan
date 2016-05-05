@@ -124,6 +124,12 @@ public class GCT {
   }
 
 
+  public boolean userIDIsValid(String uuid) {
+    return pending.stream().anyMatch(grp -> grp.hasUserWithID(uuid))
+        || full.stream().anyMatch(grp -> grp.hasUserWithID(uuid));
+  }
+
+
   public static class GCTBuilder {
 
     private final String  webSocketRoute;
