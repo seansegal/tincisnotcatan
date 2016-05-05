@@ -25,6 +25,11 @@ public class BuyDevelopmentCard implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
+    if (!_referee.currentPlayer().equals(_player)) {
+      ActionResponse resp = new ActionResponse(false,
+          "You cannot build when it is not your turn.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
     if (!_player.canBuyDevelopmentCard()) {
       ActionResponse resp = new ActionResponse(false,
           "You cannot afford a Development Card.", null);

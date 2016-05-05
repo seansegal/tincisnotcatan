@@ -36,7 +36,11 @@ public class BuildSettlement implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    // Validation, TODO: add turn validation
+    if (!_ref.currentPlayer().equals(_player)) {
+      ActionResponse resp = new ActionResponse(false,
+          "You cannot build when it is not your turn.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
     if (_player.numSettlements() <= 0) {
       ActionResponse resp = new ActionResponse(false,
           "You do not have any more settlements.", null);
