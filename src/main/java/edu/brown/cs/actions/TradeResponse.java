@@ -38,6 +38,7 @@ public class TradeResponse implements FollowUpAction {
       throw new IllegalArgumentException();
     }
     Map<Integer, ActionResponse> toRet = new HashMap<>();
+
     // On cancel
     if(!_acceptedTrade) {
       for (Player p : _ref.getPlayers()) {
@@ -57,30 +58,40 @@ public class TradeResponse implements FollowUpAction {
       return toRet;
     }
 
+    if (!_trade.getAcceptedTrade().contains(_tradee.getID())) {
+      String message = String
+          .format(
+              "%s did not accept the trade. You cannot trade with them until they accept.",
+              _tradee.getName());
+      ActionResponse toAdd = new ActionResponse(false, message, null);
+      toRet.put(_player.getID(), toAdd);
+      return toRet;
+    }
+
     // On accept
     for (Resource res : _resources.keySet()) {
       if (_resources.get(res) < 0
           && _player.getResources().get(res) < Math.abs(_resources.get(res))) {
-        ActionResponse toAdd = new ActionResponse(false, String.format(
-            "You does not have enough %s to trade.", res), _resources);
+        ActionResponse toAdd = new ActionResponse(false,
+            "You do not have the proper resources to trade.", _resources);
         toRet.put(_player.getID(), toAdd);
         ActionResponse otherResponse = new ActionResponse(false, String.format(
-            "%s does not have enough %s to trade.", _player.getID(), res),
+            "%s does not have the proper resources to trade.",
+            _player.getName()),
             _resources);
         toRet.put(_tradee.getID(), otherResponse);
-        _ref.removeFollowUp(this);
         return toRet;
       }
       if (_resources.get(res) > 0
           && _tradee.getResources().get(res) < _resources.get(res)) {
-        ActionResponse toAdd = new ActionResponse(false, String.format(
-            "You does not have enough %s to trade.", res), _resources);
+        ActionResponse toAdd = new ActionResponse(false,
+            "You do not have the proper resources to trade.", _resources);
         toRet.put(_tradee.getID(), toAdd);
         ActionResponse otherResponse = new ActionResponse(false, String.format(
-            "%s does not have enough %s to trade.", _tradee.getID(), res),
+            "%s does not have the proper resources to trade.", _tradee.getID(),
+            res),
             _resources);
         toRet.put(_player.getID(), otherResponse);
-        _ref.removeFollowUp(this);
         return toRet;
       }
     }
@@ -89,12 +100,24 @@ public class TradeResponse implements FollowUpAction {
       _player.addResource(res, _resources.get(res), _ref.getBank());
       _tradee.removeResource(res, _resources.get(res), _ref.getBank());
     }
-    ActionResponse toAdd = new ActionResponse(true, String.format(
-        "You traded with %s.", _player.getName()), _resources);
-    toRet.put(_tradee.getID(), toAdd);
-    ActionResponse otherResponse = new ActionResponse(true, String.format(
-        "You traded with %s.", _tradee.getName()), _resources);
-    toRet.put(_player.getID(), otherResponse);
+    for (Player p : _ref.getPlayers()) {
+      if (p.equals(_player)) {
+        ActionResponse otherResponse = new ActionResponse(true, String.format(
+            "You traded with %s", _tradee.getName()), _resources);
+        toRet.put(_player.getID(), otherResponse);
+      } else if (p.equals(_tradee)) {
+        _ref.removeFollowUp(new ReviewTrade(p.getID(), _resources, _trade));
+        ActionResponse toAdd = new ActionResponse(true, String.format(
+            "You traded with %s", _player.getName()), _resources);
+        toRet.put(_tradee.getID(), toAdd);
+      } else {
+        _ref.removeFollowUp(new ReviewTrade(p.getID(), _resources, _trade));
+        ActionResponse otherResponse = new ActionResponse(true, String.format(
+            "%s traded with %s", _player.getName(), _tradee.getName()),
+            _resources);
+      }
+    }
+
     _ref.removeFollowUp(this);
     return toRet;
   }

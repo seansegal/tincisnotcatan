@@ -83,10 +83,7 @@ public class MasterReferee implements Referee {
   public void startNextTurn() {
     Player nextPlayer = _players.get(_turnOrder.get((_turn.getTurnNum())
         % _gameSettings.NUM_PLAYERS));
-    if(nextPlayer != null){
-      System.out.println("STARTING TURN FOR: " + nextPlayer.getID());
-    }
-//    System.out.println(nextPlayer.getID());
+
     if (_gameStatus == GameStatus.PROGRESS) {
       _turn = new Turn(_turn.getTurnNum() + 1, nextPlayer.getDevCards());
     } else {
@@ -100,8 +97,12 @@ public class MasterReferee implements Referee {
     if (_players.size() != _gameSettings.NUM_PLAYERS) {
       return null;
     }
-    return _players.get(_turnOrder.get((_turn.getTurnNum() - 1)
-        % _gameSettings.NUM_PLAYERS));
+    if (_gameStatus == GameStatus.PROGRESS) {
+      return _players.get(_turnOrder.get((_turn.getTurnNum() - 1)
+          % _gameSettings.NUM_PLAYERS));
+    } else {
+      return getPlayerByID(_setup.getCurrentPlayerID());
+    }
   }
 
   @Override
