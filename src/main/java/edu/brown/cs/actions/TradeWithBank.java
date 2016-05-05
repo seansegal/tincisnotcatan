@@ -45,10 +45,9 @@ public class TradeWithBank implements Action {
     }
 
     // Action:
-    _player.removeResource(_toGive, rate);
-    _player.addResource(_toGet);
-    _ref.getBank().discardResource(_toGive, rate);
-    _ref.getBank().getResource(_toGet);
+    _player.removeResource(_toGive, rate, _ref.getBank());
+    _player.addResource(_toGet, 1, _ref.getBank());
+
 
     // Format responses:
     String messageToPlayer = String.format(

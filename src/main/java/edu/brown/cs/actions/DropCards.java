@@ -52,7 +52,7 @@ public class DropCards implements FollowUpAction {
 
     // Action:
     for (Map.Entry<Resource, Double> res : _toDrop.entrySet()) {
-      _player.removeResource(res.getKey(), res.getValue());
+      _player.removeResource(res.getKey(), res.getValue(), _ref.getBank());
     }
     _ref.removeFollowUp(this);
 

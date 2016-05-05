@@ -54,8 +54,8 @@ public class PlayYearOfPlenty implements Action {
       return toRet;
     }
 
-    _player.addResource(_firstRes);
-    _player.addResource(_secondRes);
+    _player.addResource(_firstRes, 1, _ref.getBank());
+    _player.addResource(_secondRes,1, _ref.getBank());
     // Update Bank stats
     _bank.getResource(_firstRes);
     _bank.getResource(_secondRes);

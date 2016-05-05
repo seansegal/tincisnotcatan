@@ -61,9 +61,7 @@ public class HumanPlayer implements Player {
   public void buildRoad() {
     // Pay for the road:
     for (Map.Entry<Resource, Double> price : Settings.ROAD_COST.entrySet()) {
-      double result = resources.get(price.getKey()) - price.getValue();
-      assert result >= 0;
-      resources.put(price.getKey(), result);
+      removeResource(price.getKey(), price.getValue());
     }
   }
 
@@ -87,9 +85,7 @@ public class HumanPlayer implements Player {
     // Pay for the settlement:
     for (Map.Entry<Resource, Double> price : Settings.SETTLEMENT_COST
         .entrySet()) {
-      double result = resources.get(price.getKey()) - price.getValue();
-      assert result >= 0;
-      resources.put(price.getKey(), result);
+      removeResource(price.getKey(), price.getValue());
     }
   }
 
@@ -113,9 +109,7 @@ public class HumanPlayer implements Player {
   public void buildCity() {
     if (canBuildCity()) {
       for (Map.Entry<Resource, Double> price : Settings.CITY_COST.entrySet()) {
-        double result = resources.get(price.getKey()) - price.getValue();
-        assert result >= 0;
-        resources.put(price.getKey(), result);
+        removeResource(price.getKey(), price.getValue());
       }
     }
   }
@@ -151,9 +145,7 @@ public class HumanPlayer implements Player {
   public void buyDevelopmentCard() {
     if (canBuyDevelopmentCard()) {
       for (Map.Entry<Resource, Double> price : Settings.DEV_COST.entrySet()) {
-        double result = resources.get(price.getKey()) - price.getValue();
-        assert result >= 0;
-        resources.put(price.getKey(), result);
+        removeResource(price.getKey(), price.getValue());
       }
     }
   }

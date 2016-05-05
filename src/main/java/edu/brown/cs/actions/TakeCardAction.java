@@ -72,8 +72,8 @@ public class TakeCardAction implements Action, FollowUpAction {
     // Action:
     Collections.shuffle(takeableCards);
     Resource resToTake = takeableCards.get(0);
-    player.addResource(resToTake);
-    playerToTakeFrom.removeResource(resToTake);
+    player.addResource(resToTake, 1, _ref.getBank());
+    playerToTakeFrom.removeResource(resToTake, 1, _ref.getBank());
     _ref.removeFollowUp(this);
 
     // Format responses:

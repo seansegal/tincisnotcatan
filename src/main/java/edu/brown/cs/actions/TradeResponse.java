@@ -86,8 +86,8 @@ public class TradeResponse implements FollowUpAction {
     }
 
     for (Resource res : _resources.keySet()) {
-      _player.addResource(res, _resources.get(res));
-      _tradee.removeResource(res, _resources.get(res));
+      _player.addResource(res, _resources.get(res), _ref.getBank());
+      _tradee.removeResource(res, _resources.get(res), _ref.getBank());
     }
     ActionResponse toAdd = new ActionResponse(true, String.format(
         "You traded with %s.", _player.getName()), _resources);

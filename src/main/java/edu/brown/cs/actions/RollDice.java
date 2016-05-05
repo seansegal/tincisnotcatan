@@ -88,9 +88,7 @@ public class RollDice implements FollowUpAction {
               }
               // Make sure the player collects the resource
               _ref.getPlayerByID(playerID).addResource(res,
-                  resourceCount.get(res));
-              // Update Bank stats
-              _bank.getResource(res, resourceCount.get(res));
+                  resourceCount.get(res), _ref.getBank());
             }
           }
         }
