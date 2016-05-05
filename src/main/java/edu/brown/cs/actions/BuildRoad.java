@@ -11,6 +11,7 @@ import edu.brown.cs.board.Path;
 import edu.brown.cs.board.PathCoordinate;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Referee.GameStatus;
 
 public class BuildRoad implements Action {
 
@@ -48,7 +49,8 @@ public class BuildRoad implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    if (!_ref.currentPlayer().equals(_player)) {
+    if (_ref.getGameStatus() == GameStatus.PROGRESS
+        && !_ref.currentPlayer().equals(_player)) {
       ActionResponse resp = new ActionResponse(false,
           "You cannot build when it is not your turn.", null);
       return ImmutableMap.of(_player.getID(), resp);
