@@ -9,6 +9,7 @@ import edu.brown.cs.board.Intersection;
 import edu.brown.cs.board.IntersectionCoordinate;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Referee.GameStatus;
 
 public class BuildCity implements Action {
 
@@ -33,7 +34,12 @@ public class BuildCity implements Action {
 
   @Override
   public Map<Integer, ActionResponse> execute() {
-    // Validation:
+    if (_ref.getGameStatus() == GameStatus.PROGRESS
+        && !_ref.currentPlayer().equals(_player)) {
+      ActionResponse resp = new ActionResponse(false,
+          "You cannot build when it is not your turn.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
     if (!_player.canBuildCity()) {
       ActionResponse resp = new ActionResponse(false,
           "You cannot afford to buy a City.", null);
