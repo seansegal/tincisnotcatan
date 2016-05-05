@@ -5,7 +5,6 @@ body {
 }
 
 #board-viewport {
-	/*background-color: #DDDDDD;*/
 	height: 100vh;
 	width: 100vw;
 	position: absolute;
@@ -23,10 +22,6 @@ body {
 
 #end-turn-btn {
 	margin-left: 15px;
-}
-
-#leave-game-btn {
-	margin-top: 15px;
 }
 
 .pointer {
@@ -337,6 +332,11 @@ body {
 
 #bank-trade-btn {
 	margin-top: 5px;
+}
+
+/* Options Tab */
+#exit-game-toggle-btn {
+	margin-top: 15px;
 }
 
 /* Board */

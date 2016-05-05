@@ -304,7 +304,7 @@
 		    	</div>
 		    </div>
 		    <div role="tabpanel" class="tab-pane right-tab-pane container" id="options-tab">
-				<input type="button" class="btn btn-danger" id="leave-game-btn" value="Leave Game">
+				<input type="button" id="exit-game-toggle-btn" class="btn btn-danger" value="Leave Game" data-toggle="modal" data-target="#exit-game-modal">
 		    </div>
 	    </div>
   	</div>
@@ -755,6 +755,21 @@
       		<div class="modal-body"></div>
       		<div class="modal-footer">
         		<button type="button" id="return-home-btn" class="btn btn-success" data-dismiss="modal">Return Home</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="exit-game-modal" tabindex="-1" role="dialog" aria-labelledby="exitGameLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="exitGameLabel">Exit Game</h4>
+      		</div>
+      		<div class="modal-body">Would you like to exit the game? You will be returned to the game select screen.</div>
+      		<div class="modal-footer">
+      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        		<button type="button" id="leave-game-btn" class="btn btn-danger" data-dismiss="modal">Exit Game</button>
       		</div>
     	</div>
 	</div>
