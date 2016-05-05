@@ -72,7 +72,7 @@ public class PlayKnight implements Action {
       }
     }
     if (_isTurnStart) {
-      //Follow up with MoveRobber and RollDice
+      // Follow up with MoveRobber and RollDice
       _ref.addFollowUp(ImmutableList.of(new MoveRobber(_player.getID(), true)));
     } else {
       // Follow up MoveRobber action:

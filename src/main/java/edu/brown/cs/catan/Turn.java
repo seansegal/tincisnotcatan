@@ -2,6 +2,8 @@ package edu.brown.cs.catan;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public class Turn {
     _devHasBeenPlayed = false;
     _turnNum = turnNum;
     _followUps = new ArrayList<>();
-    _initialDevCardHand = initialDevCardHand;
+    _initialDevCardHand = new HashMap<>(initialDevCardHand);
   }
 
   private Turn(Turn turn) {
@@ -28,8 +30,7 @@ public class Turn {
     _devHasBeenPlayed = turn.devHasBeenPlayed();
     _turnNum = turn.getTurnNum();
     _followUps = turn.getAllFollowUps();
-    _initialDevCardHand = turn._initialDevCardHand;
-
+    _initialDevCardHand = new HashMap<>(turn.getInitialDevCards());
   }
 
   private List<Collection<FollowUpAction>> getAllFollowUps() {
@@ -42,6 +43,10 @@ public class Turn {
 
   public boolean waitingForFollowUp() {
     return !_followUps.isEmpty();
+  }
+
+  private  Map<DevelopmentCard, Integer> getInitialDevCards(){
+    return Collections.unmodifiableMap(_initialDevCardHand);
   }
 
   void addFollowUp(Collection<FollowUpAction> actions) {

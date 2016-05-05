@@ -81,8 +81,12 @@ public class MasterReferee implements Referee {
 
   @Override
   public void startNextTurn() {
-    Player nextPlayer = _players.get(_turnOrder.get((_turn.getTurnNum() + 1)
+    Player nextPlayer = _players.get(_turnOrder.get((_turn.getTurnNum())
         % _gameSettings.NUM_PLAYERS));
+    if(nextPlayer != null){
+      System.out.println("STARTING TURN FOR: " + nextPlayer.getID());
+    }
+//    System.out.println(nextPlayer.getID());
     if (_gameStatus == GameStatus.PROGRESS) {
       _turn = new Turn(_turn.getTurnNum() + 1, nextPlayer.getDevCards());
     } else {
