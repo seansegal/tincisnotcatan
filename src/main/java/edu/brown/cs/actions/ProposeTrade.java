@@ -26,9 +26,6 @@ public class ProposeTrade implements Action{
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
     }
-    if (!ref.currentPlayer().equals(_player)) {
-      throw new IllegalArgumentException();
-    }
     JsonObject trade = params.get("trade").getAsJsonObject();
     Map<Resource, Double> resources = new HashMap<Resource, Double>();
     for (Resource res : Resource.values()) {
@@ -46,6 +43,14 @@ public class ProposeTrade implements Action{
     Collection<FollowUpAction> toDoNext = new ArrayList<FollowUpAction>();
     boolean containsNeg = false;
     boolean containsPos = false;
+    if (!_ref.currentPlayer().equals(_player)) {
+      ActionResponse toAdd = new ActionResponse(
+          false,
+          "You can only trade on your turn.",
+          _resources);
+      toRet.put(_player.getID(), toAdd);
+      return toRet;
+    }
     for(double d : _resources.values()) {
       if(d > 0) {
         containsPos = true;
