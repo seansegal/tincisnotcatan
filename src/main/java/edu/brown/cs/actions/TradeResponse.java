@@ -93,7 +93,7 @@ public class TradeResponse implements FollowUpAction {
         "You traded with %s.", _player.getName()), _resources);
     toRet.put(_tradee.getID(), toAdd);
     ActionResponse otherResponse = new ActionResponse(true, String.format(
-        "You traded with %s.", _tradee.getID()), _resources);
+        "You traded with %s.", _tradee.getName()), _resources);
     toRet.put(_player.getID(), otherResponse);
     _ref.removeFollowUp(this);
     return toRet;
