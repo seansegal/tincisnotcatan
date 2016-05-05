@@ -8,16 +8,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.JsonObject;
+
 import edu.brown.cs.catan.Referee;
 
-public class StartGameSetup implements Action {
+public class StartGameSetup implements FollowUpAction {
 
   private Referee _ref;
+  private int _playerID;
   public static final String ID = "startSetup";
+  private static final String VERB = "start the game";
 
-  public StartGameSetup(Referee ref) {
-    assert ref != null;
-    _ref = ref;
+  public StartGameSetup(int playerID) {
+    _playerID = playerID;
   }
 
   @Override
@@ -45,29 +48,6 @@ public class StartGameSetup implements Action {
       i++;
     }
 
-    // List<Integer> turnOrder = new ArrayList<>(_ref.getTurnOrder());
-    // for (int id : turnOrder) {
-    // Collection<FollowUpAction> followUp = new ArrayList<>();
-    // followUp.add(new PlaceInitialSettlement(id, 1));
-    // _ref.addFollowUp(followUp);
-    // followUp = new ArrayList<>();
-    // followUp.add(new PlaceRoad(id, false));
-    // _ref.addFollowUp(followUp);
-    // }
-    // Collections.reverse(turnOrder);
-    // for (int id : turnOrder) {
-    // Collection<FollowUpAction> followUp = new ArrayList<>();
-    // followUp.add(new PlaceInitialSettlement(id, 2));
-    // _ref.addFollowUp(followUp);
-    // followUp = new ArrayList<>();
-    // if(id == turnOrder.get(turnOrder.size() -1)){
-    // followUp.add(new PlaceRoad(id, true));
-    // }else{
-    // followUp.add(new PlaceRoad(id, false));
-    // }
-    // _ref.addFollowUp(followUp);
-    // }
-
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
     _ref.getPlayers().forEach(
         (player) -> {
@@ -75,6 +55,36 @@ public class StartGameSetup implements Action {
               "Let the games begin!", null));
         });
     return toReturn;
+  }
+
+  @Override
+  public void setupAction(Referee ref, int playerID, JsonObject params) {
+    _ref = ref;
+    if(_playerID != playerID){
+      throw new IllegalArgumentException("Wrong player initiating the action.");
+    }
+  }
+
+  @Override
+  public JsonObject getData() {
+    JsonObject json = new JsonObject();
+    json.addProperty("message", "Start the game!");
+    return json;
+  }
+
+  @Override
+  public String getID() {
+    return ID;
+  }
+
+  @Override
+  public int getPlayerID() {
+    return _playerID;
+  }
+
+  @Override
+  public String getVerb() {
+    return VERB;
   }
 
 }
