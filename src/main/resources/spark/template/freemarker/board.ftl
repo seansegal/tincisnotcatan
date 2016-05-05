@@ -184,19 +184,6 @@
 		    				</div>
 		    			</div>
 		    			<div class="row trade-row">
-		    				<div class="col-xs-4 text-right">
-		    					<div class="circle trade-circle wildcard-circle">
-									<img src="images/icon-wildcard.svg" alt="Anything">
-								</div>
-		    				</div>
-		    				<div class="col-xs-4 text-center">
-		    					<input type="number" class="form-control interplayer-trade-input" res="wildcard">
-		    				</div>
-		    				<div class="col-xs-4 text-left">
-		    					<h5> </h5>
-		    				</div>
-		    			</div>
-		    			<div class="row trade-row">
 		    				<div class="col-xs-12 text-center">
 		    					<input type="button" id="propose-interplayer-trade-btn" class="btn btn-primary" value="Propose Trade" disabled="disabled">
 		    				</div>

@@ -742,6 +742,9 @@ var currentTrade = {brick: 0, wood: 0, ore: 0, wheat: 0, sheep: 0};
 function clearInterplayerTrades() {
 	// Clear currently displayed trade
 	$(".interplayer-trade-input").val("");
+	$(".to-give-list-item").addClass("hidden");
+	$(".to-get-list-item").addClass("hidden");
+	$(".trade-number").text("");
 
 	currentTrade = {brick: 0, wood: 0, ore: 0, wheat: 0, sheep: 0};
 
