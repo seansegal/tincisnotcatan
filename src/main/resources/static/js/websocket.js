@@ -344,7 +344,11 @@ id("message").addEventListener("keypress", function (e) {
 });
 
 function handleDisconnectedUsers(disconnectData) {
-    showDisconnectedUsersModal(disconnectData);
+    if (disconnectData.users.length === 0) {
+        hideDisconnectedUsersModal();
+    } else {
+        showDisconnectedUsersModal(disconnectData);
+    }
 }
 
 

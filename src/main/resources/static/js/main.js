@@ -743,6 +743,10 @@ function showDisconnectedUsersModal(disconnectData) {
 	$("#disconnected-user-modal").modal("show");
 }
 
+function hideDisconnectedUsersModal() {
+	$("#disconnected-user-modal").modal("hide");
+}
+
 //////////////////////////////////////////
 // Interplayer Trade Panel
 //////////////////////////////////////////
