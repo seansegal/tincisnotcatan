@@ -39,4 +39,6 @@ public interface Group {
 
   boolean afkTick();
 
+  boolean hasUserWithID(String uuid);
+
 }

@@ -171,6 +171,18 @@ public class UserGroup implements Timestamped, Group {
   }
 
 
+  public boolean hasUserWithID(String uuid) {
+    long count = users.stream()
+        .filter(u -> u.hasField("USER_ID") && u.getField("USER_ID")
+            .equals(uuid))
+        .count();
+    if(count > 0) {
+      System.out.println("User group " + this.identifier() + " has user " + uuid);
+    }
+    return count > 0;
+  }
+
+
   public static class UserGroupBuilder {
 
     private Collection<RequestProcessor> reqs;
@@ -265,7 +277,7 @@ public class UserGroup implements Timestamped, Group {
   public void userReconnected(User u) {
     System.out.println("RECONNECTED " + u);
     afk.remove(u);
-    if(this.allUsersConnectedWithMessage()) {
+    if (this.allUsersConnectedWithMessage()) {
       System.out.println("SENDING READY TO GO MESSAGE");
       JsonObject readyToGo = new JsonObject();
       readyToGo.addProperty("requestType", "disconnectedUsers");
