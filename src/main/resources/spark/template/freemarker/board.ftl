@@ -5,7 +5,8 @@
 <div class="row above-board">
 	<div class="col-xs-3">
 		<div id="turn-display-container"></div>
-		<input type="button" class="btn btn-primary" id="end-turn-btn" value="End Turn">
+		<input type="button" class="btn btn-primary" id="end-turn-btn" value="End Turn"><br>
+		<input type="button" class="btn btn-danger" id="leave-game-btn" value="Leave Game">
 		<div id="chat-container">
 		    <div id="chat"></div>
 			<div id="chatControls">
