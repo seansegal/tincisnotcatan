@@ -53,6 +53,7 @@ public class TradeResponse implements FollowUpAction {
           toRet.put(p.getID(), toAdd);
         }
       }
+      _ref.removeFollowUp(this);
       return toRet;
     }
 
@@ -67,6 +68,7 @@ public class TradeResponse implements FollowUpAction {
             "%s does not have enough %s to trade.", _player.getID(), res),
             _resources);
         toRet.put(_tradee.getID(), otherResponse);
+        _ref.removeFollowUp(this);
         return toRet;
       }
       if (_resources.get(res) > 0
@@ -78,6 +80,7 @@ public class TradeResponse implements FollowUpAction {
             "%s does not have enough %s to trade.", _tradee.getID(), res),
             _resources);
         toRet.put(_player.getID(), otherResponse);
+        _ref.removeFollowUp(this);
         return toRet;
       }
     }
@@ -92,7 +95,7 @@ public class TradeResponse implements FollowUpAction {
     ActionResponse otherResponse = new ActionResponse(true, String.format(
         "You traded with %s.", _tradee.getID()), _resources);
     toRet.put(_player.getID(), otherResponse);
-
+    _ref.removeFollowUp(this);
     return toRet;
   }
 
