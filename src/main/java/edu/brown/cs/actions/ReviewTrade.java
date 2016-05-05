@@ -37,8 +37,6 @@ public class ReviewTrade implements FollowUpAction {
       throw new IllegalArgumentException();
     }
     Map<Integer, ActionResponse> toRet = new HashMap<>();
-    String message = "";
-    String mForTrader = "";
     if (_acceptedTrade) {
       for (Resource res : _resources.keySet()) {
         if (_resources.get(res) < 0
@@ -50,18 +48,38 @@ public class ReviewTrade implements FollowUpAction {
           return toRet;
         }
       }
-      message = "You accepted the trade";
-      _trade.acceptedTrade(_player.getID());
-      mForTrader = String.format("%s accepted the trade.", _player.getName());
+      for (Player p : _ref.getPlayers()) {
+        if (!p.equals(_player)) {
+          String message = String.format("%s accepted the trade.",
+              _player.getName());
+          ActionResponse forTrader = new ActionResponse(true, message, null);
+          toRet.put(_trade.getTrader(), forTrader);
+        } else {
+          String message = "You accepted the trade";
+          _trade.acceptedTrade(_player.getID());
+          ActionResponse toAdd = new ActionResponse(true, message,
+              _acceptedTrade);
+          toRet.put(_player.getID(), toAdd);
+
+        }
+      }
     } else {
-      message = "You declined the trade";
-      _trade.declinedTrade(_player.getID());
-      mForTrader = String.format("%s declined the trade.", _player.getName());
+      for (Player p : _ref.getPlayers()) {
+        if (!p.equals(_player)) {
+          String message = String.format("%s declined the trade.",
+              _player.getName());
+          ActionResponse forTrader = new ActionResponse(true, message, null);
+          toRet.put(_trade.getTrader(), forTrader);
+        } else {
+          String message = "You declined the trade";
+          _trade.declinedTrade(_player.getID());
+          ActionResponse toAdd = new ActionResponse(true, message,
+              _acceptedTrade);
+          toRet.put(_player.getID(), toAdd);
+        }
+      }
     }
-    ActionResponse toAdd = new ActionResponse(true, message, _acceptedTrade);
-    toRet.put(_player.getID(), toAdd);
-    ActionResponse forTrader = new ActionResponse(true, mForTrader, null);
-    toRet.put(_trade.getTrader(), forTrader);
+
     _ref.removeFollowUp(this);
     return toRet;
   }

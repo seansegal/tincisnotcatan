@@ -76,7 +76,8 @@ public class TradeResponse implements FollowUpAction {
             "You do not have the proper resources to trade.", _resources);
         toRet.put(_player.getID(), toAdd);
         ActionResponse otherResponse = new ActionResponse(false, String.format(
-            "%s does not have the proper resources to trade.", _player.getID()),
+            "%s does not have the proper resources to trade.",
+            _player.getName()),
             _resources);
         toRet.put(_tradee.getID(), otherResponse);
         return toRet;
