@@ -826,6 +826,11 @@ $("#propose-interplayer-trade-btn").click(function(event) {
 
 function showReviewTradeModal(tradeData) {
 	var resources = tradeData._resources;
+
+
+	// Clear previously shown resources
+	$("#review-to-give-container [res]").addClass("hidden");
+	$("#review-to-get-container [res]").addClass("hidden");
 	
 	// Add resources in trade to review modal
 	for (var res in resources) {
@@ -863,6 +868,10 @@ function showTradeResponseModal(tradeData) {
 	var resources = tradeData._resources;
 	var accepted = tradeData._acceptedTrade;
 	var declined = tradeData._declinedTrade;
+
+	// Clear previously shown resources
+	$("#trade-responses-to-give-container [res]").addClass("hidden");
+	$("#trade-responses-to-get-container [res]").addClass("hidden");
 
 	// Add resources in trade to trade responses modal
 	for (var res in resources) {
@@ -910,18 +919,12 @@ function showTradeResponseModal(tradeData) {
 		$("#trade-responses-modal").modal("hide");
 	});
 
-	console.log("showing");
-	console.log($(".modal-backdrop"));
 	$("#trade-responses-modal").modal("show");
-	console.log($(".modal-backdrop"));
 }
 
 $("#trade-responses-cancel-trade-btn").click(function(event) {
 	sendTradeResponseAction(false, playerId, 0);
-	console.log("hiding");
-	console.log($(".modal-backdrop"));
 	$("#trade-responses-modal").modal("hide");
-	console.log($(".modal-backdrop"));
 });
 
 //////////////////////////////////////////
