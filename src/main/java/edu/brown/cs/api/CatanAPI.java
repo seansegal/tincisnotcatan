@@ -84,10 +84,6 @@ public class CatanAPI implements API {
       try {
         Map<Integer, ActionResponse> responses = _actionFactory.createAction(
             action).execute();
-        for (Map.Entry<Integer, ActionResponse> response : responses.entrySet()) {
-          response.getValue().addFollowUp(
-              _referee.getNextFollowUp(response.getKey()));
-        }
         return _converter.responseToJSON(responses);
       } catch (IllegalArgumentException e) {
         e.printStackTrace();
@@ -111,10 +107,6 @@ public class CatanAPI implements API {
       try {
         Map<Integer, ActionResponse> responses = _actionFactory.createAction(
             action).execute();
-        for (Map.Entry<Integer, ActionResponse> response : responses.entrySet()) {
-          response.getValue().addFollowUp(
-              _referee.getNextFollowUp(response.getKey()));
-        }
         return _converter.responseToJSON(responses);
       } catch (IllegalArgumentException e) {
         System.out
