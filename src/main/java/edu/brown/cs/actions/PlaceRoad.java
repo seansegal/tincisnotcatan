@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
+import edu.brown.cs.board.Path;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Referee.GameStatus;
@@ -41,6 +43,20 @@ public class PlaceRoad implements FollowUpAction {
     // Build the road
     new BuildRoad(_ref, _playerID, _start, _end, false).execute();
     _ref.removeFollowUp(this);
+
+    boolean canPlace = false;
+    for (Path p : _ref.getBoard().getPaths().values()) {
+      if (p.canPlaceRoad(_ref.getPlayerByID(_playerID))) {
+        canPlace = true;
+        break;
+      }
+    }
+
+    if (!canPlace && _ref.getNextFollowUp(_playerID) != null) {
+      _ref.removeFollowUp(new PlaceRoad(_playerID, false));
+      return ImmutableMap.of(_playerID, new ActionResponse(false,
+          "There is nowhere for you to build a second road", null));
+    }
 
     // Format responses:
     String messageToAll = String.format("%s placed a road.", _ref
@@ -109,4 +125,27 @@ public class PlaceRoad implements FollowUpAction {
   public String getVerb() {
     return VERB;
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + _playerID;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    PlaceRoad other = (PlaceRoad) obj;
+    if (_playerID != other._playerID)
+      return false;
+    return true;
+  }
+
 }
