@@ -39,16 +39,6 @@ public class TradeResponse implements FollowUpAction {
     }
     Map<Integer, ActionResponse> toRet = new HashMap<>();
 
-    if (!_trade.getAcceptedTrade().contains(_tradee.getID())) {
-      String message = String
-          .format(
-              "%s did not accept the trade. You cannot trade with them until they accept.",
-              _tradee.getName());
-      ActionResponse toAdd = new ActionResponse(false, message, null);
-      toRet.put(_player.getID(), toAdd);
-      return toRet;
-    }
-
     // On cancel
     if(!_acceptedTrade) {
       for (Player p : _ref.getPlayers()) {
@@ -68,6 +58,16 @@ public class TradeResponse implements FollowUpAction {
       return toRet;
     }
 
+    if (!_trade.getAcceptedTrade().contains(_tradee.getID())) {
+      String message = String
+          .format(
+              "%s did not accept the trade. You cannot trade with them until they accept.",
+              _tradee.getName());
+      ActionResponse toAdd = new ActionResponse(false, message, null);
+      toRet.put(_player.getID(), toAdd);
+      return toRet;
+    }
+
     // On accept
     for (Resource res : _resources.keySet()) {
       if (_resources.get(res) < 0
@@ -84,11 +84,12 @@ public class TradeResponse implements FollowUpAction {
       }
       if (_resources.get(res) > 0
           && _tradee.getResources().get(res) < _resources.get(res)) {
-        ActionResponse toAdd = new ActionResponse(false, String.format(
-            "You does not have enough %s to trade.", res), _resources);
+        ActionResponse toAdd = new ActionResponse(false,
+            "You do not have the proper resources to trade.", _resources);
         toRet.put(_tradee.getID(), toAdd);
         ActionResponse otherResponse = new ActionResponse(false, String.format(
-            "%s does not have enough %s to trade.", _tradee.getID(), res),
+            "%s does not have the proper resources to trade.", _tradee.getID(),
+            res),
             _resources);
         toRet.put(_player.getID(), otherResponse);
         return toRet;

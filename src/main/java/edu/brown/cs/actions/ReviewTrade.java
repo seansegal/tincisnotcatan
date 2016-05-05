@@ -39,12 +39,23 @@ public class ReviewTrade implements FollowUpAction {
     Map<Integer, ActionResponse> toRet = new HashMap<>();
     if (_acceptedTrade) {
       for (Resource res : _resources.keySet()) {
-        if (_resources.get(res) < 0
-            && _player.getResources().get(res) < Math.abs(_resources.get(res))) {
-          ActionResponse otherResponse = new ActionResponse(false,
+        if (_resources.get(res) > 0
+            && _player.getResources().get(res) < _resources.get(res)) {
+          ActionResponse otherResponse = new ActionResponse(true,
               "You do not have the proper resources to trade.",
               _resources);
+          _trade.declinedTrade(_player.getID());
           toRet.put(_player.getID(), otherResponse);
+          for (Player p : _ref.getPlayers()) {
+            if (!p.equals(_player)) {
+              String message = String.format("%s declined the trade",
+                  _player.getName());
+              ActionResponse toAdd = new ActionResponse(true, message,
+                  _acceptedTrade);
+              toRet.put(p.getID(), toAdd);
+            }
+          }
+          _ref.removeFollowUp(this);
           return toRet;
         }
       }
