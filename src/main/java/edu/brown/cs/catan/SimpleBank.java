@@ -23,7 +23,7 @@ public class SimpleBank implements Bank {
   @Override
   public void discardResource(Resource resource) {
     double newVal = _supply.get(resource) - 1.0;
-    assert newVal >= 0;
+//    assert newVal >= 0;
     _supply.put(resource, newVal);
   }
 
@@ -46,7 +46,7 @@ public class SimpleBank implements Bank {
   @Override
   public void discardResource(Resource resource, double count) {
     double newVal = _supply.get(resource) - count;
-    assert newVal >= 0;
+//    assert newVal >= 0;
     _supply.put(resource, newVal);
   }
 }
