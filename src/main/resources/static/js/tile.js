@@ -34,6 +34,7 @@ function Tile(coordinates, tileType, number, hasRobber, port) {
 	this.number = number;
 	this.numDots = 6 - Math.abs(this.number - 7);
 	this.hasRobber = hasRobber;
+	this.highlighted = false;
 
 	this.port = port;
 	this.portLocations = [];
@@ -199,26 +200,34 @@ Tile.prototype.draw = function(transX, transY, scale) {
 		numberCircle.css("border", "solid 1px black");
 		numberCircle.addClass(type + "-color");
 	}
-
-	// Highlight if in move robber mode
-	numberCircle.off("click");
-
-	if (moveRobberMode && this.isRobbable()) {
-		numberCircle.addClass("number-circle-highlighted");
-		var that = this;
-		numberCircle.off("click");
-		numberCircle.click(function(event) {
-			moveRobberMode = false;
-			sendMoveRobberAction(that.coordinates);
-			board.draw();
-		});
-	} else {
-		numberCircle.removeClass("number-circle-highlighted");
-	}
 }
 
 Tile.prototype.isRobbable = function() {
 	return !(this.tileType === TILE_TYPE.SEA || this.hasRobber); 
+}
+
+Tile.prototype.highlight = function() {
+	// Highlight circle
+	var numberCircle = $("#" + this.id + "-wrapper .number-circle");
+	numberCircle.addClass("number-circle-highlighted");
+	this.highlighted = true;
+
+	// Add robber click handler
+	var that = this;
+	numberCircle.off("click");
+	numberCircle.click(function(event) {
+		moveRobberMode = false;
+		sendMoveRobberAction(that.coordinates);
+		exitPlaceRobberMode();
+	});
+}
+
+Tile.prototype.unHighlight = function() {
+	if (this.highlighted) {
+		var numberCircle = $("#" + this.id + "-wrapper .number-circle");
+		numberCircle.removeClass("number-circle-highlighted");
+		numberCircle.off("click");
+	}
 }
 
 function parseTile(tileData) {

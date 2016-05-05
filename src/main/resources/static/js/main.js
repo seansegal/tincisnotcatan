@@ -494,10 +494,20 @@ $("#discard-modal").on("hide.bs.modal", function() {
 // Moving the Robber
 //////////////////////////////////////////
 
-var moveRobberMode = false;
-
 function highlightRobbableTiles() {
-	moveRobberMode = true;
+	for (var i = 0; i < board.tiles.length; i++) {
+		if (board.tiles[i].isRobbable) {
+			board.tiles[i].highlight();
+		}
+	}
+}
+
+function exitPlaceRobberMode() {
+	for (var i = 0; i < board.tiles.length; i++) {
+		if (board.tiles[i].highlighted) {
+			board.tiles[i].unHighlight();
+		}
+	}
 }
 
 //////////////////////////////////////////
