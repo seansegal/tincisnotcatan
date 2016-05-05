@@ -6,7 +6,6 @@
 	<div class="col-xs-3">
 		<div id="turn-display-container"></div>
 		<input type="button" class="btn btn-primary" id="end-turn-btn" value="End Turn"><br>
-		<input type="button" class="btn btn-danger" id="leave-game-btn" value="Leave Game">
 		<div id="chat-container">
 		    <div id="chat"></div>
 			<div id="chatControls">
@@ -20,6 +19,7 @@
 	    	<li role="presentation" id="players-tab-toggle" class="active right-tab"><a href="#players-tab" aria-controls="players-tab" role="tab" data-toggle="tab">Players</a></li>
 	    	<li role="presentation" id="build-tab-toggle" class="right-tab"><a href="#build-tab" aria-controls="build-tab" role="tab" data-toggle="tab">Build</a></li>
 	    	<li role="presentation" id="trade-tab-toggle" class="right-tab"><a href="#trade-tab" aria-controls="trade-tab" role="tab" data-toggle="tab">Trade</a></li>
+	    	<li role="presentation" id="options-tab-toggle" class="right-tab"><a href="#options-tab" aria-controls="options-tab" role="tab" data-toggle="tab">Options</a></li>
 		</ul>
 		<div class="tab-content right-tab-content col-xs-9">
 		    <div role="tabpanel" class="tab-pane active right-tab-pane" id="players-tab">
@@ -302,6 +302,9 @@
 		    			</div>
 		    		</div>
 		    	</div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane right-tab-pane container" id="options-tab">
+				<input type="button" class="btn btn-danger" id="leave-game-btn" value="Leave Game">
 		    </div>
 	    </div>
   	</div>

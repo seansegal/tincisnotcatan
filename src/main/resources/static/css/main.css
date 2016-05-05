@@ -21,12 +21,12 @@ body {
 	z-index: -1;
 }
 
-#end-turn-btn, #leave-game-btn {
+#end-turn-btn {
 	margin-left: 15px;
 }
 
 #leave-game-btn {
-	margin-top: 5px;
+	margin-top: 15px;
 }
 
 .pointer {
