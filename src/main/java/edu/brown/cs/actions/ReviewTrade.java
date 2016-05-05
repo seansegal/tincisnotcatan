@@ -40,6 +40,16 @@ public class ReviewTrade implements FollowUpAction {
     String message = "";
     String mForTrader = "";
     if (_acceptedTrade) {
+      for (Resource res : _resources.keySet()) {
+        if (_resources.get(res) < 0
+            && _player.getResources().get(res) < Math.abs(_resources.get(res))) {
+          ActionResponse otherResponse = new ActionResponse(false,
+              "You do not have the proper resources to trade.",
+              _resources);
+          toRet.put(_player.getID(), otherResponse);
+          return toRet;
+        }
+      }
       message = "You accepted the trade";
       _trade.acceptedTrade(_player.getID());
       mForTrader = String.format("%s accepted the trade.", _player.getName());
