@@ -3,6 +3,7 @@ package edu.brown.cs.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -38,6 +39,7 @@ public class StartGame implements Action {
               firstToGo == player.getID());
           toReturn.put(player.getID(), new ActionResponse(true, "", json));
         });
+    _ref.addFollowUp(ImmutableList.of(new StartGameSetup(firstToGo)));
     _ref.setGameStatus(GameStatus.SETUP);
     return toReturn;
   }
