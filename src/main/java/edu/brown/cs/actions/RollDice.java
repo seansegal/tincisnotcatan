@@ -11,7 +11,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.board.Tile;
-import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
@@ -22,7 +21,6 @@ public class RollDice implements FollowUpAction {
   private Player _player;
   private final int _playerID;
   private Referee _ref;
-  private Bank _bank;
   private static final String VERB = "start the next turn.";
   private static final String ID = "rollDice";
   private boolean _isSetUp = false;
@@ -33,7 +31,6 @@ public class RollDice implements FollowUpAction {
     _ref = ref;
     _playerID = playerID;
     _player = _ref.getPlayerByID(playerID);
-    _bank = _ref.getBank();
     if (_player == null) {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
@@ -217,7 +214,6 @@ public class RollDice implements FollowUpAction {
     assert ref != null;
     _ref = ref;
     _player = _ref.getPlayerByID(playerID);
-    _bank = _ref.getBank();
     if (_player == null) {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);

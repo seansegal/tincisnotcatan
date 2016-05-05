@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -16,14 +15,12 @@ public class PlayYearOfPlenty implements Action {
   private Player _player;
   private Resource _firstRes;
   private Resource _secondRes;
-  private Bank _bank;
 
   public PlayYearOfPlenty(Referee ref, int playerID, String firstRes,
       String secondRes) {
     assert ref != null;
     _ref = ref;
     _player = _ref.getPlayerByID(playerID);
-    _bank = _ref.getBank();
     if (_player == null) {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
@@ -56,9 +53,6 @@ public class PlayYearOfPlenty implements Action {
 
     _player.addResource(_firstRes, 1, _ref.getBank());
     _player.addResource(_secondRes,1, _ref.getBank());
-    // Update Bank stats
-    _bank.getResource(_firstRes);
-    _bank.getResource(_secondRes);
     String message = "";
     if (_firstRes == _secondRes) {
       message = String.format("You gained 2 %s", _firstRes);
