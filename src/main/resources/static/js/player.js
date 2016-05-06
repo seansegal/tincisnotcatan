@@ -20,9 +20,17 @@ function Player(id, name, color) {
 Player.prototype.addPlayerTab = function() {
 	var tabTitle = (this.id === playerId) ? "You" : "P" + this.id;
 
-	$("#player-tabs").append("<li role='presentation' id='p" + this.id + "-tab-tab'><a href='#p" + this.id + "-tab' aria-controls='home' "
+	var active = (this.id === parseInt(openedPlayerTab)) ? "class='active'" : "";
+
+	$("#player-tabs").append("<li role='presentation' player='" + this.id + "' id='p" + this.id + "-tab-tab'><a href='#p" + this.id + "-tab' aria-controls='home' "
 			+ "role='tab' data-toggle='tab'>" + tabTitle + "</a></li>");
 	$("#player-tabs-content").append("<div role='tabpanel' class='tab-pane player-tab-pane' id='p" + this.id + "-tab'></div>");
+
+	// Select active tab, or the first tab if 
+	if (this.id === openedPlayerTab) {
+		$("#p" + this.id + "-tab-tab").addClass("active");
+		$("#p" + this.id + "-tab").addClass("active");
+	}
 
 	var tabTab = $("#p" + this.id + "-tab-tab");
 	tabTab.children().css("background-color", this.color);

@@ -3,6 +3,7 @@ var players = [];
 var playersById = {};
 var playerId = -1;
 var currentPlayerTurn = -2;
+var openedPlayerTab = 0;
 
 $(window).load(function() {
 	board = new Board();

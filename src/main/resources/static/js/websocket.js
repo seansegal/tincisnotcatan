@@ -300,6 +300,9 @@ function handleGetGameState(gameStateData) {
     playerId = gameStateData.playerID;
     currentPlayerTurn = gameStateData.currentTurn;
 
+    var activePlayerTab = $("#player-tabs .active").attr("player");
+    openedPlayerTab = (activePlayerTab == undefined) ? 0 : parseInt(activePlayerTab);
+
     // Create players
     playersById = {};
     players = parsePlayers(gameStateData.players);
@@ -321,8 +324,8 @@ function handleGetGameState(gameStateData) {
 
     // Select first players tab
     if (players.length > 0) {
-        $("#player-tabs").children().first().addClass("active");
-        $("#player-tabs-content").children().first().addClass("active");
+        // $("#player-tabs").children().first().addClass("active");
+        // $("#player-tabs-content").children().first().addClass("active");
     }
 
     // Draw turn counter
