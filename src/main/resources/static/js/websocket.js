@@ -39,7 +39,7 @@ webSocket.onclose = function() {
     
 }
 
-$("#leave-game-btn").click(function(event) {
+$(".leave-game-btn").click(function(event) {
     console.log("leave game");
     deleteAllCookiesAndGoHome();
 });
