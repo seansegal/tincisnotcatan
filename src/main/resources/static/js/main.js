@@ -959,7 +959,7 @@ $("#trade-responses-cancel-trade-btn").click(function(event) {
 });
 
 //////////////////////////////////////////
-// Trade Response Modal
+// Winner Modal
 //////////////////////////////////////////
 
 function showWinnerModal(winnerId) {
@@ -974,6 +974,8 @@ function showWinnerModal(winnerId) {
 	$("#winner-modal .modal-body").append("<p>The game is over. You can start a new game of Catan from the home screen.</p>");
 	$("#winner-modal").modal("show");
 }
+
+$("#return-home-btn").click(deleteAllCookiesAndGoHome);
 
 //////////////////////////////////////////
 // Update Resource
