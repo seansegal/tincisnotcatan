@@ -116,9 +116,7 @@ public class ActionFactory {
         case "playRoadBuilding":
           return new PlayRoadBuilding(_referee, playerID);
         case "tradeWithBank":
-          String toGive = actionJSON.get("toGive").getAsString();
-          String toGet = actionJSON.get("toGet").getAsString();
-          return new TradeWithBank(_referee, playerID, toGive, toGet);
+          return new TradeWithBank(_referee, playerID, actionJSON);
         case "endTurn":
           return new EndTurn(_referee, playerID);
         case "proposeTrade":
