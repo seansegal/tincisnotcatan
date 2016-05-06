@@ -59,7 +59,6 @@ function createJoinableGameList(groups) {
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i].group;
 		$("#games-list").append("<li class='list-group-item'><div class='row'>"
-
 				+ "<div class='col-xs-4 text-left vertical-center'><span>" + group.groupName + ":</span></div>"
 				+ "<div class='col-xs-4 text-center vertical-center'>" 
 				+ "<span><strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"

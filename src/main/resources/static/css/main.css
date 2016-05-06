@@ -59,7 +59,7 @@ body {
 }
 
 .selected-turn-square {
-	box-shadow: inset 0 0 7px black;
+	box-shadow: inset 0 0 7px black, 0 0 7px black;
 }
 
 /* Hand */
