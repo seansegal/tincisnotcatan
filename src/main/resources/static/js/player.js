@@ -105,9 +105,9 @@ Player.prototype.fillTurnDisplay = function() {
 	// Change tab title when it is your turn
 	if (playerId === this.id) {
 		if (currentPlayerTurn === playerId) {
-			$("title").text("Your Turn");
+			$("title").text("Catan : Your Turn");
 		} else {
-			$("title").text("Play Catan");
+			$("title").text("Catan : Play Game");
 		}
 	}
 }
