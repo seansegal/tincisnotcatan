@@ -8,15 +8,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-public class UserGroup implements Timestamped, Group {
+public class UserGroup implements Group {
 
-
-  // for timestamped
-  private long                         initTime;
   // for group
   private Collection<RequestProcessor> reqs;
   private Set<User>                    users;
@@ -25,8 +20,6 @@ public class UserGroup implements Timestamped, Group {
   private String                       identifier;
   private final int                    desiredSize;
   private String                       groupName;
-  private static final Gson            GSON = new GsonBuilder()
-      .registerTypeAdapter(User.class, new UserSerializer()).create();
 
 
   private UserGroup() {
@@ -36,7 +29,6 @@ public class UserGroup implements Timestamped, Group {
 
 
   private UserGroup(UserGroupBuilder b) {
-    initTime = System.currentTimeMillis();
     // use the fields of the builder to setup
     this.reqs = b.reqs;
     this.desiredSize = b.desiredSize;
@@ -93,6 +85,11 @@ public class UserGroup implements Timestamped, Group {
 
   @Override
   synchronized public boolean add(User u) {
+
+    if (userReconnected(u)) {
+      return true;
+    }
+
     if (users.size() == desiredSize) {
       return false; // we're full, don't give me any more users.
     }
@@ -102,14 +99,11 @@ public class UserGroup implements Timestamped, Group {
     users.add(u);
     for (User other : users) {
       JsonObject gs = api.getGameState(other.userID());
-      gs.addProperty("requestType", "getGameState");
+      gs.addProperty(Networking.REQUEST_IDENTIFIER, "getGameState");
       other.message(gs);
     }
     if (isFull()) {
-      JsonObject gameStart = new JsonObject();
-      gameStart.addProperty("requestType", "action");
-      gameStart.addProperty("action", "startGame");
-      handleMessage(u, gameStart);
+      handleMessage(u, Networking.START_GAME_MESSAGE);
       System.out.println("Game start called: " + identifier);
     }
     return true;
@@ -120,15 +114,18 @@ public class UserGroup implements Timestamped, Group {
 
   @Override
   synchronized public boolean remove(User u) {
-    return users.remove(u); // could it be this simple? we can add more logic
-                            // for timeouts etc later.
+    userDisconnected(u,
+        System.currentTimeMillis() + Networking.DISCONNECT_TIMEOUT);
+    return true;
   }
 
 
   @Override
   synchronized public boolean handleMessage(User u, JsonObject j) {
     if (!allUsersConnectedWithMessage()) {
-      if(j.has("requestType") && !j.get("requestType").getAsString().equals("gameOver")){
+      if (j.has(Networking.REQUEST_IDENTIFIER)
+          && !j.get(Networking.REQUEST_IDENTIFIER).getAsString()
+              .equals("gameOver")) {
         return false;
       }
     }
@@ -154,18 +151,8 @@ public class UserGroup implements Timestamped, Group {
     if (afk.isEmpty()) {
       return true;
     }
-    JsonObject message = new JsonObject();
-    message.addProperty("requestType", "disconnectedUsers");
-    Set<User> disconUsers = new HashSet<>();
-    long smallestExpire = Long.MAX_VALUE;
-    for (User u : afk.keySet()) {
-      if (afk.get(u) < smallestExpire) {
-        smallestExpire = afk.get(u);
-      }
-      disconUsers.add(u);
-    }
-    message.add("users", GSON.toJsonTree(disconUsers));
-    message.addProperty("expiresAt", smallestExpire + (1000 * 10));
+    JsonObject message =
+        Networking.userDisconnectedMessage(Collections.unmodifiableMap(afk));
     users.stream()
         .filter(u -> !afk.containsKey(u))
         .forEach(u -> u.message(message));
@@ -175,26 +162,16 @@ public class UserGroup implements Timestamped, Group {
 
   public boolean hasUserWithID(String uuid) {
     long count = users.stream()
-        .filter(u -> u.hasField("USER_ID") && u.getField("USER_ID")
-            .equals(uuid))
+        .filter(u -> u.hasField(Networking.USER_IDENTIFIER)
+            && u.getField(Networking.USER_IDENTIFIER)
+                .equals(uuid))
         .count();
-    if(count > 0) {
-      System.out.println("User group " + this.identifier() + " has user " + uuid);
+
+    if (count > 0) {
+      System.out
+          .println("User group " + this.identifier() + " has user " + uuid);
     }
     return count > 0;
-  }
-
-
-  @Override
-  public long initTime() {
-    return initTime;
-  }
-
-
-  @Override
-  public void stampNow() {
-    this.initTime = System.currentTimeMillis();
-
   }
 
 
@@ -204,8 +181,7 @@ public class UserGroup implements Timestamped, Group {
   }
 
 
-  @Override
-  public void userDisconnected(User u, long expiresAt) {
+  private void userDisconnected(User u, long expiresAt) {
     if (!users.contains(u)) {
       System.out.println(
           "Error! Disconnected user, but I don't have a reference to them!");
@@ -213,23 +189,25 @@ public class UserGroup implements Timestamped, Group {
     }
     System.out.println("DISCONNECTED AT " + expiresAt + " " + u);
     afk.put(u, expiresAt);
-
+    if (users.size() != afk.size()) {
+      allUsersConnectedWithMessage();
+    }
   }
 
 
-  @Override
-  public void userReconnected(User u) {
+  private boolean userReconnected(User u) {
     System.out.println("RECONNECTED " + u);
+    if (!afk.containsKey(u)) {
+      return false;
+    }
     afk.remove(u);
     if (this.allUsersConnectedWithMessage()) {
       System.out.println("SENDING READY TO GO MESSAGE");
-      JsonObject readyToGo = new JsonObject();
-      readyToGo.addProperty("requestType", "disconnectedUsers");
-      readyToGo.add("users", GSON.toJsonTree(Collections.emptyList()));
-      readyToGo.addProperty("expiresAt", -1);
-      users.stream().forEach(usr -> usr.message(readyToGo));
+      users.stream().forEach(usr -> usr.message(Networking.GAME_READY_MESSAGE));
     }
+    return true;
   }
+
 
   public static class UserGroupBuilder {
 

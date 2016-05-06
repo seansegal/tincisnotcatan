@@ -15,7 +15,6 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
@@ -23,17 +22,9 @@ import com.google.gson.JsonSyntaxException;
 public class ReceivingWebsocket {
 
   private static GCT              gct;
-  private final Map<String, User> uuidToUser      = new HashMap<>();
-  private final Gson              GSON            = new Gson();
+  private final Map<String, User> uuidToUser = new HashMap<>();
   private final Timer             timer;
   private final Map<User, Long>   afkMap;
-
-
-  private static final String     USER_IDENTIFIER = "USER_ID";
-  private static final String     HEARTBEAT       = "\"HEARTBEAT\"";
-
-  private static final long       ONE_SECOND      = 1000;
-  private static final long       ONE_MINUTE      = ONE_SECOND * 10; // change to 60!
 
 
   public ReceivingWebsocket() {
@@ -46,7 +37,7 @@ public class ReceivingWebsocket {
         synchronized (ReceivingWebsocket.this) {
           long now = System.currentTimeMillis();
           for (User u : afkMap.keySet()) {
-            if (now - afkMap.get(u) > ONE_MINUTE) {
+            if (now - afkMap.get(u) > Networking.DISCONNECT_TIMEOUT) {
               // send game over
               JsonObject endGame = new JsonObject();
               endGame.addProperty("requestType", "gameOver");
@@ -54,7 +45,7 @@ public class ReceivingWebsocket {
               gct.groupForUser(u).handleMessage(u, endGame);
 
               // remove user from data structs.
-              String id = u.getField(USER_IDENTIFIER);
+              String id = u.getField(Networking.USER_IDENTIFIER);
               uuidToUser.remove(id);
               afkMap.remove(u);
               gct.remove(u);
@@ -66,7 +57,7 @@ public class ReceivingWebsocket {
         }
       }
     };
-    timer.schedule(cleanup, 0L, ONE_SECOND);
+    timer.schedule(cleanup, 0L, Networking.ONE_SECOND);
 
   }
 
@@ -91,7 +82,7 @@ public class ReceivingWebsocket {
         User u = uuidToUser.get(id);
         u.updateSession(session);
         afkMap.remove(u);
-        gct.groupForUser(u).userReconnected(u);
+        // gct.groupForUser(u).userReconnected(u);
         System.out.println("Updated User object with new session");
       }
     } else {
@@ -103,10 +94,10 @@ public class ReceivingWebsocket {
 
       System.out.println("New session!");
       String newid = DistinctRandom.getString();
-      HttpCookie newCookie = new HttpCookie(USER_IDENTIFIER, newid);
+      HttpCookie newCookie = new HttpCookie(Networking.USER_IDENTIFIER, newid);
       list.add(newCookie);
       User newUser = gct.register(session);
-      if(newUser != null) {
+      if (newUser != null) {
         uuidToUser.put(newid, newUser);
         setCookie(newUser, list);
       } else {
@@ -124,7 +115,7 @@ public class ReceivingWebsocket {
           reason == null ? "hard disconnect" : reason);
       System.out.format("Marking user %s as AFK %n", u);
       afkMap.put(u, System.currentTimeMillis());
-      gct.groupForUser(u).userDisconnected(u, afkMap.get(u));
+      // gct.groupForUser(u).userDisconnected(u, afkMap.get(u));
     } else {
       System.out.format("Unregistered session %s was disconnected due to: %s%n",
           session.getLocalAddress(), reason);
@@ -134,14 +125,14 @@ public class ReceivingWebsocket {
 
   @OnWebSocketMessage
   public void onMessage(Session session, String message) {
-    if (message.equals(HEARTBEAT)) {
+    if (message.equals(Networking.HEARTBEAT)) {
       System.out.format("Heartbeat from %s%n", session.getLocalAddress());
       return;
     }
     User u = getUserFor(session);
     JsonObject j = null;
     try {
-      j = GSON.fromJson(message, JsonObject.class);
+      j = Networking.GSON.fromJson(message, JsonObject.class);
     } catch (JsonSyntaxException e) {
       System.out.println("Excption while parsing JSON, should return error");
       return;
@@ -164,7 +155,7 @@ public class ReceivingWebsocket {
 
   private String getSessionID(Session s) {
     for (HttpCookie c : s.getUpgradeRequest().getCookies()) {
-      if (c.getName().equals(USER_IDENTIFIER)) {
+      if (c.getName().equals(Networking.USER_IDENTIFIER)) {
         return c.getValue().toString();
       }
     }
@@ -184,7 +175,7 @@ public class ReceivingWebsocket {
   private void setCookie(User u, List<HttpCookie> cookies) {
     JsonObject j = new JsonObject();
     j.addProperty("requestType", "setCookie");
-    j.add("cookies", GSON.toJsonTree(cookies));
+    j.add("cookies", Networking.GSON.toJsonTree(cookies));
     u.message(j);
   }
 

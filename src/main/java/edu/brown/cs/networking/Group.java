@@ -31,13 +31,8 @@ public interface Group {
   boolean isEmpty();
 
 
-  void userDisconnected(User u, long expiresAt);
-
-
-  void userReconnected(User u);
-
-
   boolean afkTick();
+
 
   boolean hasUserWithID(String uuid);
 

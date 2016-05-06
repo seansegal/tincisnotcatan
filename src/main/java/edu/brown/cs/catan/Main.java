@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableMap;
 import edu.brown.cs.api.CatanGroupSelector;
 import edu.brown.cs.networking.GCT;
 import edu.brown.cs.networking.GCT.GCTBuilder;
+import edu.brown.cs.networking.Networking;
 import freemarker.template.Configuration;
 import spark.ModelAndView;
 import spark.Request;
@@ -103,8 +104,8 @@ public class Main {
     @Override
     public ModelAndView handle(Request req, Response res) {
       Map<String, String> cookies = req.cookies();
-      if (cookies.containsKey("USER_ID")
-          && Main.this.gct.userIDIsValid(cookies.get("USER_ID"))) {
+      if (cookies.containsKey(Networking.USER_IDENTIFIER)
+          && Main.this.gct.userIDIsValid(cookies.get(Networking.USER_IDENTIFIER))) {
         res.redirect("/board");
         System.out.println("Redirect to board!");
         return new BoardHandler().handle(req, res);

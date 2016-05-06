@@ -1,6 +1,5 @@
 package edu.brown.cs.networking;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
@@ -9,7 +8,6 @@ public class MessageUserTask implements Runnable {
   private User   u;
   private String message;
   private GCT    gct;
-  private static final Gson GSON = new Gson();
 
 
   public MessageUserTask(User u, String message, GCT gct) {
@@ -24,7 +22,7 @@ public class MessageUserTask implements Runnable {
     Group g = gct.groupForUser(u);
     JsonObject j = null;
     try {
-      j = GSON.fromJson(message, JsonObject.class);
+      j = Networking.GSON.fromJson(message, JsonObject.class);
     } catch (JsonSyntaxException e) {
       System.out.println("ERROR parsing json - send error message to client");
       return;

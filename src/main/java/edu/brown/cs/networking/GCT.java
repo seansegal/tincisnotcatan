@@ -1,5 +1,6 @@
 package edu.brown.cs.networking;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -9,8 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.eclipse.jetty.websocket.api.Session;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import spark.Spark;
@@ -22,7 +21,6 @@ public class GCT {
   private final Set<Group>       full;
   private final Map<User, Group> userToUserGroup;
   private final GroupSelector    groupSelector;
-  private static Gson            GSON;
 
 
   private GCT(GCTBuilder builder) {
@@ -30,9 +28,6 @@ public class GCT {
     this.pending = new ConcurrentHashSet<>();
     this.full = new ConcurrentHashSet<>();
     this.userToUserGroup = new ConcurrentHashMap<>();
-    GSON = new GsonBuilder()
-        .registerTypeAdapter(Group.class, new GroupSerializer())
-        .create();
 
     // provided by builder:
     this.groupSelector = builder.groupSelector;
@@ -60,9 +55,13 @@ public class GCT {
 
 
   public JsonObject openGroups() {
-    Collection<Group> gr = Collections.unmodifiableCollection(pending);
+    Collection<Group> list = new ArrayList<>();
+    for (Group g : pending) {
+      list.add(new GroupView(g));
+    }
+    Collection<Group> gr = Collections.unmodifiableCollection(list);
     JsonObject toRet = new JsonObject();
-    toRet.add("groups", GSON.toJsonTree(gr));
+    toRet.add("groups", Networking.GSON.toJsonTree(gr));
     return toRet;
   }
 
