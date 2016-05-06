@@ -110,9 +110,7 @@ public class ActionFactory {
           return new PlayMonopoly(_referee, playerID, actionJSON
               .get("resource").getAsString());
         case "playYearOfPlenty":
-          return new PlayYearOfPlenty(_referee, playerID, actionJSON.get(
-              "firstRes").getAsString(), actionJSON.get("secondRes")
-              .getAsString());
+          return new PlayYearOfPlenty(_referee, playerID, actionJSON);
         case "playKnight":
           return new PlayKnight(_referee, playerID);
         case "playRoadBuilding":

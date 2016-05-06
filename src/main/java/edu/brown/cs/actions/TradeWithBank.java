@@ -36,6 +36,12 @@ public class TradeWithBank implements Action {
     if (!_ref.getGameSettings().isDecimal) {
       rate = Math.ceil(rate);
     }
+    if (!_ref.currentPlayer().equals(_player)) {
+      String message = String.format(
+          "You can only trade with the bank on your turn", _toGive.toString());
+      return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+          message, null));
+    }
     if (_player.getResources().get(_toGive) < rate) {
       String message = String.format(
           "You do not have enough %s to trade with the bank",
