@@ -95,6 +95,15 @@ Player.prototype.fillTurnDisplay = function() {
 	if (currentPlayerTurn === this.id) {
 		turnSquare.addClass("selected-turn-square");
 	}
+
+	// Change tab title when it is your turn
+	if (playerId === this.id) {
+		if (currentPlayerTurn === playerId) {
+			$("title").text("Your Turn");
+		} else {
+			$("title").text("Play Catan");
+		}
+	}
 }
 
 function parsePlayers(playersData) {
