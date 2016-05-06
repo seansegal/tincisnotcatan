@@ -18,13 +18,19 @@ function Player(id, name, color) {
 }
 
 Player.prototype.addPlayerTab = function() {
+	var tabTitle = (this.id === playerId) ? "You" : "P" + this.id;
+
 	$("#player-tabs").append("<li role='presentation' id='p" + this.id + "-tab-tab'><a href='#p" + this.id + "-tab' aria-controls='home' "
-			+ "role='tab' data-toggle='tab'>P" + this.id + "</a></li>");
+			+ "role='tab' data-toggle='tab'>" + tabTitle + "</a></li>");
 	$("#player-tabs-content").append("<div role='tabpanel' class='tab-pane player-tab-pane' id='p" + this.id + "-tab'></div>");
 
 	var tabTab = $("#p" + this.id + "-tab-tab");
 	tabTab.children().css("background-color", this.color);
-	tabTab.children().css("color", this.color);
+	if (this.id === playerId) {
+		tabTab.children().css("color", (playerId !== 3) ? "white" : "black");
+	} else {
+		tabTab.children().css("color", this.color);
+	}
 
 	var tab = $("#p" + this.id + "-tab");
 	tab.empty();
@@ -94,6 +100,15 @@ Player.prototype.fillTurnDisplay = function() {
 
 	if (currentPlayerTurn === this.id) {
 		turnSquare.addClass("selected-turn-square");
+	}
+
+	// Change tab title when it is your turn
+	if (playerId === this.id) {
+		if (currentPlayerTurn === playerId) {
+			$("title").text("Your Turn");
+		} else {
+			$("title").text("Play Catan");
+		}
 	}
 }
 

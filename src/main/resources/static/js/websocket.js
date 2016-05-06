@@ -34,8 +34,6 @@ webSocket.onclose = function() {
     window.location.reload(true);
 }
 
-
-
 $("#leave-game-btn").click(function(event) {
     console.log("leave game");
     deleteAllCookiesAndGoHome();
