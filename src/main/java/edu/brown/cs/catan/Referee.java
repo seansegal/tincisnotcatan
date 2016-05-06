@@ -6,6 +6,7 @@ import java.util.Map;
 
 import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.board.Board;
+import edu.brown.cs.gamestats.GameStats;
 
 public interface Referee {
 
@@ -69,5 +70,7 @@ public interface Referee {
   Setup getSetup();
 
   Player getWinner();
+
+  GameStats getGameStats();
 
 }
