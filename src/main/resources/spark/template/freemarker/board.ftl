@@ -665,7 +665,7 @@
       		<div class="modal-body">
        			<p><span id="disconnected-user-name"></span> has disconnected from the game. The game will exit in <span id="disconnected-user-time"></span> seconds unless this user reconnects.</p>
       		</div>
-      		<div class="modal-footer modal-footer-center">
+      		<div class="modal-footer">
         		<button type="button" class="btn btn-danger leave-game-btn" data-dismiss="modal">Exit Game</button>
       		</div>
     	</div>
