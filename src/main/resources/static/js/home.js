@@ -4,6 +4,7 @@ $(window).load(function() {
 		window.location = "/board";
 		return;
 	}
+
     var href = window.location.pathname;
     if(href == "/home"){
     	deleteCookie("desiredGroupId");
@@ -74,6 +75,15 @@ $("#nameEntry").keypress(function(event) {
 	if (keyPressed === 13) {
 		openCreateJoinGame();
 	}
+});
+
+// Only allow alphanumeric and whitespace characters as user input
+$("#nameEntry, #game-name-entry").on("input", function(event) {
+	var input = $(this);
+	var currText = input.val();
+
+	var cleanedText = currText.replace(/[^A-Za-z0-9\s]+/g, "");
+	input.val(cleanedText);
 });
 
 function openCreateJoinGame() {
