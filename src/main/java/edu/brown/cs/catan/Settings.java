@@ -16,11 +16,11 @@ public abstract class Settings {
       10, 9, 4, 5, 6, 3, 11 };
 
   // Number of each tile type on the board:
-  public final static int NUM_WOOD_TILE = 3;
+  public final static int NUM_WOOD_TILE = 4;
   public final static int NUM_BRICK_TILE = 3;
   public final static int NUM_WHEAT_TILE = 4;
   public final static int NUM_SHEEP_TILE = 4;
-  public final static int NUM_ORE_TILE = 4;
+  public final static int NUM_ORE_TILE = 3;
   public final static int NUM_DESERT_TILE = 1;
 
   // How many resources should players start with (Beware of changing this.
