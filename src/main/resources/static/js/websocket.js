@@ -31,12 +31,15 @@ function deleteAllCookiesAndGoHome() {
 }
 
 webSocket.onclose = function() {
-    window.location.reload(true);
+	if(document.cookie.indexOf("USER_ID") > -1) {
+		window.location.reload(true);
+	} else {
+		deleteAllCookiesAndGoHome();
+	}
+    
 }
 
-
-
-$("#leave-game-btn").click(function(event) {
+$(".leave-game-btn").click(function(event) {
     console.log("leave game");
     deleteAllCookiesAndGoHome();
 });
@@ -408,11 +411,19 @@ function handleErrorFromSocket(data) {
 		case "NOT_REGISTERED":
 			alert("Internal error : user not registered");
 			break;
+		case "FULL_GAME":
+			$("#full-game-modal").modal("show");
+			break;
 		default:
 			console.log(data.description);
 		}
 	}
 }
+
+$("#accept-full-game-btn").click(function(event) {
+	$("#full-game-modal").modal("hide");
+	deleteAllCookiesAndGoHome();
+});
 
 // ---------- COOKIE MANAGEMENT ---------- //
 

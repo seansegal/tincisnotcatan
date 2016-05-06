@@ -665,6 +665,9 @@
       		<div class="modal-body">
        			<p><span id="disconnected-user-name"></span> has disconnected from the game. The game will exit in <span id="disconnected-user-time"></span> seconds unless this user reconnects.</p>
       		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-danger leave-game-btn" data-dismiss="modal">Exit Game</button>
+      		</div>
     	</div>
 	</div>
 </div>
@@ -769,7 +772,21 @@
       		<div class="modal-body">Would you like to exit the game? You will be returned to the game select screen.</div>
       		<div class="modal-footer">
       			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        		<button type="button" id="leave-game-btn" class="btn btn-danger" data-dismiss="modal">Exit Game</button>
+        		<button type="button" class="leave-game-btn btn btn-danger" data-dismiss="modal">Exit Game</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="full-game-modal" tabindex="-1" role="dialog" aria-labelledby="fullGameModal" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="exitGameLabel">Full Game!</h4>
+      		</div>
+      		<div class="modal-body">Sorry! This game is full.</div>
+      		<div class="modal-footer">
+        		<button type="button" id="accept-full-game-btn" class="btn btn-success" data-dismiss="modal">Find another game!</button>
       		</div>
     	</div>
 	</div>

@@ -8,6 +8,10 @@ $(window).load(function() {
     if(href == "/home"){
     	deleteCookie("desiredGroupId");
     }
+
+    // If not in chrome, display useful modal
+    var isChrome = !!window.chrome && !!window.chrome.webstore;
+    $("#use-chrome-modal").modal("show");
 });
 
 // ---------- Setup ---------- //

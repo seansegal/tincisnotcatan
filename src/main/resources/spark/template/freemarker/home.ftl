@@ -59,6 +59,22 @@
 	</div>
 </div>
 
+<div class="modal fade" id="use-chrome-modal" tabindex="-1" role="dialog" aria-labelledby="useChromeLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="useChromeLabel">We Noticed You Were Using a Browser Other Than Chrome...</h4>
+      		</div>
+      		<div class="modal-body">
+       			<p>For the best user experience, please use Chrome as your web browser.</p>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/home.js"></script>

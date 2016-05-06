@@ -73,15 +73,20 @@ public class GCT {
   // add verification?? TODO
   public User register(Session s, List<HttpCookie> cookies) {
     User newUser = new User(s, cookies);
-    add(newUser);
-    return newUser;
+    if(add(newUser)){
+      return newUser;
+    }
+    return null;
+
   }
 
 
   private boolean add(User u) {
     Group bestFit =
         groupSelector.selectFor(u, Collections.unmodifiableCollection(pending));
-    assert bestFit != null : "Select for returned a null user group!";
+    if(bestFit == null){
+      return false;
+    }
     userToUserGroup.put(u, bestFit);
     bestFit.add(u);
 

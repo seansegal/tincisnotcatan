@@ -69,6 +69,23 @@ function addMessage(message) {
 	container.append("<div class='message-popup-animation'><h5>" + message + "</h5></div>");
 }
 
+var yourTurnDisplayed = false;
+
+setInterval(function() {
+	// Change tab title when it is your turn
+	if (playerId === currentPlayerTurn) {
+		if (!yourTurnDisplayed) {
+			$("title").text("Catan : Your Turn");
+			yourTurnDisplayed = true;
+		} else {
+			$("title").text("Catan : Play Game");
+			yourTurnDisplayed = false;
+		}
+	} else {
+		$("title").text("Catan : Play Game");
+	}
+}, 1000);
+
 //////////////////////////////////////////
 // Build Tab
 //////////////////////////////////////////
@@ -942,7 +959,7 @@ $("#trade-responses-cancel-trade-btn").click(function(event) {
 });
 
 //////////////////////////////////////////
-// Trade Response Modal
+// Winner Modal
 //////////////////////////////////////////
 
 function showWinnerModal(winnerId) {
@@ -957,6 +974,8 @@ function showWinnerModal(winnerId) {
 	$("#winner-modal .modal-body").append("<p>The game is over. You can start a new game of Catan from the home screen.</p>");
 	$("#winner-modal").modal("show");
 }
+
+$("#return-home-btn").click(deleteAllCookiesAndGoHome);
 
 //////////////////////////////////////////
 // Update Resource
