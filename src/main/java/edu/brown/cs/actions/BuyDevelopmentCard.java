@@ -30,6 +30,11 @@ public class BuyDevelopmentCard implements Action {
           "You cannot build when it is not your turn.", null);
       return ImmutableMap.of(_player.getID(), resp);
     }
+    if(_referee.devCardDeckIsEmpty()){
+      ActionResponse resp = new ActionResponse(false,
+          "There are no more development cards in the deck.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
     if (!_player.canBuyDevelopmentCard()) {
       ActionResponse resp = new ActionResponse(false,
           "You cannot afford a Development Card.", null);

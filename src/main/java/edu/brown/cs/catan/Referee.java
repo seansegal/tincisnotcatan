@@ -23,6 +23,8 @@ public interface Referee {
 
   DevelopmentCard getDevCard();
 
+  boolean devCardDeckIsEmpty();
+
   GameSettings getGameSettings();
 
   Referee getReadOnlyReferee();

@@ -327,6 +327,11 @@ public class MasterReferee implements Referee {
     _gameStatus = state;
   }
 
+  @Override
+  public boolean devCardDeckIsEmpty() {
+    return _devCardDeck.isEmpty();
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -480,6 +485,11 @@ public class MasterReferee implements Referee {
     public Player getWinner() {
       return _referee.getWinner() != null ? _referee.getWinner()
           .getImmutableCopy() : null;
+    }
+
+    @Override
+    public boolean devCardDeckIsEmpty() {
+      return _referee.devCardDeckIsEmpty();
     }
 
   }
