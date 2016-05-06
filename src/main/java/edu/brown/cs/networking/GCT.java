@@ -1,15 +1,12 @@
 package edu.brown.cs.networking;
 
-import java.net.HttpCookie;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.PriorityBlockingQueue;
 
+import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.eclipse.jetty.websocket.api.Session;
 
 import com.google.gson.Gson;
@@ -21,34 +18,32 @@ import spark.Spark;
 // Grand Central Terminal - Routes all of the inputs to appropriate groups
 public class GCT {
 
-  private final PriorityBlockingQueue<Group> pending;
-  private final List<Group>                  full;
-  private final Map<User, Group>             userToUserGroup;
-  private final GroupSelector                groupSelector;
-  private static Gson                        GSON;
+  private final Set<Group>       pending;
+  private final Set<Group>       full;
+  private final Map<User, Group> userToUserGroup;
+  private final GroupSelector    groupSelector;
+  private static Gson            GSON;
 
 
   private GCT(GCTBuilder builder) {
     // Not provided by builder:
-    this.pending = new PriorityBlockingQueue<>();
-    this.full = Collections.synchronizedList(new ArrayList<>());
+    this.pending = new ConcurrentHashSet<>();
+    this.full = new ConcurrentHashSet<>();
     this.userToUserGroup = new ConcurrentHashMap<>();
-
     GSON = new GsonBuilder()
-        .registerTypeAdapter(Group.class, new GroupSerializer()).create();
-
+        .registerTypeAdapter(Group.class, new GroupSerializer())
+        .create();
 
     // provided by builder:
     this.groupSelector = builder.groupSelector;
-    Spark.webSocket(builder.webSocketRoute, ReceivingWebsocket.class);
-    ReceivingWebsocket.setGCT(this);
+    Spark.webSocket(builder.webSocketRoute, NewWebsocket.class);
+    NewWebsocket.setGct(this);
 
+    // build group view websocket, if user wants it.
     if (builder.groupViewRoute != null) {
       Spark.webSocket(builder.groupViewRoute, GroupViewWebsocket.class);
       GroupViewWebsocket.setGCT(this);
     }
-
-    // needed:
     Spark.init();
   }
 
@@ -58,12 +53,14 @@ public class GCT {
   }
 
 
+  public boolean userIDIsValid(String uuid) {
+    return pending.stream().anyMatch(grp -> grp.hasUserWithID(uuid))
+        || full.stream().anyMatch(grp -> grp.hasUserWithID(uuid));
+  }
+
+
   public JsonObject openGroups() {
-    Collection<Group> list = new CopyOnWriteArrayList<>();
-    for (Group g : pending) {
-      list.add(new GroupView(g));
-    }
-    Collection<Group> gr = Collections.unmodifiableCollection(list);
+    Collection<Group> gr = Collections.unmodifiableCollection(pending);
     JsonObject toRet = new JsonObject();
     toRet.add("groups", GSON.toJsonTree(gr));
     return toRet;
@@ -71,35 +68,27 @@ public class GCT {
 
 
   // add verification?? TODO
-  public User register(Session s, List<HttpCookie> cookies) {
-    User newUser = new User(s, cookies);
-    if(add(newUser)){
+  public User register(Session s) {
+    User newUser = new User(s);
+    if (add(newUser)) {
       return newUser;
     }
     return null;
-
   }
 
 
   private boolean add(User u) {
     Group bestFit =
         groupSelector.selectFor(u, Collections.unmodifiableCollection(pending));
-    if(bestFit == null){
+    if (bestFit == null) {
       return false;
     }
+
     userToUserGroup.put(u, bestFit);
     bestFit.add(u);
 
     System.out.format("User %s added to %s%n", u, bestFit);
-
-    if (bestFit.isFull()) {
-      full.add(bestFit);
-      pending.remove(bestFit);
-    } else {
-      pending.remove(bestFit); // do nothing if it's new, otherwise reheap.
-      pending.add(bestFit);
-    }
-    GroupViewWebsocket.reportChange(openGroups());
+    filterGroup(bestFit);
     return true;
   }
 
@@ -111,11 +100,7 @@ public class GCT {
     }
     group.remove(u);
     userToUserGroup.remove(u);
-    if (group.isEmpty()) {
-      full.remove(group);
-      pending.remove(group);
-    }
-    GroupViewWebsocket.reportChange(openGroups());
+    filterGroup(group);
     return true;
   }
 
@@ -129,9 +114,19 @@ public class GCT {
   }
 
 
-  public boolean userIDIsValid(String uuid) {
-    return pending.stream().anyMatch(grp -> grp.hasUserWithID(uuid))
-        || full.stream().anyMatch(grp -> grp.hasUserWithID(uuid));
+  // put a newly modified group into its proper set.
+  private void filterGroup(Group g) {
+    if (g.isFull()) {
+      full.add(g);
+      pending.remove(g);
+    } else if (g.isEmpty()) {
+      pending.remove(g);
+      full.remove(g);
+    } else { // not full game, some players.
+      pending.add(g);
+      full.remove(g);
+    }
+    GroupViewWebsocket.reportChange(openGroups());
   }
 
 

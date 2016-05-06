@@ -2,7 +2,6 @@ package edu.brown.cs.networking;
 
 import java.io.IOException;
 import java.net.HttpCookie;
-import java.util.List;
 
 import org.eclipse.jetty.websocket.api.Session;
 
@@ -11,37 +10,30 @@ import com.google.gson.annotations.Expose;
 
 public final class User {
 
-  private Session          session;
-  private List<HttpCookie> cookies;
+  private Session    session;
   @Expose
-  private Integer          userID;
-  private JsonObject       values;
+  private Integer    userID;
+  private JsonObject values;
 
 
-  public User(Session s, List<HttpCookie> cookies) {
-    this.session = s;
-    this.cookies = cookies;
-    this.values = new JsonObject();
-    for (HttpCookie cook : cookies) {
-      values.addProperty(cook.getName(), cook.getValue());
-    }
+  public User(Session s) {
+    updateSession(s);
   }
 
 
   public void updateSession(Session s) {
     this.session = s;
-  }
-
-
-  public void updateCookies(List<HttpCookie> cookies) {
-    this.cookies = cookies;
+    values = new JsonObject();
+    for (HttpCookie cook : s.getUpgradeRequest().getCookies()) {
+      values.addProperty(cook.getName(), cook.getValue());
+    }
   }
 
 
   public boolean message(JsonObject json) {
-    if (session().isOpen()) {
+    if (session.isOpen()) {
       try {
-        session().getRemote().sendString(json.toString());
+        session.getRemote().sendString(json.toString());
         return true;
       } catch (IOException e) {
         System.out.format("Failed to send message to Session %s : %s%n",
@@ -61,17 +53,12 @@ public final class User {
 
 
   public boolean hasField(String field) {
-    return values.has(field);
+    return values.has(field) && !values.get(field).isJsonNull();
   }
 
 
   public JsonObject getFieldsAsJson() {
     return values;
-  }
-
-
-  public Session session() {
-    return session;
   }
 
 
@@ -90,7 +77,7 @@ public final class User {
   public String toString() {
     return String.format("Session : {%s}, UserID : {%s}, data {%s}",
         session.getLocalAddress(), String.valueOf(userID),
-        cookies.toString());
+        values.toString());
   }
 
 }

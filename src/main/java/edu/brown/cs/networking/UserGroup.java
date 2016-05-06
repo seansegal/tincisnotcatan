@@ -185,6 +185,52 @@ public class UserGroup implements Timestamped, Group {
   }
 
 
+  @Override
+  public long initTime() {
+    return initTime;
+  }
+
+
+  @Override
+  public void stampNow() {
+    this.initTime = System.currentTimeMillis();
+
+  }
+
+
+  @Override
+  public boolean isEmpty() {
+    return users.isEmpty();
+  }
+
+
+  @Override
+  public void userDisconnected(User u, long expiresAt) {
+    if (!users.contains(u)) {
+      System.out.println(
+          "Error! Disconnected user, but I don't have a reference to them!");
+      return;
+    }
+    System.out.println("DISCONNECTED AT " + expiresAt + " " + u);
+    afk.put(u, expiresAt);
+
+  }
+
+
+  @Override
+  public void userReconnected(User u) {
+    System.out.println("RECONNECTED " + u);
+    afk.remove(u);
+    if (this.allUsersConnectedWithMessage()) {
+      System.out.println("SENDING READY TO GO MESSAGE");
+      JsonObject readyToGo = new JsonObject();
+      readyToGo.addProperty("requestType", "disconnectedUsers");
+      readyToGo.add("users", GSON.toJsonTree(Collections.emptyList()));
+      readyToGo.addProperty("expiresAt", -1);
+      users.stream().forEach(usr -> usr.message(readyToGo));
+    }
+  }
+
   public static class UserGroupBuilder {
 
     private Collection<RequestProcessor> reqs;
@@ -239,53 +285,6 @@ public class UserGroup implements Timestamped, Group {
 
     public UserGroup build() {
       return new UserGroup(this);
-    }
-  }
-
-
-  @Override
-  public long initTime() {
-    return initTime;
-  }
-
-
-  @Override
-  public void stampNow() {
-    this.initTime = System.currentTimeMillis();
-
-  }
-
-
-  @Override
-  public boolean isEmpty() {
-    return users.isEmpty();
-  }
-
-
-  @Override
-  public void userDisconnected(User u, long expiresAt) {
-    if (!users.contains(u)) {
-      System.out.println(
-          "Error! Disconnected user, but I don't have a reference to them!");
-      return;
-    }
-    System.out.println("DISCONNECTED AT " + expiresAt + " " + u);
-    afk.put(u, expiresAt);
-
-  }
-
-
-  @Override
-  public void userReconnected(User u) {
-    System.out.println("RECONNECTED " + u);
-    afk.remove(u);
-    if (this.allUsersConnectedWithMessage()) {
-      System.out.println("SENDING READY TO GO MESSAGE");
-      JsonObject readyToGo = new JsonObject();
-      readyToGo.addProperty("requestType", "disconnectedUsers");
-      readyToGo.add("users", GSON.toJsonTree(Collections.emptyList()));
-      readyToGo.addProperty("expiresAt", -1);
-      users.stream().forEach(usr -> usr.message(readyToGo));
     }
   }
 }

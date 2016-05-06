@@ -90,7 +90,6 @@ public class ReceivingWebsocket {
         // assign this session to the existing user:
         User u = uuidToUser.get(id);
         u.updateSession(session);
-        u.updateCookies(list);
         afkMap.remove(u);
         gct.groupForUser(u).userReconnected(u);
         System.out.println("Updated User object with new session");
@@ -106,7 +105,7 @@ public class ReceivingWebsocket {
       String newid = DistinctRandom.getString();
       HttpCookie newCookie = new HttpCookie(USER_IDENTIFIER, newid);
       list.add(newCookie);
-      User newUser = gct.register(session, list);
+      User newUser = gct.register(session);
       if(newUser != null) {
         uuidToUser.put(newid, newUser);
         setCookie(newUser, list);
