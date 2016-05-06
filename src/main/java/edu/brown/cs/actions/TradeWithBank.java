@@ -14,6 +14,7 @@ import edu.brown.cs.catan.Resource;
 
 public class TradeWithBank implements Action {
 
+  public static final String ID = "tradeWithBank";
   private Referee _ref;
   private Player _player;
   private Resource _toGive;

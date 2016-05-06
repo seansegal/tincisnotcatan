@@ -13,6 +13,7 @@ import edu.brown.cs.catan.Referee.GameStatus;
 
 public class BuildSettlement implements Action {
 
+  public static final String ID = "buildSettlement";
   private Player _player;
   private Intersection _intersection;
   private boolean _mustPay;

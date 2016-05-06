@@ -12,6 +12,7 @@ import edu.brown.cs.catan.Referee;
 
 public class PlayKnight implements Action {
 
+  public static final String ID = "playKnight";
   private Player _player;
   private Referee _ref;
   private boolean _isTurnStart = false;

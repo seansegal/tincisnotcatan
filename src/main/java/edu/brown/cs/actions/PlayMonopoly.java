@@ -13,6 +13,7 @@ import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
 public class PlayMonopoly implements Action {
+  public static final String ID = "playMonopoly";
   private Referee _ref;
   private Player _player;
   private Resource _res;

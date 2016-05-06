@@ -11,6 +11,7 @@ import edu.brown.cs.catan.Referee;
 
 public class BuyDevelopmentCard implements Action {
 
+  public static final String ID = "buyDevCard";
   private Referee _referee;
   private Player _player;
 

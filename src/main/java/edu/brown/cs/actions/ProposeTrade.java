@@ -18,6 +18,7 @@ public class ProposeTrade implements Action{
   private Referee _ref;
   private Map<Resource, Double> _resources;
   private final static double TOLERANCE = .001;
+  public static final String ID = "proposeTrade";
 
   public ProposeTrade(Referee ref, int playerID, JsonObject params) {
     assert ref != null;

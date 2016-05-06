@@ -15,6 +15,7 @@ import edu.brown.cs.catan.Referee.GameStatus;
 
 public class BuildRoad implements Action {
 
+  public static final String ID = "buildRoad";
   private Referee _ref;
   private Player _player;
   private Path _path;
