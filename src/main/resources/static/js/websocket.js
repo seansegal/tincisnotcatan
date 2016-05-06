@@ -406,11 +406,19 @@ function handleErrorFromSocket(data) {
 		case "NOT_REGISTERED":
 			alert("Internal error : user not registered");
 			break;
+		case "FULL_GAME":
+			$("#full-game-modal").modal("show");
+			break;
 		default:
 			console.log(data.description);
 		}
 	}
 }
+
+$("#accept-full-game-btn").click(function(event) {
+	$("#full-game-modal").modal("hide");
+	deleteAllCookiesAndGoHome();
+});
 
 // ---------- COOKIE MANAGEMENT ---------- //
 

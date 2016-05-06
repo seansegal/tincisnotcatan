@@ -101,13 +101,18 @@ public class ReceivingWebsocket {
         sendError(session, "RESET");
         return;
       }
+
       System.out.println("New session!");
       String newid = DistinctRandom.getString();
       HttpCookie newCookie = new HttpCookie(USER_IDENTIFIER, newid);
       list.add(newCookie);
       User newUser = gct.register(session, list);
-      uuidToUser.put(newid, newUser);
-      setCookie(newUser, list);
+      if(newUser != null) {
+        uuidToUser.put(newid, newUser);
+        setCookie(newUser, list);
+      } else {
+        this.sendError(session, "FULL_GAME");
+      }
     }
   }
 
