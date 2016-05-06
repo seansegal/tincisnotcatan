@@ -17,6 +17,8 @@ import java.util.Map;
 import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.board.Board;
 import edu.brown.cs.board.Intersection;
+import edu.brown.cs.gamestats.CatanStats;
+import edu.brown.cs.gamestats.GameStats;
 
 public class MasterReferee implements Referee {
 
@@ -31,6 +33,7 @@ public class MasterReferee implements Referee {
   private Player _longestRoad = null;
   private GameStatus _gameStatus;
   private final Setup _setup;
+  private GameStats _gameStats;
 
   public MasterReferee() {
     _board = new Board();
@@ -42,6 +45,7 @@ public class MasterReferee implements Referee {
     _turn = new Turn(1, Collections.emptyMap());
     _gameStatus = GameStatus.WAITING;
     _setup = new Setup(getSetupOrder());
+    _gameStats = CatanStats.getGameStatsObject();
   }
 
   public MasterReferee(GameSettings gameSettings) {
@@ -54,6 +58,7 @@ public class MasterReferee implements Referee {
     _turn = new Turn(1, Collections.emptyMap());
     _gameStatus = GameStatus.WAITING;
     _setup = new Setup(getSetupOrder());
+    _gameStats = CatanStats.getGameStatsObject();
   }
 
   private List<Integer> getSetupOrder() {
@@ -332,6 +337,11 @@ public class MasterReferee implements Referee {
     return _devCardDeck.isEmpty();
   }
 
+  @Override
+  public GameStats getGameStats() {
+    return _gameStats;
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -492,6 +502,13 @@ public class MasterReferee implements Referee {
       return _referee.devCardDeckIsEmpty();
     }
 
+    @Override
+    public GameStats getGameStats() {
+      return _referee.getGameStats();
+      //TODO: immutable?
+    }
+
   }
+
 
 }
