@@ -45,23 +45,18 @@ public class CatanGroupSelector implements GroupSelector {
       }
       System.out
           .println("ERROR: Requested game is either full or nonexistent");
+      return null;
     }
 
     int desiredSize = Integer.parseInt(u.getField(NUM_PLAYERS));
     if (desiredSize < 2 || desiredSize > 4) {
-      System.out.println("Error! Line 45 of catan group selector.");
+      System.out.println("ERROR: Size requested out of bounds : " + desiredSize);
       return null;
-    }
-    for (Group ug : coll) {
-      if (!ug.isFull() && ug.maxSize() == desiredSize) {
-        return ug;
-      }
     }
 
     // name the game
     String name = u.hasField(GAME_NAME_IDENTIFIER) ? u.getField(GAME_NAME_IDENTIFIER) :
       "Unnamed game";
-
 
     // MAKE SETTINGS :
     JsonObject settings = new JsonObject();
