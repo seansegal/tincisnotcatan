@@ -10,6 +10,7 @@ import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
 public class UpdateResource implements Action {
+  public static final String ID = "updateResource";
   private Player _player;
   private Referee _ref;
 

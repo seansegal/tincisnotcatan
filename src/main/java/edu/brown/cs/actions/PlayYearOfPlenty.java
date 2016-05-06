@@ -21,6 +21,7 @@ public class PlayYearOfPlenty implements Action {
   private final Bank _bank;
   private final Map<Resource, Double> _resources;
   private final static double TOLERANCE = .001;
+  public static final String ID = "playYearOfPlenty";
 
   public PlayYearOfPlenty(Referee ref, int playerID, JsonObject params) {
     assert ref != null;
@@ -67,7 +68,7 @@ public class PlayYearOfPlenty implements Action {
             "You did not select the proper amount of resources", null));
       }
     }
-    
+
     try {
       _player.playDevelopmentCard(DevelopmentCard.YEAR_OF_PLENTY);
     } catch (IllegalArgumentException e) {
@@ -77,7 +78,7 @@ public class PlayYearOfPlenty implements Action {
       toRet.put(_player.getID(), toAdd);
       return toRet;
     }
-    
+
     StringBuilder message = new StringBuilder("You gained:");
 
     if (_ref.getGameSettings().isDecimal) {

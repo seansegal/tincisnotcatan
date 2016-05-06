@@ -84,44 +84,40 @@ public class ActionFactory {
         switch (action) {
         case "getInitialState":
           return new EmptyAction();
-        case "startGame":
+        case StartGame.ID:
           return new StartGame(_referee);
-//        case "startSetup":
-//          return new StartGameSetup(_referee);
-        case "buildCity":
+        case BuildCity.ID:
           return new BuildCity(_referee, playerID,
               toIntersectionCoordinate(actionJSON.get("coordinate")
                   .getAsJsonObject()));
-        case "buildSettlement":
+        case BuildSettlement.ID:
           return new BuildSettlement(_referee, playerID,
               toIntersectionCoordinate(actionJSON.get("coordinate")
                   .getAsJsonObject()), true);
-        case "buildRoad":
+        case BuildRoad.ID:
           IntersectionCoordinate start = toIntersectionCoordinate(actionJSON
               .get("start").getAsJsonObject());
           IntersectionCoordinate end = toIntersectionCoordinate(actionJSON.get(
               "end").getAsJsonObject());
           return new BuildRoad(_referee, playerID, start, end, true);
-        case "buyDevCard":
+        case BuyDevelopmentCard.ID:
           return new BuyDevelopmentCard(_referee, playerID);
-//        case "rollDice":
-//          return new RollDice(_referee, playerID);
-        case "playMonopoly":
+        case PlayMonopoly.ID:
           return new PlayMonopoly(_referee, playerID, actionJSON
               .get("resource").getAsString());
-        case "playYearOfPlenty":
+        case PlayYearOfPlenty.ID:
           return new PlayYearOfPlenty(_referee, playerID, actionJSON);
-        case "playKnight":
+        case PlayKnight.ID:
           return new PlayKnight(_referee, playerID);
-        case "playRoadBuilding":
+        case PlayRoadBuilding.ID:
           return new PlayRoadBuilding(_referee, playerID);
-        case "tradeWithBank":
+        case TradeWithBank.ID:
           return new TradeWithBank(_referee, playerID, actionJSON);
-        case "endTurn":
+        case EndTurn.ID:
           return new EndTurn(_referee, playerID);
-        case "proposeTrade":
+        case ProposeTrade.ID:
           return new ProposeTrade(_referee, playerID, actionJSON);
-        case "updateResource":
+        case UpdateResource.ID:
           return new UpdateResource(_referee, playerID);
         default:
           String err = String.format("The action %s does not exist.", action);
