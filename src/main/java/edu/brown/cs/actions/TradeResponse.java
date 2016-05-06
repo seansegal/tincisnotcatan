@@ -106,7 +106,6 @@ public class TradeResponse implements FollowUpAction {
             "You traded with %s", _tradee.getName()), _resources);
         toRet.put(_player.getID(), otherResponse);
       } else if (p.equals(_tradee)) {
-        _ref.removeFollowUp(new ReviewTrade(p.getID(), _resources, _trade));
         ActionResponse toAdd = new ActionResponse(true, String.format(
             "You traded with %s", _player.getName()), _resources);
         toRet.put(_tradee.getID(), toAdd);
