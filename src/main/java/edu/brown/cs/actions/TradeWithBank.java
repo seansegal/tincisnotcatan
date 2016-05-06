@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonObject;
 
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
@@ -18,14 +19,21 @@ public class TradeWithBank implements Action {
   private Resource _toGive;
   private Resource _toGet;
 
-  public TradeWithBank(Referee ref, int playerID, String toGive, String toGet) {
+  public TradeWithBank(Referee ref, int playerID, JsonObject params) {
     _ref = ref;
     _player = ref.getPlayerByID(playerID);
     if (_player == null) {
       throw new IllegalArgumentException("No player exists with the given ID.");
     }
-    _toGive = Resource.stringToResource(toGive);
-    _toGet = Resource.stringToResource(toGet);
+    if (!params.get("toGive").isJsonNull() && !params.get("toGet").isJsonNull()) {
+      String toGive = params.get("toGive").getAsString();
+      String toGet = params.get("toGet").getAsString();
+      _toGive = Resource.stringToResource(toGive);
+      _toGet = Resource.stringToResource(toGet);
+    } else {
+      throw new IllegalArgumentException("toGive and toGet cannot be null.");
+    }
+
   }
 
   @Override
@@ -53,7 +61,6 @@ public class TradeWithBank implements Action {
     // Action:
     _player.removeResource(_toGive, rate, _ref.getBank());
     _player.addResource(_toGet, 1, _ref.getBank());
-
 
     // Format responses:
     String messageToPlayer = String.format(
