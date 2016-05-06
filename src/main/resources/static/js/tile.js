@@ -155,21 +155,22 @@ Tile.prototype.draw = function(transX, transY, scale) {
 		numberCircle.children("img").remove();
 		numberCircle.append("<img src='images/icon-robber.svg' alt='Robber' class='robber-icon'>");
 
-		// Add handlers to show true number on hover
-		numberCircle.off("mouseenter");
-		numberCircle.mouseenter(function(event) {
-			var circle = $(this);
-			circle.children().removeClass("hidden");
-			circle.children("img").addClass("hidden");
-		});
+		if (this.tileType !== TILE_TYPE.DESERT) {
+			// Add handlers to show true number on hover
+			numberCircle.off("mouseenter");
+			numberCircle.mouseenter(function(event) {
+				var circle = $(this);
+				circle.children().removeClass("hidden");
+				circle.children("img").addClass("hidden");
+			});
 
-		numberCircle.off("mouseleave");
-		numberCircle.mouseleave(function(event) {
-			var circle = $(this);
-			circle.children().addClass("hidden");
-			circle.children("img").removeClass("hidden");
-		});
-		
+			numberCircle.off("mouseleave");
+			numberCircle.mouseleave(function(event) {
+				var circle = $(this);
+				circle.children().addClass("hidden");
+				circle.children("img").removeClass("hidden");
+			});
+		}	
 	}
 
 	// Draw port
