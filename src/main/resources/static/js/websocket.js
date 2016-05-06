@@ -31,7 +31,12 @@ function deleteAllCookiesAndGoHome() {
 }
 
 webSocket.onclose = function() {
-    window.location.reload(true);
+	if(document.cookie.indexOf("USER_ID") > -1) {
+		window.location.reload(true);
+	} else {
+		deleteAllCookiesAndGoHome();
+	}
+    
 }
 
 $("#leave-game-btn").click(function(event) {
