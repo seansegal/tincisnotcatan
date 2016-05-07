@@ -653,9 +653,10 @@ $(".to-give-circle-container").click(function(event) {
 	// Highlight this resource
 	selectedToGiveElement = element;
 	selectedToGiveElement.addClass("highlighted-to-give-get-circle");
+	var amount = parseFloat($("#bank-trade-amount-input").val());
 
 	selectedToGiveResource = selectedToGiveElement.attr("res");
-	if (selectedToGiveResource !== null && selectedToGetResource !== null) {
+	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
 		$("#bank-trade-btn").prop("disabled", false);
 	}
 });
@@ -671,15 +672,18 @@ $(".to-get-circle-container").click(function(event) {
 	// Highlight this resource
 	selectedToGetElement = element;
 	selectedToGetElement.addClass("highlighted-to-give-get-circle");
+	var amount = parseFloat($("#bank-trade-amount-input").val());
 
 	selectedToGetResource = selectedToGetElement.attr("res");
-	if (selectedToGiveResource !== null && selectedToGetResource !== null) {
+	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
 		$("#bank-trade-btn").prop("disabled", false);
 	}
 });
 
 $("#bank-trade-btn").click(function(event) {
-	sendTradeWithBankAction(selectedToGiveResource, selectedToGetResource);
+	var amount = parseFloat($("#bank-trade-amount-input").val());
+
+	sendTradeWithBankAction(selectedToGiveResource, selectedToGetResource, amount);
 
 	// Reset selected resources
 	selectedToGiveElement.removeClass("highlighted-to-give-get-circle");
@@ -691,6 +695,7 @@ $("#bank-trade-btn").click(function(event) {
 	selectedToGetResource  = null;
 
 	$("#bank-trade-btn").prop("disabled", true);
+	$("#bank-trade-amount-input").val(1);
 });
 
 //////////////////////////////////////////

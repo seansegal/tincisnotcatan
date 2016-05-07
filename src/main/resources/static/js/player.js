@@ -208,6 +208,8 @@ function fillPlayerTradeRates(rates) {
 	$("#wheat-trade-rate").text(createTradeRateText(rates.wheat));
 	$("#sheep-trade-rate").text(createTradeRateText(rates.sheep));
 	$("#wildcard-trade-rate").text(createTradeRateText(rates.wildcard));
+
+	
 }
 
 function hexToRgb(hex) {

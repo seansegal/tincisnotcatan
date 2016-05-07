@@ -326,6 +326,16 @@ body {
 	margin: -10px;
 }
 
+#bank-trade-amount-container {
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+#bank-trade-amount-input {
+	width: 80px;
+	display: inline-block;
+}
+
 .highlighted-to-give-get-circle {
 	background: radial-gradient(closest-side, rgba(255,255,0,1), rgba(255,255,0,1) 50%, rgba(255,255,0,0) 100%);
 }

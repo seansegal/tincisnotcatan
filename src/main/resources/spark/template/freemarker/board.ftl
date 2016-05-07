@@ -294,7 +294,10 @@
 								</div>
 							</div>
 				    	</div>
-				    	
+				    	<div class="form-group text-center" id="bank-trade-amount-container">
+							<label for="bank-trade-amount-input">Amount to recieve?</label>
+							<input id="bank-trade-amount-input" class="form-control" type="number" min="0" value="1" step="1">
+						</div>
 		    			<div class="row trade-row">
 		    				<div class="col-xs-12 text-center">
 		    					<input type="button" class="btn btn-primary" value="Trade With Bank" id="bank-trade-btn">

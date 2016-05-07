@@ -128,8 +128,8 @@ function sendTakeCardAction(playerId) {
     webSocket.send(JSON.stringify(takeReq));
 }
 
-function sendTradeWithBankAction(toGive, toGet) {
-    var tradeReq = {requestType: "action", action: "tradeWithBank", toGive: toGive, toGet: toGet};
+function sendTradeWithBankAction(toGive, toGet, amount) {
+    var tradeReq = {requestType: "action", action: "tradeWithBank", toGive: toGive, toGet: toGet, amount: amount};
     webSocket.send(JSON.stringify(tradeReq));
 }
 
