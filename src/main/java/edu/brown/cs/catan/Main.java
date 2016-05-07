@@ -4,18 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
-
-import edu.brown.cs.api.CatanGroupSelector;
-import edu.brown.cs.networking.GCT;
-import edu.brown.cs.networking.GCT.GCTBuilder;
-import freemarker.template.Configuration;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
 import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
+
+import com.google.common.collect.ImmutableMap;
+
+import edu.brown.cs.api.CatanGroupSelector;
+import edu.brown.cs.networking.GCT;
+import edu.brown.cs.networking.GCT.GCTBuilder;
+import freemarker.template.Configuration;
 
 public class Main {
 
@@ -108,7 +109,6 @@ public class Main {
         res.redirect("/board");
         System.out.println("Redirect to board!");
         return new BoardHandler().handle(req, res);
-
       }
       Map<String, Object> variables = ImmutableMap.of("title",
           "Catan : Home");

@@ -19,6 +19,7 @@ public class TradeWithBank implements Action {
   private Player _player;
   private Resource _toGive;
   private Resource _toGet;
+  private double _amount;
 
   public TradeWithBank(Referee ref, int playerID, JsonObject params) {
     _ref = ref;
@@ -29,6 +30,7 @@ public class TradeWithBank implements Action {
     if (!params.get("toGive").isJsonNull() && !params.get("toGet").isJsonNull()) {
       String toGive = params.get("toGive").getAsString();
       String toGet = params.get("toGet").getAsString();
+      _amount = params.get("amount").getAsDouble();
       _toGive = Resource.stringToResource(toGive);
       _toGet = Resource.stringToResource(toGet);
     } else {
@@ -45,7 +47,8 @@ public class TradeWithBank implements Action {
     if (!_ref.getGameSettings().isDecimal) {
       rate = Math.ceil(rate);
     }
-    if (_player.getResources().get(_toGive) < rate) {
+    double amountToGive = rate*_amount;
+    if (_player.getResources().get(_toGive) < amountToGive) {
       String message = String.format(
           "You do not have enough %s to trade with the bank",
           _toGive.toString());
@@ -60,18 +63,18 @@ public class TradeWithBank implements Action {
     }
 
     // Action:
-    _player.removeResource(_toGive, rate, _ref.getBank());
-    _player.addResource(_toGet, 1, _ref.getBank());
+    _player.removeResource(_toGive, _amount*rate, _ref.getBank());
+    _player.addResource(_toGet, _amount*1, _ref.getBank());
 
     // Format responses:
+    NumberFormat nf = new DecimalFormat("##.##");
     String messageToPlayer = String.format(
-        "You traded with the bank and got a %s", _toGet);
+        "You traded with the bank and got %s %s", nf.format(_amount), _toGet);
     ActionResponse respToPlayer = new ActionResponse(true, messageToPlayer,
         null);
-    NumberFormat nf = new DecimalFormat("##.##");
     String messageToAll = String
-        .format("%s traded %s %s for %s", _player.getName(), nf.format(rate),
-            _toGive, _toGet.stringWithArticle());
+        .format("%s traded %s %s for %s %s", _player.getName(), nf.format(amountToGive),
+            _toGive, nf.format(_amount), _toGet);
     ActionResponse respToAll = new ActionResponse(true, messageToAll, null);
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
     for (Player p : _ref.getPlayers()) {
