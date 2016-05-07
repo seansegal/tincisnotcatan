@@ -648,7 +648,7 @@ $("#bank-trade-btn").prop("disabled", true);
 var selectedToGiveElement = null;
 var selectedToGiveResource  = null;
 var selectedToGetElement = null;
-var selectedToGetResource  = "hey there";
+var selectedToGetResource  = null;
 
 $(".to-give-circle-container").click(function(event) {
 	var element = $(this);
@@ -697,6 +697,8 @@ $("#bank-trade-btn").click(function(event) {
 	selectedToGiveResource  = null;
 	selectedToGetElement = null;
 	selectedToGetResource  = null;
+
+	$("#bank-trade-btn").prop("disabled", true);
 });
 
 //////////////////////////////////////////
