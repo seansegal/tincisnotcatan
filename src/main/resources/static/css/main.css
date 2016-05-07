@@ -338,6 +338,14 @@ body {
 	margin: -10px;
 }
 
+#bank-give-amount-label {
+	margin-top: 15px;
+}
+
+#bank-give-amount {
+	margin-top: 0px;
+}
+
 #bank-trade-amount-container {
 	margin-top: 10px;
 	margin-bottom: 0px;

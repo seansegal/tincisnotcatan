@@ -294,8 +294,11 @@
 								</div>
 							</div>
 				    	</div>
+				    	<br/>
+				    	<label id="bank-give-amount-label">Amount to give:</label>
+				    	<h5 id="bank-give-amount"> </h5>
 				    	<div class="form-group text-center" id="bank-trade-amount-container">
-							<label for="bank-trade-amount-input">Amount to recieve?</label>
+							<label for="bank-trade-amount-input">Amount to receive:</label>
 							<input id="bank-trade-amount-input" class="form-control" type="number" min="0" value="1" step="1">
 						</div>
 		    			<div class="row trade-row">
