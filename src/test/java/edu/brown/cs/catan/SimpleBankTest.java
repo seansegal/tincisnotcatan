@@ -15,7 +15,7 @@ public class SimpleBankTest {
 
   @Test
   public void testBankRate(){
-    assertTrue(new SimpleBank().getBankRate() == Settings.BANK_RATE);
+    assertTrue(new SimpleBank().getBankRate(Resource.BRICK) == Settings.BANK_RATE);
   }
 
 

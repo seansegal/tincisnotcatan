@@ -264,7 +264,7 @@ public class MasterReferee implements Referee {
     Player player = getPlayerByID(id);
     Map<Resource, Double> rates = new HashMap<>();
     for (Resource r : Resource.values()) {
-      rates.put(r, _bank.getBankRate());
+      rates.put(r, _bank.getBankRate(r));
     }
     for (Intersection i : _board.getIntersections().values()) {
       if (i.getPort() != null && i.getBuilding() != null
@@ -272,12 +272,12 @@ public class MasterReferee implements Referee {
         if (i.getPort().getResource() == Resource.WILDCARD) {
           for (Resource r : Resource.values()) {
             double rate = Math.min(rates.get(r),
-                _bank.getPortRates().get(Resource.WILDCARD));
+                _bank.getPortRate(r));
             rates.put(r, rate);
           }
         } else {
           Resource r = i.getPort().getResource();
-          double rate = Math.min(rates.get(r), _bank.getPortRates().get(r));
+          double rate = Math.min(rates.get(r), _bank.getPortRate(r));
           rates.put(r, rate);
         }
       }

@@ -1,6 +1,6 @@
 package edu.brown.cs.catan;
 
-import java.util.Map;
+
 
 public interface Bank {
 
@@ -8,7 +8,8 @@ public interface Bank {
   void getResource(Resource resource, double count);
   void discardResource(Resource resource);
   void discardResource(Resource resource, double count);
-  double getBankRate();
-  Map<Resource, Double> getPortRates();
+  double getBankRate(Resource res);
+  double getPortRate(Resource res);
+//  Map<Resource, Double> getPortRates();
 
 }
