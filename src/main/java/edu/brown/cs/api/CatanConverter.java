@@ -23,6 +23,7 @@ import edu.brown.cs.board.Road;
 import edu.brown.cs.board.Tile;
 import edu.brown.cs.board.TileType;
 import edu.brown.cs.catan.DevelopmentCard;
+import edu.brown.cs.catan.GameSettings;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Referee.GameStatus;
@@ -68,6 +69,7 @@ public class CatanConverter {
     private int currentTurn;
     private FollowUpActionRaw followUp;
     private Collection<PublicPlayerRaw> players;
+    private GameSettings settings;
 
     public GameState(Referee ref, int playerID) {
       this.playerID = playerID;
@@ -82,6 +84,7 @@ public class CatanConverter {
       this.followUp = ref.getNextFollowUp(playerID) != null ? new FollowUpActionRaw(
           ref.getNextFollowUp(playerID)) : null;
       this.players = new ArrayList<>();
+      this.settings = ref.getGameSettings();
       for (Player p : ref.getPlayers()) {
         players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));
       }
@@ -90,11 +93,11 @@ public class CatanConverter {
 
   public static class CatanSettings {
     private final int numPlayers;
-    private final boolean decimal;
+    private final boolean isDecimal;
 
     public CatanSettings(int numPlayers, boolean decimal) {
       this.numPlayers = numPlayers;
-      this.decimal = decimal;
+      this.isDecimal = decimal;
     }
 
     public int getNumPlayers() {
@@ -102,7 +105,7 @@ public class CatanConverter {
     }
 
     public boolean isDecimal() {
-      return decimal;
+      return isDecimal;
     }
 
   }

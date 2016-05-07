@@ -38,6 +38,19 @@
 								<option value="2">2 players</option>
 							</select>
 						</div>
+						<div class="form-group">
+							<label for="victory-points-input">How many victory points to play to?</label>
+							<input id="victory-points-input" class="form-control" type="number" min="5" max="15" value="10" step="1">
+						</div>
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default active">
+    							<input type="radio" autocomplete="off" checked>Standard
+  							</label>
+  							<label class="btn btn-default" id="decimal-option">
+    							<input type="radio" autocomplete="off">Decimal
+  							</label>
+						</div>
+						<br>
 						<button id="startGameButton" class="btn btn-success" onclick="return startGamePressed()">Create Game!</button>
 					</form>
 				</div>

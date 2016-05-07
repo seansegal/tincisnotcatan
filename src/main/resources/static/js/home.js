@@ -103,9 +103,9 @@ function existingGameSelected(caller) {
 	var userName = id("nameEntry").value;
 	var groupId = $(caller).attr("gameid");
 	var groupSize = $(caller).attr("maxSize");
-	console.log(userName);
-	console.log(groupId);
-	console.log(groupSize);
+	var victoryPoints = id("victory-points-input").value;
+	var isDecimal = $("#decimal-option").hasClass("active");
+
  	if(userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false;
@@ -113,6 +113,8 @@ function existingGameSelected(caller) {
  	setCookie("desiredGroupId", groupId);
  	setCookie("userName", userName);
 	setCookie("numPlayersDesired", groupSize);
+	setCookie("victoryPoints", victoryPoints);
+	setCookie("isDecimal", isDecimal);
 	deleteCookie("USER_ID");
 	return true;
 }
@@ -150,6 +152,9 @@ function startGamePressed() {
 	var userName = id("nameEntry").value;
 	var numPlayers = id("numPlayersDesired").value;
 	var groupName = id("game-name-entry").value;
+	var victoryPoints = id("victory-points-input").value;
+	var isDecimal = $("#decimal-option").hasClass("active");
+
 	if(userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false; // will not allow the get reqeust to process.
@@ -162,6 +167,8 @@ function startGamePressed() {
 
 	setCookie("userName", userName);
 	setCookie("numPlayersDesired", numPlayers);
+	setCookie("victoryPoints", victoryPoints);
+	setCookie("isDecimal", isDecimal);
 	setCookie("groupName", groupName);
 	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.

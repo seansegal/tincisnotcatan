@@ -26,6 +26,10 @@ h1 {
   margin-bottom: 0px;
 }
 
+#startGameButton {
+  margin-top: 15px;
+}
+
 .vertical-center {
   overflow-x: auto;
 }
