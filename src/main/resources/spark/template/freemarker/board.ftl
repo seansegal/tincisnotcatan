@@ -19,7 +19,7 @@
 	    	<li role="presentation" id="players-tab-toggle" class="active right-tab"><a href="#players-tab" aria-controls="players-tab" role="tab" data-toggle="tab">Players</a></li>
 	    	<li role="presentation" id="build-tab-toggle" class="right-tab"><a href="#build-tab" aria-controls="build-tab" role="tab" data-toggle="tab">Build</a></li>
 	    	<li role="presentation" id="trade-tab-toggle" class="right-tab"><a href="#trade-tab" aria-controls="trade-tab" role="tab" data-toggle="tab">Trade</a></li>
-	    	<li role="presentation" id="options-tab-toggle" class="right-tab"><a href="#options-tab" aria-controls="options-tab" role="tab" data-toggle="tab">Options</a></li>
+	    	<li role="presentation" id="extras-tab-toggle" class="right-tab"><a href="#extras-tab" aria-controls="extras-tab" role="tab" data-toggle="tab">Extras</a></li>
 		</ul>
 		<div class="tab-content right-tab-content col-xs-9">
 		    <div role="tabpanel" class="tab-pane active right-tab-pane" id="players-tab">
@@ -309,7 +309,9 @@
 		    		</div>
 		    	</div>
 		    </div>
-		    <div role="tabpanel" class="tab-pane right-tab-pane container" id="options-tab">
+		    <div role="tabpanel" class="tab-pane right-tab-pane container" id="extras-tab">
+		    	<input type="button" id="show-stats-btn" class="btn btn-default" value="Show Stats" data-toggle="modal" data-target="#stats-modal">
+				<br>
 				<input type="button" id="exit-game-toggle-btn" class="btn btn-danger" value="Leave Game" data-toggle="modal" data-target="#exit-game-modal">
 		    </div>
 	    </div>
@@ -798,6 +800,24 @@
 	</div>
 </div>
 
+<div class="modal fade" id="stats-modal" tabindex="-1" role="dialog" aria-labelledby="statsModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="statsModal">Roll Distribution</h4>
+      		</div>
+      		<div class="modal-body">
+      			<div id="dice-distribution-container">
+					<canvas id="dice-distribution" width="200" height="200"></canvas>
+				</div>
+      		</div>
+      		<div class="modal-footer">
+      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>
@@ -807,3 +827,4 @@
 <script src="js/board.js"></script>
 <script src="js/websocket.js"></script>
 <script src="js/main.js"></script>
+<script src="js/Chart.min.js"></script>

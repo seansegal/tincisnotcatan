@@ -6,6 +6,7 @@ var currentPlayerTurn = -2;
 var openedPlayerTab = 0;
 var gameSettings = {};
 var tradeRates = {};
+var gameStats = {};
 
 $(window).load(function() {
 	board = new Board();
@@ -1029,3 +1030,30 @@ function setDecimalTradeRates(isDecimal) {
 	}
 }
 
+//////////////////////////////////////////
+// Game Stats Page
+//////////////////////////////////////////
+
+$("#show-stats-btn").click(function(event) {
+	var rolls = gameStats.rolls;
+	var ctx = $("#dice-distribution")[0];
+    var myChart = new Chart(ctx, {
+    	type: 'bar',
+		data: {
+		        labels: ["2", "3", "4", "5", "6", "7", "8", "9", "10","11", "12"],
+		        datasets: [{
+		            label: '#  of Rolls',
+		            data: rolls
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+});
