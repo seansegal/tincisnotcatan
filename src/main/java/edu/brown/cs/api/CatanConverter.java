@@ -93,11 +93,11 @@ public class CatanConverter {
 
   public static class CatanSettings {
     private final int numPlayers;
-    private final boolean decimal;
+    private final boolean isDecimal;
 
     public CatanSettings(int numPlayers, boolean decimal) {
       this.numPlayers = numPlayers;
-      this.decimal = decimal;
+      this.isDecimal = decimal;
     }
 
     public int getNumPlayers() {
@@ -105,7 +105,7 @@ public class CatanConverter {
     }
 
     public boolean isDecimal() {
-      return decimal;
+      return isDecimal;
     }
 
   }
