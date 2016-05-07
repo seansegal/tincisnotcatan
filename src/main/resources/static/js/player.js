@@ -49,14 +49,15 @@ Player.prototype.addPlayerTab = function() {
 	}
 	
 	tab.append("<div class='player-name text-center'><h4>" + this.name + "</h4></div>");
-	tab.append("<h4 class='text-center'>" + victoryPointsToDisplay + "/" + gameSettings.winningPointCount
-			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>");
-	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
+	tab.append("<h4 class='text-center player-victory-points'>" + victoryPointsToDisplay 
+			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>"
+			+ "<h5 class='text-center playing-to'>Playing to " + gameSettings.winningPointCount + "</h5>");
+	tab.append("<div class='panel panel-default player-tab-panel'><div class='panel-heading'>"
 			+ "<h5 class='panel-title-small'>Hand</h5></div><div class='panel-body'>"
 			+ "<p><strong>Resource Cards:</strong> " + formatNumber(this.resourceCards) + "</p>"
 			+ "<p><strong>Development Cards:</strong> " + this.developmentCards + "</p>"
 			+ "<p><strong>Played Knights:</strong> " + this.playedKnights + "</p></div></div>");
-	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
+	tab.append("<div class='panel panel-default player-tab-panel'><div class='panel-heading'>"
 			+ "<h5 class='panel-title-small'>Remaining Buildings</h5></div><div class='panel-body'"
 			+ "<p><strong>Roads:</strong> " + this.roads + "</p>"
 			+ "<p><strong>Settlements:</strong> " + this.settlements + "</p>"
