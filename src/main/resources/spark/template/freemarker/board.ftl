@@ -125,10 +125,10 @@
 									<img src="images/icon-brick.svg" alt="Brick">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="brick">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -138,10 +138,10 @@
 									<img src="images/icon-wood.svg" alt="Wood">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="wood">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -151,10 +151,10 @@
 									<img src="images/icon-ore.svg" alt="Ore">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="ore">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -164,10 +164,10 @@
 									<img src="images/icon-wheat.svg" alt="Wheat">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="wheat">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -177,10 +177,10 @@
 									<img src="images/icon-sheep.svg" alt="Sheep">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="sheep">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>

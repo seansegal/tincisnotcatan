@@ -71,6 +71,14 @@ function addMessage(message) {
 	container.append("<div class='message-popup-animation'><h5>" + message + "</h5></div>");
 }
 
+function formatNumber(num) {
+	if (gameSettings.isDecimal) {
+		return num.toFixed(2);
+	} else {
+		return num;
+	}
+}
+
 var yourTurnDisplayed = false;
 
 setInterval(function() {
@@ -329,7 +337,7 @@ function calcYearOfPlentyResources() {
 
 	inputs.each(function(indx) {
 		var text = $(this).val();
-		num = num + ((text === "") ? 0 : parseInt(text));
+		num = num + ((text === "") ? 0 : parseFloat(text));
 	});
 
 	return num;
@@ -337,7 +345,7 @@ function calcYearOfPlentyResources() {
 
 $(".yop-number").change(function(event) {
 	var oldVal = $(this).data("oldVal");
-	var newVal = parseInt($(this).val());
+	var newVal = parseFloat($(this).val());
 
 	if (oldVal === undefined && calcYearOfPlentyResources() > 2) {
 		$(this).val("0");
@@ -368,7 +376,7 @@ $("#play-yop-btn").click(function(event) {
 		var res2 = null;
 
 		inputs.each(function(idx) {
-			var num = parseInt($(this).val());
+			var num = parseFloat($(this).val());
 			if (num === 1) {
 				if (foundFirst) {
 					res2 = $(this).attr("res");
@@ -411,7 +419,7 @@ function calcNumDiscards() {
 
 	inputs.each(function(indx) {
 		var text = $(this).val();
-		num = num + ((text === "") ? 0 : parseInt(text));
+		num = num + ((text === "") ? 0 : parseFloat(text));
 	});
 
 	return -num;
@@ -433,17 +441,17 @@ function enterDiscardModal(numToDiscard) {
 	redrawHand();
 
 	function redrawHand() {
-		$("#num-resources-to-discard").text(numToDiscard - calcNumDiscards());
-		$("#discard-hand-number-brick").text(currHand.brick);
-		$("#discard-hand-number-wood").text(currHand.wood);
-		$("#discard-hand-number-ore").text(currHand.ore);
-		$("#discard-hand-number-wheat").text(currHand.wheat);
-		$("#discard-hand-number-sheep").text(currHand.sheep);
+		$("#num-resources-to-discard").text(formatNumber(numToDiscard - calcNumDiscards()));
+		$("#discard-hand-number-brick").text(formatNumber(currHand.brick));
+		$("#discard-hand-number-wood").text(formatNumber(currHand.wood));
+		$("#discard-hand-number-ore").text(formatNumber(currHand.ore));
+		$("#discard-hand-number-wheat").text(formatNumber(currHand.wheat));
+		$("#discard-hand-number-sheep").text(formatNumber(currHand.sheep));
 	}
 
 	$(".discard-number").change(function(event) {
 		var oldVal = ($(this).data("oldVal") === undefined) ? 0 : $(this).data("oldVal");
-		var newVal = parseInt($(this).val());
+		var newVal = parseFloat($(this).val());
 		var res = $(this).attr("res");
 
 		var numDiscards = calcNumDiscards();
@@ -485,7 +493,7 @@ function enterDiscardModal(numToDiscard) {
 
 			inputs.each(function(indx) {
 				var text = $(this).val();
-				var num = ((text === "") ? 0 : parseInt(text));
+				var num = ((text === "") ? 0 : parseFloat(text));
 				var res = $(this).attr("res");
 				toDiscard[res] = num < 0 ? -num : num;
 			});
@@ -640,7 +648,7 @@ $("#bank-trade-btn").prop("disabled", true);
 var selectedToGiveElement = null;
 var selectedToGiveResource  = null;
 var selectedToGetElement = null;
-var selectedToGetResource  = "hey there";
+var selectedToGetResource  = null;
 
 $(".to-give-circle-container").click(function(event) {
 	var element = $(this);
@@ -689,6 +697,8 @@ $("#bank-trade-btn").click(function(event) {
 	selectedToGiveResource  = null;
 	selectedToGetElement = null;
 	selectedToGetResource  = null;
+
+	$("#bank-trade-btn").prop("disabled", true);
 });
 
 //////////////////////////////////////////
@@ -830,8 +840,8 @@ $(".interplayer-trade-input").change(function(event) {
 		}
 	} else {
 		$(this).data("oldVal", newVal);
-		currentTrade[resource] = parseInt(newVal);
-		updateToGiveGetPanels(resource, parseInt(newVal), parseInt(oldVal));
+		currentTrade[resource] = parseFloat(newVal);
+		updateToGiveGetPanels(resource, parseFloat(newVal), parseFloat(oldVal));
 	}
 
 	if (canTrade()) {
