@@ -5,6 +5,7 @@ var playerId = -1;
 var currentPlayerTurn = -2;
 var openedPlayerTab = 0;
 var gameSettings = {};
+var tradeRates = {};
 
 $(window).load(function() {
 	board = new Board();
@@ -77,6 +78,10 @@ function formatNumber(num) {
 	} else {
 		return num;
 	}
+}
+
+function getExchangeRate(toGive, toGet) {
+	return tradeRates[toGive];
 }
 
 var yourTurnDisplayed = false;
@@ -658,6 +663,8 @@ $(".to-give-circle-container").click(function(event) {
 	selectedToGiveResource = selectedToGiveElement.attr("res");
 	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
 		$("#bank-trade-btn").prop("disabled", false);
+		var rate = getExchangeRate(selectedToGiveResource, selectedToGetResource);
+		$("#bank-give-amount").text(formatNumber(rate * amount));
 	}
 });
 
@@ -677,6 +684,16 @@ $(".to-get-circle-container").click(function(event) {
 	selectedToGetResource = selectedToGetElement.attr("res");
 	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
 		$("#bank-trade-btn").prop("disabled", false);
+		var rate = getExchangeRate(selectedToGiveResource, selectedToGetResource);
+		$("#bank-give-amount").text(formatNumber(rate * amount));
+	}
+});
+
+$("#bank-trade-amount-input").change(function(event) {
+	var amount = parseFloat($(this).val());
+	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
+		var rate = getExchangeRate(selectedToGiveResource, selectedToGetResource);
+		$("#bank-give-amount").text(formatNumber(rate * amount));
 	}
 });
 
@@ -696,6 +713,7 @@ $("#bank-trade-btn").click(function(event) {
 
 	$("#bank-trade-btn").prop("disabled", true);
 	$("#bank-trade-amount-input").val(1);
+	$("#bank-give-amount").text(" ");
 });
 
 //////////////////////////////////////////

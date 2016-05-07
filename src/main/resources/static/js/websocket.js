@@ -300,6 +300,7 @@ function handleGetGameState(gameStateData) {
     playerId = gameStateData.playerID;
     currentPlayerTurn = gameStateData.currentTurn;
     gameSettings = gameStateData.settings;
+    tradeRates = gameStateData.players[playerId].rates;
 
     var activePlayerTab = $("#player-tabs .active").attr("player");
     openedPlayerTab = (activePlayerTab == undefined) ? 0 : parseInt(activePlayerTab);
@@ -341,7 +342,7 @@ function handleGetGameState(gameStateData) {
     fillPlayerBuyOptions(gameStateData.hand);
 
     // Draw trade rates
-    fillPlayerTradeRates(gameStateData.players[playerId].rates); // TODO: change to reflect current player
+    fillPlayerTradeRates(tradeRates);
 
     // Handle decimal trade rates
     setDecimalTradeRates(gameSettings.isDecimal);
