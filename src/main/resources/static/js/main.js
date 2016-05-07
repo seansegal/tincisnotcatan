@@ -421,12 +421,9 @@ function enterDiscardModal(numToDiscard) {
 	$("#num-resources-to-discard").text(numToDiscard);
 	$("#discard-btn").prop("disabled", true);
 
+	$("#discard-number").data("oldVal", undefined);
+
 	var playerHand = playersById[playerId].hand;
-	var maxHand = {brick: playerHand.brick, 
-					wood: playerHand.wood, 
-					ore: playerHand.ore, 
-					wheat: playerHand.wheat, 
-					sheep: playerHand.sheep};
 	var currHand = {brick: playerHand.brick, 
 					wood: playerHand.wood, 
 					ore: playerHand.ore, 
@@ -435,6 +432,7 @@ function enterDiscardModal(numToDiscard) {
 	redrawHand();
 
 	function redrawHand() {
+		$("#num-resources-to-discard").text(numToDiscard - calcNumDiscards());
 		$("#discard-hand-number-brick").text(currHand.brick);
 		$("#discard-hand-number-wood").text(currHand.wood);
 		$("#discard-hand-number-ore").text(currHand.ore);
@@ -443,36 +441,31 @@ function enterDiscardModal(numToDiscard) {
 	}
 
 	$(".discard-number").change(function(event) {
-		var oldVal = $(this).data("oldVal");
+		var oldVal = ($(this).data("oldVal") === undefined) ? 0 : $(this).data("oldVal");
 		var newVal = parseInt($(this).val());
 		var res = $(this).attr("res");
 
-		// Handle cases where you select too many resources or a positive resource amount
-		if (oldVal === undefined && calcNumDiscards() > numToDiscard) {
-			$(this).val("0");
-			$(this).data("oldVal", 0);
-		} else if (isNaN(newVal) || newVal > 0 || calcNumDiscards() > numToDiscard) {
+		var numDiscards = calcNumDiscards();
+
+		// Handle cases where you select too many resources
+		if (numDiscards > numToDiscard) {
+			var cappedVal = newVal + numDiscards - numToDiscard;
+			$(this).data("oldVal", cappedVal);
+			$(this).val(cappedVal);
+			currHand[res] = currHand[res] + (cappedVal - oldVal);
+		// Handle case where you selected more of a resource than you hold
+		} else if (newVal - oldVal < -currHand[res]) {
+			var cappedVal = oldVal - currHand[res];
+			$(this).data("oldVal", cappedVal);
+			$(this).val(cappedVal);
+			currHand[res] = currHand[res] + (cappedVal - oldVal);
+		// Handle case where number is positive or input is not a number
+		} else if (isNaN(newVal) || newVal > 0) {
 			$(this).val(oldVal);
+		// Regular, non-capped case
 		} else {
 			$(this).data("oldVal", newVal);
-			if (oldVal === undefined) {
-				currHand[res] = currHand[res] + newVal;
-			} else {
-				currHand[res] = currHand[res] + (newVal - oldVal);
-			}
-		}
-
-		// Handle case where you selected more of a resource than you hold
-		if (currHand[res] < 0) {
-			if (oldVal === undefined) {
-				$(this).val("0");
-				$(this).data("oldVal", 0);
-				currHand[res] = currHand[res] - newVal;
-			} else {
-				$(this).val(oldVal);
-				$(this).data("oldVal", oldVal);
-				currHand[res] = currHand[res] - (newVal - oldVal);
-			}
+			currHand[res] = currHand[res] + (newVal - oldVal);
 		}
 
 		redrawHand();

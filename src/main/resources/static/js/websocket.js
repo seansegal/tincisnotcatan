@@ -322,12 +322,6 @@ function handleGetGameState(gameStateData) {
         players[i].addPlayerTab();
     }
 
-    // Select first players tab
-    if (players.length > 0) {
-        // $("#player-tabs").children().first().addClass("active");
-        // $("#player-tabs-content").children().first().addClass("active");
-    }
-
     // Draw turn counter
     if (gameStateData.hasOwnProperty("turnOrder")) {
         var turnOrder = gameStateData.turnOrder;
