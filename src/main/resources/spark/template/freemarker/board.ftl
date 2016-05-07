@@ -434,7 +434,7 @@
         		<h4 class="modal-title" id="discardLabel">Discard Cards</h4>
       		</div>
       		<div class="modal-body">
-       			<p>A 7 was rolled! You must select <span id="num-resources-to-discard"></span> resources to discard.</p>
+       			<p>A 7 was rolled! You must select <span id="num-resources-to-discard"></span> more resources to discard.</p>
        			<div class="text-center">
        				<div class="discard-resource-container">
 		       			<div class="circle discard-circle brick-color">
