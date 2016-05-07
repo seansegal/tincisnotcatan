@@ -806,7 +806,7 @@
       		<div class="modal-header">
         		<h4 class="modal-title" id="statsModal">Roll Distribution</h4>
       		</div>
-      		<div class="modal-body">
+      		<div class="modal-body text-center">
       			<div id="dice-distribution-container">
 					<canvas id="dice-distribution" width="200" height="200"></canvas>
 				</div>
