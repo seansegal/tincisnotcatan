@@ -854,6 +854,11 @@ $(".interplayer-trade-input").change(function(event) {
 		} else {
 			$(this).val(oldVal);
 		}
+	} else if (isNaN(parseFloat(newVal))) {
+		$(this).data("oldVal", 0);
+		$(this).val(0);
+		currentTrade[resource] = 0;
+		updateToGiveGetPanels(resource, 0, parseFloat(oldVal));
 	} else {
 		$(this).data("oldVal", newVal);
 		currentTrade[resource] = parseFloat(newVal);
