@@ -329,7 +329,7 @@ function calcYearOfPlentyResources() {
 
 	inputs.each(function(indx) {
 		var text = $(this).val();
-		num = num + ((text === "") ? 0 : parseInt(text));
+		num = num + ((text === "") ? 0 : parseFloat(text));
 	});
 
 	return num;
@@ -337,7 +337,7 @@ function calcYearOfPlentyResources() {
 
 $(".yop-number").change(function(event) {
 	var oldVal = $(this).data("oldVal");
-	var newVal = parseInt($(this).val());
+	var newVal = parseFloat($(this).val());
 
 	if (oldVal === undefined && calcYearOfPlentyResources() > 2) {
 		$(this).val("0");
@@ -368,7 +368,7 @@ $("#play-yop-btn").click(function(event) {
 		var res2 = null;
 
 		inputs.each(function(idx) {
-			var num = parseInt($(this).val());
+			var num = parseFloat($(this).val());
 			if (num === 1) {
 				if (foundFirst) {
 					res2 = $(this).attr("res");
@@ -411,7 +411,7 @@ function calcNumDiscards() {
 
 	inputs.each(function(indx) {
 		var text = $(this).val();
-		num = num + ((text === "") ? 0 : parseInt(text));
+		num = num + ((text === "") ? 0 : parseFloat(text));
 	});
 
 	return -num;
@@ -443,7 +443,7 @@ function enterDiscardModal(numToDiscard) {
 
 	$(".discard-number").change(function(event) {
 		var oldVal = ($(this).data("oldVal") === undefined) ? 0 : $(this).data("oldVal");
-		var newVal = parseInt($(this).val());
+		var newVal = parseFloat($(this).val());
 		var res = $(this).attr("res");
 
 		var numDiscards = calcNumDiscards();
@@ -485,7 +485,7 @@ function enterDiscardModal(numToDiscard) {
 
 			inputs.each(function(indx) {
 				var text = $(this).val();
-				var num = ((text === "") ? 0 : parseInt(text));
+				var num = ((text === "") ? 0 : parseFloat(text));
 				var res = $(this).attr("res");
 				toDiscard[res] = num < 0 ? -num : num;
 			});
@@ -830,8 +830,8 @@ $(".interplayer-trade-input").change(function(event) {
 		}
 	} else {
 		$(this).data("oldVal", newVal);
-		currentTrade[resource] = parseInt(newVal);
-		updateToGiveGetPanels(resource, parseInt(newVal), parseInt(oldVal));
+		currentTrade[resource] = parseFloat(newVal);
+		updateToGiveGetPanels(resource, parseFloat(newVal), parseFloat(oldVal));
 	}
 
 	if (canTrade()) {
