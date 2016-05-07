@@ -71,6 +71,14 @@ function addMessage(message) {
 	container.append("<div class='message-popup-animation'><h5>" + message + "</h5></div>");
 }
 
+function formatNumber(num) {
+	if (gameSettings.isDecimal) {
+		return num.toFixed(2);
+	} else {
+		return num;
+	}
+}
+
 var yourTurnDisplayed = false;
 
 setInterval(function() {
@@ -433,12 +441,12 @@ function enterDiscardModal(numToDiscard) {
 	redrawHand();
 
 	function redrawHand() {
-		$("#num-resources-to-discard").text(numToDiscard - calcNumDiscards());
-		$("#discard-hand-number-brick").text(currHand.brick);
-		$("#discard-hand-number-wood").text(currHand.wood);
-		$("#discard-hand-number-ore").text(currHand.ore);
-		$("#discard-hand-number-wheat").text(currHand.wheat);
-		$("#discard-hand-number-sheep").text(currHand.sheep);
+		$("#num-resources-to-discard").text(formatNumber(numToDiscard - calcNumDiscards()));
+		$("#discard-hand-number-brick").text(formatNumber(currHand.brick));
+		$("#discard-hand-number-wood").text(formatNumber(currHand.wood));
+		$("#discard-hand-number-ore").text(formatNumber(currHand.ore));
+		$("#discard-hand-number-wheat").text(formatNumber(currHand.wheat));
+		$("#discard-hand-number-sheep").text(formatNumber(currHand.sheep));
 	}
 
 	$(".discard-number").change(function(event) {

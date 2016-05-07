@@ -53,7 +53,7 @@ Player.prototype.addPlayerTab = function() {
 			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>");
 	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
 			+ "<h5 class='panel-title-small'>Hand</h5></div><div class='panel-body'>"
-			+ "<p><strong>Resource Cards:</strong> " + this.resourceCards + "</p>"
+			+ "<p><strong>Resource Cards:</strong> " + formatNumber(this.resourceCards) + "</p>"
 			+ "<p><strong>Development Cards:</strong> " + this.developmentCards + "</p>"
 			+ "<p><strong>Played Knights:</strong> " + this.playedKnights + "</p></div></div>");
 	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
@@ -139,19 +139,19 @@ function fillPlayerHand(handData) {
 	var player = playersById[playerId];
 
 	// Add resource cards to this player's hand
-	$("#brick-number").text(handData.resources.brick);
+	$("#brick-number").text(formatNumber(handData.resources.brick));
 	player.hand.brick = handData.resources.brick;
 
-	$("#wood-number").text(handData.resources.wood);
+	$("#wood-number").text(formatNumber(handData.resources.wood));
 	player.hand.wood = handData.resources.wood;
 
-	$("#ore-number").text(handData.resources.ore);
+	$("#ore-number").text(formatNumber(handData.resources.ore));
 	player.hand.ore = handData.resources.ore;
 
-	$("#wheat-number").text(handData.resources.wheat);
+	$("#wheat-number").text(formatNumber(handData.resources.wheat));
 	player.hand.wheat = handData.resources.wheat;
 
-	$("#sheep-number").text(handData.resources.sheep);
+	$("#sheep-number").text(formatNumber(handData.resources.sheep));
 	player.hand.sheep = handData.resources.sheep;
 
 	// Add dev cards to this player's hand
