@@ -1,5 +1,7 @@
 package edu.brown.cs.networking;
 
+import static edu.brown.cs.networking.Util.print;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
@@ -24,7 +26,7 @@ public class MessageUserTask implements Runnable {
     try {
       j = Networking.GSON.fromJson(message, JsonObject.class);
     } catch (JsonSyntaxException e) {
-      System.out.println("ERROR parsing json - send error message to client");
+      print("ERROR parsing json - send error message to client");
       return;
     }
     g.handleMessage(u, j);

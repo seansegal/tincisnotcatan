@@ -1,4 +1,5 @@
 package edu.brown.cs.networking;
+import static edu.brown.cs.networking.Util.format;
 
 import java.io.IOException;
 import java.net.HttpCookie;
@@ -30,13 +31,18 @@ public final class User {
   }
 
 
+  public Session session() {
+    return session;
+  }
+
+
   public boolean message(JsonObject json) {
     if (session.isOpen()) {
       try {
         session.getRemote().sendString(json.toString());
         return true;
       } catch (IOException e) {
-        System.out.format("Failed to send message to Session %s : %s%n",
+        format("Failed to send message to Session %s : %s%n",
             userID(), json.toString());
       }
     }

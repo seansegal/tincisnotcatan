@@ -31,9 +31,6 @@ public interface Group {
   boolean isEmpty();
 
 
-  boolean afkTick();
-
-
   boolean hasUserWithID(String uuid);
 
 }

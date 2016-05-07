@@ -1,5 +1,7 @@
 package edu.brown.cs.networking;
 
+import static edu.brown.cs.networking.Util.print;
+
 import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.List;
@@ -37,15 +39,15 @@ public class NewWebsocket {
   @OnWebSocketConnect
   public void onConnect(Session s) {
     if (sessionIsExpired(s)) {
-      System.out.println("Expired Session");
+      print("Expired Session");
       sendError(s, "RESET");
       return;
     }
     User u = userForSession(s);
-    if (u == null) {
-      u = createNewUser(s);
-    } else {
+    if (u != null) {
       u.updateSession(s); // existing user with old session, update it.
+    } else {
+      u = createNewUser(s);
     }
     threadPool.submit(new ConnectUserTask(u, gct));
   }
@@ -59,7 +61,7 @@ public class NewWebsocket {
 
 
   private User createNewUser(Session s) {
-    User u = gct.register(s);
+    User u = new User(s);
     List<HttpCookie> cookies = s.getUpgradeRequest().getCookies();
     String id = DistinctRandom.getString();
     uuidToUser.put(id, u);
@@ -71,7 +73,7 @@ public class NewWebsocket {
 
   private void sendError(Session s, String error) {
     JsonObject j = new JsonObject();
-    j.addProperty("requestType", "ERROR");
+    j.addProperty(Networking.REQUEST_IDENTIFIER, "ERROR");
     j.addProperty("description", error);
     try {
       s.getRemote().sendString(j.toString());
@@ -84,7 +86,7 @@ public class NewWebsocket {
 
   private void setCookie(User u, List<HttpCookie> cookies) {
     JsonObject j = new JsonObject();
-    j.addProperty("requestType", "setCookie");
+    j.addProperty(Networking.REQUEST_IDENTIFIER, "setCookie");
     j.add("cookies", Networking.GSON.toJsonTree(cookies));
     u.message(j);
   }

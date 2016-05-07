@@ -1,5 +1,7 @@
 package edu.brown.cs.networking;
 
+import static edu.brown.cs.networking.Util.print;
+
 import java.util.Collection;
 
 import com.google.gson.JsonObject;
@@ -8,8 +10,9 @@ import com.google.gson.JsonObject;
 class EchoProcessor implements RequestProcessor {
 
   @Override
-  public boolean run(User user, Collection<User> group, JsonObject json, API api) {
-    System.out.println(json.toString() + " FROM " + user.toString());
+  public boolean run(User user, Collection<User> group, JsonObject json,
+      API api) {
+    print(json.toString() + " FROM " + user.toString());
     return true;
   }
 

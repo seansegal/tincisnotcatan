@@ -1,5 +1,7 @@
 package edu.brown.cs.networking;
 
+import static edu.brown.cs.networking.Util.format;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,12 +19,11 @@ public class GroupViewWebsocket {
 
   private static GCT          gct;
   private static Set<Session> viewers = new HashSet<>();
-  private static final String test= "";
 
 
   @OnWebSocketConnect
   public void onConnect(Session session) throws Exception {
-    System.out.format("Session %s opened connection to GroupView%n",
+    format("Session %s opened connection to GroupView%n",
         session.getLocalAddress());
     viewers.add(session);
     sendGroupsTo(session, gct.openGroups());
@@ -31,7 +32,7 @@ public class GroupViewWebsocket {
 
   @OnWebSocketClose
   public void onClose(Session session, int statusCode, String reason) {
-    System.out.format("Session %s closed connection to GroupView%n",
+    format("Session %s closed connection to GroupView%n",
         session.getLocalAddress());
     viewers.remove(session);
   }
@@ -47,7 +48,7 @@ public class GroupViewWebsocket {
     try {
       s.getRemote().sendString(groups.toString());
     } catch (IOException e) {
-      System.out.format(
+      format(
           "Error sending change in groups to session %s. Doing nothing about it.%n",
           s.getLocalAddress());
     }

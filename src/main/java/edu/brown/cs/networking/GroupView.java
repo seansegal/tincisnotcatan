@@ -71,12 +71,6 @@ public class GroupView implements Group {
 
 
   @Override
-  public boolean afkTick() {
-    throw new UnsupportedOperationException(
-        "Illegal action for a GroupView : afkTick()");
-  }
-
-  @Override
   public boolean hasUserWithID(String uuid) {
     return inner.hasUserWithID(uuid);
   }

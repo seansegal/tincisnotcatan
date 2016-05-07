@@ -1,5 +1,7 @@
 package edu.brown.cs.networking;
 
+import static edu.brown.cs.networking.Util.format;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,7 +10,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jetty.util.ConcurrentHashSet;
-import org.eclipse.jetty.websocket.api.Session;
 
 import com.google.gson.JsonObject;
 
@@ -66,17 +67,7 @@ public class GCT {
   }
 
 
-  // add verification?? TODO
-  public User register(Session s) {
-    User newUser = new User(s);
-    if (add(newUser)) {
-      return newUser;
-    }
-    return null;
-  }
-
-
-  private boolean add(User u) {
+  public boolean add(User u) {
     Group bestFit =
         groupSelector.selectFor(u, Collections.unmodifiableCollection(pending));
     if (bestFit == null) {
@@ -86,7 +77,7 @@ public class GCT {
     userToUserGroup.put(u, bestFit);
     bestFit.add(u);
 
-    System.out.format("User %s added to %s%n", u, bestFit);
+    format("User %s added to %s%n", u, bestFit);
     filterGroup(bestFit);
     return true;
   }
