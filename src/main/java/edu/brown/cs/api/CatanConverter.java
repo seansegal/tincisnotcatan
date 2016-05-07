@@ -70,6 +70,7 @@ public class CatanConverter {
     private FollowUpActionRaw followUp;
     private Collection<PublicPlayerRaw> players;
     private GameSettings settings;
+    private GameStatsRaw stats;
 
     public GameState(Referee ref, int playerID) {
       this.playerID = playerID;
@@ -85,6 +86,7 @@ public class CatanConverter {
           ref.getNextFollowUp(playerID)) : null;
       this.players = new ArrayList<>();
       this.settings = ref.getGameSettings();
+      this.stats = new GameStatsRaw(ref);
       for (Player p : ref.getPlayers()) {
         players.add(new PublicPlayerRaw(p, ref.getReadOnlyReferee()));
       }
@@ -266,6 +268,17 @@ public class CatanConverter {
       rates = r.getBankRates(p.getID());
       numResourceCards = p.getNumResourceCards();
       numDevelopmentCards = p.getNumDevelopmentCards();
+    }
+
+  }
+
+  private static class GameStatsRaw {
+    private int[] rolls;
+    private int turn;
+
+    GameStatsRaw(Referee ref){
+      this.rolls = ref.getGameStats().getRollsArray();
+      this.turn = ref.getTurn().getTurnNum();
     }
 
   }

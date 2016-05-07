@@ -26,7 +26,6 @@ public class RollDice implements FollowUpAction {
   private boolean _isSetUp = false;
 
   public RollDice(Referee ref, int playerID) {
-    System.out.println("ROLL DICE ACTION CREATED WITH: " + playerID);
     assert ref != null;
     _ref = ref;
     _playerID = playerID;
@@ -54,6 +53,7 @@ public class RollDice implements FollowUpAction {
     Random r = new Random();
     PrimitiveIterator.OfInt rolls = r.ints(1, 7).iterator();
     int diceRoll = rolls.nextInt() + rolls.nextInt();
+    _ref.getGameStats().addRoll(diceRoll);
     Map<Integer, Map<Resource, Integer>> playerResourceCount = new HashMap<>();
     Map<Integer, ActionResponse> toRet = new HashMap<>();
 
