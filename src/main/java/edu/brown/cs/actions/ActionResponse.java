@@ -13,4 +13,8 @@ public class ActionResponse {
     this.data = data;
   }
 
+  public boolean getSuccess() {
+    return success;
+  }
+
 }
