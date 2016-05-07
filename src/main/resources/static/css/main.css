@@ -666,3 +666,8 @@ body {
 .modal-footer-center {
 	text-align: center;
 }
+
+#dice-distribution-container {
+	width: 300px;
+	height: 300px;
+}

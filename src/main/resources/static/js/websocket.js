@@ -301,6 +301,7 @@ function handleGetGameState(gameStateData) {
     currentPlayerTurn = gameStateData.currentTurn;
     gameSettings = gameStateData.settings;
     tradeRates = gameStateData.players[playerId].rates;
+    gameStats = gameStateData.stats;
 
     var activePlayerTab = $("#player-tabs .active").attr("player");
     openedPlayerTab = (activePlayerTab == undefined) ? 0 : parseInt(activePlayerTab);
