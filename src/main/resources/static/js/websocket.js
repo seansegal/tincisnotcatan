@@ -103,8 +103,8 @@ function sendPlayMonopolyAction(resource) {
     webSocket.send(JSON.stringify(playReq));
 }
 
-function sendPlayYearOfPlentyAction(res1, res2) {
-    var playReq = {requestType: "action", action: "playYearOfPlenty", firstRes: res1, secondRes: res2};
+function sendPlayYearOfPlentyAction(resources) {
+    var playReq = {requestType: "action", action: "playYearOfPlenty", resources: resources};
     webSocket.send(JSON.stringify(playReq));
 }
 

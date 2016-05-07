@@ -372,25 +372,17 @@ $("#play-yop-btn").click(function(event) {
 	if (resourcesSelected === 2) {
 		var foundFirst = false;
 		var inputs = $(".yop-number");
-		var res1 = null;
-		var res2 = null;
+		var resources = {};
 
 		inputs.each(function(idx) {
 			var num = parseFloat($(this).val());
-			if (num === 1) {
-				if (foundFirst) {
-					res2 = $(this).attr("res");
-				} else {
-					res1 = $(this).attr("res");
-					foundFirst = true;
-				}
-			} else if (num === 2) {
-				res1 = $(this).attr("res")
-				res2 = $(this).attr("res");
-			}
+			num = (num === num) ? num : 0;
+
+			var res = $(this).attr("res");
+			resources[res] = num;
 		});
 
-		sendPlayYearOfPlentyAction(res1, res2);
+		sendPlayYearOfPlentyAction(resources);
 		$("#year-of-plenty-modal").modal("hide");
 	}
 });
