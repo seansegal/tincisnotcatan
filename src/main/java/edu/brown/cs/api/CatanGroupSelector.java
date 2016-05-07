@@ -17,6 +17,10 @@ public class CatanGroupSelector implements GroupSelector {
 
   private static final String                NUM_PLAYERS          =
       "numPlayersDesired";
+  private static final String                VICTORY_POINTS       =
+      "victoryPoints";
+  private static final String                IS_DECIMAL           =
+      "isDecimal";
   private static final String                GAME_REQUEST_ID      =
       "desiredGroupId";
   private static final String                GAME_NAME_IDENTIFIER = "groupName";
@@ -53,6 +57,8 @@ public class CatanGroupSelector implements GroupSelector {
       System.out.println("ERROR: Size requested out of bounds : " + desiredSize);
       return null;
     }
+    int victoryPoints = Integer.parseInt(u.getField(VICTORY_POINTS));
+    boolean isDecimal = Boolean.parseBoolean(u.getField(IS_DECIMAL));
 
     // name the game
     String name = u.hasField(GAME_NAME_IDENTIFIER) ? u.getField(GAME_NAME_IDENTIFIER) :
@@ -61,6 +67,8 @@ public class CatanGroupSelector implements GroupSelector {
     // MAKE SETTINGS :
     JsonObject settings = new JsonObject();
     settings.addProperty("numPlayers", desiredSize);
+    settings.addProperty("victoryPoints", victoryPoints);
+    settings.addProperty("isDecimal", isDecimal);
 
     return new UserGroupBuilder(CatanAPI.class)
         .withSize(desiredSize)

@@ -11,7 +11,7 @@ public class GameSettings {
 
 
   public GameSettings(JsonObject settings) {
-    int numPlayers = Settings.DEFAULT_NUM_PLAYERS;;
+    int numPlayers = Settings.DEFAULT_NUM_PLAYERS;
     try{
       numPlayers = settings.get("numPlayers").getAsInt();
     }
