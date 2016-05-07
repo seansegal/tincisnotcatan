@@ -32,7 +32,7 @@ public class PlayYearOfPlenty implements Action {
       throw new IllegalArgumentException(err);
     }
     _bank = _ref.getBank();
-    JsonObject trade = params.get("trade").getAsJsonObject();
+    JsonObject trade = params.get("resources").getAsJsonObject();
     Map<Resource, Double> resources = new HashMap<>();
     for (Resource res : Resource.values()) {
       if (trade.has(res.toString())) {
