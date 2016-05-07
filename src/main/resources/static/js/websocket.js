@@ -299,6 +299,7 @@ function handleGetGameState(gameStateData) {
     // Set global data
     playerId = gameStateData.playerID;
     currentPlayerTurn = gameStateData.currentTurn;
+    gameSettings = gameStateData.settings;
 
     var activePlayerTab = $("#player-tabs .active").attr("player");
     openedPlayerTab = (activePlayerTab == undefined) ? 0 : parseInt(activePlayerTab);
@@ -341,6 +342,9 @@ function handleGetGameState(gameStateData) {
 
     // Draw trade rates
     fillPlayerTradeRates(gameStateData.players[playerId].rates); // TODO: change to reflect current player
+
+    // Handle decimal trade rates
+    setDecimalTradeRates(gameSettings.isDecimal);
 
     // Create board
     board = new Board();

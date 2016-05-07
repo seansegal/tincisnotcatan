@@ -4,6 +4,7 @@ var playersById = {};
 var playerId = -1;
 var currentPlayerTurn = -2;
 var openedPlayerTab = 0;
+var gameSettings = {};
 
 $(window).load(function() {
 	board = new Board();
@@ -990,4 +991,16 @@ $(document).keydown(function(event) {
 		sendUpdateResourceAction();
 	}
 });
+
+//////////////////////////////////////////
+// Decimal Trade Rates
+//////////////////////////////////////////
+
+function setDecimalTradeRates(isDecimal) {
+	if (isDecimal) {
+		$("input[type=number]").attr("step", 0.01);
+	} else {
+		$("input[type=number]").attr("step", 1);
+	}
+}
 

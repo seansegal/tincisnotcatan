@@ -49,7 +49,7 @@ Player.prototype.addPlayerTab = function() {
 	}
 	
 	tab.append("<div class='player-name text-center'><h4>" + this.name + "</h4></div>");
-	tab.append("<h4 class='text-center'>" + victoryPointsToDisplay
+	tab.append("<h4 class='text-center'>" + victoryPointsToDisplay + "/" + gameSettings.winningPointCount
 			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>");
 	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
 			+ "<h5 class='panel-title-small'>Hand</h5></div><div class='panel-body'>"
