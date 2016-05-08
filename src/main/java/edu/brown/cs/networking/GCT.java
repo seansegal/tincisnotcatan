@@ -65,7 +65,7 @@ public class GCT {
     JsonObject toRet = new JsonObject();
     toRet.add("groups", Networking.GSON.toJsonTree(gr));
     boolean atLim = pending.size() + full.size() >= GAME_LIMIT;
-    toRet.addProperty("atLimit", atLim);
+    toRet.addProperty ("atLimit", atLim);
     return toRet;
   }
 

@@ -1,4 +1,5 @@
 package edu.brown.cs.networking;
+
 import static edu.brown.cs.networking.Util.format;
 
 import java.io.IOException;
@@ -22,12 +23,17 @@ public final class User {
   }
 
 
-  public void updateSession(Session s) {
+  public boolean updateSession(Session s) {
+    if (session != null && session.isOpen()) {
+      System.out.println("ERROR! Tried to update an active session.");
+      return false;
+    }
     this.session = s;
     values = new JsonObject();
     for (HttpCookie cook : s.getUpgradeRequest().getCookies()) {
       values.addProperty(cook.getName(), cook.getValue());
     }
+    return true;
   }
 
 
