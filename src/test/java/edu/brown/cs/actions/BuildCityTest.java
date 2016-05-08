@@ -92,6 +92,7 @@ public class BuildCityTest {
     assertTrue(ref.getPlayerByID(0).getResources().get(Resource.WOOD) == 0);
     assertTrue(ref.getPlayerByID(0).getResources().get(Resource.SHEEP) == 0);
     assertTrue(ref.getPlayerByID(0).getResources().get(Resource.ORE) == 0);
+    assertTrue(ref.getBoard().getIntersections().get(i).getBuilding() != null);
   }
 
 }
