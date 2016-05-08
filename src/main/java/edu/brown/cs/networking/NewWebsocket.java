@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -13,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -26,12 +28,14 @@ public class NewWebsocket {
 
   private final ExecutorService   threadPool;
   private final Map<String, User> uuidToUser;
+  private final Set<Session>      ignoreSession;
   private static GCT              gct;
 
 
   public NewWebsocket() {
     threadPool = Executors.newCachedThreadPool();
     uuidToUser = new ConcurrentHashMap<>();
+    ignoreSession = new ConcurrentHashSet<>();
   }
 
 
@@ -46,8 +50,13 @@ public class NewWebsocket {
       return;
     }
     User u = userForSession(s);
-    if (u != null) {
-      u.updateSession(s); // existing user with old session, update it.
+    if (u != null) { // existing user with old session, update it.
+      if (!u.updateSession(s)) {
+        // tried to update an open session - TWO TAB MOFO
+        ignoreSession.add(s);
+        this.sendError(s, "DUPLICATE_TAB");
+        return;
+      }
     } else {
       u = createNewUser(s);
     }
@@ -104,6 +113,10 @@ public class NewWebsocket {
 
   @OnWebSocketClose
   public void onClose(Session s, int statusCode, String reason) {
+    if (ignoreSession.contains(s)) {
+      ignoreSession.remove(s);
+      return;
+    }
     User u = userForSession(s);
     if (u == null) {
       System.out
@@ -125,6 +138,10 @@ public class NewWebsocket {
 
   @OnWebSocketMessage
   public void onMessage(Session s, String msg) {
+    if (ignoreSession.contains(s)) {
+      return; // ignore messages from duplicate sessions
+    }
+    System.out.println(msg);
     User u = userForSession(s);
     if (u == null) {
       System.out
