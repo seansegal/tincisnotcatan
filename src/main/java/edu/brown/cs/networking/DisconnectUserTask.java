@@ -3,7 +3,9 @@ package edu.brown.cs.networking;
 public class DisconnectUserTask implements Runnable {
 
   private User   u;
+  @SuppressWarnings("unused")
   private int    statusCode;
+  @SuppressWarnings("unused")
   private String reason;
   private GCT    gct;
 
