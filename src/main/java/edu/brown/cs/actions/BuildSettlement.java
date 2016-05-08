@@ -53,7 +53,7 @@ public class BuildSettlement implements Action {
       return ImmutableMap.of(_player.getID(), new ActionResponse(false,
           "You do not have the resources to afford a Settlement.", null));
     }
-    if (!_intersection.canPlaceSettlement(_ref)) {
+    if (!_intersection.canPlaceSettlement(_ref, _player.getID())) {
       return ImmutableMap.of(_player.getID(), new ActionResponse(false,
           "You cannot build a Settlement at that location.", null));
     }

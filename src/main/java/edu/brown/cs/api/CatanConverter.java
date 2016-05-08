@@ -138,7 +138,7 @@ public class CatanConverter {
     public BoardRaw(Referee ref, Board board, int playerID) {
       intersections = new ArrayList<>();
       for (Intersection intersection : board.getIntersections().values()) {
-        intersections.add(new IntersectionRaw(intersection, ref));
+        intersections.add(new IntersectionRaw(intersection, ref, playerID));
       }
       paths = new ArrayList<>();
       for (Path path : board.getPaths().values()) {
@@ -211,12 +211,12 @@ public class CatanConverter {
     private final IntersectionCoordinate coordinate;
     private final boolean canBuildSettlement;
 
-    IntersectionRaw(Intersection i, Referee ref) {
+    IntersectionRaw(Intersection i, Referee ref, int playerID) {
       building = i.getBuilding() != null ? new BuildingRaw(i.getBuilding())
           : null;
       port = i.getPort();
       coordinate = i.getPosition();
-      canBuildSettlement = i.canPlaceSettlement(ref);
+      canBuildSettlement = i.canPlaceSettlement(ref, playerID);
     }
 
   }

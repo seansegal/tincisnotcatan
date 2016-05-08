@@ -43,7 +43,7 @@ public class PlaceInitialSettlement implements FollowUpAction {
           "A FollowUpAction must be setup before it is executed.");
     }
     Player player = _ref.getPlayerByID(_playerID);
-    if (!_intersection.canPlaceSettlement(_ref)) {
+    if (!_intersection.canPlaceSettlement(_ref, _playerID)) {
       return ImmutableMap.of(player.getID(), new ActionResponse(false,
           "You cannot build a Settlement at that location.", null));
     }
