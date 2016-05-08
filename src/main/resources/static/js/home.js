@@ -93,6 +93,15 @@ $("#nameEntry, #game-name-entry").on("input", function(event) {
 	input.val(cleanedText);
 });
 
+$("#decimal-container label").click(function() {
+	var wasDecimal = $("#decimal-option").hasClass("active");
+	if (!wasDecimal) {
+		$("#dynamic-rates-container").removeClass("hidden");
+	} else {
+		$("#dynamic-rates-container").addClass("hidden");
+	}
+});
+
 function openCreateJoinGame() {
 	var name = $("#nameEntry").val();
 	if (name !== undefined && name !== "") {
@@ -114,16 +123,19 @@ function existingGameSelected(caller) {
 	var groupSize = $(caller).attr("maxSize");
 	var victoryPoints = id("victory-points-input").value;
 	var isDecimal = $("#decimal-option").hasClass("active");
+	var isDynamic = isDecimal && $("#dynamic-rates-option").hasClass("active");
 
 	if (userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false;
 	}
+
 	setCookie("desiredGroupId", groupId);
 	setCookie("userName", userName);
 	setCookie("numPlayersDesired", groupSize);
 	setCookie("victoryPoints", victoryPoints);
 	setCookie("isDecimal", isDecimal);
+	setCookie("isDynamic", isDynamic);
 	deleteCookie("USER_ID");
 	return true;
 }
@@ -166,6 +178,7 @@ function startGamePressed() {
 	var groupName = id("game-name-entry").value;
 	var victoryPoints = id("victory-points-input").value;
 	var isDecimal = $("#decimal-option").hasClass("active");
+	var isDynamic = isDecimal && $("#dynamic-rates-option").hasClass("active");
 
 	if (userName == undefined || userName == "") {
 		alert("Please select a username");
@@ -182,6 +195,7 @@ function startGamePressed() {
 	setCookie("victoryPoints", victoryPoints);
 	setCookie("isDecimal", isDecimal);
 	setCookie("groupName", groupName);
+	setCookie("isDynamic", isDynamic);
 	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.
 }
