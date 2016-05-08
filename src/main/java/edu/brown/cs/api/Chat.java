@@ -6,7 +6,6 @@ import static j2html.TagCreator.p;
 import static j2html.TagCreator.span;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 import com.google.gson.Gson;
@@ -21,14 +20,12 @@ class Chat {
   private Chat() {}
 
 
-  public static JsonObject createMessage(String sender, String message,
-      Collection<String> userIds) {
+  public static JsonObject createMessage(String sender, String message) {
     JsonObject toSend = new JsonObject();
 
     // build the values
     toSend.add("requestType", GSON.toJsonTree("chat"));
     toSend.add("userMessage", createHtmlMessageFromSender(sender, message));
-    toSend.add("userList", GSON.toJsonTree(userIds));
 
     return toSend;
   }
