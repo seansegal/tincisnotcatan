@@ -423,6 +423,9 @@ function handleErrorFromSocket(data) {
 		case "FULL_GAME":
 			$("#full-game-modal").modal("show");
 			break;
+        case "DUPLICATE_TAB":
+            $("#duplicate-tab-modal").modal("show");
+            break;
 		default:
 			console.log(data.description);
 		}

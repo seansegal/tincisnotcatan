@@ -822,6 +822,19 @@
 	</div>
 </div>
 
+<div class="modal fade" id="duplicate-tab-modal" tabindex="-1" role="dialog" aria-labelledby="duplicateTabLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="duplicateTabLabel">Multiple Tabs Open</h4>
+      		</div>
+      		<div class="modal-body">
+      			<p>We noticed that you already have an open tab with an active Catan game. The same game of Catan will not work across multiple tabs, please exit this tab and continue the game in your other active tab.</p>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>
