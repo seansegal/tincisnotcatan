@@ -22,7 +22,7 @@ public class DropCards implements FollowUpAction {
   private Map<Resource, Double> _toDrop;
   private final static double TOLERANCE = 0.001;
   public final static String ID = "dropCards";
-  private final static String VERB = "drop half of your hand";
+  private final static String VERB = "discard";
 
   public DropCards(int playerID, double numToDrop) {
     _isSetup = false;
