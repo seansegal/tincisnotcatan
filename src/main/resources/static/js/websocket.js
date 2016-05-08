@@ -210,6 +210,8 @@ webSocket.onmessage = function (msg) {
 // Chat Responses
 //////////////////////////////////////////
 
+var chatReceivedSound = new Audio("audio/message-received.mp3");
+
 //Send a message if it's not empty, then clear the input field
 function sendMessage(message) {
     if (message !== "") {
@@ -226,6 +228,7 @@ function updateChat(msg) {
     } else {
         var fromPlayer = playersById[msg.fromUser];
         insert("chat", "<div style='border-left-color: " + fromPlayer.color + "'>" + msg.userMessage + "</div>");
+        chatReceivedSound.play();
     }
 }
 
