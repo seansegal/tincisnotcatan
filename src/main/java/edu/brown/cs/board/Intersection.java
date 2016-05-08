@@ -67,12 +67,12 @@ public class Intersection {
 
   public boolean canPlaceSettlement(Referee r, int playerID) {
     if (_building == null && !hasAdjacentSettlement()) {
-      if(r.getGameStatus() != GameStatus.PROGRESS) {
+      if (r.getGameStatus() != GameStatus.PROGRESS) {
         return true;
       } else {
-        for(Path p : _paths) {
+        for (Path p : _paths) {
           if (p.getRoad() != null
-              && p.getRoad().getPlayer().equals(playerID)) {
+              && p.getRoad().getPlayer().getID() == playerID) {
             return true;
           }
         }
@@ -85,10 +85,8 @@ public class Intersection {
     if (_building == null) {
       return false;
     } else if (_building.getPlayer().equals(p)
-        && _building instanceof Settlement) { // Need to double check that type
-                                              // checking will allow this to
-      return true; // work
-
+        && _building instanceof Settlement) {
+      return true;
     }
 
     return false;
