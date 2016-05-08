@@ -44,7 +44,7 @@ public class CatanGroupSelector implements GroupSelector {
     if (usersExistingGroup.isPresent()) {
       return usersExistingGroup.get();
     }
-
+    System.out.println("No game has " + u);
     if (u.getFieldsAsJson().has(GAME_REQUEST_ID)) {
       Optional<Group> requested = coll.stream()
           .filter(ug -> !ug.isFull()
@@ -53,8 +53,10 @@ public class CatanGroupSelector implements GroupSelector {
       if (requested.isPresent()) {
         return requested.get();
       }
+      System.out.println("returning null");
       return null;
     }
+    System.out.println("No game requested.");
 
     int desiredSize = Integer.parseInt(u.getField(NUM_PLAYERS));
     if (desiredSize < 2 || desiredSize > 4) {
@@ -75,6 +77,7 @@ public class CatanGroupSelector implements GroupSelector {
     settings.addProperty("victoryPoints", victoryPoints);
     settings.addProperty("isDecimal", isDecimal);
 
+    System.out.println("MAKING NEW GAME!");
     return new UserGroupBuilder(CatanAPI.class)
         .withSize(desiredSize)
         .withRequestProcessors(

@@ -7,8 +7,10 @@ import java.net.HttpCookie;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -49,7 +51,15 @@ public class NewWebsocket {
     } else {
       u = createNewUser(s);
     }
-    threadPool.submit(new ConnectUserTask(u, gct));
+    System.out.println("Submitting connect");
+    Future<?> f = threadPool.submit(new ConnectUserTask(u, gct));
+    try {
+      f.get(); // blocks!
+      System.out.println("Connect complete");
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
+    }
+
   }
 
 
@@ -100,7 +110,16 @@ public class NewWebsocket {
           .println("Disconnected user we've never seen before. Do nothing");
       return; // do nothing with a disconnected user we've never seen.
     }
-    threadPool.submit(new DisconnectUserTask(u, statusCode, reason, gct));
+    System.out.println("Submitting disconnect");
+    Future<?> f =
+        threadPool.submit(new DisconnectUserTask(u, statusCode, reason, gct));
+    try {
+      f.get();
+      System.out.println("Disconnect complete");
+    } catch (InterruptedException | ExecutionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 

@@ -14,7 +14,13 @@ class ConnectUserTask implements Runnable {
 
   @Override
   public void run() {
-    gct.add(u);
+    Group g = gct.groupForUser(u);
+    if (g == null) {
+      gct.add(u);
+    } else {
+      g.add(u);
+    }
+
   }
 
 }

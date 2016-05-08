@@ -40,6 +40,7 @@ public class UserTable {
         return false;
       }
       afk.put(u, expiresAt);
+      System.out.println("AFK set: Keyset : " + afk.keySet());
       return true;
     }
   }
@@ -51,6 +52,7 @@ public class UserTable {
         return false;
       }
       afk.remove(u);
+      System.out.println("AFK Unset: Keyset: " + afk.keySet());
       return true;
     }
   }
@@ -103,6 +105,7 @@ public class UserTable {
 
   public boolean isAfk(User u) {
     synchronized (this) {
+      System.out.println("Checking afk : keyset : " + afk.keySet());
       return afk.keySet().contains(u);
     }
   }

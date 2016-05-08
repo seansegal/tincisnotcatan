@@ -92,7 +92,7 @@ public class UserGroup implements Group {
         }
       }
       if (!table.contains(u)) {
-        print("Error : user not contained");
+        print("Error : UserGroup:handleMesssage user not contained");
         return false;
       }
       for (RequestProcessor req : myBuilder.reqs) {
