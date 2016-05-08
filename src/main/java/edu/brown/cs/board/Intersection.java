@@ -65,14 +65,14 @@ public class Intersection {
     return false;
   }
 
-  public boolean canPlaceSettlement(Referee r) {
+  public boolean canPlaceSettlement(Referee r, int playerID) {
     if (_building == null && !hasAdjacentSettlement()) {
       if(r.getGameStatus() != GameStatus.PROGRESS) {
         return true;
       } else {
         for(Path p : _paths) {
           if (p.getRoad() != null
-              && p.getRoad().getPlayer().equals(r.currentPlayer())) {
+              && p.getRoad().getPlayer().equals(playerID)) {
             return true;
           }
         }
