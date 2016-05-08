@@ -272,7 +272,7 @@ public class MasterReferee implements Referee {
         if (i.getPort().getResource() == Resource.WILDCARD) {
           for (Resource r : Resource.values()) {
             double rate = Math.min(rates.get(r),
-                _bank.getPortRate(r));
+                _bank.getPortRate(Resource.WILDCARD));
             rates.put(r, rate);
           }
         } else {
@@ -509,6 +509,5 @@ public class MasterReferee implements Referee {
     }
 
   }
-
 
 }

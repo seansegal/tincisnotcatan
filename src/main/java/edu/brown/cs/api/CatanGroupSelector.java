@@ -47,7 +47,7 @@ public class CatanGroupSelector implements GroupSelector {
 
     if (u.getFieldsAsJson().has(GAME_REQUEST_ID)) {
       Optional<Group> requested = coll.stream()
-          .filter(ug -> ug.isFull()
+          .filter(ug -> !ug.isFull()
               && ug.identifier().equals(u.getField(GAME_REQUEST_ID)))
           .findFirst();
       if (requested.isPresent()) {
