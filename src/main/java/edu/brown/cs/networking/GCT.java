@@ -23,6 +23,8 @@ public class GCT {
   private final Map<User, Group> userToUserGroup;
   private final GroupSelector    groupSelector;
 
+  private static final int GAME_LIMIT = 3;
+
 
   private GCT(GCTBuilder builder) {
     // Not provided by builder:
@@ -62,6 +64,8 @@ public class GCT {
     Collection<Group> gr = Collections.unmodifiableCollection(list);
     JsonObject toRet = new JsonObject();
     toRet.add("groups", Networking.GSON.toJsonTree(gr));
+    boolean atLim = pending.size() + full.size() >= GAME_LIMIT;
+    toRet.addProperty("atLimit", atLim);
     return toRet;
   }
 

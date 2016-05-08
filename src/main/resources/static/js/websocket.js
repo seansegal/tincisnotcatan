@@ -348,6 +348,9 @@ function handleGetGameState(gameStateData) {
     // Handle decimal trade rates
     setDecimalTradeRates(gameSettings.isDecimal);
 
+    // Build current extras tab
+    buildExtrasTab();
+
     // Create board
     board = new Board();
     board.createBoard(gameStateData.board);
