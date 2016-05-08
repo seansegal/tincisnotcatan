@@ -57,9 +57,8 @@ public class GCT {
 
   public JsonObject openGroups() {
     Collection<Group> list = new ArrayList<>();
-    for (Group g : pending) {
-      list.add(new GroupView(g));
-    }
+    pending.stream().filter(g -> !g.isEmpty())
+        .forEach(g -> list.add(new GroupView(g)));
     Collection<Group> gr = Collections.unmodifiableCollection(list);
     JsonObject toRet = new JsonObject();
     toRet.add("groups", Networking.GSON.toJsonTree(gr));

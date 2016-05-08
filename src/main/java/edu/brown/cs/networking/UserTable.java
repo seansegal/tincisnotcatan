@@ -135,4 +135,12 @@ public class UserTable {
   }
 
 
+  public void clear() {
+    synchronized (this) {
+      users.clear();
+      afk.clear();
+    }
+  }
+
+
 }

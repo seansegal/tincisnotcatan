@@ -16,7 +16,7 @@ public class Networking {
   public static final String     HEARTBEAT          = "\"HEARTBEAT\"";
 
   public static final long       ONE_SECOND         = 1000;
-  public static final long       DISCONNECT_TIMEOUT = ONE_SECOND * 10;
+  public static final long       DISCONNECT_TIMEOUT = ONE_SECOND * 5;
 
   // to be used throughout the Networking package unless conflicts
   // exist with registerTypeAdapter
@@ -38,6 +38,12 @@ public class Networking {
       new JsonObjectBuilder()
           .addProperty(REQUEST_IDENTIFIER, "action")
           .addProperty("action", "startGame")
+          .build();
+
+  public static final JsonObject GAME_OVER          =
+      new JsonObjectBuilder()
+          .addProperty(REQUEST_IDENTIFIER, "gameOver")
+          .addProperty("reason", "disconnectedUser")
           .build();
 
 

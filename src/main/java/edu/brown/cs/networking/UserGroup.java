@@ -131,11 +131,11 @@ public class UserGroup implements Group {
 
   private void userDisconnected(User u, long expiresAt) {
     if (!table.contains(u)) {
-      print("Error! Disconnected user, but no reference.");
-      return;
+      return; // just ignore it.
     }
     print("DISCONNECTED AT " + expiresAt + " " + u);
     table.userAFK(u, expiresAt);
+    new Thread(new CleanupTask(u, table)).start();
     allUsersConnectedWithMessage();
   }
 
@@ -182,6 +182,43 @@ public class UserGroup implements Group {
   @Override
   public boolean isFull() {
     return myBuilder.desiredSize == table.size();
+  }
+
+
+  public class CleanupTask implements Runnable {
+
+    private User      u;
+    private UserTable table;
+
+
+    public CleanupTask(User u, UserTable t) {
+      this.u = u;
+      this.table = t;
+    }
+
+
+    @Override
+    public void run() {
+      while (true) {
+        try {
+          if (table.expired(u)) {
+            System.out.println("User expired!");
+            for (User u : table.onlyConnectedUsers()) {
+              u.message(Networking.GAME_OVER);
+            }
+            table.clear();
+            return;
+          } else {
+            Thread.sleep(1000);
+          }
+        } catch (ExpiredUserException | InterruptedException e) {
+          // thread consistency error, can just kill the thread.
+          e.printStackTrace();
+          return;
+        }
+
+      }
+    }
   }
 
 
