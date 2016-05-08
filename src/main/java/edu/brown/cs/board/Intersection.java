@@ -72,7 +72,7 @@ public class Intersection {
       } else {
         for(Path p : _paths) {
           if (p.getRoad() != null
-              && p.getRoad().getPlayer().equals(playerID)) {
+              && p.getRoad().getPlayer().getID() == playerID) {
             return true;
           }
         }
