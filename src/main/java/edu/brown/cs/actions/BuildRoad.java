@@ -31,16 +31,16 @@ public class BuildRoad implements Action {
     Intersection endPoint = ref.getBoard().getIntersections().get(end);
     if (startPoint == null) {
       throw new IllegalArgumentException(
-          "The starting coordinate does not exist.");
+          "The starting coordinate does not exist");
     }
     if (endPoint == null) {
       throw new IllegalArgumentException(
-          "The ending coordinate does not exist.");
+"The ending coordinate does not exist");
     }
     _path = ref.getBoard().getPaths().get(new PathCoordinate(start, end));
     if (_path == null) {
       throw new IllegalArgumentException(
-          "There is no path from the start coordinate to the end coordinate.");
+          "There is no path from the start coordinate to the end coordinate");
     }
     if (_player == null) {
       String err = String.format("No player exists with the id: %d", playerID);
@@ -53,7 +53,12 @@ public class BuildRoad implements Action {
     if (_ref.getGameStatus() == GameStatus.PROGRESS
         && !_ref.currentPlayer().equals(_player)) {
       ActionResponse resp = new ActionResponse(false,
-          "You cannot build when it is not your turn.", null);
+          "You cannot build when it is not your turn", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
+    if (!(_player.numRoads() > 0)) {
+      ActionResponse resp = new ActionResponse(false,
+          "You do no have nay more roads", null);
       return ImmutableMap.of(_player.getID(), resp);
     }
     if (_mustPay) {
@@ -61,22 +66,22 @@ public class BuildRoad implements Action {
         _player.buildRoad();
       } else {
         ActionResponse resp = new ActionResponse(false,
-            "You cannot afford to buy a road.", null);
+            "You cannot afford to buy a road", null);
         return ImmutableMap.of(_player.getID(), resp);
       }
 
     }
     if (!_path.canPlaceRoad(_player)) {
       ActionResponse resp = new ActionResponse(false,
-          "You cannot built a road in that location.", null);
+          "You cannot built a road in that location", null);
       return ImmutableMap.of(_player.getID(), resp);
     }
     _player.useRoad();
     _path.placeRoad(_player);
 
-    ActionResponse toPlayer = new ActionResponse(true, "You built a Road.",
+    ActionResponse toPlayer = new ActionResponse(true, "You built a Road",
         null);
-    String message = String.format("%s built a Road.", _player.getName());
+    String message = String.format("%s built a Road", _player.getName());
     ActionResponse toAll = new ActionResponse(true, message, null);
     Map<Integer, ActionResponse> toReturn = new HashMap<>();
     for (Player player : _ref.getPlayers()) {
