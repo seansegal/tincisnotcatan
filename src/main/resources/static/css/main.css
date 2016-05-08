@@ -316,6 +316,14 @@ body {
 	margin-right: 10px;
 }
 
+.trade-rate-container {
+	letter-spacing: -1.5px;
+}	
+
+.trade-rate-container strong {
+	letter-spacing: normal;
+}
+
 .last-to-give-get-container {
 	margin-right: 0px;
 }

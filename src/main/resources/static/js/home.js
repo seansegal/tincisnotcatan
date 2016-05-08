@@ -39,7 +39,7 @@ webSocket.onmessage = function(msg) {
 
 	$("#startGameButton").prop("disabled", data.atLimit);
 	if (data.atLimit) {
-		$("#startGameButton").text("Sorry, game limit reached");
+		$("#startGameButton").text("Sorry, Game Limit Reached");
 	} else {
 		$("#startGameButton").text("Start Game!");
 	}
