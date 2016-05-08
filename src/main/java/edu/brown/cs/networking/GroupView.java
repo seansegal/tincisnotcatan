@@ -71,8 +71,15 @@ public class GroupView implements Group {
 
 
   @Override
-  public boolean hasUserWithID(String uuid) {
-    return inner.hasUserWithID(uuid);
+  public boolean hasUser(String uuid) {
+    return inner.hasUser(uuid);
   }
+
+
+  @Override
+  public boolean hasUser(User u) {
+    return inner.hasUser(u);
+  }
+
 
 }

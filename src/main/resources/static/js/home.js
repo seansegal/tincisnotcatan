@@ -1,31 +1,27 @@
-
 $(window).load(function() {
-	if(document.cookie.indexOf("USER_ID") > -1) {
-		window.location = "/board";
-		return;
+	var href = window.location.pathname;
+	if (href == "/home") {
+		deleteCookie("desiredGroupId");
 	}
 
-    var href = window.location.pathname;
-    if(href == "/home"){
-    	deleteCookie("desiredGroupId");
-    }
-
-    // If not in chrome, display useful modal
-    var isChrome = !!window.chrome && !!window.chrome.webstore;
-    if (!isChrome) {
-    	$("#use-chrome-modal").modal("show");
-    }
+	// If not in chrome, display useful modal
+	var isChrome = !!window.chrome && !!window.chrome.webstore;
+	if (!isChrome) {
+		$("#use-chrome-modal").modal("show");
+	}
 });
 
 // ---------- Setup ---------- //
 
-//Establish the WebSocket connection and set up event handlers
+// Establish the WebSocket connection and set up event handlers
 if (document.location.hostname == "localhost") {
 	// use http
-	webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/groups/");
+	webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port
+			+ "/groups/");
 } else {
 	// we're on heroku - use https:
-	webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/groups/");
+	webSocket = new WebSocket("wss://" + location.hostname + ":"
+			+ location.port + "/groups/");
 }
 
 function heartbeat() {
@@ -33,11 +29,11 @@ function heartbeat() {
 	webSocket.send(JSON.stringify(beat));
 }
 
-webSocket.onopen = function () {
+webSocket.onopen = function() {
 	window.setInterval(heartbeat, 60 * 1000);
 };
 
-webSocket.onmessage = function (msg) {
+webSocket.onmessage = function(msg) {
 	var data = JSON.parse(msg.data);
 	console.log(data);
 
@@ -51,19 +47,31 @@ function createJoinableGameList(groups) {
 
 	// Add message if no groups exist yet
 	if (groups.length === 0) {
-		$("#games-list").append("<li class='list-group-item'>No available games. Create your own!</li>");
+		$("#games-list")
+				.append(
+						"<li class='list-group-item'>No available games. Create your own!</li>");
 		return;
 	}
 
 	// Add to list of joinable games
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i].group;
-		$("#games-list").append("<li class='list-group-item'><div class='row'>"
-				+ "<div class='col-xs-4 text-left vertical-center'><span>" + group.groupName + ":</span></div>"
-				+ "<div class='col-xs-4 text-center vertical-center'>" 
-				+ "<span><strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"
-				+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' "
-				+ "type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='" + group.id + "' maxSize='"+ group.maxSize +"'></div></div>");
+		$("#games-list")
+				.append(
+						"<li class='list-group-item'><div class='row'>"
+								+ "<div class='col-xs-4 text-left vertical-center'><span>"
+								+ group.groupName
+								+ ":</span></div>"
+								+ "<div class='col-xs-4 text-center vertical-center'>"
+								+ "<span><strong>"
+								+ group.currentSize
+								+ "/"
+								+ group.maxSize
+								+ "</strong> Players</span></div>"
+								+ "<div class='col-xs-4 text-right'><input class='btn btn-default join-game-btn col-xs-4' "
+								+ "type='submit' onClick='return existingGameSelected(this)' value='Join Game' gameid='"
+								+ group.id + "' maxSize='" + group.maxSize
+								+ "'></div></div>");
 
 	}
 }
@@ -94,7 +102,8 @@ function openCreateJoinGame() {
 		// Vertically center text
 		var btnHeight = $("#games-list .join-game-btn").outerHeight();
 		$("#games-list .vertical-center").css("height", btnHeight);
-		$("#games-list .vertical-center *").css("line-height", btnHeight + "px");
+		$("#games-list .vertical-center *")
+				.css("line-height", btnHeight + "px");
 	}
 }
 
@@ -106,12 +115,12 @@ function existingGameSelected(caller) {
 	var victoryPoints = id("victory-points-input").value;
 	var isDecimal = $("#decimal-option").hasClass("active");
 
- 	if(userName == undefined || userName == "") {
+	if (userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false;
 	}
- 	setCookie("desiredGroupId", groupId);
- 	setCookie("userName", userName);
+	setCookie("desiredGroupId", groupId);
+	setCookie("userName", userName);
 	setCookie("numPlayersDesired", groupSize);
 	setCookie("victoryPoints", victoryPoints);
 	setCookie("isDecimal", isDecimal);
@@ -119,20 +128,20 @@ function existingGameSelected(caller) {
 	return true;
 }
 
-
 function displayCookies() {
-	alert (document.cookie);
+	alert(document.cookie);
 }
 
 function getCookie(name) {
 	var nameEQ = name + "=";
-	//alert(document.cookie);
+	// alert(document.cookie);
 	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-	var c = ca[i];
-	while (c.charAt(0)==' ') c = c.substring(1);
-	if (c.indexOf(nameEQ) != -1){
-		return c.substring(nameEQ.length,c.length);
+	for (var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ')
+			c = c.substring(1);
+		if (c.indexOf(nameEQ) != -1) {
+			return c.substring(nameEQ.length, c.length);
 		}
 	}
 	return null;
@@ -142,10 +151,13 @@ function setCookie(cookie, value) {
 	document.cookie = eqVal;
 }
 
-function stopReturnKey(evt) { 
-	var evt = (evt) ? evt : ((event) ? event : null); 
-	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
-	if ((evt.keyCode == 13) && (evt.target.id != "startGameButton"))  {return false;} 
+function stopReturnKey(evt) {
+	var evt = (evt) ? evt : ((event) ? event : null);
+	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement
+			: null);
+	if ((evt.keyCode == 13) && (evt.target.id != "startGameButton")) {
+		return false;
+	}
 }
 
 function startGamePressed() {
@@ -155,7 +167,7 @@ function startGamePressed() {
 	var victoryPoints = id("victory-points-input").value;
 	var isDecimal = $("#decimal-option").hasClass("active");
 
-	if(userName == undefined || userName == "") {
+	if (userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false; // will not allow the get reqeust to process.
 	}
@@ -174,20 +186,18 @@ function startGamePressed() {
 	return true; // will allow the get request to process.
 }
 
-
 function deleteCookie(name) {
-    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 };
 
-//Helper function for inserting HTML as the first child of an element
+// Helper function for inserting HTML as the first child of an element
 function insert(targetId, message) {
-    id(targetId).insertAdjacentHTML("afterbegin", message);
+	id(targetId).insertAdjacentHTML("afterbegin", message);
 }
 
-//Helper function for selecting element by id
+// Helper function for selecting element by id
 function id(id) {
-    return document.getElementById(id);
+	return document.getElementById(id);
 }
 
 document.onkeypress = stopReturnKey;
-

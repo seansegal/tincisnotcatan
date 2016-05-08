@@ -118,8 +118,13 @@ public class UserGroup implements Group {
   }
 
 
-  public boolean hasUserWithID(String uuid) {
-    return table.contains(uuid);
+  public boolean hasUser(User u) {
+    return table.contains(u);
+  }
+
+
+  public boolean hasUser(String id) {
+    return table.contains(id);
   }
 
 

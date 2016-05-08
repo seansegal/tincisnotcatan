@@ -31,6 +31,9 @@ public interface Group {
   boolean isEmpty();
 
 
-  boolean hasUserWithID(String uuid);
+  boolean hasUser(String uuid);
+
+
+  boolean hasUser(User u);
 
 }

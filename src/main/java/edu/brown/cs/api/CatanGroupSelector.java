@@ -3,6 +3,7 @@ package edu.brown.cs.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 import com.google.gson.JsonObject;
 
@@ -38,31 +39,35 @@ public class CatanGroupSelector implements GroupSelector {
 
   @Override
   public Group selectFor(User u, Collection<Group> coll) {
+    Optional<Group> usersExistingGroup =
+        coll.stream().filter(g -> g.hasUser(u)).findFirst();
+    if (usersExistingGroup.isPresent()) {
+      return usersExistingGroup.get();
+    }
+
     if (u.getFieldsAsJson().has(GAME_REQUEST_ID)) {
-//      System.out.println("Game requested with ID: "
-//          + u.getField(GAME_REQUEST_ID));
-      for (Group ug : coll) {
-        if (!ug.isFull()
-            && ug.identifier().equals(u.getField(GAME_REQUEST_ID))) {
-          return ug;
-        }
+      Optional<Group> requested = coll.stream()
+          .filter(ug -> ug.isFull()
+              && ug.identifier().equals(u.getField(GAME_REQUEST_ID)))
+          .findFirst();
+      if (requested.isPresent()) {
+        return requested.get();
       }
-//      System.out
-//          .println("ERROR: Requested game is either full or nonexistent");
       return null;
     }
 
     int desiredSize = Integer.parseInt(u.getField(NUM_PLAYERS));
     if (desiredSize < 2 || desiredSize > 4) {
-      System.out.println("ERROR: Size requested out of bounds : " + desiredSize);
+      System.out
+          .println("ERROR: Size requested out of bounds : " + desiredSize);
       return null;
     }
     int victoryPoints = Integer.parseInt(u.getField(VICTORY_POINTS));
     boolean isDecimal = Boolean.parseBoolean(u.getField(IS_DECIMAL));
 
     // name the game
-    String name = u.hasField(GAME_NAME_IDENTIFIER) ? u.getField(GAME_NAME_IDENTIFIER) :
-      "Unnamed game";
+    String name = u.hasField(GAME_NAME_IDENTIFIER)
+        ? u.getField(GAME_NAME_IDENTIFIER) : "Unnamed game";
 
     // MAKE SETTINGS :
     JsonObject settings = new JsonObject();

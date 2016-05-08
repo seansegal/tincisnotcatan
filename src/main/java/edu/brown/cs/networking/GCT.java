@@ -50,8 +50,8 @@ public class GCT {
 
 
   public boolean userIDIsValid(String uuid) {
-    return pending.stream().anyMatch(grp -> grp.hasUserWithID(uuid))
-        || full.stream().anyMatch(grp -> grp.hasUserWithID(uuid));
+    return pending.stream().anyMatch(grp -> grp.hasUser(uuid))
+        || full.stream().anyMatch(grp -> grp.hasUser(uuid));
   }
 
 
