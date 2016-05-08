@@ -19,7 +19,7 @@ public class ChatProcessor implements RequestProcessor {
   @Override
   public boolean run(User user, Collection<User> group,
       JsonObject json, API api) {
-    System.out.println("Message processed : " + json.get("message"));
+    //System.out.println("Message processed : " + json.get("message"));
 
     Collection<String> userIds = new ArrayList<>();
     for (User u : group) {
