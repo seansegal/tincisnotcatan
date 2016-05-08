@@ -49,11 +49,13 @@ public class MasterReferee implements Referee {
   }
 
   public MasterReferee(GameSettings gameSettings) {
+
     _board = new Board();
     _gameSettings = gameSettings; // TODO customize
     _players = new HashMap<Integer, Player>();
     _turnOrder = initializeTurnOrder(_gameSettings.numPlayers);
-    _bank = initializeBank(false);
+    System.out.println("CALLED WITH boolean: " + _gameSettings.isDynamic);
+    _bank = initializeBank(_gameSettings.isDynamic);
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
     _gameStatus = GameStatus.WAITING;
@@ -127,8 +129,7 @@ public class MasterReferee implements Referee {
 
   private Bank initializeBank(boolean isSmart) {
     if (isSmart) {
-      assert false; // TODO: Not yet implemented
-      return null;
+      return new DynamicBank();
     } else {
       return new SimpleBank();
     }
@@ -272,7 +273,7 @@ public class MasterReferee implements Referee {
         if (i.getPort().getResource() == Resource.WILDCARD) {
           for (Resource r : Resource.values()) {
             double rate = Math.min(rates.get(r),
-                _bank.getPortRate(Resource.WILDCARD));
+                _bank.getWildCardRate(r));
             rates.put(r, rate);
           }
         } else {

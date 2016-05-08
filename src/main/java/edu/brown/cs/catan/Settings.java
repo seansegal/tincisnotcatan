@@ -40,6 +40,7 @@ public abstract class Settings {
 
   // Bank rates for trading in basic game:
   public final static double BANK_RATE = 4.0;
+  public final static double WILDCARD_RATE = 3.0;
   public final static Map<Resource, Double> PORT_RATES = new ImmutableMap.Builder<Resource, Double>()
       .put(Resource.BRICK, 2.0).put(Resource.ORE, 2.0).put(Resource.SHEEP, 2.0)
       .put(Resource.WHEAT, 2.0).put(Resource.WOOD, 2.0)

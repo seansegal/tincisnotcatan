@@ -29,4 +29,9 @@ public class SimpleBank implements Bank {
   public double getPortRate(Resource res) {
     return Settings.PORT_RATES.get(res);
   }
+
+  @Override
+  public double getWildCardRate(Resource res) {
+    return Settings.WILDCARD_RATE;
+  }
 }
