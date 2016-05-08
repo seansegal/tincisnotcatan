@@ -16,7 +16,7 @@ public class Networking {
   public static final String     HEARTBEAT          = "\"HEARTBEAT\"";
 
   public static final long       ONE_SECOND         = 1000;
-  public static final long       DISCONNECT_TIMEOUT = ONE_SECOND * 10000;
+  public static final long       DISCONNECT_TIMEOUT = ONE_SECOND * 60;
 
   // to be used throughout the Networking package unless conflicts
   // exist with registerTypeAdapter
@@ -59,7 +59,7 @@ public class Networking {
     }
     message.addProperty(REQUEST_IDENTIFIER, "disconnectedUsers");
     message.add("users", GSON.toJsonTree(disconUsers));
-    message.addProperty("expiresAt", smallestExpire + DISCONNECT_TIMEOUT);
+    message.addProperty("expiresAt", smallestExpire);
     return message;
   }
 
