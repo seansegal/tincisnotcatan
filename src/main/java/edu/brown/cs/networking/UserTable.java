@@ -1,7 +1,5 @@
 package edu.brown.cs.networking;
 
-import static edu.brown.cs.networking.Util.print;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -119,7 +117,6 @@ public class UserTable {
   public boolean expired(User u) throws ExpiredUserException {
     synchronized (this) {
       if (!afk.containsKey(u)) {
-        print("ERROR! Inconsistency with expired users / termination threads");
         throw new ExpiredUserException("User not in AFK representation");
       }
       return afk.get(u) < System.currentTimeMillis();

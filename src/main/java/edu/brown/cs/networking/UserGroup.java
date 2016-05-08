@@ -213,7 +213,6 @@ public class UserGroup implements Group {
           }
         } catch (ExpiredUserException | InterruptedException e) {
           // thread consistency error, can just kill the thread.
-          e.printStackTrace();
           return;
         }
 
