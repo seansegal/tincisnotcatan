@@ -38,8 +38,8 @@ public class ActionProcessor implements RequestProcessor {
       // send action response to every player
       json.add("content", resp.get(i));
       json.add("player", GSON.toJsonTree(i));
-      System.out.println(i);
-      System.out.println(json.get("requestType").getAsString());
+//      System.out.println(i);
+//      System.out.println(json.get("requestType").getAsString());
       recipient.message(json);
 
       // send game state after every action

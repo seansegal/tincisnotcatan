@@ -39,16 +39,16 @@ public class CatanGroupSelector implements GroupSelector {
   @Override
   public Group selectFor(User u, Collection<Group> coll) {
     if (u.getFieldsAsJson().has(GAME_REQUEST_ID)) {
-      System.out.println("Game requested with ID: "
-          + u.getField(GAME_REQUEST_ID));
+//      System.out.println("Game requested with ID: "
+//          + u.getField(GAME_REQUEST_ID));
       for (Group ug : coll) {
         if (!ug.isFull()
             && ug.identifier().equals(u.getField(GAME_REQUEST_ID))) {
           return ug;
         }
       }
-      System.out
-          .println("ERROR: Requested game is either full or nonexistent");
+//      System.out
+//          .println("ERROR: Requested game is either full or nonexistent");
       return null;
     }
 
