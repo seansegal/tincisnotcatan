@@ -105,11 +105,11 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       Map<String, String> cookies = req.cookies();
       if (cookies.containsKey(Networking.USER_IDENTIFIER)
-          && Main.this.gct.userIDIsValid(cookies.get(Networking.USER_IDENTIFIER))) {
+          && Main.this.gct
+              .userIDIsValid(cookies.get(Networking.USER_IDENTIFIER))) {
         res.redirect("/board");
         System.out.println("Redirect to board!");
         return new BoardHandler().handle(req, res);
-
       }
       Map<String, Object> variables = ImmutableMap.of("title",
           "Catan : Home");

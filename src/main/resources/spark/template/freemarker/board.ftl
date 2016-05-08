@@ -19,7 +19,7 @@
 	    	<li role="presentation" id="players-tab-toggle" class="active right-tab"><a href="#players-tab" aria-controls="players-tab" role="tab" data-toggle="tab">Players</a></li>
 	    	<li role="presentation" id="build-tab-toggle" class="right-tab"><a href="#build-tab" aria-controls="build-tab" role="tab" data-toggle="tab">Build</a></li>
 	    	<li role="presentation" id="trade-tab-toggle" class="right-tab"><a href="#trade-tab" aria-controls="trade-tab" role="tab" data-toggle="tab">Trade</a></li>
-	    	<li role="presentation" id="options-tab-toggle" class="right-tab"><a href="#options-tab" aria-controls="options-tab" role="tab" data-toggle="tab">Options</a></li>
+	    	<li role="presentation" id="extras-tab-toggle" class="right-tab"><a href="#extras-tab" aria-controls="extras-tab" role="tab" data-toggle="tab">Extras</a></li>
 		</ul>
 		<div class="tab-content right-tab-content col-xs-9">
 		    <div role="tabpanel" class="tab-pane active right-tab-pane" id="players-tab">
@@ -125,10 +125,10 @@
 									<img src="images/icon-brick.svg" alt="Brick">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="brick">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -138,10 +138,10 @@
 									<img src="images/icon-wood.svg" alt="Wood">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="wood">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -151,10 +151,10 @@
 									<img src="images/icon-ore.svg" alt="Ore">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="ore">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -164,10 +164,10 @@
 									<img src="images/icon-wheat.svg" alt="Wheat">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="wheat">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -177,10 +177,10 @@
 									<img src="images/icon-sheep.svg" alt="Sheep">
 								</div>
 		    				</div>
-		    				<div class="col-xs-4 text-center">
+		    				<div class="col-xs-5 text-center">
 		    					<input type="number" class="form-control interplayer-trade-input" res="sheep">
 		    				</div>
-		    				<div class="col-xs-4 text-left">
+		    				<div class="col-xs-3 text-left">
 		    					<h5> </h5>
 		    				</div>
 		    			</div>
@@ -294,7 +294,13 @@
 								</div>
 							</div>
 				    	</div>
-				    	
+				    	<br/>
+				    	<label id="bank-give-amount-label">Amount to give:</label>
+				    	<h5 id="bank-give-amount"> </h5>
+				    	<div class="form-group text-center" id="bank-trade-amount-container">
+							<label for="bank-trade-amount-input">Amount to receive:</label>
+							<input id="bank-trade-amount-input" class="form-control" type="number" min="0" value="1" step="1">
+						</div>
 		    			<div class="row trade-row">
 		    				<div class="col-xs-12 text-center">
 		    					<input type="button" class="btn btn-primary" value="Trade With Bank" id="bank-trade-btn">
@@ -303,7 +309,9 @@
 		    		</div>
 		    	</div>
 		    </div>
-		    <div role="tabpanel" class="tab-pane right-tab-pane container" id="options-tab">
+		    <div role="tabpanel" class="tab-pane right-tab-pane container" id="extras-tab">
+		    	<input type="button" id="show-stats-btn" class="btn btn-default" value="Show Stats" data-toggle="modal" data-target="#stats-modal">
+				<br>
 				<input type="button" id="exit-game-toggle-btn" class="btn btn-danger" value="Leave Game" data-toggle="modal" data-target="#exit-game-modal">
 		    </div>
 	    </div>
@@ -434,7 +442,7 @@
         		<h4 class="modal-title" id="discardLabel">Discard Cards</h4>
       		</div>
       		<div class="modal-body">
-       			<p>A 7 was rolled! You must select <span id="num-resources-to-discard"></span> resources to discard.</p>
+       			<p>A 7 was rolled! You must select <span id="num-resources-to-discard"></span> more resources to discard.</p>
        			<div class="text-center">
        				<div class="discard-resource-container">
 		       			<div class="circle discard-circle brick-color">
@@ -665,7 +673,7 @@
       		<div class="modal-body">
        			<p><span id="disconnected-user-name"></span> has disconnected from the game. The game will exit in <span id="disconnected-user-time"></span> seconds unless this user reconnects.</p>
       		</div>
-      		<div class="modal-footer modal-footer-center">
+      		<div class="modal-footer">
         		<button type="button" class="btn btn-danger leave-game-btn" data-dismiss="modal">Exit Game</button>
       		</div>
     	</div>
@@ -792,6 +800,24 @@
 	</div>
 </div>
 
+<div class="modal fade" id="stats-modal" tabindex="-1" role="dialog" aria-labelledby="statsModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="statsModal">Roll Distribution</h4>
+      		</div>
+      		<div class="modal-body text-center">
+      			<div id="dice-distribution-container">
+					<canvas id="dice-distribution" width="200" height="200"></canvas>
+				</div>
+      		</div>
+      		<div class="modal-footer">
+      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>
@@ -801,3 +827,4 @@
 <script src="js/board.js"></script>
 <script src="js/websocket.js"></script>
 <script src="js/main.js"></script>
+<script src="js/Chart.min.js"></script>

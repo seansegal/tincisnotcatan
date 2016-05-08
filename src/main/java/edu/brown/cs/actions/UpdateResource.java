@@ -10,6 +10,7 @@ import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
 public class UpdateResource implements Action {
+  public static final String ID = "updateResource";
   private Player _player;
   private Referee _ref;
 
@@ -27,10 +28,12 @@ public class UpdateResource implements Action {
   public Map<Integer, ActionResponse> execute() {
     Map<Resource, Double> resources = new HashMap<>();
     for (Resource res : _player.getResources().keySet()) {
-      _player.removeResource(res, _player.getResources().get(res),
-          _ref.getBank());
-      _player.addResource(res, 99.0, _ref.getBank());
-      resources.put(res, 99.0);
+      if(res != Resource.WILDCARD){
+        _player.removeResource(res, _player.getResources().get(res),
+            _ref.getBank());
+        _player.addResource(res, 99.0, _ref.getBank());
+        resources.put(res, 99.0);
+      }
     }
     String message = "You unlocked the power!";
     ActionResponse toAdd = new ActionResponse(true, message, resources);

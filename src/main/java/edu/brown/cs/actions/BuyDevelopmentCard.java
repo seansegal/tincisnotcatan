@@ -11,6 +11,7 @@ import edu.brown.cs.catan.Referee;
 
 public class BuyDevelopmentCard implements Action {
 
+  public static final String ID = "buyDevCard";
   private Referee _referee;
   private Player _player;
 
@@ -28,6 +29,11 @@ public class BuyDevelopmentCard implements Action {
     if (!_referee.currentPlayer().equals(_player)) {
       ActionResponse resp = new ActionResponse(false,
           "You cannot build when it is not your turn.", null);
+      return ImmutableMap.of(_player.getID(), resp);
+    }
+    if(_referee.devCardDeckIsEmpty()){
+      ActionResponse resp = new ActionResponse(false,
+          "There are no more development cards in the deck.", null);
       return ImmutableMap.of(_player.getID(), resp);
     }
     if (!_player.canBuyDevelopmentCard()) {

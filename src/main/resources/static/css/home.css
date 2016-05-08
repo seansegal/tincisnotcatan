@@ -9,6 +9,7 @@ h1 {
 #pre-name-container {
   position: absolute;
   top: 25%;
+  width: 100%;
 }
 
 #post-name-container {
@@ -23,6 +24,10 @@ h1 {
 
 #games-list {
   margin-bottom: 0px;
+}
+
+#startGameButton {
+  margin-top: 15px;
 }
 
 .vertical-center {

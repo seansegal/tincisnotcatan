@@ -1,23 +1,29 @@
 package edu.brown.cs.actions;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonObject;
 
+import edu.brown.cs.catan.Bank;
 import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
 public class PlayYearOfPlenty implements Action {
-  private Referee _ref;
-  private Player _player;
-  private Resource _firstRes;
-  private Resource _secondRes;
+  private final Referee _ref;
+  private final Player _player;
+  private final Bank _bank;
+  private final Map<Resource, Double> _resources;
+  private final static double TOLERANCE = .001;
+  public static final String ID = "playYearOfPlenty";
 
-  public PlayYearOfPlenty(Referee ref, int playerID, String firstRes,
-      String secondRes) {
+  public PlayYearOfPlenty(Referee ref, int playerID, JsonObject params) {
     assert ref != null;
     _ref = ref;
     _player = _ref.getPlayerByID(playerID);
@@ -25,8 +31,15 @@ public class PlayYearOfPlenty implements Action {
       String err = String.format("No player exists with the id: %d", playerID);
       throw new IllegalArgumentException(err);
     }
-    _firstRes = Resource.stringToResource(firstRes);
-    _secondRes = Resource.stringToResource(secondRes);
+    _bank = _ref.getBank();
+    JsonObject trade = params.get("resources").getAsJsonObject();
+    Map<Resource, Double> resources = new HashMap<>();
+    for (Resource res : Resource.values()) {
+      if (trade.has(res.toString())) {
+        resources.put(res, trade.get(res.toString()).getAsDouble());
+      }
+    }
+    _resources = Collections.unmodifiableMap(resources);
   }
 
   @Override
@@ -45,6 +58,17 @@ public class PlayYearOfPlenty implements Action {
               "You cannot play a development card on the turn you bought it",
               null));
     }
+    double resCount = 0.0;
+    for (Double count : _resources.values()) {
+      resCount += count;
+    }
+    if(_resources != null) {
+      if (2 - resCount > TOLERANCE || 2 - resCount < 0.0) {
+        return ImmutableMap.of(_player.getID(), new ActionResponse(false,
+            "You did not select the proper amount of resources", null));
+      }
+    }
+
     try {
       _player.playDevelopmentCard(DevelopmentCard.YEAR_OF_PLENTY);
     } catch (IllegalArgumentException e) {
@@ -55,31 +79,33 @@ public class PlayYearOfPlenty implements Action {
       return toRet;
     }
 
-    _player.addResource(_firstRes, 1, _ref.getBank());
-    _player.addResource(_secondRes,1, _ref.getBank());
-    String message = "";
-    if (_firstRes == _secondRes) {
-      message = String.format("You gained 2 %s", _firstRes);
+    StringBuilder message = new StringBuilder("You gained:");
+
+    if (_ref.getGameSettings().isDecimal) {
+      NumberFormat nf = new DecimalFormat("##.##");
+      for (Resource res : _resources.keySet()) {
+        if (_resources.get(res) > 0.0) {
+          _player.addResource(res, _resources.get(res), _bank);
+          message.append(String.format(" %s %s,",
+              nf.format(_resources.get(res)), res));
+        }
+      }
     } else {
-      message = String.format("You gained %s and %s.", _firstRes.stringWithArticle(),
-          _secondRes.stringWithArticle());
+      for (Resource res : _resources.keySet()) {
+        if (_resources.get(res) > 0) {
+          _player.addResource(res, _resources.get(res), _bank);
+          message.append(String.format(" %d %s,", _resources.get(res), res));
+        }
+      }
     }
-    ActionResponse toAdd = new ActionResponse(true, message,
-        new YearOfPlentyResponse(_firstRes, _secondRes));
+
+    message.replace(message.toString().length() - 1, message.toString()
+        .length(), "");
+
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
-    toRet.put(_player.getID(), toAdd);
+    toRet.put(_player.getID(), new ActionResponse(true, message.toString(),
+        _resources));
     return toRet;
-  }
-
-  private static class YearOfPlentyResponse {
-    private Resource firstRes;
-    private Resource secondRes;
-
-    public YearOfPlentyResponse(Resource first, Resource second) {
-      firstRes = first;
-      secondRes = second;
-    }
-
   }
 
 }

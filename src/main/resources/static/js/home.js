@@ -4,9 +4,16 @@ $(window).load(function() {
 		window.location = "/board";
 		return;
 	}
+
     var href = window.location.pathname;
     if(href == "/home"){
     	deleteCookie("desiredGroupId");
+    }
+
+    // If not in chrome, display useful modal
+    var isChrome = !!window.chrome && !!window.chrome.webstore;
+    if (!isChrome) {
+    	$("#use-chrome-modal").modal("show");
     }
 });
 
@@ -52,7 +59,6 @@ function createJoinableGameList(groups) {
 	for (var i = 0; i < groups.length; i++) {
 		var group = groups[i].group;
 		$("#games-list").append("<li class='list-group-item'><div class='row'>"
-
 				+ "<div class='col-xs-4 text-left vertical-center'><span>" + group.groupName + ":</span></div>"
 				+ "<div class='col-xs-4 text-center vertical-center'>" 
 				+ "<span><strong>" + group.currentSize + "/" + group.maxSize + "</strong> Players</span></div>"
@@ -68,6 +74,15 @@ $("#nameEntry").keypress(function(event) {
 	if (keyPressed === 13) {
 		openCreateJoinGame();
 	}
+});
+
+// Only allow alphanumeric and whitespace characters as user input
+$("#nameEntry, #game-name-entry").on("input", function(event) {
+	var input = $(this);
+	var currText = input.val();
+
+	var cleanedText = currText.replace(/[^A-Za-z0-9\s]+/g, "");
+	input.val(cleanedText);
 });
 
 function openCreateJoinGame() {
@@ -88,9 +103,9 @@ function existingGameSelected(caller) {
 	var userName = id("nameEntry").value;
 	var groupId = $(caller).attr("gameid");
 	var groupSize = $(caller).attr("maxSize");
-	console.log(userName);
-	console.log(groupId);
-	console.log(groupSize);
+	var victoryPoints = id("victory-points-input").value;
+	var isDecimal = $("#decimal-option").hasClass("active");
+
  	if(userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false;
@@ -98,6 +113,8 @@ function existingGameSelected(caller) {
  	setCookie("desiredGroupId", groupId);
  	setCookie("userName", userName);
 	setCookie("numPlayersDesired", groupSize);
+	setCookie("victoryPoints", victoryPoints);
+	setCookie("isDecimal", isDecimal);
 	deleteCookie("USER_ID");
 	return true;
 }
@@ -135,6 +152,9 @@ function startGamePressed() {
 	var userName = id("nameEntry").value;
 	var numPlayers = id("numPlayersDesired").value;
 	var groupName = id("game-name-entry").value;
+	var victoryPoints = id("victory-points-input").value;
+	var isDecimal = $("#decimal-option").hasClass("active");
+
 	if(userName == undefined || userName == "") {
 		alert("Please select a username");
 		return false; // will not allow the get reqeust to process.
@@ -147,6 +167,8 @@ function startGamePressed() {
 
 	setCookie("userName", userName);
 	setCookie("numPlayersDesired", numPlayers);
+	setCookie("victoryPoints", victoryPoints);
+	setCookie("isDecimal", isDecimal);
 	setCookie("groupName", groupName);
 	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.

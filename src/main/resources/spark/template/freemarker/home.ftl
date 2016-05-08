@@ -38,6 +38,19 @@
 								<option value="2">2 players</option>
 							</select>
 						</div>
+						<div class="form-group">
+							<label for="victory-points-input">How many victory points to play to?</label>
+							<input id="victory-points-input" class="form-control" type="number" min="5" max="15" value="10" step="1">
+						</div>
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default active">
+    							<input type="radio" autocomplete="off" checked>Standard
+  							</label>
+  							<label class="btn btn-default" id="decimal-option">
+    							<input type="radio" autocomplete="off">Decimal
+  							</label>
+						</div>
+						<br>
 						<button id="startGameButton" class="btn btn-success" onclick="return startGamePressed()">Create Game!</button>
 					</form>
 				</div>
@@ -56,6 +69,22 @@
 			</div>
 		</div>
 		<div class="col-xs-3"></div>
+	</div>
+</div>
+
+<div class="modal fade" id="use-chrome-modal" tabindex="-1" role="dialog" aria-labelledby="useChromeLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="useChromeLabel">We Noticed You Were Using a Browser Other Than Chrome...</h4>
+      		</div>
+      		<div class="modal-body">
+       			<p>For the best user experience, please use Chrome as your web browser.</p>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
+      		</div>
+    	</div>
 	</div>
 </div>
 

@@ -17,6 +17,8 @@ public class ProposeTrade implements Action{
   private Player _player;
   private Referee _ref;
   private Map<Resource, Double> _resources;
+  private final static double TOLERANCE = .001;
+  public static final String ID = "proposeTrade";
 
   public ProposeTrade(Referee ref, int playerID, JsonObject params) {
     assert ref != null;
@@ -46,7 +48,7 @@ public class ProposeTrade implements Action{
     if (!_ref.currentPlayer().equals(_player)) {
       ActionResponse toAdd = new ActionResponse(
           false,
-          "You can only trade on your turn.",
+          "You can only trade on your turn",
           _resources);
       toRet.put(_player.getID(), toAdd);
       return toRet;
@@ -60,11 +62,23 @@ public class ProposeTrade implements Action{
     }
     if (_resources.values().size() < 2 || !containsNeg || !containsPos) {
       ActionResponse toAdd = new ActionResponse(false,
-          "You must exchange at least one resource for at least one other resource.",
+          "You must exchange at least one resource for at least one other resource",
           _resources);
       toRet.put(_player.getID(), toAdd);
       return toRet;
     }
+    if (!_ref.getGameSettings().isDecimal) {
+      for (double d : _resources.values()) {
+        if (Math.abs(d) - Math.floor(Math.abs(d)) > TOLERANCE) {
+          ActionResponse toAdd = new ActionResponse(false,
+              "You cannot trade in decimals in this game",
+              _resources);
+          toRet.put(_player.getID(), toAdd);
+          return toRet;
+        }
+      }
+    }
+
     Trade trade = new Trade(_player.getID(), _resources);
 
     for (Player p : _ref.getPlayers()) {
@@ -78,7 +92,7 @@ public class ProposeTrade implements Action{
         FollowUpAction toDo = new TradeResponse(_player.getID(), _resources,
             trade);
         toDoNext.add(toDo);
-        String message = "See who wants to trade with you.";
+        String message = "See who wants to trade with you";
         ActionResponse toAdd = new ActionResponse(true, message, _resources);
         toRet.put(p.getID(), toAdd);
       }

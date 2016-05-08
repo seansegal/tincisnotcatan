@@ -86,7 +86,6 @@ public class CatanAPI implements API {
             action).execute();
         return _converter.responseToJSON(responses);
       } catch (IllegalArgumentException e) {
-        e.printStackTrace();
         System.out
             .println("ERROR: Perform Action - " + e.getLocalizedMessage());
         JsonObject json = new JsonObject();

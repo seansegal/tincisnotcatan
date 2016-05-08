@@ -20,9 +20,17 @@ function Player(id, name, color) {
 Player.prototype.addPlayerTab = function() {
 	var tabTitle = (this.id === playerId) ? "You" : "P" + this.id;
 
-	$("#player-tabs").append("<li role='presentation' id='p" + this.id + "-tab-tab'><a href='#p" + this.id + "-tab' aria-controls='home' "
+	var active = (this.id === parseInt(openedPlayerTab)) ? "class='active'" : "";
+
+	$("#player-tabs").append("<li role='presentation' player='" + this.id + "' id='p" + this.id + "-tab-tab'><a href='#p" + this.id + "-tab' aria-controls='home' "
 			+ "role='tab' data-toggle='tab'>" + tabTitle + "</a></li>");
 	$("#player-tabs-content").append("<div role='tabpanel' class='tab-pane player-tab-pane' id='p" + this.id + "-tab'></div>");
+
+	// Select active tab, or the first tab if 
+	if (this.id === openedPlayerTab) {
+		$("#p" + this.id + "-tab-tab").addClass("active");
+		$("#p" + this.id + "-tab").addClass("active");
+	}
 
 	var tabTab = $("#p" + this.id + "-tab-tab");
 	tabTab.children().css("background-color", this.color);
@@ -41,14 +49,15 @@ Player.prototype.addPlayerTab = function() {
 	}
 	
 	tab.append("<div class='player-name text-center'><h4>" + this.name + "</h4></div>");
-	tab.append("<h4 class='text-center'>" + victoryPointsToDisplay
-			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>");
-	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
+	tab.append("<h4 class='text-center player-victory-points'>" + victoryPointsToDisplay 
+			+ "<img class='player-tab-vp-icon' src='images/icon-victory-point.svg' alt='Victory Point'></h4>"
+			+ "<h5 class='text-center playing-to'>Playing to " + gameSettings.winningPointCount + "</h5>");
+	tab.append("<div class='panel panel-default player-tab-panel'><div class='panel-heading'>"
 			+ "<h5 class='panel-title-small'>Hand</h5></div><div class='panel-body'>"
-			+ "<p><strong>Resource Cards:</strong> " + this.resourceCards + "</p>"
+			+ "<p><strong>Resource Cards:</strong> " + formatNumber(this.resourceCards) + "</p>"
 			+ "<p><strong>Development Cards:</strong> " + this.developmentCards + "</p>"
 			+ "<p><strong>Played Knights:</strong> " + this.playedKnights + "</p></div></div>");
-	tab.append("<div class='panel panel-default'><div class='panel-heading'>"
+	tab.append("<div class='panel panel-default player-tab-panel'><div class='panel-heading'>"
 			+ "<h5 class='panel-title-small'>Remaining Buildings</h5></div><div class='panel-body'"
 			+ "<p><strong>Roads:</strong> " + this.roads + "</p>"
 			+ "<p><strong>Settlements:</strong> " + this.settlements + "</p>"
@@ -131,19 +140,19 @@ function fillPlayerHand(handData) {
 	var player = playersById[playerId];
 
 	// Add resource cards to this player's hand
-	$("#brick-number").text(handData.resources.brick);
+	$("#brick-number").text(formatNumber(handData.resources.brick));
 	player.hand.brick = handData.resources.brick;
 
-	$("#wood-number").text(handData.resources.wood);
+	$("#wood-number").text(formatNumber(handData.resources.wood));
 	player.hand.wood = handData.resources.wood;
 
-	$("#ore-number").text(handData.resources.ore);
+	$("#ore-number").text(formatNumber(handData.resources.ore));
 	player.hand.ore = handData.resources.ore;
 
-	$("#wheat-number").text(handData.resources.wheat);
+	$("#wheat-number").text(formatNumber(handData.resources.wheat));
 	player.hand.wheat = handData.resources.wheat;
 
-	$("#sheep-number").text(handData.resources.sheep);
+	$("#sheep-number").text(formatNumber(handData.resources.sheep));
 	player.hand.sheep = handData.resources.sheep;
 
 	// Add dev cards to this player's hand
@@ -200,6 +209,8 @@ function fillPlayerTradeRates(rates) {
 	$("#wheat-trade-rate").text(createTradeRateText(rates.wheat));
 	$("#sheep-trade-rate").text(createTradeRateText(rates.sheep));
 	$("#wildcard-trade-rate").text(createTradeRateText(rates.wildcard));
+
+	
 }
 
 function hexToRgb(hex) {

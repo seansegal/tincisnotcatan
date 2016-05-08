@@ -3,6 +3,10 @@ var players = [];
 var playersById = {};
 var playerId = -1;
 var currentPlayerTurn = -2;
+var openedPlayerTab = 0;
+var gameSettings = {};
+var tradeRates = {};
+var gameStats = {};
 
 $(window).load(function() {
 	board = new Board();
@@ -67,6 +71,18 @@ function addMessage(message) {
 	var container = $("#message-container");
 	container.empty();
 	container.append("<div class='message-popup-animation'><h5>" + message + "</h5></div>");
+}
+
+function formatNumber(num) {
+	if (gameSettings.isDecimal) {
+		return num.toFixed(2);
+	} else {
+		return num;
+	}
+}
+
+function getExchangeRate(toGive, toGet) {
+	return tradeRates[toGive];
 }
 
 var yourTurnDisplayed = false;
@@ -327,7 +343,7 @@ function calcYearOfPlentyResources() {
 
 	inputs.each(function(indx) {
 		var text = $(this).val();
-		num = num + ((text === "") ? 0 : parseInt(text));
+		num = num + ((text === "") ? 0 : parseFloat(text));
 	});
 
 	return num;
@@ -335,7 +351,7 @@ function calcYearOfPlentyResources() {
 
 $(".yop-number").change(function(event) {
 	var oldVal = $(this).data("oldVal");
-	var newVal = parseInt($(this).val());
+	var newVal = parseFloat($(this).val());
 
 	if (oldVal === undefined && calcYearOfPlentyResources() > 2) {
 		$(this).val("0");
@@ -362,25 +378,17 @@ $("#play-yop-btn").click(function(event) {
 	if (resourcesSelected === 2) {
 		var foundFirst = false;
 		var inputs = $(".yop-number");
-		var res1 = null;
-		var res2 = null;
+		var resources = {};
 
 		inputs.each(function(idx) {
-			var num = parseInt($(this).val());
-			if (num === 1) {
-				if (foundFirst) {
-					res2 = $(this).attr("res");
-				} else {
-					res1 = $(this).attr("res");
-					foundFirst = true;
-				}
-			} else if (num === 2) {
-				res1 = $(this).attr("res")
-				res2 = $(this).attr("res");
-			}
+			var num = parseFloat($(this).val());
+			num = (num === num) ? num : 0;
+
+			var res = $(this).attr("res");
+			resources[res] = num;
 		});
 
-		sendPlayYearOfPlentyAction(res1, res2);
+		sendPlayYearOfPlentyAction(resources);
 		$("#year-of-plenty-modal").modal("hide");
 	}
 });
@@ -409,7 +417,7 @@ function calcNumDiscards() {
 
 	inputs.each(function(indx) {
 		var text = $(this).val();
-		num = num + ((text === "") ? 0 : parseInt(text));
+		num = num + ((text === "") ? 0 : parseFloat(text));
 	});
 
 	return -num;
@@ -420,12 +428,9 @@ function enterDiscardModal(numToDiscard) {
 	$("#num-resources-to-discard").text(numToDiscard);
 	$("#discard-btn").prop("disabled", true);
 
+	$("#discard-number").data("oldVal", undefined);
+
 	var playerHand = playersById[playerId].hand;
-	var maxHand = {brick: playerHand.brick, 
-					wood: playerHand.wood, 
-					ore: playerHand.ore, 
-					wheat: playerHand.wheat, 
-					sheep: playerHand.sheep};
 	var currHand = {brick: playerHand.brick, 
 					wood: playerHand.wood, 
 					ore: playerHand.ore, 
@@ -434,44 +439,40 @@ function enterDiscardModal(numToDiscard) {
 	redrawHand();
 
 	function redrawHand() {
-		$("#discard-hand-number-brick").text(currHand.brick);
-		$("#discard-hand-number-wood").text(currHand.wood);
-		$("#discard-hand-number-ore").text(currHand.ore);
-		$("#discard-hand-number-wheat").text(currHand.wheat);
-		$("#discard-hand-number-sheep").text(currHand.sheep);
+		$("#num-resources-to-discard").text(formatNumber(numToDiscard - calcNumDiscards()));
+		$("#discard-hand-number-brick").text(formatNumber(currHand.brick));
+		$("#discard-hand-number-wood").text(formatNumber(currHand.wood));
+		$("#discard-hand-number-ore").text(formatNumber(currHand.ore));
+		$("#discard-hand-number-wheat").text(formatNumber(currHand.wheat));
+		$("#discard-hand-number-sheep").text(formatNumber(currHand.sheep));
 	}
 
 	$(".discard-number").change(function(event) {
-		var oldVal = $(this).data("oldVal");
-		var newVal = parseInt($(this).val());
+		var oldVal = ($(this).data("oldVal") === undefined) ? 0 : $(this).data("oldVal");
+		var newVal = parseFloat($(this).val());
 		var res = $(this).attr("res");
 
-		// Handle cases where you select too many resources or a positive resource amount
-		if (oldVal === undefined && calcNumDiscards() > numToDiscard) {
-			$(this).val("0");
-			$(this).data("oldVal", 0);
-		} else if (isNaN(newVal) || newVal > 0 || calcNumDiscards() > numToDiscard) {
+		var numDiscards = calcNumDiscards();
+
+		// Handle cases where you select too many resources
+		if (numDiscards > numToDiscard) {
+			var cappedVal = newVal + numDiscards - numToDiscard;
+			$(this).data("oldVal", cappedVal);
+			$(this).val(cappedVal);
+			currHand[res] = currHand[res] + (cappedVal - oldVal);
+		// Handle case where you selected more of a resource than you hold
+		} else if (newVal - oldVal < -currHand[res]) {
+			var cappedVal = oldVal - currHand[res];
+			$(this).data("oldVal", cappedVal);
+			$(this).val(cappedVal);
+			currHand[res] = currHand[res] + (cappedVal - oldVal);
+		// Handle case where number is positive or input is not a number
+		} else if (isNaN(newVal) || newVal > 0) {
 			$(this).val(oldVal);
+		// Regular, non-capped case
 		} else {
 			$(this).data("oldVal", newVal);
-			if (oldVal === undefined) {
-				currHand[res] = currHand[res] + newVal;
-			} else {
-				currHand[res] = currHand[res] + (newVal - oldVal);
-			}
-		}
-
-		// Handle case where you selected more of a resource than you hold
-		if (currHand[res] < 0) {
-			if (oldVal === undefined) {
-				$(this).val("0");
-				$(this).data("oldVal", 0);
-				currHand[res] = currHand[res] - newVal;
-			} else {
-				$(this).val(oldVal);
-				$(this).data("oldVal", oldVal);
-				currHand[res] = currHand[res] - (newVal - oldVal);
-			}
+			currHand[res] = currHand[res] + (newVal - oldVal);
 		}
 
 		redrawHand();
@@ -490,7 +491,7 @@ function enterDiscardModal(numToDiscard) {
 
 			inputs.each(function(indx) {
 				var text = $(this).val();
-				var num = ((text === "") ? 0 : parseInt(text));
+				var num = ((text === "") ? 0 : parseFloat(text));
 				var res = $(this).attr("res");
 				toDiscard[res] = num < 0 ? -num : num;
 			});
@@ -645,7 +646,7 @@ $("#bank-trade-btn").prop("disabled", true);
 var selectedToGiveElement = null;
 var selectedToGiveResource  = null;
 var selectedToGetElement = null;
-var selectedToGetResource  = "hey there";
+var selectedToGetResource  = null;
 
 $(".to-give-circle-container").click(function(event) {
 	var element = $(this);
@@ -658,10 +659,13 @@ $(".to-give-circle-container").click(function(event) {
 	// Highlight this resource
 	selectedToGiveElement = element;
 	selectedToGiveElement.addClass("highlighted-to-give-get-circle");
+	var amount = parseFloat($("#bank-trade-amount-input").val());
 
 	selectedToGiveResource = selectedToGiveElement.attr("res");
-	if (selectedToGiveResource !== null && selectedToGetResource !== null) {
+	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
 		$("#bank-trade-btn").prop("disabled", false);
+		var rate = getExchangeRate(selectedToGiveResource, selectedToGetResource);
+		$("#bank-give-amount").text(formatNumber(rate * amount));
 	}
 });
 
@@ -676,15 +680,28 @@ $(".to-get-circle-container").click(function(event) {
 	// Highlight this resource
 	selectedToGetElement = element;
 	selectedToGetElement.addClass("highlighted-to-give-get-circle");
+	var amount = parseFloat($("#bank-trade-amount-input").val());
 
 	selectedToGetResource = selectedToGetElement.attr("res");
-	if (selectedToGiveResource !== null && selectedToGetResource !== null) {
+	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
 		$("#bank-trade-btn").prop("disabled", false);
+		var rate = getExchangeRate(selectedToGiveResource, selectedToGetResource);
+		$("#bank-give-amount").text(formatNumber(rate * amount));
+	}
+});
+
+$("#bank-trade-amount-input").change(function(event) {
+	var amount = parseFloat($(this).val());
+	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
+		var rate = getExchangeRate(selectedToGiveResource, selectedToGetResource);
+		$("#bank-give-amount").text(formatNumber(rate * amount));
 	}
 });
 
 $("#bank-trade-btn").click(function(event) {
-	sendTradeWithBankAction(selectedToGiveResource, selectedToGetResource);
+	var amount = parseFloat($("#bank-trade-amount-input").val());
+
+	sendTradeWithBankAction(selectedToGiveResource, selectedToGetResource, amount);
 
 	// Reset selected resources
 	selectedToGiveElement.removeClass("highlighted-to-give-get-circle");
@@ -694,6 +711,10 @@ $("#bank-trade-btn").click(function(event) {
 	selectedToGiveResource  = null;
 	selectedToGetElement = null;
 	selectedToGetResource  = null;
+
+	$("#bank-trade-btn").prop("disabled", true);
+	$("#bank-trade-amount-input").val(1);
+	$("#bank-give-amount").text(" ");
 });
 
 //////////////////////////////////////////
@@ -833,10 +854,15 @@ $(".interplayer-trade-input").change(function(event) {
 		} else {
 			$(this).val(oldVal);
 		}
+	} else if (isNaN(parseFloat(newVal))) {
+		$(this).data("oldVal", 0);
+		$(this).val(0);
+		currentTrade[resource] = 0;
+		updateToGiveGetPanels(resource, 0, parseFloat(oldVal));
 	} else {
 		$(this).data("oldVal", newVal);
-		currentTrade[resource] = parseInt(newVal);
-		updateToGiveGetPanels(resource, parseInt(newVal), parseInt(oldVal));
+		currentTrade[resource] = parseFloat(newVal);
+		updateToGiveGetPanels(resource, parseFloat(newVal), parseFloat(oldVal));
 	}
 
 	if (canTrade()) {
@@ -959,7 +985,7 @@ $("#trade-responses-cancel-trade-btn").click(function(event) {
 });
 
 //////////////////////////////////////////
-// Trade Response Modal
+// Winner Modal
 //////////////////////////////////////////
 
 function showWinnerModal(winnerId) {
@@ -974,6 +1000,8 @@ function showWinnerModal(winnerId) {
 	$("#winner-modal .modal-body").append("<p>The game is over. You can start a new game of Catan from the home screen.</p>");
 	$("#winner-modal").modal("show");
 }
+
+$("#return-home-btn").click(deleteAllCookiesAndGoHome);
 
 //////////////////////////////////////////
 // Update Resource
@@ -995,3 +1023,42 @@ $(document).keydown(function(event) {
 	}
 });
 
+//////////////////////////////////////////
+// Decimal Trade Rates
+//////////////////////////////////////////
+
+function setDecimalTradeRates(isDecimal) {
+	if (isDecimal) {
+		$("input[type=number]").attr("step", 0.01);
+	} else {
+		$("input[type=number]").attr("step", 1);
+	}
+}
+
+//////////////////////////////////////////
+// Game Stats Page
+//////////////////////////////////////////
+
+$("#show-stats-btn").click(function(event) {
+	var rolls = gameStats.rolls;
+	var ctx = $("#dice-distribution")[0];
+    var myChart = new Chart(ctx, {
+    	type: 'bar',
+		data: {
+		        labels: ["2", "3", "4", "5", "6", "7", "8", "9", "10","11", "12"],
+		        datasets: [{
+		            label: '#  of Rolls',
+		            data: rolls
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+});

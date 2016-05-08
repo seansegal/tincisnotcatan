@@ -17,6 +17,7 @@ public class BuildCity implements Action {
   private Intersection _intersection;
   private Referee _ref;
   private static final String MESSAGE = "Congratulations! You built a City!";
+  public static final String ID = "buildCity";
 
   public BuildCity(Referee ref, int playerID, IntersectionCoordinate i) {
     assert ref != null && i != null;

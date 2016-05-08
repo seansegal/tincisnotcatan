@@ -17,6 +17,8 @@ import java.util.Map;
 import edu.brown.cs.actions.FollowUpAction;
 import edu.brown.cs.board.Board;
 import edu.brown.cs.board.Intersection;
+import edu.brown.cs.gamestats.CatanStats;
+import edu.brown.cs.gamestats.GameStats;
 
 public class MasterReferee implements Referee {
 
@@ -31,29 +33,32 @@ public class MasterReferee implements Referee {
   private Player _longestRoad = null;
   private GameStatus _gameStatus;
   private final Setup _setup;
+  private GameStats _gameStats;
 
   public MasterReferee() {
     _board = new Board();
     _gameSettings = new GameSettings(); // TODO default settings
     _players = new HashMap<Integer, Player>();
-    _turnOrder = initializeTurnOrder(_gameSettings.NUM_PLAYERS);
+    _turnOrder = initializeTurnOrder(_gameSettings.numPlayers);
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
     _gameStatus = GameStatus.WAITING;
     _setup = new Setup(getSetupOrder());
+    _gameStats = CatanStats.getGameStatsObject();
   }
 
   public MasterReferee(GameSettings gameSettings) {
     _board = new Board();
     _gameSettings = gameSettings; // TODO customize
     _players = new HashMap<Integer, Player>();
-    _turnOrder = initializeTurnOrder(_gameSettings.NUM_PLAYERS);
+    _turnOrder = initializeTurnOrder(_gameSettings.numPlayers);
     _bank = initializeBank(false);
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
     _gameStatus = GameStatus.WAITING;
     _setup = new Setup(getSetupOrder());
+    _gameStats = CatanStats.getGameStatsObject();
   }
 
   private List<Integer> getSetupOrder() {
@@ -72,7 +77,7 @@ public class MasterReferee implements Referee {
 
   private List<Integer> initializeTurnOrder(int numFullPlayers) {
     List<Integer> toReturn = new ArrayList<>();
-    for (int i = 0; i < _gameSettings.NUM_PLAYERS; i++) {
+    for (int i = 0; i < _gameSettings.numPlayers; i++) {
       toReturn.add(i);
     }
     Collections.shuffle(toReturn);
@@ -82,7 +87,7 @@ public class MasterReferee implements Referee {
   @Override
   public void startNextTurn() {
     Player nextPlayer = _players.get(_turnOrder.get((_turn.getTurnNum())
-        % _gameSettings.NUM_PLAYERS));
+        % _gameSettings.numPlayers));
 
     if (_gameStatus == GameStatus.PROGRESS) {
       _turn = new Turn(_turn.getTurnNum() + 1, nextPlayer.getDevCards());
@@ -94,12 +99,12 @@ public class MasterReferee implements Referee {
 
   @Override
   public Player currentPlayer() {
-    if (_players.size() != _gameSettings.NUM_PLAYERS) {
+    if (_players.size() != _gameSettings.numPlayers) {
       return null;
     }
     if (_gameStatus == GameStatus.PROGRESS) {
       return _players.get(_turnOrder.get((_turn.getTurnNum() - 1)
-          % _gameSettings.NUM_PLAYERS));
+          % _gameSettings.numPlayers));
     } else {
       return getPlayerByID(_setup.getCurrentPlayerID());
     }
@@ -247,7 +252,7 @@ public class MasterReferee implements Referee {
   @Override
   public Player getWinner() {
     for (Player p : _players.values()) {
-      if (getNumTotalPoints(p.getID()) >= _gameSettings.WINNING_POINT_COUNT) {
+      if (getNumTotalPoints(p.getID()) >= _gameSettings.winningPointCount) {
         return p;
       }
     }
@@ -259,7 +264,7 @@ public class MasterReferee implements Referee {
     Player player = getPlayerByID(id);
     Map<Resource, Double> rates = new HashMap<>();
     for (Resource r : Resource.values()) {
-      rates.put(r, _bank.getBankRate());
+      rates.put(r, _bank.getBankRate(r));
     }
     for (Intersection i : _board.getIntersections().values()) {
       if (i.getPort() != null && i.getBuilding() != null
@@ -267,12 +272,12 @@ public class MasterReferee implements Referee {
         if (i.getPort().getResource() == Resource.WILDCARD) {
           for (Resource r : Resource.values()) {
             double rate = Math.min(rates.get(r),
-                _bank.getPortRates().get(Resource.WILDCARD));
+                _bank.getPortRate(r));
             rates.put(r, rate);
           }
         } else {
           Resource r = i.getPort().getResource();
-          double rate = Math.min(rates.get(r), _bank.getPortRates().get(r));
+          double rate = Math.min(rates.get(r), _bank.getPortRate(r));
           rates.put(r, rate);
         }
       }
@@ -325,6 +330,16 @@ public class MasterReferee implements Referee {
   @Override
   public void setGameStatus(GameStatus state) {
     _gameStatus = state;
+  }
+
+  @Override
+  public boolean devCardDeckIsEmpty() {
+    return _devCardDeck.isEmpty();
+  }
+
+  @Override
+  public GameStats getGameStats() {
+    return _gameStats;
   }
 
   private class ReadOnlyReferee implements Referee {
@@ -482,6 +497,18 @@ public class MasterReferee implements Referee {
           .getImmutableCopy() : null;
     }
 
+    @Override
+    public boolean devCardDeckIsEmpty() {
+      return _referee.devCardDeckIsEmpty();
+    }
+
+    @Override
+    public GameStats getGameStats() {
+      return _referee.getGameStats();
+      //TODO: immutable?
+    }
+
   }
+
 
 }

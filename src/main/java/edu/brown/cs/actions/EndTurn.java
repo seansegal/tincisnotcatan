@@ -12,6 +12,7 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
 public class EndTurn implements Action {
+  public static final String ID = "endTurn";
   private Player _player;
   private Referee _ref;
   private boolean _hasKnight = false;

@@ -13,6 +13,7 @@ import edu.brown.cs.catan.Referee;
 
 public class PlayRoadBuilding implements Action {
 
+  public static final String ID = "playRoadBuilding";
   private Referee _ref;
   private Player _player;
 

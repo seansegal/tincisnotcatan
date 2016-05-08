@@ -103,8 +103,8 @@ function sendPlayMonopolyAction(resource) {
     webSocket.send(JSON.stringify(playReq));
 }
 
-function sendPlayYearOfPlentyAction(res1, res2) {
-    var playReq = {requestType: "action", action: "playYearOfPlenty", firstRes: res1, secondRes: res2};
+function sendPlayYearOfPlentyAction(resources) {
+    var playReq = {requestType: "action", action: "playYearOfPlenty", resources: resources};
     webSocket.send(JSON.stringify(playReq));
 }
 
@@ -128,8 +128,8 @@ function sendTakeCardAction(playerId) {
     webSocket.send(JSON.stringify(takeReq));
 }
 
-function sendTradeWithBankAction(toGive, toGet) {
-    var tradeReq = {requestType: "action", action: "tradeWithBank", toGive: toGive, toGet: toGet};
+function sendTradeWithBankAction(toGive, toGet, amount) {
+    var tradeReq = {requestType: "action", action: "tradeWithBank", toGive: toGive, toGet: toGet, amount: amount};
     webSocket.send(JSON.stringify(tradeReq));
 }
 
@@ -299,6 +299,12 @@ function handleGetGameState(gameStateData) {
     // Set global data
     playerId = gameStateData.playerID;
     currentPlayerTurn = gameStateData.currentTurn;
+    gameSettings = gameStateData.settings;
+    tradeRates = gameStateData.players[playerId].rates;
+    gameStats = gameStateData.stats;
+
+    var activePlayerTab = $("#player-tabs .active").attr("player");
+    openedPlayerTab = (activePlayerTab == undefined) ? 0 : parseInt(activePlayerTab);
 
     // Create players
     playersById = {};
@@ -319,12 +325,6 @@ function handleGetGameState(gameStateData) {
         players[i].addPlayerTab();
     }
 
-    // Select first players tab
-    if (players.length > 0) {
-        $("#player-tabs").children().first().addClass("active");
-        $("#player-tabs-content").children().first().addClass("active");
-    }
-
     // Draw turn counter
     if (gameStateData.hasOwnProperty("turnOrder")) {
         var turnOrder = gameStateData.turnOrder;
@@ -343,7 +343,10 @@ function handleGetGameState(gameStateData) {
     fillPlayerBuyOptions(gameStateData.hand);
 
     // Draw trade rates
-    fillPlayerTradeRates(gameStateData.players[playerId].rates); // TODO: change to reflect current player
+    fillPlayerTradeRates(tradeRates);
+
+    // Handle decimal trade rates
+    setDecimalTradeRates(gameSettings.isDecimal);
 
     // Create board
     board = new Board();

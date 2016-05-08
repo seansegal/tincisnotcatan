@@ -59,7 +59,7 @@ body {
 }
 
 .selected-turn-square {
-	box-shadow: inset 0 0 7px black;
+	box-shadow: inset 0 0 7px black, 0 0 7px black;
 }
 
 /* Hand */
@@ -174,6 +174,10 @@ body {
 	height: 100%;
 }
 
+.player-tab-panel {
+	margin-bottom: 10px;
+}
+
 .player-name {
 	margin-bottom: 15px;
 }
@@ -186,6 +190,14 @@ body {
 .player-tab-vp-icon {
 	height: 40px;
 	width: 40px;
+}
+
+.player-victory-points {
+	margin-bottom: 0px;
+}
+
+.playing-to {
+	margin-top: 0px;
 }
 
 .longest-road-banner, .largest-army-banner {
@@ -324,6 +336,24 @@ body {
 .to-give-circle-container, .to-get-circle-container {
 	padding: 10px;
 	margin: -10px;
+}
+
+#bank-give-amount-label {
+	margin-top: 15px;
+}
+
+#bank-give-amount {
+	margin-top: 0px;
+}
+
+#bank-trade-amount-container {
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+#bank-trade-amount-input {
+	width: 80px;
+	display: inline-block;
 }
 
 .highlighted-to-give-get-circle {
@@ -582,13 +612,15 @@ body {
 
 .yop-resource-container {
 	display: inline-block;
-	width: 50px;
+	width: 70px;
 	margin-left: 5px;
 }
 
 .yop-circle {
-	height: 50px;
-	width: 50px;
+	height: 60px;
+	width: 60px;
+	margin-left: 5px;
+	margin-right: 5px;
 	margin-bottom: 5px;
 }
 
@@ -602,11 +634,13 @@ body {
 	height: 60px;
 	width: 60px;
 	margin-bottom: 5px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .discard-resource-container {
 	display: inline-block;
-	width: 60px;
+	width: 80px;
 	margin-left: 5px;
 }
 
@@ -631,4 +665,10 @@ body {
 
 .modal-footer-center {
 	text-align: center;
+}
+
+#dice-distribution-container {
+	display: inline-block;
+	width: 300px;
+	height: 300px;
 }
