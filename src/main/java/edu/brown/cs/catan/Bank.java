@@ -10,6 +10,7 @@ public interface Bank {
   void discardResource(Resource resource, double count);
   double getBankRate(Resource res);
   double getPortRate(Resource res);
+  double getWildCardRate(Resource res);
 //  Map<Resource, Double> getPortRates();
 
 }

@@ -8,6 +8,7 @@ public class GameSettings {
   public final int winningPointCount;
   public final String[] COLORS = { "#BF2720", "#115EC9", "#DFA629", "#EDEAD9" };
   public final boolean isDecimal;
+  public final boolean isDynamic;
 
   public GameSettings(JsonObject settings) {
     int numPlayers = Settings.DEFAULT_NUM_PLAYERS;
@@ -28,9 +29,16 @@ public class GameSettings {
     } catch (NullPointerException e) {
       System.out.println("SETTINGS missing isDecimal parameter");
     }
+    boolean isDynamic = false;
+    try {
+      isDynamic = settings.get("isDynamic").getAsBoolean();
+    } catch (NullPointerException e) {
+      System.out.println("SETTINGS missing isDynamic parameter");
+    }
     this.winningPointCount = winningPointCount;
     this.numPlayers = numPlayers;
     this.isDecimal = isDecimal;
+    this.isDynamic = isDynamic;
   }
 
   // Default Settings
@@ -38,6 +46,7 @@ public class GameSettings {
     this.numPlayers = Settings.DEFAULT_NUM_PLAYERS;
     this.winningPointCount = Settings.WINNING_POINT_COUNT;
     this.isDecimal = false;
+    this.isDynamic = false;
   }
 
 }
