@@ -182,7 +182,7 @@ public class RollDice implements FollowUpAction {
         }
       }
       // Follow up MoveRobber action:
-      _ref.addFollowUp(ImmutableList.of(new MoveRobber(_player.getID())));
+      _ref.addFollowUp(ImmutableList.of(new MoveRobber(_player.getID(), false, true)));
     }
     _ref.removeFollowUp(this);
     return toRet;
