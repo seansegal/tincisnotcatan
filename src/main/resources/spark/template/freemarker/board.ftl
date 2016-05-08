@@ -310,7 +310,11 @@
 		    	</div>
 		    </div>
 		    <div role="tabpanel" class="tab-pane right-tab-pane container" id="extras-tab">
-		    	<input type="button" id="show-stats-btn" class="btn btn-default" value="Show Stats" data-toggle="modal" data-target="#stats-modal">
+		    	<h4><u>Game Settings</u></h4>
+		    	<div id="game-settings-container"></div>
+		    	<h4><u>Statistics</u></h4>
+		    	<div id="game-stats-container"></div>
+		    	<input type="button" id="show-stats-btn" class="btn btn-default" value="Roll Distribution" data-toggle="modal" data-target="#stats-modal">
 				<br>
 				<input type="button" id="exit-game-toggle-btn" class="btn btn-danger" value="Leave Game" data-toggle="modal" data-target="#exit-game-modal">
 		    </div>
