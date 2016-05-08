@@ -182,7 +182,7 @@ public class RollDice implements FollowUpAction {
         }
       }
       // Follow up MoveRobber action:
-      _ref.addFollowUp(ImmutableList.of(new MoveRobber(_player.getID())));
+      _ref.addFollowUp(ImmutableList.of(new MoveRobber(_player.getID(), false, true)));
     }
     _ref.removeFollowUp(this);
     return toRet;
@@ -191,8 +191,7 @@ public class RollDice implements FollowUpAction {
   @Override
   public JsonObject getData() {
     JsonObject toRet = new JsonObject();
-    String message = String.format("Please roll the dice.");
-    toRet.addProperty("message", message);
+    toRet.addProperty("message", "Please roll the dice");
     return toRet;
   }
 

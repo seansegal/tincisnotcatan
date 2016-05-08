@@ -24,6 +24,7 @@ public class MoveRobber implements FollowUpAction {
   public final static String ID = "moveRobber";
   private final static String VERB = "move the Robber";
   private boolean _isTurnStart = false;
+  private boolean _sevenWasRolled = false;
 
   public MoveRobber(int playerID) {
     _playerID = playerID;
@@ -35,6 +36,13 @@ public class MoveRobber implements FollowUpAction {
     _isSetup = false;
     _isTurnStart = isTurnStart;
   }
+
+  public MoveRobber(int playerID, boolean isTurnStart, boolean sevenWasRolled) {
+    _playerID = playerID;
+    _isSetup = false;
+    _sevenWasRolled = sevenWasRolled;
+  }
+
 
   @Override
   public Map<Integer, ActionResponse> execute() {
@@ -97,8 +105,13 @@ public class MoveRobber implements FollowUpAction {
 
   @Override
   public JsonObject getData() {
+    String message = "Please move the robber.";
+    if(_sevenWasRolled){
+      message = "A 7 was rolled. Please move the robber.";
+    }
+
     JsonObject toReturn = new JsonObject();
-    toReturn.addProperty("message", "Please move the robber.");
+    toReturn.addProperty("message", message);
     return toReturn;
   }
 
