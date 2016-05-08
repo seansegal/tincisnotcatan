@@ -9,27 +9,23 @@ public class GameSettings {
   public final String[] COLORS = { "#BF2720", "#115EC9", "#DFA629", "#EDEAD9" };
   public final boolean isDecimal;
 
-
   public GameSettings(JsonObject settings) {
     int numPlayers = Settings.DEFAULT_NUM_PLAYERS;
-    try{
+    try {
       numPlayers = settings.get("numPlayers").getAsInt();
-    }
-    catch(NullPointerException e){
+    } catch (NullPointerException e) {
       System.out.println("SETTINGS missing numPlayers parameter");
     }
     int winningPointCount = Settings.WINNING_POINT_COUNT;
-    try{
-      winningPointCount = settings.get("victoryPoints").getAsInt(); //TODO tell Nick about this
-    }
-    catch(NullPointerException e){
+    try {
+      winningPointCount = settings.get("victoryPoints").getAsInt();
+    } catch (NullPointerException e) {
       System.out.println("SETTINGS missing victoryPoints parameter");
     }
     boolean isDecimal = false;
-    try{
+    try {
       isDecimal = settings.get("isDecimal").getAsBoolean();
-    }
-    catch(NullPointerException e){
+    } catch (NullPointerException e) {
       System.out.println("SETTINGS missing isDecimal parameter");
     }
     this.winningPointCount = winningPointCount;

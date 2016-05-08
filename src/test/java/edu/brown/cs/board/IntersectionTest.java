@@ -111,12 +111,12 @@ public class IntersectionTest {
     Intersection inter = new Intersection(i);
     Player p = new HumanPlayer(1, "name", "000000");
 
-    assertTrue(inter.canPlaceSettlement(ref));
+    assertTrue(inter.canPlaceSettlement(ref, p.getID()));
     assertTrue(!inter.canPlaceCity(p));
     inter.placeSettlement(p);
     assertTrue(inter.getBuilding().getPlayer().equals(p));
     assertTrue(inter.canPlaceCity(p));
-    assertTrue(!inter.canPlaceSettlement(ref));
+    assertTrue(!inter.canPlaceSettlement(ref, p.getID()));
     inter.placeCity(p);
     assertTrue(inter.getBuilding().getPlayer().equals(p));
     assertTrue(!inter.canPlaceCity(p));
