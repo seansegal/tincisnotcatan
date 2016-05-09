@@ -84,7 +84,6 @@ public class ReviewTrade implements FollowUpAction {
         toRet.put(p.getID(), toAdd);
       }
     }
-    _ref.removeFollowUp(this);
     return toRet;
   }
 
