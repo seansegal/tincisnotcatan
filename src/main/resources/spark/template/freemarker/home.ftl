@@ -27,22 +27,38 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">Create a Game</h3>
 				</div>
-				<div class="panel-body">
+				<div id="game-options-panel" class="panel-body row">
 					<form action="/board" method="get" id="inputForm">
 						<input id="game-name-entry" class="form-control" placeholder="Lobby name">
-						<div class="form-group">
-							<label for="numPlayersDesired">How many players in this game?</label>
-							<select id="numPlayersDesired" class="form-control">
-								<option value="4">4 players</option>
-								<option value="3">3 players</option>
-								<option value="2">2 players</option>
-							</select>
+							<div class="col-xs-6">
+								<div class="form-group">
+									<label for="numPlayersDesired">Number of Players</label>
+									<select id="numPlayersDesired" class="form-control">
+										<option value="4">4 players</option>
+										<option value="3">3 players</option>
+										<option value="2">2 players</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-6">
+								<div class="form-group">
+									<label for="victory-points-input">Victory Points</label>
+									<input id="victory-points-input" class="form-control" type="number" min="5" max="15" value="10" step="1">
+								</div>
+							</div>
+						<label>Board</label>
+						<br>
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default active">
+    							<input type="radio" autocomplete="off" checked>Random
+  							</label>
+  							<label class="btn btn-default" id="default-board-option">
+    							<input type="radio" autocomplete="off">Standard
+  							</label>
 						</div>
-						<div class="form-group">
-							<label for="victory-points-input">How many victory points to play to?</label>
-							<input id="victory-points-input" class="form-control" type="number" min="5" max="15" value="10" step="1">
-						</div>
-						<label>Use decimal resource amounts?</label>
+						<br>
+						<label id="decimal-resources-label">Decimal Resource Amounts</label>
+						<br>
 						<div id="decimal-container" class="btn-group" data-toggle="buttons">
 							<label class="btn btn-default active">
     							<input type="radio" autocomplete="off" checked>Standard
@@ -53,7 +69,8 @@
 						</div>
 						<br>
 						<div id="dynamic-rates-container" class="hidden">
-							<label>Enable dynamic exchange rates?</label>
+							<label>Exchange Rates</label>
+							<br>
 							<div class="btn-group" data-toggle="buttons">
 								<label class="btn btn-default active">
 	    							<input type="radio" autocomplete="off" checked>Standard

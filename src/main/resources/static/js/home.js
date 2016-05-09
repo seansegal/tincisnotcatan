@@ -131,6 +131,7 @@ function existingGameSelected(caller) {
 	var victoryPoints = id("victory-points-input").value;
 	var isDecimal = $("#decimal-option").hasClass("active");
 	var isDynamic = isDecimal && $("#dynamic-rates-option").hasClass("active");
+	var isStandard = $("#default-board-option").hasClass("active");
 
 	if (userName == undefined || userName == "") {
 		alert("Please select a username");
@@ -143,6 +144,7 @@ function existingGameSelected(caller) {
 	setCookie("victoryPoints", victoryPoints);
 	setCookie("isDecimal", isDecimal);
 	setCookie("isDynamic", isDynamic);
+	setCookie("isStandard", isStandard);
 	deleteCookie("USER_ID");
 	return true;
 }
@@ -186,6 +188,7 @@ function startGamePressed() {
 	var victoryPoints = id("victory-points-input").value;
 	var isDecimal = $("#decimal-option").hasClass("active");
 	var isDynamic = isDecimal && $("#dynamic-rates-option").hasClass("active");
+	var isStandard = $("#default-board-option").hasClass("active");
 
 	if (userName == undefined || userName == "") {
 		alert("Please select a username");
@@ -203,6 +206,8 @@ function startGamePressed() {
 	setCookie("isDecimal", isDecimal);
 	setCookie("groupName", groupName);
 	setCookie("isDynamic", isDynamic);
+	setCookie("isStandard", isStandard);
+	
 	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.
 }

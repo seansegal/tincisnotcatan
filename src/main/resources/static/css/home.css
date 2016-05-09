@@ -26,6 +26,19 @@ h1 {
   margin-bottom: 0px;
 }
 
+#game-options-panel {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+#game-name-entry {
+  margin-bottom: 15px;
+}
+
+#decimal-resources-label {
+  margin-top: 15px;
+}
+
 #dynamic-rates-container {
   margin-top: 15px;
 }
