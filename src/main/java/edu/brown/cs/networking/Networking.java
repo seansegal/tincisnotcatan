@@ -68,4 +68,12 @@ public class Networking {
     return message;
   }
 
+  public static JsonObject errorMessage(String reason) {
+    JsonObject j = new JsonObject();
+    j.addProperty(REQUEST_IDENTIFIER, "ERROR");
+    j.addProperty("description", reason);
+    return j;
+
+  }
+
 }

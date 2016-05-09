@@ -34,7 +34,6 @@ public class NewWebsocket {
 
   public NewWebsocket() {
     threadPool = Executors.newFixedThreadPool(8);
-
     uuidToUser = new ConcurrentHashMap<>();
     ignoreSession = new ConcurrentHashSet<>();
   }
@@ -64,7 +63,6 @@ public class NewWebsocket {
     Future<?> f = threadPool.submit(new ConnectUserTask(u, gct));
     try {
       f.get(); // blocks!
-
     } catch (InterruptedException | ExecutionException e) {
       e.printStackTrace();
     }
@@ -73,9 +71,27 @@ public class NewWebsocket {
 
 
   private boolean sessionIsExpired(Session s) {
-    return s.getUpgradeRequest().getCookies().stream()
-        .anyMatch(c -> c.getName().equals(Networking.USER_IDENTIFIER)
-            && !uuidToUser.containsKey(c.getValue()));
+    List<HttpCookie> candidates = s.getUpgradeRequest().getCookies().stream()
+        .filter(c -> c.getName().equals(Networking.USER_IDENTIFIER))
+        .collect(Collectors.toList());
+    if (candidates.size() > 1) {
+      System.out.println(
+          "Cookie formatting error - should never happen in NewWebsocket");
+    }
+    if (candidates.isEmpty()) { // no mention of UserID -> not expired, probably
+                                // new
+      return false;
+    }
+    String candidateID = candidates.get(0).getValue();
+    if (!uuidToUser.containsKey(candidateID)) { // if we've never seen it
+                                                // before, it is expired.
+      return true;
+    }
+    // we know they have an ID, I've seen it before, we need to check with GCT
+    // if it is active.
+    return !gct.userIDIsValid(candidateID);
+
+
   }
 
 
@@ -96,6 +112,7 @@ public class NewWebsocket {
     JsonObject j = new JsonObject();
     j.addProperty(Networking.REQUEST_IDENTIFIER, "ERROR");
     j.addProperty("description", error);
+
     try {
       s.getRemote().sendString(j.toString());
     } catch (IOException e) {
@@ -166,9 +183,13 @@ public class NewWebsocket {
 
     if (list.isEmpty()) {
       return null;
-    } else {
+    }
+
+    if (gct.userIDIsValid(list.get(0).getValue())) {
       return uuidToUser.get(list.get(0).getValue());
     }
+
+    return null;
   }
 
 

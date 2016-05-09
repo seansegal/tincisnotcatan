@@ -16,7 +16,9 @@ class ConnectUserTask implements Runnable {
   public void run() {
     Group g = gct.groupForUser(u);
     if (g == null) {
-      gct.add(u);
+      if (!gct.add(u)) { // bad parameters, need to reset the user.
+        u.message(Networking.errorMessage("RESET"));
+      }
     } else {
       g.add(u);
     }

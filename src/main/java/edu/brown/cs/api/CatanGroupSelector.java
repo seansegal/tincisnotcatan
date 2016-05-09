@@ -62,7 +62,12 @@ public class CatanGroupSelector implements GroupSelector {
     }
     System.out.println("No game requested.");
 
-    int desiredSize = Integer.parseInt(u.getField(NUM_PLAYERS));
+    int desiredSize = -1;
+    try {
+      desiredSize = Integer.parseInt(u.getField(NUM_PLAYERS));
+    } catch (NumberFormatException e) {
+      return null;
+    }
     if (desiredSize < 2 || desiredSize > 4) {
       System.out
           .println("ERROR: Size requested out of bounds : " + desiredSize);
