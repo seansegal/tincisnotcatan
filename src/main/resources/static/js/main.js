@@ -739,6 +739,13 @@ function showStartGameDialogue(content) {
 	var container = $("#welcome-turn-order-container");
 	container.empty();
 
+	if (gameSettings.isDynamic) {
+		$("#dynamic-rates-welcome-message").text("You are playing a game with Dynamic Exchange rates. "
+				+ "Bank and port rates will change dynamically based on the supply of resources in "
+				+ "the game. Acquiring ports still give you the same relative advantage as they do in "
+				+ "the classic game of Catan.");
+	}
+
 	for (var i = 0; i < turnOrder.length; i++) {
 		var player = playersById[turnOrder[i]];
 		container.append("<li><span class='welcome-list-item'>"

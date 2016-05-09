@@ -635,6 +635,7 @@
         		<h4 class="modal-title" id="welcomeLabel">Welcome to Settlers of Catan</h4>
       		</div>
       		<div class="modal-body">
+      			<p id="dynamic-rates-welcome-message"></p>
        			<p>The game is about to begin. The turn order is shown below:</p>
        			<ol id="welcome-turn-order-container"></ol>
       		</div>
