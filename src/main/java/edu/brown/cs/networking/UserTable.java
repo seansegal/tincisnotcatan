@@ -66,6 +66,7 @@ public class UserTable {
 
 
   public boolean contains(String id) {
+    System.out.println(users);
     synchronized (this) {
       return users.stream()
           .anyMatch(u -> u.hasField(Networking.USER_IDENTIFIER)

@@ -23,7 +23,7 @@ public class GCT {
   private final Map<User, Group> userToUserGroup;
   private final GroupSelector    groupSelector;
 
-  private static final int GAME_LIMIT = 3;
+  private static final int       GAME_LIMIT = 3;
 
 
   private GCT(GCTBuilder builder) {
@@ -52,6 +52,21 @@ public class GCT {
 
 
   public boolean userIDIsValid(String uuid) {
+    for (Group g : pending) {
+      if (g.hasUser(uuid)) {
+        System.out.println("In pending");
+      } else {
+        System.out.println("not in p");
+      }
+    }
+    for (Group g : full) {
+      if (g.hasUser(uuid)) {
+        System.out.println("In full");
+      } else {
+        System.out.println("not in f");
+      }
+    }
+    System.out.println("Done search");
     return pending.stream().anyMatch(grp -> grp.hasUser(uuid))
         || full.stream().anyMatch(grp -> grp.hasUser(uuid));
   }
@@ -65,7 +80,7 @@ public class GCT {
     JsonObject toRet = new JsonObject();
     toRet.add("groups", Networking.GSON.toJsonTree(gr));
     boolean atLim = pending.size() + full.size() >= GAME_LIMIT;
-    toRet.addProperty ("atLimit", atLim);
+    toRet.addProperty("atLimit", atLim);
     return toRet;
   }
 

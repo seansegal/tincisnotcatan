@@ -119,7 +119,9 @@ public class UserGroup implements Group {
 
 
   public boolean hasUser(User u) {
-    return table.contains(u);
+    boolean ret = table.contains(u);
+    System.out.println("hasUser? : " + ret);
+    return ret;
   }
 
 

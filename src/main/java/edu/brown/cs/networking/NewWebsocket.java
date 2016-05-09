@@ -60,11 +60,10 @@ public class NewWebsocket {
     } else {
       u = createNewUser(s);
     }
-    System.out.println("Submitting connect");
     Future<?> f = threadPool.submit(new ConnectUserTask(u, gct));
     try {
       f.get(); // blocks!
-      System.out.println("Connect complete");
+
     } catch (InterruptedException | ExecutionException e) {
       e.printStackTrace();
     }
@@ -80,11 +79,13 @@ public class NewWebsocket {
 
 
   private User createNewUser(Session s) {
-    User u = new User(s);
+
     List<HttpCookie> cookies = s.getUpgradeRequest().getCookies();
     String id = DistinctRandom.getString();
-    uuidToUser.put(id, u);
     cookies.add(new HttpCookie(Networking.USER_IDENTIFIER, id));
+
+    User u = new User(s);
+    uuidToUser.put(id, u);
     setCookie(u, cookies);
     return u;
   }
@@ -123,12 +124,12 @@ public class NewWebsocket {
           .println("Disconnected user we've never seen before. Do nothing");
       return; // do nothing with a disconnected user we've never seen.
     }
-    System.out.println("Submitting disconnect");
+
     Future<?> f =
         threadPool.submit(new DisconnectUserTask(u, statusCode, reason, gct));
     try {
       f.get();
-      System.out.println("Disconnect complete");
+
     } catch (InterruptedException | ExecutionException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
