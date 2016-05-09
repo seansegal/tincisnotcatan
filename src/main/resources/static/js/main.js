@@ -1074,6 +1074,8 @@ $("#show-stats-btn").click(function(event) {
 // Options Tab
 //////////////////////////////////////////
 
+var muted = false;
+
 function buildExtrasTab() {
 	$("#game-settings-container").empty();
 	$("#game-settings-container").append("<p><strong>Victory Points: </strong>" + gameSettings.winningPointCount + "</p>"
@@ -1089,4 +1091,8 @@ function addToMessageHistory(message) {
 	$("#message-history-list").append("<li class='list-group-item'>" + message + "</li>");
 	$("#message-history-list").scrollTop($("#message-history-list")[0].scrollHeight);
 }
+
+$("#mute-btn").click(function() {
+	muted = !($(this).hasClass("active"));
+});
 

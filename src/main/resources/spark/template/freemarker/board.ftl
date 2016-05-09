@@ -312,6 +312,7 @@
 		    <div role="tabpanel" class="tab-pane right-tab-pane container" id="extras-tab">
 		    	<h4><u>Game Settings</u></h4>
 		    	<div id="game-settings-container"></div>
+		    	<button id="mute-btn" type="button" class="btn btn-default" data-toggle="button" aria-pressed="false" autocomplete="off">Mute</button>
 		    	<h4><u>Statistics</u></h4>
 		    	<div id="game-stats-container"></div>
 		    	<input type="button" id="show-stats-btn" class="btn btn-default" value="Roll Distribution" data-toggle="modal" data-target="#stats-modal">
