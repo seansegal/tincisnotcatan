@@ -78,7 +78,7 @@ function formatNumber(num) {
 	if (gameSettings.isDecimal) {
 		return num.toFixed(2);
 	} else {
-		return num;
+		return num.toFixed(0);
 	}
 }
 
@@ -352,7 +352,7 @@ function calcYearOfPlentyResources() {
 
 $(".yop-number").change(function(event) {
 	var oldVal = $(this).data("oldVal");
-	var newVal = parseFloat($(this).val());
+	var newVal = parseFloat(formatNumber(parseFloat($(this).val())));
 
 	if (oldVal === undefined && calcYearOfPlentyResources() > 2) {
 		$(this).val("0");
@@ -364,6 +364,7 @@ $(".yop-number").change(function(event) {
 		$(this).val(oldVal);
 	} else {
 		$(this).data("oldVal", newVal);
+		$(this).val(newVal);
 	}
 
 	if (calcYearOfPlentyResources() === 2) {
@@ -450,20 +451,20 @@ function enterDiscardModal(numToDiscard) {
 
 	$(".discard-number").change(function(event) {
 		var oldVal = ($(this).data("oldVal") === undefined) ? 0 : $(this).data("oldVal");
-		var newVal = parseFloat($(this).val());
+		var newVal = parseFloat(formatNumber(parseFloat($(this).val())));
 		var res = $(this).attr("res");
 
 		var numDiscards = calcNumDiscards();
 
 		// Handle cases where you select too many resources
 		if (numDiscards > numToDiscard) {
-			var cappedVal = newVal + numDiscards - numToDiscard;
+			var cappedVal = parseFloat(formatNumber(newVal + numDiscards - numToDiscard));
 			$(this).data("oldVal", cappedVal);
 			$(this).val(cappedVal);
 			currHand[res] = currHand[res] + (cappedVal - oldVal);
 		// Handle case where you selected more of a resource than you hold
 		} else if (newVal - oldVal < -currHand[res]) {
-			var cappedVal = oldVal - currHand[res];
+			var cappedVal = parseFloat(formatNumber(oldVal - currHand[res]));
 			$(this).data("oldVal", cappedVal);
 			$(this).val(cappedVal);
 			currHand[res] = currHand[res] + (cappedVal - oldVal);
@@ -473,6 +474,7 @@ function enterDiscardModal(numToDiscard) {
 		// Regular, non-capped case
 		} else {
 			$(this).data("oldVal", newVal);
+			$(this).val(newVal);
 			currHand[res] = currHand[res] + (newVal - oldVal);
 		}
 
@@ -660,7 +662,7 @@ $(".to-give-circle-container").click(function(event) {
 	// Highlight this resource
 	selectedToGiveElement = element;
 	selectedToGiveElement.addClass("highlighted-to-give-get-circle");
-	var amount = parseFloat($("#bank-trade-amount-input").val());
+	var amount = parseFloat($(this).val());
 
 	selectedToGiveResource = selectedToGiveElement.attr("res");
 	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
@@ -692,7 +694,8 @@ $(".to-get-circle-container").click(function(event) {
 });
 
 $("#bank-trade-amount-input").change(function(event) {
-	var amount = parseFloat($(this).val());
+	var amount = parseFloat(formatNumber(parseFloat($("#bank-trade-amount-input").val())));
+	$("#bank-trade-amount-input").val(amount);
 	if (selectedToGiveResource !== null && selectedToGetResource !== null && amount > 0) {
 		var rate = getExchangeRate(selectedToGiveResource, selectedToGetResource);
 		$("#bank-give-amount").text(formatNumber(rate * amount));
@@ -852,7 +855,7 @@ $(".interplayer-trade-input").change(function(event) {
 	var playerHand = playersById[playerId].hand;
 	var maxToGive = playerHand[resource];
 
-	var newVal = $(this).val();
+	var newVal = parseFloat(formatNumber(parseFloat($(this).val())));
 	var oldVal = $(this).data("oldVal");
 
 	if (newVal < -maxToGive) {
@@ -861,15 +864,16 @@ $(".interplayer-trade-input").change(function(event) {
 		} else {
 			$(this).val(oldVal);
 		}
-	} else if (isNaN(parseFloat(newVal))) {
+	} else if (isNaN(newVal)) {
 		$(this).data("oldVal", 0);
 		$(this).val(0);
 		currentTrade[resource] = 0;
 		updateToGiveGetPanels(resource, 0, parseFloat(oldVal));
 	} else {
 		$(this).data("oldVal", newVal);
-		currentTrade[resource] = parseFloat(newVal);
-		updateToGiveGetPanels(resource, parseFloat(newVal), parseFloat(oldVal));
+		$(this).val(newVal);
+		currentTrade[resource] = newVal;
+		updateToGiveGetPanels(resource, newVal, parseFloat(oldVal));
 	}
 
 	if (canTrade()) {
