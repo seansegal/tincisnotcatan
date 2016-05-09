@@ -319,6 +319,7 @@
 				<h4><u>Message History</u></h4>
 				<input type="button" id="message-history-btn" class="btn btn-default" value="Message History" data-toggle="modal" data-target="#message-history-modal">
 				<br>
+				<a href="http://www.catan.com/service/game-rules" target="_blank"><h4>Official Game Rules</h4></a>
 				<input type="button" id="exit-game-toggle-btn" class="btn btn-danger" value="Leave Game" data-toggle="modal" data-target="#exit-game-modal">
 		    </div>
 	    </div>
