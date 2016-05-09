@@ -1113,8 +1113,7 @@ function buildExtrasTab() {
 }
 
 function addToMessageHistory(message) {
-	$("#message-history-list").append("<li class='list-group-item'>" + message + "</li>");
-	$("#message-history-list").scrollTop($("#message-history-list")[0].scrollHeight);
+	$("#message-history-list").prepend("<li class='list-group-item'>" + message + "</li>");
 }
 
 $("#mute-btn").click(function() {
