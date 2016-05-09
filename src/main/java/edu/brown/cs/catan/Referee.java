@@ -60,17 +60,18 @@ public interface Referee {
 
   List<Integer> getTurnOrder();
 
-  public enum GameStatus {
-    WAITING, // Waiting for players (pre-game)
-    SETUP, // Placement of settlements
-    PROGRESS; // Regular game in progress
-
-  }
-
   Setup getSetup();
 
   Player getWinner();
 
   GameStats getGameStats();
+
+  boolean removePlayer(int id);
+
+  public enum GameStatus {
+    WAITING, // Waiting for players (pre-game)
+    SETUP, // Placement of settlements
+    PROGRESS; // Regular game in progress
+  }
 
 }

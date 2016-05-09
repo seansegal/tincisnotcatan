@@ -343,6 +343,11 @@ public class MasterReferee implements Referee {
     return _gameStats;
   }
 
+  @Override
+  public boolean removePlayer(int id) {
+    return _players.remove(id) != null;
+  }
+
   private class ReadOnlyReferee implements Referee {
 
     private final Referee _referee;
@@ -506,9 +511,14 @@ public class MasterReferee implements Referee {
     @Override
     public GameStats getGameStats() {
       return _referee.getGameStats();
-      //TODO: immutable?
+    }
+
+    @Override
+    public boolean removePlayer(int id) {
+      return _referee.removePlayer(id);
     }
 
   }
+
 
 }
