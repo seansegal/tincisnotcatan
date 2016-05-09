@@ -455,7 +455,6 @@ function enterDiscardModal(numToDiscard) {
 		var res = $(this).attr("res");
 
 		var numDiscards = calcNumDiscards();
-
 		
 		// Handle case where you selected more of a resource than you hold
 		if (newVal - oldVal < -currHand[res]) {
