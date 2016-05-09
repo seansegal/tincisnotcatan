@@ -1078,7 +1078,8 @@ function buildExtrasTab() {
 	$("#game-settings-container").empty();
 	$("#game-settings-container").append("<p><strong>Victory Points: </strong>" + gameSettings.winningPointCount + "</p>"
 			+ "<p><strong>Number of Players: </strong>" + gameSettings.numPlayers + "</p>"
-			+ "<p><strong>Decimal Values: </strong>" + (gameSettings.isDecimal ? "on" : "off") + "</p>");
+			+ "<p><strong>Decimal Values: </strong>" + (gameSettings.isDecimal ? "ON" : "OFF") + "</p>"
+			+ "<p><strong>Dynamic Rates: </strong>" + (gameSettings.isDynamic ? "ON" : "OFF") + "</p>");
 
 	$("#game-stats-container").empty();
 	$("#game-stats-container").append("<p><strong>Turn: </strong>" + gameStats.turn + "</p>");
