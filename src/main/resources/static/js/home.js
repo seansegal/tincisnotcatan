@@ -100,13 +100,12 @@ $("#nameEntry, #game-name-entry").on("input", function(event) {
 	input.val(cleanedText);
 });
 
-$("#decimal-container label").click(function() {
-	var wasDecimal = $("#decimal-option").hasClass("active");
-	if (!wasDecimal) {
-		$("#dynamic-rates-container").removeClass("hidden");
-	} else {
-		$("#dynamic-rates-container").addClass("hidden");
-	}
+$("#decimal-option").click(function() {
+	$("#dynamic-rates-container").removeClass("hidden");
+});
+
+$("#integer-option").click(function() {
+	$("#dynamic-rates-container").addClass("hidden");
 });
 
 function openCreateJoinGame() {

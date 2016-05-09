@@ -60,8 +60,8 @@
 						<label id="decimal-resources-label">Decimal Resource Amounts</label>
 						<br>
 						<div id="decimal-container" class="btn-group" data-toggle="buttons">
-							<label class="btn btn-default active">
-    							<input type="radio" autocomplete="off" checked>Standard
+							<label class="btn btn-default active" id="integer-option">
+    							<input type="radio" autocomplete="off" checked>Integer
   							</label>
   							<label class="btn btn-default" id="decimal-option">
     							<input type="radio" autocomplete="off">Decimal
