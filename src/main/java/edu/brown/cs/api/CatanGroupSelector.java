@@ -24,6 +24,8 @@ public class CatanGroupSelector implements GroupSelector {
       "isDecimal";
   private static final String                IS_DYNAMIC           =
       "isDynamic";
+  private static final String                IS_STANDARD          =
+      "isStandard";
   private static final String                GAME_REQUEST_ID      =
       "desiredGroupId";
   private static final String                GAME_NAME_IDENTIFIER = "groupName";
@@ -69,6 +71,7 @@ public class CatanGroupSelector implements GroupSelector {
     int victoryPoints = Integer.parseInt(u.getField(VICTORY_POINTS));
     boolean isDecimal = Boolean.parseBoolean(u.getField(IS_DECIMAL));
     boolean isDynamic = Boolean.parseBoolean(u.getField(IS_DYNAMIC));
+    boolean isStandard = Boolean.parseBoolean(u.getField(IS_STANDARD));
 
     // name the game
     String name = u.hasField(GAME_NAME_IDENTIFIER)
@@ -80,6 +83,7 @@ public class CatanGroupSelector implements GroupSelector {
     settings.addProperty("victoryPoints", victoryPoints);
     settings.addProperty("isDecimal", isDecimal);
     settings.addProperty("isDynamic", isDynamic);
+    settings.addProperty("isStandard", isStandard);
 
     System.out.println("MAKING NEW GAME!");
     return new UserGroupBuilder(CatanAPI.class)
