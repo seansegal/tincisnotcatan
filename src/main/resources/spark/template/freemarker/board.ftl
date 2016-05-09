@@ -125,7 +125,7 @@
 									<img src="images/icon-brick.svg" alt="Brick">
 								</div>
 		    				</div>
-		    				<div class="col-xs-5 text-center">
+		    				<div class="col-xs-5 text-center" data-toggle="tooltip" data-placement="left" title="Enter a negative value to give. Enter a positive value to receive." data-trigger="hover">
 		    					<input type="number" class="form-control interplayer-trade-input" res="brick">
 		    				</div>
 		    				<div class="col-xs-3 text-left">
@@ -138,7 +138,7 @@
 									<img src="images/icon-wood.svg" alt="Wood">
 								</div>
 		    				</div>
-		    				<div class="col-xs-5 text-center">
+		    				<div class="col-xs-5 text-center" data-toggle="tooltip" data-placement="left" title="Enter a negative value to give. Enter a positive value to receive." data-trigger="hover">
 		    					<input type="number" class="form-control interplayer-trade-input" res="wood">
 		    				</div>
 		    				<div class="col-xs-3 text-left">
@@ -151,7 +151,7 @@
 									<img src="images/icon-ore.svg" alt="Ore">
 								</div>
 		    				</div>
-		    				<div class="col-xs-5 text-center">
+		    				<div class="col-xs-5 text-center" data-toggle="tooltip" data-placement="left" title="Enter a negative value to give. Enter a positive value to receive." data-trigger="hover">
 		    					<input type="number" class="form-control interplayer-trade-input" res="ore">
 		    				</div>
 		    				<div class="col-xs-3 text-left">
@@ -164,7 +164,7 @@
 									<img src="images/icon-wheat.svg" alt="Wheat">
 								</div>
 		    				</div>
-		    				<div class="col-xs-5 text-center">
+		    				<div class="col-xs-5 text-center" data-toggle="tooltip" data-placement="left" title="Enter a negative value to give. Enter a positive value to receive." data-trigger="hover">
 		    					<input type="number" class="form-control interplayer-trade-input" res="wheat">
 		    				</div>
 		    				<div class="col-xs-3 text-left">
@@ -177,7 +177,7 @@
 									<img src="images/icon-sheep.svg" alt="Sheep">
 								</div>
 		    				</div>
-		    				<div class="col-xs-5 text-center">
+		    				<div class="col-xs-5 text-center" data-toggle="tooltip" data-placement="left" title="Enter a negative value to give. Enter a positive value to receive." data-trigger="hover">
 		    					<input type="number" class="form-control interplayer-trade-input" res="sheep">
 		    				</div>
 		    				<div class="col-xs-3 text-left">
@@ -457,7 +457,7 @@
 						</div>
 						<div class="text-center">
 							<h5 class="discard-hand-number" id="discard-hand-number-brick"></h5>
-				    		<input type="number" class="form-control discard-number" max="0" res="brick">
+				    		<input type="number" class="form-control discard-number" max="0" res="brick" data-toggle="tooltip" data-placement="bottom" title="Enter a negative value to discard." data-trigger="hover">
 				    	</div>
 				    </div>
 				    <div class="discard-resource-container">
@@ -466,7 +466,7 @@
 						</div>
 						<div class="text-center">
 							<h5 class="discard-hand-number" id="discard-hand-number-wood"></h5>
-				    		<input type="number" class="form-control discard-number" max="0" res="wood">
+				    		<input type="number" class="form-control discard-number" max="0" res="wood" data-toggle="tooltip" data-placement="bottom" title="Enter a negative value to discard." data-trigger="hover">
 				    	</div>
 				    </div>
 				    <div class="discard-resource-container">
@@ -475,7 +475,7 @@
 						</div>
 						<div class="text-center">
 							<h5 class="discard-hand-number" id="discard-hand-number-ore"></h5>
-				    		<input type="number" class="form-control discard-number" max="0" res="ore">
+				    		<input type="number" class="form-control discard-number" max="0" res="ore" data-toggle="tooltip" data-placement="bottom" title="Enter a negative value to discard." data-trigger="hover">
 				    	</div>
 				    </div>
 				    <div class="discard-resource-container">
@@ -484,7 +484,7 @@
 						</div>
 						<div class="text-center">
 							<h5 class="discard-hand-number" id="discard-hand-number-wheat"></h5>
-				    		<input type="number" class="form-control discard-number" max="0" res="wheat">
+				    		<input type="number" class="form-control discard-number" max="0" res="wheat" data-toggle="tooltip" data-placement="bottom" title="Enter a negative value to discard." data-trigger="hover">
 				    	</div>
 				    </div>
 				    <div class="discard-resource-container">
@@ -493,7 +493,7 @@
 						</div>
 						<div class="text-center">
 							<h5 class="discard-hand-number" id="discard-hand-number-sheep"></h5>
-				    		<input type="number" class="form-control discard-number" max="0" res="sheep">
+				    		<input type="number" class="form-control discard-number" max="0" res="sheep" data-toggle="tooltip" data-placement="bottom" title="Enter a negative value to discard." data-trigger="hover">
 				    	</div>
 				    </div>
 			    </div>
