@@ -46,6 +46,11 @@ public class Networking {
           .addProperty("reason", "disconnectedUser")
           .build();
 
+  public static final JsonObject HEARTBEAT_REPLY    =
+      new JsonObjectBuilder()
+          .addProperty(REQUEST_IDENTIFIER, "heartbeat")
+          .build();
+
 
   public static JsonObject userDisconnectedMessage(final Map<User, Long> disc) {
     JsonObject message = new JsonObject();
