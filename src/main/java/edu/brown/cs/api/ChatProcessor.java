@@ -7,7 +7,6 @@ import java.util.List;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.networking.API;
-import edu.brown.cs.networking.Networking;
 import edu.brown.cs.networking.RequestProcessor;
 import edu.brown.cs.networking.User;
 
@@ -32,8 +31,8 @@ public class ChatProcessor implements RequestProcessor {
         Chat.createMessage(String.format("%s%n", user.getField("userName")),
             json.get("message").getAsString());
     toSend.addProperty("fromUser", user.userID());
-    chatLog.add(0, toSend);
-    toSend.add("chatLog", Networking.GSON.toJsonTree(chatLog));
+//    chatLog.add(0, toSend);
+//    toSend.add("chatLog", Networking.GSON.toJsonTree(chatLog));
 
     boolean success = true;
     for (User other : group) {
