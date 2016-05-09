@@ -31,10 +31,12 @@ public class GameSettings {
       System.out.println("SETTINGS missing isDecimal parameter");
     }
     boolean isDynamic = false;
-    try {
-      isDynamic = settings.get("isDynamic").getAsBoolean();
-    } catch (NullPointerException e) {
-      System.out.println("SETTINGS missing isDynamic parameter");
+    if(isDecimal){
+      try {
+        isDynamic = settings.get("isDynamic").getAsBoolean();
+      } catch (NullPointerException e) {
+        System.out.println("SETTINGS missing isDynamic parameter");
+      }
     }
     boolean isStandard = false;
     try {
