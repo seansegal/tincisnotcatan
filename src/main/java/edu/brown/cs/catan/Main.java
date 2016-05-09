@@ -104,13 +104,16 @@ public class Main {
     @Override
     public ModelAndView handle(Request req, Response res) {
       Map<String, String> cookies = req.cookies();
-      if (cookies.containsKey(Networking.USER_IDENTIFIER)
-          && Main.this.gct
-              .userIDIsValid(cookies.get(Networking.USER_IDENTIFIER))) {
-        res.redirect("/board");
-        System.out.println("Redirect to board!");
-        return new BoardHandler().handle(req, res);
+      if (cookies.containsKey(Networking.USER_IDENTIFIER)) {
+        System.out.println("1");
+        if (Main.this.gct
+            .userIDIsValid(cookies.get(Networking.USER_IDENTIFIER))) {
+          System.out.println("2");
+          res.redirect("/board");
+          return new BoardHandler().handle(req, res);
+        }
       }
+
       Map<String, Object> variables = ImmutableMap.of("title",
           "Catan : Home");
       return new ModelAndView(variables, "home.ftl");
