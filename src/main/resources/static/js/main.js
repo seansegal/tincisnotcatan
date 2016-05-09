@@ -903,6 +903,12 @@ $("#propose-interplayer-trade-btn").click(function(event) {
 	clearInterplayerTrades();
 });
 
+function handleReviewTradeAction(closeModal) {
+	if (closeModal) {
+		$("#trade-responses-modal").modal("hide");
+	}
+}
+
 //////////////////////////////////////////
 // Review Trade Modal
 //////////////////////////////////////////

@@ -293,7 +293,7 @@ webSocket.onmessage = function(msg) {
 			handleGameOver(data);
 			break;
 		case "heartbeat":
-			console.log("heartbeat acknowledged");
+			// console.log("heartbeat acknowledged");
 			break;
 		default:
 			console.log("unsupported request type");
@@ -351,6 +351,10 @@ function handleActionResponse(data) {
 		break
 	case "tradeResponse":
 		exitReviewTradeModal();
+        break;
+    case "reviewTrade":
+        handleReviewTradeAction(data.content.data.allDeclined);
+        break;
 	default:
 		break;
 	}

@@ -13,6 +13,7 @@ import edu.brown.cs.catan.Resource;
 import edu.brown.cs.catan.Trade;
 
 public class TradeResponse implements FollowUpAction {
+
   private Player _player;
   private Player _tradee;
   private final int _playerID;
@@ -165,6 +166,28 @@ public class TradeResponse implements FollowUpAction {
   @Override
   public String getVerb() {
     return VERB;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + _playerID;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    TradeResponse other = (TradeResponse) obj;
+    if (_playerID != other._playerID)
+      return false;
+    return true;
   }
 
 }

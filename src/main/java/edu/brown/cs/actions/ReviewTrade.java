@@ -75,6 +75,8 @@ public class ReviewTrade implements FollowUpAction {
         String message = "Everyone declined the trade";
         ActionResponse toAdd = new ActionResponse(true, message, response);
         toRet.put(p.getID(), toAdd);
+        _ref.removeFollowUp(new TradeResponse(_trade.getTrader(), _resources,
+            _trade));
       } else if (!p.equals(_player)) {
         String message = String.format("%s declined the trade",
             _player.getName());
@@ -82,7 +84,6 @@ public class ReviewTrade implements FollowUpAction {
         toRet.put(p.getID(), toAdd);
       }
     }
-    _ref.removeFollowUp(this);
     return toRet;
   }
 
