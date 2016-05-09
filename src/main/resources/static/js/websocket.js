@@ -228,7 +228,9 @@ function updateChat(msg) {
     } else {
         var fromPlayer = playersById[msg.fromUser];
         insert("chat", "<div style='border-left-color: " + fromPlayer.color + "'>" + msg.userMessage + "</div>");
-        chatReceivedSound.play();
+        if (!muted) {
+            chatReceivedSound.play();
+        }
     }
 }
 

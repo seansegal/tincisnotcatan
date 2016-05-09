@@ -71,6 +71,7 @@ function addMessage(message) {
 	var container = $("#message-container");
 	container.empty();
 	container.append("<div class='message-popup-animation'><h5>" + message + "</h5></div>");
+	addToMessageHistory(message);
 }
 
 function formatNumber(num) {
@@ -1073,13 +1074,25 @@ $("#show-stats-btn").click(function(event) {
 // Options Tab
 //////////////////////////////////////////
 
+var muted = false;
+
 function buildExtrasTab() {
 	$("#game-settings-container").empty();
 	$("#game-settings-container").append("<p><strong>Victory Points: </strong>" + gameSettings.winningPointCount + "</p>"
 			+ "<p><strong>Number of Players: </strong>" + gameSettings.numPlayers + "</p>"
-			+ "<p><strong>Decimal Values: </strong>" + (gameSettings.isDecimal ? "on" : "off") + "</p>");
+			+ "<p><strong>Decimal Values: </strong>" + (gameSettings.isDecimal ? "ON" : "OFF") + "</p>"
+			+ "<p><strong>Dynamic Rates: </strong>" + (gameSettings.isDynamic ? "ON" : "OFF") + "</p>");
 
 	$("#game-stats-container").empty();
 	$("#game-stats-container").append("<p><strong>Turn: </strong>" + gameStats.turn + "</p>");
 }
+
+function addToMessageHistory(message) {
+	$("#message-history-list").append("<li class='list-group-item'>" + message + "</li>");
+	$("#message-history-list").scrollTop($("#message-history-list")[0].scrollHeight);
+}
+
+$("#mute-btn").click(function() {
+	muted = !($(this).hasClass("active"));
+});
 

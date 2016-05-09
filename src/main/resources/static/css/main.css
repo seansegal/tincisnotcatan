@@ -682,5 +682,11 @@ body {
 }
 
 #game-settings-container {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
+}
+
+#message-history-list {
+	max-height: 300px;
+	overflow-y: auto;
+	margin-bottom: 0px;
 }
