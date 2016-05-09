@@ -456,15 +456,24 @@ function enterDiscardModal(numToDiscard) {
 
 		var numDiscards = calcNumDiscards();
 
-		// Handle cases where you select too many resources
-		if (numDiscards > numToDiscard) {
-			var cappedVal = parseFloat(formatNumber(newVal + numDiscards - numToDiscard));
-			$(this).data("oldVal", cappedVal);
-			$(this).val(cappedVal);
-			currHand[res] = currHand[res] + (cappedVal - oldVal);
+		
 		// Handle case where you selected more of a resource than you hold
-		} else if (newVal - oldVal < -currHand[res]) {
-			var cappedVal = parseFloat(formatNumber(oldVal - currHand[res]));
+		if (newVal - oldVal < -currHand[res]) {
+			// Handle potential case where more resource than held selected, and too many resources selected
+			if (currHand[res] > numToDiscard - numDiscards - newVal) {
+				var cappedVal = parseFloat(formatNumber(newVal + numDiscards - numToDiscard));
+				$(this).data("oldVal", cappedVal);
+				$(this).val(cappedVal);
+				currHand[res] = currHand[res] + (cappedVal - oldVal);
+			} else {
+				var cappedVal = parseFloat(formatNumber(oldVal - currHand[res]));
+				$(this).data("oldVal", cappedVal);
+				$(this).val(cappedVal);
+				currHand[res] = currHand[res] + (cappedVal - oldVal);
+			}
+		// Handle cases where you select too many resources
+		} else if (numDiscards > numToDiscard) {
+			var cappedVal = parseFloat(formatNumber(newVal + numDiscards - numToDiscard));
 			$(this).data("oldVal", cappedVal);
 			$(this).val(cappedVal);
 			currHand[res] = currHand[res] + (cappedVal - oldVal);
