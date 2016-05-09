@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.brown.cs.catan.GameSettings;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Settings;
 
@@ -143,18 +144,25 @@ public class Board {
     return toRet;
   }
 
-  public Board() {
+  public Board(GameSettings settings) {
     List<TileType> availTiles = new ArrayList<TileType>();
+    int[] rollNums = ROLL_NUMS;
+    if (settings.isStandard) {
+      availTiles = standardBoard();
+      rollNums = Settings.STANDARD_ROLL_NUMS;
+    } else {
+      addTiles(availTiles, WOOD, NUM_WOOD_TILE);
+      addTiles(availTiles, BRICK, NUM_BRICK_TILE);
+      addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
+      addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
+      addTiles(availTiles, ORE, NUM_ORE_TILE);
+      addTiles(availTiles, DESERT, NUM_DESERT_TILE);
+      do {
+        Collections.shuffle(availTiles);
+      } while ((availTiles.get(0) == DESERT));
+    }
+
     PORT_LOCATION = setPortLocations();
-    addTiles(availTiles, WOOD, NUM_WOOD_TILE);
-    addTiles(availTiles, BRICK, NUM_BRICK_TILE);
-    addTiles(availTiles, SHEEP, NUM_SHEEP_TILE);
-    addTiles(availTiles, WHEAT, NUM_WHEAT_TILE);
-    addTiles(availTiles, ORE, NUM_ORE_TILE);
-    addTiles(availTiles, DESERT, NUM_DESERT_TILE);
-    do {
-      Collections.shuffle(availTiles);
-    } while ((availTiles.get(0) == DESERT));
 
     Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
     Map<PathCoordinate, Path> paths = new HashMap<PathCoordinate, Path>();
@@ -169,14 +177,14 @@ public class Board {
 
     while (currDepth >= 0) {
       currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
-          intersections, paths, currRoll, currTile);
+          intersections, paths, currRoll, currTile, rollNums);
       currTile++;
 
       for (i = 0; i < currDepth; i++) {
         y++;
         currRoll = addTile(availTiles.get(currTile),
             new HexCoordinate(x, y, z), intersections, paths, currRoll,
-            currTile);
+            currTile, rollNums);
         currTile++;
       }
 
@@ -184,7 +192,7 @@ public class Board {
         x--;
         currRoll = addTile(availTiles.get(currTile),
             new HexCoordinate(x, y, z), intersections, paths, currRoll,
-            currTile);
+            currTile, rollNums);
         currTile++;
       }
 
@@ -192,7 +200,7 @@ public class Board {
         z++;
         currRoll = addTile(availTiles.get(currTile),
             new HexCoordinate(x, y, z), intersections, paths, currRoll,
-            currTile);
+            currTile, rollNums);
         currTile++;
       }
 
@@ -200,7 +208,7 @@ public class Board {
         y--;
         currRoll = addTile(availTiles.get(currTile),
             new HexCoordinate(x, y, z), intersections, paths, currRoll,
-            currTile);
+            currTile, rollNums);
         currTile++;
       }
 
@@ -208,7 +216,7 @@ public class Board {
         x++;
         currRoll = addTile(availTiles.get(currTile),
             new HexCoordinate(x, y, z), intersections, paths, currRoll,
-            currTile);
+            currTile, rollNums);
         currTile++;
       }
 
@@ -216,7 +224,7 @@ public class Board {
         z--;
         currRoll = addTile(availTiles.get(currTile),
             new HexCoordinate(x, y, z), intersections, paths, currRoll,
-            currTile);
+            currTile, rollNums);
         currTile++;
       }
       z--;
@@ -241,9 +249,10 @@ public class Board {
 
   private int addTile(TileType tileType, HexCoordinate coord,
       Map<IntersectionCoordinate, Intersection> intersections,
-      Map<PathCoordinate, Path> paths, Integer currRoll, Integer currTile) {
+      Map<PathCoordinate, Path> paths, Integer currRoll, Integer currTile,
+      int[] rollNums) {
     if (tileType != DESERT) {
-      _tiles.add(new Tile(ROLL_NUMS[currRoll], coord, intersections, paths,
+      _tiles.add(new Tile(rollNums[currRoll], coord, intersections, paths,
           tileType));
       return currRoll + 1;
     } else {
@@ -287,6 +296,30 @@ public class Board {
       }
     }
     return max;
+  }
+
+  private List<TileType> standardBoard() {
+    List<TileType> tiles = new ArrayList<>();
+    tiles.add(WHEAT);
+    tiles.add(SHEEP);
+    tiles.add(WOOD);
+    tiles.add(BRICK);
+    tiles.add(DESERT);
+    tiles.add(BRICK);
+    tiles.add(ORE);
+    tiles.add(WHEAT);
+    tiles.add(WOOD);
+    tiles.add(ORE);
+    tiles.add(WHEAT);
+    tiles.add(SHEEP);
+    tiles.add(BRICK);
+    tiles.add(ORE);
+    tiles.add(WOOD);
+    tiles.add(SHEEP);
+    tiles.add(SHEEP);
+    tiles.add(WOOD);
+    tiles.add(WHEAT);
+    return tiles;
   }
 
 }
