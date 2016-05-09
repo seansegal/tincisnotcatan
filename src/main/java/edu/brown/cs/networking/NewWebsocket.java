@@ -33,7 +33,8 @@ public class NewWebsocket {
 
 
   public NewWebsocket() {
-    threadPool = Executors.newCachedThreadPool();
+    threadPool = Executors.newFixedThreadPool(8);
+
     uuidToUser = new ConcurrentHashMap<>();
     ignoreSession = new ConcurrentHashSet<>();
   }
