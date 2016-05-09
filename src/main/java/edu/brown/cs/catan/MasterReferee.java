@@ -36,8 +36,8 @@ public class MasterReferee implements Referee {
   private GameStats _gameStats;
 
   public MasterReferee() {
-    _board = new Board();
     _gameSettings = new GameSettings(); // TODO default settings
+    _board = new Board(_gameSettings);
     _players = new HashMap<Integer, Player>();
     _turnOrder = initializeTurnOrder(_gameSettings.numPlayers);
     _bank = initializeBank(false);
@@ -49,9 +49,8 @@ public class MasterReferee implements Referee {
   }
 
   public MasterReferee(GameSettings gameSettings) {
-
-    _board = new Board();
     _gameSettings = gameSettings; // TODO customize
+    _board = new Board(_gameSettings);
     _players = new HashMap<Integer, Player>();
     _turnOrder = initializeTurnOrder(_gameSettings.numPlayers);
     System.out.println("CALLED WITH boolean: " + _gameSettings.isDynamic);

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import edu.brown.cs.catan.GameSettings;
 import edu.brown.cs.catan.HumanPlayer;
 import edu.brown.cs.catan.Player;
 
@@ -15,7 +16,7 @@ public class BoardTest {
 
   @Test
   public void InitializationTest() {
-    Board b = new Board();
+    Board b = new Board(new GameSettings());
     assertTrue(b.getTiles().size() == 37);
     assertTrue(b.getIntersections().size() == 54);
     assertTrue(b.getPaths().size() == 72);
@@ -23,7 +24,7 @@ public class BoardTest {
 
   @Test
   public void TileTest() {
-    Board b = new Board();
+    Board b = new Board(new GameSettings());
 
     Collection<Tile> tiles = b.getTiles();
     Map<IntersectionCoordinate, Intersection> ints = new HashMap<IntersectionCoordinate, Intersection>();
@@ -71,7 +72,7 @@ public class BoardTest {
 
   @Test
   public void IntersectionTest() {
-    Board b = new Board();
+    Board b = new Board(new GameSettings());
 
     Map<IntersectionCoordinate, Intersection> intersections = b
         .getIntersections();
@@ -94,7 +95,7 @@ public class BoardTest {
 
   @Test
   public void PathTest() {
-    Board b = new Board();
+    Board b = new Board(new GameSettings());
 
     Map<PathCoordinate, Path> paths = b.getPaths();
 
@@ -131,7 +132,7 @@ public class BoardTest {
 
   @Test
   public void PortTest() {
-    Board b = new Board();
+    Board b = new Board(new GameSettings());
 
     Collection<Tile> tiles = b.getTiles();
     Map<IntersectionCoordinate, Intersection> ints = new HashMap<IntersectionCoordinate, Intersection>();
@@ -171,7 +172,7 @@ public class BoardTest {
 
   @Test
   public void testLongestRoadNoRoad() {
-    Board b = new Board();
+    Board b = new Board(new GameSettings());
     HexCoordinate h1 = new HexCoordinate(0, 0, 0);
     HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
     HexCoordinate h3 = new HexCoordinate(0, 0, 1);
@@ -192,7 +193,7 @@ public class BoardTest {
 
   @Test
   public void testLongestRoadOneRoad() {
-    Board b = new Board();
+    Board b = new Board(new GameSettings());
     HexCoordinate h1 = new HexCoordinate(0, 0, 0);
     HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
     HexCoordinate h3 = new HexCoordinate(0, 0, 1);
@@ -215,7 +216,7 @@ public class BoardTest {
 
   @Test
   public void testLongestRoadTwoRoads() {
-    Board b = new Board();
+    Board b = new Board(new GameSettings());
     HexCoordinate h1 = new HexCoordinate(0, 0, 0);
     HexCoordinate h2 = new HexCoordinate(-1, 0, 0);
     HexCoordinate h3 = new HexCoordinate(0, 0, 1);
