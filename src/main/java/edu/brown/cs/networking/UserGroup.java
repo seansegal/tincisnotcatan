@@ -82,6 +82,12 @@ public class UserGroup implements Group {
 
 
   @Override
+  public void clear() {
+    table.clear();
+  }
+
+
+  @Override
   public boolean handleMessage(User u, JsonObject j) {
     synchronized (this) {
       if (!allUsersConnectedWithMessage()) {
@@ -97,7 +103,7 @@ public class UserGroup implements Group {
       }
       for (RequestProcessor req : myBuilder.reqs) {
         if (req.match(j)) {
-          return req.run(u, table.users(), j, api);
+          return req.run(u, this, j, api);
         }
       }
       return false;
@@ -127,6 +133,12 @@ public class UserGroup implements Group {
 
   public boolean hasUser(String id) {
     return table.contains(id);
+  }
+
+
+  @Override
+  public Collection<User> connectedUsers() {
+    return table.onlyConnectedUsers();
   }
 
 
@@ -211,7 +223,7 @@ public class UserGroup implements Group {
           if (table.expired(u)) {
             System.out.println("User expired!");
             for (User u : table.onlyConnectedUsers()) {
-              u.message(Networking.GAME_OVER);
+              u.message(Networking.GAME_OVER_DISCONNECTED_USER);
             }
             table.clear();
             return;

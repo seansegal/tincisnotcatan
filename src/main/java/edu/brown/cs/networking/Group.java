@@ -1,5 +1,7 @@
 package edu.brown.cs.networking;
 
+import java.util.Collection;
+
 import com.google.gson.JsonObject;
 
 public interface Group {
@@ -35,5 +37,11 @@ public interface Group {
 
 
   boolean hasUser(User u);
+
+
+  void clear();
+
+
+  Collection<User> connectedUsers();
 
 }

@@ -11,22 +11,22 @@ import com.google.gson.JsonObject;
 
 public class Networking {
 
-  public static final String     USER_IDENTIFIER    = "USER_ID";
-  public static final String     REQUEST_IDENTIFIER = "requestType";
-  public static final String     HEARTBEAT          = "\"HEARTBEAT\"";
+  public static final String     USER_IDENTIFIER             = "USER_ID";
+  public static final String     REQUEST_IDENTIFIER          = "requestType";
+  public static final String     HEARTBEAT                   = "\"HEARTBEAT\"";
 
-  public static final long       ONE_SECOND         = 1000;
-  public static final long       DISCONNECT_TIMEOUT = ONE_SECOND * 60;
+  public static final long       ONE_SECOND                  = 1000;
+  public static final long       DISCONNECT_TIMEOUT          = ONE_SECOND * 60;
 
   // to be used throughout the Networking package unless conflicts
   // exist with registerTypeAdapter
-  public static final Gson       GSON               = new GsonBuilder()
+  public static final Gson       GSON                        = new GsonBuilder()
       .registerTypeAdapter(Group.class, new GroupSerializer())
       .registerTypeAdapter(User.class, new UserSerializer())
       .create();
 
   // to send when previously disconnected users have reconnected.
-  public static final JsonObject GAME_READY_MESSAGE =
+  public static final JsonObject GAME_READY_MESSAGE          =
       new JsonObjectBuilder()
           .addProperty(REQUEST_IDENTIFIER, "disconnectedUsers")
           .add("users", GSON.toJsonTree(Collections.emptyList()))
@@ -34,19 +34,19 @@ public class Networking {
           .build();
 
   // to be sent when the game is full and about to start.
-  public static final JsonObject START_GAME_MESSAGE =
+  public static final JsonObject START_GAME_MESSAGE          =
       new JsonObjectBuilder()
           .addProperty(REQUEST_IDENTIFIER, "action")
           .addProperty("action", "startGame")
           .build();
 
-  public static final JsonObject GAME_OVER          =
+  public static final JsonObject GAME_OVER_DISCONNECTED_USER =
       new JsonObjectBuilder()
           .addProperty(REQUEST_IDENTIFIER, "gameOver")
           .addProperty("reason", "disconnectedUser")
           .build();
 
-  public static final JsonObject HEARTBEAT_REPLY    =
+  public static final JsonObject HEARTBEAT_REPLY             =
       new JsonObjectBuilder()
           .addProperty(REQUEST_IDENTIFIER, "heartbeat")
           .build();

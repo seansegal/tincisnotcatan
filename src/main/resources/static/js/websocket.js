@@ -41,7 +41,11 @@ webSocket.onclose = function() {
 }
 
 $(".leave-game-btn").click(function(event) {
-	console.log("leave game");
+	var exit = {
+		requestType : "gameOver",
+		cause : "explicitExit"
+	};
+	webSocket.send(JSON.stringify(exit));
 	deleteAllCookiesAndGoHome();
 });
 

@@ -52,27 +52,13 @@ public class GCT {
 
 
   public boolean userIDIsValid(String uuid) {
-    for (Group g : pending) {
-      if (g.hasUser(uuid)) {
-        System.out.println("In pending");
-      } else {
-        System.out.println("not in p");
-      }
-    }
-    for (Group g : full) {
-      if (g.hasUser(uuid)) {
-        System.out.println("In full");
-      } else {
-        System.out.println("not in f");
-      }
-    }
-    System.out.println("Done search");
     return pending.stream().anyMatch(grp -> grp.hasUser(uuid))
         || full.stream().anyMatch(grp -> grp.hasUser(uuid));
   }
 
 
   public JsonObject openGroups() {
+    refreshGroups();
     Collection<Group> list = new ArrayList<>();
     pending.stream().filter(g -> !g.isEmpty())
         .forEach(g -> list.add(new GroupView(g)));
@@ -82,6 +68,26 @@ public class GCT {
     boolean atLim = pending.size() + full.size() >= GAME_LIMIT;
     toRet.addProperty("atLimit", atLim);
     return toRet;
+  }
+
+
+  private void refreshGroups() {
+    for (Group g : full) {
+      if (g.isEmpty()) {
+        full.remove(g);
+      } else if (!g.isFull()) {
+        full.remove(g);
+        pending.add(g);
+      }
+    }
+    for (Group g : pending) {
+      if (g.isEmpty()) {
+        pending.remove(g);
+      } else if (g.isFull()) {
+        pending.remove(g);
+        full.add(g);
+      }
+    }
   }
 
 
