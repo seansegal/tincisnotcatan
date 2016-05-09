@@ -21,6 +21,10 @@ public class MessageUserTask implements Runnable {
 
   @Override
   public void run() {
+    if (message.equals(Networking.HEARTBEAT)) {
+      u.message(Networking.HEARTBEAT_REPLY);
+      return; // do nothing else.
+    }
     Group g = gct.groupForUser(u);
     JsonObject j = null;
     try {
