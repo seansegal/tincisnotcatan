@@ -315,6 +315,8 @@
 		    	<h4><u>Statistics</u></h4>
 		    	<div id="game-stats-container"></div>
 		    	<input type="button" id="show-stats-btn" class="btn btn-default" value="Roll Distribution" data-toggle="modal" data-target="#stats-modal">
+				<h4><u>Message History</u></h4>
+				<input type="button" id="message-history-btn" class="btn btn-default" value="Message History" data-toggle="modal" data-target="#message-history-modal">
 				<br>
 				<input type="button" id="exit-game-toggle-btn" class="btn btn-danger" value="Leave Game" data-toggle="modal" data-target="#exit-game-modal">
 		    </div>
@@ -830,6 +832,24 @@
       		</div>
       		<div class="modal-body">
       			<p>We noticed that you already have an open tab with an active Catan game. The same game of Catan will not work across multiple tabs, please exit this tab and continue the game in your other active tab.</p>
+      		</div>
+    	</div>
+	</div>
+</div>
+		    	
+<div class="modal fade" id="message-history-modal" tabindex="-1" role="dialog" aria-labelledby="messageHistoryLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="messageHistoryLabel">Message History</h4>
+      		</div>
+      		<div class="modal-body text-center">
+      			<div id="message-history-container">
+		    		<ul id="message-history-list" class="list-group"></ul>
+		    	</div>
+      		</div>
+      		<div class="modal-footer">
+      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       		</div>
     	</div>
 	</div>

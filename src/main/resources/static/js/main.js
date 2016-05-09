@@ -71,6 +71,7 @@ function addMessage(message) {
 	var container = $("#message-container");
 	container.empty();
 	container.append("<div class='message-popup-animation'><h5>" + message + "</h5></div>");
+	addToMessageHistory(message);
 }
 
 function formatNumber(num) {
@@ -1081,5 +1082,10 @@ function buildExtrasTab() {
 
 	$("#game-stats-container").empty();
 	$("#game-stats-container").append("<p><strong>Turn: </strong>" + gameStats.turn + "</p>");
+}
+
+function addToMessageHistory(message) {
+	$("#message-history-list").append("<li class='list-group-item'>" + message + "</li>");
+	$("#message-history-list").scrollTop($("#message-history-list")[0].scrollHeight);
 }
 
