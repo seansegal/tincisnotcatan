@@ -222,7 +222,7 @@
 									<img src="images/icon-brick.svg" alt="Brick">
 								</div>
 							</div>
-							<h5 id="brick-trade-rate">1:1</h5>
+							<p class="trade-rate-container"><strong id="brick-trade-rate">1</strong> : <strong>1</strong></p>
 				    	</div>
 				    	<div class="bank-to-give-container">
 				    		<div class="circle to-give-circle-container" res="wood">
@@ -230,7 +230,7 @@
 									<img src="images/icon-wood.svg" alt="Wood">
 								</div>
 							</div>
-							<h5 id="wood-trade-rate">1:1</h5>
+							<p class="trade-rate-container"><strong id="wood-trade-rate">1</strong> : <strong>1</strong></p>
 				    	</div>
 				    	<div class="bank-to-give-container last-to-give-get-container">
 				    		<div class="circle to-give-circle-container" res="ore">
@@ -238,7 +238,7 @@
 									<img src="images/icon-ore.svg" alt="Ore">
 								</div>
 							</div>
-							<h5 id="ore-trade-rate">1:1</h5>
+							<p class="trade-rate-container"><strong id="ore-trade-rate">1</strong> : <strong>1</strong></p>
 				    	</div>
 				    	<br>
 				    	<div class="bank-to-give-container">
@@ -247,7 +247,7 @@
 									<img src="images/icon-wheat.svg" alt="Wheat">
 								</div>
 							</div>
-							<h5 id="wheat-trade-rate">1:1</h5>
+							<p class="trade-rate-container"><strong id="wheat-trade-rate">1</strong> : <strong>1</strong></p>
 				    	</div>
 				    	<div class="bank-to-give-container last-to-give-get-container">
 				    		<div class="circle to-give-circle-container" res="sheep">
@@ -255,7 +255,7 @@
 									<img src="images/icon-sheep.svg" alt="Sheep">
 								</div>
 							</div>
-							<h5 id="sheep-trade-rate">1:1</h5>
+							<p class="trade-rate-container"><strong id="sheep-trade-rate">1</strong> : <strong>1</strong></p>
 				    	</div>
 				    	<h5>Choose a resource to receive</h5>
 				    	<div class="bank-to-get-container">
@@ -817,6 +817,19 @@
       		</div>
       		<div class="modal-footer">
       			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<div class="modal fade" id="duplicate-tab-modal" tabindex="-1" role="dialog" aria-labelledby="duplicateTabLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="duplicateTabLabel">Multiple Tabs Open</h4>
+      		</div>
+      		<div class="modal-body">
+      			<p>We noticed that you already have an open tab with an active Catan game. The same game of Catan will not work across multiple tabs, please exit this tab and continue the game in your other active tab.</p>
       		</div>
     	</div>
 	</div>

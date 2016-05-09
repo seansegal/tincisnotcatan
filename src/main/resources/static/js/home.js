@@ -37,6 +37,13 @@ webSocket.onmessage = function(msg) {
 	var data = JSON.parse(msg.data);
 	console.log(data);
 
+	$("#startGameButton").prop("disabled", data.atLimit);
+	if (data.atLimit) {
+		$("#startGameButton").text("Sorry, Game Limit Reached");
+	} else {
+		$("#startGameButton").text("Start Game!");
+	}
+
 	if (data.hasOwnProperty("groups")) {
 		createJoinableGameList(data.groups);
 	}

@@ -198,19 +198,12 @@ function fillPlayerBuyOptions(handData) {
 	}
 }
 
-function createTradeRateText(number) {
-	return number + ":1";
-}
-
 function fillPlayerTradeRates(rates) {
-	$("#brick-trade-rate").text(createTradeRateText(rates.brick));
-	$("#wood-trade-rate").text(createTradeRateText(rates.wood));
-	$("#ore-trade-rate").text(createTradeRateText(rates.ore));
-	$("#wheat-trade-rate").text(createTradeRateText(rates.wheat));
-	$("#sheep-trade-rate").text(createTradeRateText(rates.sheep));
-	$("#wildcard-trade-rate").text(createTradeRateText(rates.wildcard));
-
-	
+	$("#brick-trade-rate").text(rates.brick);
+	$("#wood-trade-rate").text(rates.wood);
+	$("#ore-trade-rate").text(rates.ore);
+	$("#wheat-trade-rate").text(rates.wheat);
+	$("#sheep-trade-rate").text(rates.sheep);
 }
 
 function hexToRgb(hex) {
