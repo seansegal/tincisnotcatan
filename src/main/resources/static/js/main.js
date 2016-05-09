@@ -455,9 +455,6 @@ function enterDiscardModal(numToDiscard) {
 		var res = $(this).attr("res");
 
 		var numDiscards = calcNumDiscards();
-		
-		console.log(currHand[res]);
-		console.log(newVal + " " + oldVal + " " + numToDiscard + " " + numDiscards);
 
 		// Handle case where you selected more of a resource than you hold
 		if (newVal - oldVal < -currHand[res]) {
@@ -467,13 +464,11 @@ function enterDiscardModal(numToDiscard) {
 				$(this).data("oldVal", cappedVal);
 				currHand[res] = currHand[res] + (cappedVal - oldVal);
 				$(this).val(cappedVal);
-				console.log("first");
 			} else {
 				var cappedVal = parseFloat(formatNumber(oldVal - currHand[res]));
 				$(this).data("oldVal", cappedVal);
 				currHand[res] = currHand[res] + (cappedVal - oldVal);
 				$(this).val(cappedVal);
-				console.log("second");
 			}
 		// Handle cases where you select too many resources
 		} else if (numDiscards > numToDiscard) {
@@ -481,7 +476,6 @@ function enterDiscardModal(numToDiscard) {
 			$(this).data("oldVal", cappedVal);
 			currHand[res] = currHand[res] + (cappedVal - oldVal);
 			$(this).val(cappedVal);
-			console.log("third");
 		// Handle case where number is positive or input is not a number
 		} else if (isNaN(newVal) || newVal > 0) {
 			$(this).val(oldVal);
@@ -490,10 +484,7 @@ function enterDiscardModal(numToDiscard) {
 			$(this).data("oldVal", newVal);
 			currHand[res] = currHand[res] + (newVal - oldVal);
 			$(this).val(newVal);
-			console.log("fourth");
 		}
-
-		console.log(currHand[res]);
 
 		redrawHand();
 
@@ -519,6 +510,7 @@ function enterDiscardModal(numToDiscard) {
 			sendDropCardsAction(toDiscard);
 			$(".discard-number").off("change");
 			$("#discard-btn").off("click");
+			$(".discard-number").data("oldVal", 0);
 			$("#discard-modal").modal("hide");
 		}
 	});
@@ -526,7 +518,6 @@ function enterDiscardModal(numToDiscard) {
 
 $("#discard-modal").on("hide.bs.modal", function() {
 	$(".discard-number").val("");
-	$(".discard-number").data("oldVal", 0);
 });
 
 //////////////////////////////////////////
