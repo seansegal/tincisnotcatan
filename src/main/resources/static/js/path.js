@@ -47,6 +47,10 @@ Path.prototype.draw = function(transX, transY, scale) {
 	if (deltaX < 0) {
 		angle = angle + Math.PI;
 	}
+
+	if (Math.abs(angle) < 0.001) {
+		angle = 0.0;
+	}
 	
 	// Find exact size of road div
 	var length = scale / Math.sqrt(3) * ROAD_LENGTH_SCALE;
@@ -79,6 +83,8 @@ Path.prototype.draw = function(transX, transY, scale) {
 		element.css("height", height);
 		element.css("background-color", this.player.color);
 	}
+
+	console.log("translate(" + x + "px, " + y + "px) " + "rotate(" + angle + "rad)");
 
 	// Add selectable area to intersection
 	var select = $("#" + this.id + "-select");
