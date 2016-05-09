@@ -6,8 +6,14 @@ import java.util.Map;
 
 public class DynamicBank implements Bank {
 
+  private Map<Resource, Double> _supply;
+  private static final double MIN_RATE = 2.0;
+  private static final double MAX_RATE = 6.0;
 
-  Map<Resource, Double> _supply;
+
+  public static void main(String[] args){
+//    System.out.println(new DynamicBank().getRateFromProbit(10));
+  }
 
   public DynamicBank() {
     System.out.println("DYNAMIC BANK CREATED");
@@ -45,8 +51,21 @@ public class DynamicBank implements Bank {
 
   @Override
   public double getBankRate(Resource res) {
-    //TODO
-    return 5.8;
+    double max = 0.0;
+    double min = Double.MAX_VALUE;
+    for(Resource resource: Resource.values()){
+      if(getScoreForResource(resource) > max){
+        max = getScoreForResource(resource);
+      }
+      if(getScoreForResource(resource) < min){
+        min = getScoreForResource(resource);
+      }
+    }
+    System.out.println("MAX: " + max);
+    System.out.println("MIN: " + min);
+    System.out.println("SCORE: " + getScoreForResource(res));
+
+    return Math.round(getRateFromProbit((getScoreForResource(res) - (max/2.0)))* 10.0)/10.0;
   }
 
   @Override
@@ -60,7 +79,31 @@ public class DynamicBank implements Bank {
   }
 
   private double getRateFromProbit(double x){
-    return (4/(1 + Math.exp(x))) + 2.0;
+    return ((MAX_RATE - MIN_RATE)/(1 + Math.exp(-x))) + MIN_RATE;
+  }
+
+  private double getScoreForResource(Resource res){
+    return getResourceRatio(res)*getExpectationRatio(res);
+  }
+
+  private double getResourceRatio(Resource res){
+    double count = 0.0;
+    for(double supply: _supply.values()){
+      count += supply;
+    }
+    if(count != 0.0){
+      return _supply.get(res)/count;
+    }
+    return 0.0;
+  }
+
+  private double getExpectationRatio(Resource res){
+    return _supply.get(res)/getExpectation(res);
+  }
+
+  private double getExpectation(Resource res){
+    //TODO
+    return 3.0;
   }
 
 
