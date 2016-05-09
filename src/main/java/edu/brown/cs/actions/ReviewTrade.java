@@ -41,58 +41,85 @@ public class ReviewTrade implements FollowUpAction {
       for (Resource res : _resources.keySet()) {
         if (_resources.get(res) > 0
             && _player.getResources().get(res) < _resources.get(res)) {
-          ActionResponse otherResponse = new ActionResponse(true,
-              "You do not have the proper resources to trade.",
-              _resources);
-          _trade.declinedTrade(_player.getID());
-          toRet.put(_player.getID(), otherResponse);
-          for (Player p : _ref.getPlayers()) {
-            if (!p.equals(_player)) {
-              String message = String.format("%s declined the trade",
-                  _player.getName());
-              ActionResponse toAdd = new ActionResponse(true, message,
-                  _acceptedTrade);
-              toRet.put(p.getID(), toAdd);
-            }
-          }
+          toRet = declineTrade(true);
           _ref.removeFollowUp(this);
           return toRet;
         }
       }
-      for (Player p : _ref.getPlayers()) {
-        if (!p.equals(_player)) {
-          String message = String.format("%s accepted the trade.",
-              _player.getName());
-          ActionResponse forTrader = new ActionResponse(true, message, null);
-          toRet.put(_trade.getTrader(), forTrader);
-        } else {
-          String message = "You accepted the trade";
-          _trade.acceptedTrade(_player.getID());
-          ActionResponse toAdd = new ActionResponse(true, message,
-              _acceptedTrade);
-          toRet.put(_player.getID(), toAdd);
-
-        }
-      }
+      toRet = acceptTrade();
     } else {
-      for (Player p : _ref.getPlayers()) {
-        if (!p.equals(_player)) {
-          String message = String.format("%s declined the trade.",
-              _player.getName());
-          ActionResponse forTrader = new ActionResponse(true, message, null);
-          toRet.put(_trade.getTrader(), forTrader);
-        } else {
-          String message = "You declined the trade";
-          _trade.declinedTrade(_player.getID());
-          ActionResponse toAdd = new ActionResponse(true, message,
-              _acceptedTrade);
-          toRet.put(_player.getID(), toAdd);
-        }
-      }
+      toRet = declineTrade(false);
     }
-
     _ref.removeFollowUp(this);
     return toRet;
+  }
+
+  private Map<Integer, ActionResponse> declineTrade(boolean improperRes) {
+    Map<Integer, ActionResponse> toRet = new HashMap<>();
+    _trade.declinedTrade(_player.getID());
+    boolean allDeclined = _trade.getDeclinedTrade().size() == _ref.getPlayers()
+        .size() - 1;
+    ReviewTradeResponse response = new ReviewTradeResponse(_acceptedTrade,
+        allDeclined, _resources);
+    if (improperRes) {
+      ActionResponse otherResponse = new ActionResponse(true,
+          "You do not have the proper resources to trade.", response);
+      toRet.put(_player.getID(), otherResponse);
+    } else {
+      String message = "You declined the trade";
+      ActionResponse toAdd = new ActionResponse(true, message, response);
+      toRet.put(_player.getID(), toAdd);
+    }
+    for (Player p : _ref.getPlayers()) {
+      if (p.equals(_ref.getPlayerByID(_trade.getTrader())) && allDeclined) {
+        String message = "Everyone declined the trade";
+        ActionResponse toAdd = new ActionResponse(true, message, response);
+        toRet.put(p.getID(), toAdd);
+      } else if (!p.equals(_player)) {
+        String message = String.format("%s declined the trade",
+            _player.getName());
+        ActionResponse toAdd = new ActionResponse(true, message, response);
+        toRet.put(p.getID(), toAdd);
+      }
+    }
+    _ref.removeFollowUp(this);
+    return toRet;
+  }
+
+  private Map<Integer, ActionResponse> acceptTrade() {
+    Map<Integer, ActionResponse> toRet = new HashMap<>();
+    _trade.acceptedTrade(_player.getID());
+    boolean allDeclined = _trade.getDeclinedTrade().size() == _ref.getPlayers()
+        .size() - 1;
+    ReviewTradeResponse response = new ReviewTradeResponse(_acceptedTrade, allDeclined, _resources);
+    for (Player p : _ref.getPlayers()) {
+      if (!p.equals(_player)) {
+        String message = String.format("%s accepted the trade.",
+            _player.getName());
+        ActionResponse forTrader = new ActionResponse(true, message, response);
+        toRet.put(p.getID(), forTrader);
+      } else {
+        String message = "You accepted the trade";
+        _trade.acceptedTrade(_player.getID());
+        ActionResponse toAdd = new ActionResponse(true, message, response);
+        toRet.put(_player.getID(), toAdd);
+
+      }
+    }
+    return toRet;
+  }
+
+  private class ReviewTradeResponse {
+    private boolean acceptedTrade;
+    private boolean allDeclined;
+    private Map<Resource, Double> resources;
+
+    public ReviewTradeResponse(boolean acceptedTrade, boolean allDeclined,
+        Map<Resource, Double> resources) {
+      this.acceptedTrade = acceptedTrade;
+      this.allDeclined = allDeclined;
+      this.resources = resources;
+    }
   }
 
   @Override
