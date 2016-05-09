@@ -11,6 +11,7 @@ import edu.brown.cs.actions.ActionResponse;
 import edu.brown.cs.catan.GameSettings;
 import edu.brown.cs.catan.MasterReferee;
 import edu.brown.cs.catan.Referee;
+import edu.brown.cs.catan.Referee.GameStatus;
 import edu.brown.cs.networking.API;
 
 public class CatanAPI implements API {
@@ -36,8 +37,7 @@ public class CatanAPI implements API {
 
   /**
    * Adds a player to a game of Catan. This should, and can, only be called
-   * before a game has started. It is important that gameIsFull() is called
-   * directly after this method is called.
+   * before a game has started.
    *
    * @param playerAttributes
    *          A JSON String representing the player's attributes. Should contain
@@ -60,6 +60,15 @@ public class CatanAPI implements API {
             "To add a player, you must have userName as a field.");
       }
     }
+  }
+
+  // TODO: Nick please add override annotation
+  public boolean removePlayer(int id) {
+    if (_referee.getGameStatus() != GameStatus.WAITING) {
+      throw new UnsupportedOperationException(
+          "You cannot remove a player during a game.");
+    }
+    return _referee.removePlayer(id);
   }
 
   /**

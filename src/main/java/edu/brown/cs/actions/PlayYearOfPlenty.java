@@ -20,7 +20,7 @@ public class PlayYearOfPlenty implements Action {
   private final Player _player;
   private final Bank _bank;
   private final Map<Resource, Double> _resources;
-  private final static double TOLERANCE = .001;
+  private final static double TOLERANCE = .01;
   public static final String ID = "playYearOfPlenty";
 
   public PlayYearOfPlenty(Referee ref, int playerID, JsonObject params) {
@@ -36,7 +36,7 @@ public class PlayYearOfPlenty implements Action {
     Map<Resource, Double> resources = new HashMap<>();
     for (Resource res : Resource.values()) {
       if (trade.has(res.toString())) {
-        resources.put(res, trade.get(res.toString()).getAsDouble());
+        resources.put(res, CatanFormats.round(trade.get(res.toString()).getAsDouble()));
       }
     }
     _resources = Collections.unmodifiableMap(resources);

@@ -26,7 +26,7 @@ public class DropCards implements FollowUpAction {
 
   public DropCards(int playerID, double numToDrop) {
     _isSetup = false;
-    _numToDrop = numToDrop;
+    _numToDrop = CatanFormats.round(numToDrop);
     _requiredPlayer = playerID;
   }
 

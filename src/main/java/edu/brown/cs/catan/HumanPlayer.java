@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.brown.cs.actions.CatanFormats;
+
 public class HumanPlayer implements Player {
 
   private final Map<Resource, Double> resources;
@@ -162,12 +164,12 @@ public class HumanPlayer implements Player {
 
   @Override
   public void addResource(Resource resource) {
-    resources.replace(resource, resources.get(resource) + 1.0);
+    resources.replace(resource, CatanFormats.round(resources.get(resource) + 1.0));
   }
 
   @Override
   public void addResource(Resource resource, double count) {
-    resources.replace(resource, resources.get(resource) + count);
+    resources.replace(resource, CatanFormats.round(resources.get(resource) + count));
   }
 
   @Override
@@ -186,19 +188,19 @@ public class HumanPlayer implements Player {
   public void removeResource(Resource resource, double count) {
     double newCount = resources.get(resource) - count;
     assert newCount >= 0;
-    resources.put(resource, newCount);
+    resources.put(resource, CatanFormats.round(newCount));
   }
 
   @Override
   public void addResource(Resource resource, double count, Bank bank) {
     bank.getResource(resource, count);
-    addResource(resource, count);
+    addResource(resource, CatanFormats.round(count));
   }
 
   @Override
   public void removeResource(Resource resource, double count, Bank bank) {
     bank.discardResource(resource, count);
-    removeResource(resource, count);
+    removeResource(resource, CatanFormats.round(count));
 
   }
 

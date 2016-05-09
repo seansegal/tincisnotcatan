@@ -17,7 +17,7 @@ public class ProposeTrade implements Action{
   private Player _player;
   private Referee _ref;
   private Map<Resource, Double> _resources;
-  private final static double TOLERANCE = .001;
+  private final static double TOLERANCE = .01;
   public static final String ID = "proposeTrade";
 
   public ProposeTrade(Referee ref, int playerID, JsonObject params) {
@@ -32,7 +32,7 @@ public class ProposeTrade implements Action{
     Map<Resource, Double> resources = new HashMap<Resource, Double>();
     for (Resource res : Resource.values()) {
       if (trade.has(res.toString())) {
-        resources.put(res, trade.get(res.toString()).getAsDouble());
+        resources.put(res, CatanFormats.round(trade.get(res.toString()).getAsDouble()));
       }
     }
     _resources = Collections.unmodifiableMap(resources);
