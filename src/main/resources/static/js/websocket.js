@@ -338,8 +338,11 @@ function insertChatMessage(msg) {
     var formattedDate = moment(msg.timeStamp).format("LT");
     var fromPlayer = playersById[msg.userId];
     insert("chat", "<div style='border-left-color: " + fromPlayer.color
-            + "'><article><b>" + msg.sender + ":</b><p>" + msg.content 
+            + "'><article><b>" + msg.sender + ":</b><p class='msg-content'>" 
             + "</p><span class='timestamp'>" + formattedDate + "</span></article></div>");
+    $(".msg-content").text(msg.content);
+    $(".msg-content").removeClass("msg-content");
+    $("#chat").scrollTop($("#chat")[0].scrollHeight);
 }
 
 // Update the chat-panel, and the list of connected users
@@ -398,14 +401,16 @@ function handleGameOver(data) {
 		deleteAllCookiesAndGoHome();
 		break;
 	case "explicitExit":
-		console.log(data.departedUser);
-		deleteAllCookiesAndGoHome();
+        $("#user-exited-name").text(data.departedUser.userName);
+        $("#user-exited-modal").modal("show");
 		break;
 	default:
 		console.log("UNSUPPORTED REASON FOR GAME OVER");
 	}
 
 }
+
+$("#user-exited-go-home-btn").click(deleteAllCookiesAndGoHome);
 
 function handleFollowUp(action) {
 	if (action.hasOwnProperty("actionData")
@@ -615,7 +620,6 @@ function deleteCookie(name) {
 // Helper function for inserting HTML as the first child of an element
 function insert(targetId, message) {
 	id(targetId).insertAdjacentHTML("beforeend", message);
-	$("#chat").scrollTop($("#chat")[0].scrollHeight);
 }
 
 // Helper function for selecting element by id

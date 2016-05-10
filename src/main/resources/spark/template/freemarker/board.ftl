@@ -857,6 +857,22 @@
 	</div>
 </div>
 
+<div class="modal fade" id="user-exited-modal" tabindex="-1" role="dialog" aria-labelledby="userExitedLabel" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+      		<div class="modal-header">
+        		<h4 class="modal-title" id="userExitedLabel">User Exited Game</h4>
+      		</div>
+      		<div class="modal-body">
+      			<p><span id="user-exited-name"></span> exited the game. Please return home and start a new game.</p>
+      		</div>
+      		<div class="modal-footer">
+      			<button type="button" class="btn btn-danger" data-dismiss="modal" id="user-exited-go-home-btn">Return Home</button>
+      		</div>
+    	</div>
+	</div>
+</div>
+
 </#assign>
 <#include "main.ftl">
 <script src="js/player.js"></script>
