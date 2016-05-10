@@ -40,6 +40,13 @@ public class GroupViewWebsocket {
 
   @OnWebSocketMessage
   public void onMessage(Session session, String message) {
+    if (message.equals(Networking.HEARTBEAT)) {
+      try {
+        session.getRemote().sendString(message);
+      } catch (IOException e) {
+        return;
+      }
+    }
     return; // ignore all messages;
   }
 

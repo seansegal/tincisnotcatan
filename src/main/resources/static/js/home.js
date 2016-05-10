@@ -36,6 +36,9 @@ webSocket.onopen = function() {
 webSocket.onmessage = function(msg) {
 	var data = JSON.parse(msg.data);
 	console.log(data);
+	if (data == "HEARTBEAT") {
+		return;
+	}
 
 	$("#startGameButton").prop("disabled", data.atLimit);
 	if (data.atLimit) {
@@ -206,7 +209,7 @@ function startGamePressed() {
 	setCookie("groupName", groupName);
 	setCookie("isDynamic", isDynamic);
 	setCookie("isStandard", isStandard);
-	
+
 	deleteCookie("USER_ID");
 	return true; // will allow the get request to process.
 }
