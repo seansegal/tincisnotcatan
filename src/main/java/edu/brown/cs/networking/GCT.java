@@ -23,7 +23,7 @@ public class GCT {
   private final Map<User, Group> userToUserGroup;
   private final GroupSelector    groupSelector;
 
-  private static final int       GAME_LIMIT = 100;
+  private static final int       GAME_LIMIT = 20;
 
 
   private GCT(GCTBuilder builder) {
