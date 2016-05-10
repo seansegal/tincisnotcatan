@@ -398,14 +398,16 @@ function handleGameOver(data) {
 		deleteAllCookiesAndGoHome();
 		break;
 	case "explicitExit":
-		console.log(data.departedUser);
-		deleteAllCookiesAndGoHome();
+        $("#user-exited-name").text(data.departedUser.userName);
+        $("#user-exited-modal").modal("show");
 		break;
 	default:
 		console.log("UNSUPPORTED REASON FOR GAME OVER");
 	}
 
 }
+
+$("#user-exited-go-home-btn").click(deleteAllCookiesAndGoHome);
 
 function handleFollowUp(action) {
 	if (action.hasOwnProperty("actionData")
