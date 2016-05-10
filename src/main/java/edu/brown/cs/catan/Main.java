@@ -96,6 +96,7 @@ public class Main {
               .put("title", "Catan Stats")
               .put("openGroups", gct.openGroups().toString())
               .put("closedGroups", gct.closedGroups().toString())
+              .put("limit", gct.groupLimit())
               .build();
       return new ModelAndView(variables, "stats.ftl");
     }
