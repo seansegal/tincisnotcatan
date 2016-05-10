@@ -1,10 +1,9 @@
 package edu.brown.cs.api;
 
-import java.util.Collection;
-
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.networking.API;
+import edu.brown.cs.networking.Group;
 import edu.brown.cs.networking.RequestProcessor;
 import edu.brown.cs.networking.User;
 
@@ -16,7 +15,7 @@ public class GetGameStateProcessor implements RequestProcessor {
 
 
   @Override
-  public boolean run(User user, Collection<User> group, JsonObject json,
+  public boolean run(User user, Group g, JsonObject json,
       API api) {
     JsonObject resp = api.getGameState(user.userID());
     resp.addProperty("requestType", "getGameState");

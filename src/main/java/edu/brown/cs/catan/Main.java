@@ -60,6 +60,7 @@ public class Main {
     // Set up board
     Spark.get("/board", new BoardHandler(), freeMarker);
     Spark.get("/home", new HomeHandler(), freeMarker);
+    Spark.get("stats", new StatsHandler(), freeMarker);
     Spark.before("/", (request, response) -> {
       System.out.println(
           "Redirect causes an extra open/close on GroupView. Disregard.");
@@ -85,6 +86,21 @@ public class Main {
     // localhost)
   }
 
+
+  private class StatsHandler implements TemplateViewRoute {
+
+    @Override
+    public ModelAndView handle(Request req, Response res) {
+      Map<String, Object> variables =
+          new ImmutableMap.Builder<String, Object>()
+              .put("title", "Catan Stats")
+              .put("openGroups", gct.openGroups().toString())
+              .put("closedGroups", gct.closedGroups().toString())
+              .build();
+      return new ModelAndView(variables, "stats.ftl");
+    }
+
+  }
 
   private static class BoardHandler implements TemplateViewRoute {
 

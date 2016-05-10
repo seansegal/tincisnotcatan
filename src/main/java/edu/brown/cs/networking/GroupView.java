@@ -1,5 +1,7 @@
 package edu.brown.cs.networking;
 
+import java.util.Collection;
+
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
@@ -79,6 +81,18 @@ public class GroupView implements Group {
   @Override
   public boolean hasUser(User u) {
     return inner.hasUser(u);
+  }
+
+
+  @Override
+  public void clear() {
+    throw new UnsupportedOperationException();
+  }
+
+
+  @Override
+  public Collection<User> connectedUsers() {
+    return inner.connectedUsers();
   }
 
 
