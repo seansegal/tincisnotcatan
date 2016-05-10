@@ -1,6 +1,7 @@
 package edu.brown.cs.networking;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.google.gson.JsonObject;
 
@@ -43,5 +44,11 @@ public interface Group {
 
 
   Collection<User> connectedUsers();
+
+
+  void logMessage(Message m);
+
+
+  List<Message> getMessageLog();
 
 }
