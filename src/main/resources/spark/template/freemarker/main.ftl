@@ -6,6 +6,7 @@
     <link rel="icon" href="images/catan-favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/chartist.min.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/home.css">

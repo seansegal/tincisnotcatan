@@ -1066,26 +1066,17 @@ function setDecimalTradeRates(isDecimal) {
 
 $("#show-stats-btn").click(function(event) {
 	var rolls = gameStats.rolls;
-	var ctx = $("#dice-distribution")[0];
-    var myChart = new Chart(ctx, {
-    	type: 'bar',
-		data: {
-		        labels: ["2", "3", "4", "5", "6", "7", "8", "9", "10","11", "12"],
-		        datasets: [{
-		            label: '#  of Rolls',
-		            data: rolls
-		        }]
-		    },
-		    options: {
-		        scales: {
-		            yAxes: [{
-		                ticks: {
-		                    beginAtZero:true
-		                }
-		            }]
-		        }
-		    }
-		});
+	var data = {
+		labels: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+		series: [rolls]
+	};
+
+	var options = {
+  		width: 400,
+  		height: 400
+	};
+
+	new Chartist.Bar('.ct-chart', data, options);
 });
 
 //////////////////////////////////////////
