@@ -16,8 +16,6 @@ public class ChatProcessor implements RequestProcessor {
   private static final String REQUEST_KEY = "requestType";
 
 
-
-
   public ChatProcessor() {
 
   }
@@ -27,7 +25,7 @@ public class ChatProcessor implements RequestProcessor {
   public boolean run(User user, Group g, JsonObject json,
       API api) {
 
-    if(json.has("logs")) {
+    if (json.has("logs")) {
       JsonObject toSend = new JsonObject();
       toSend.addProperty(Networking.REQUEST_IDENTIFIER, "chat");
       toSend.add("logs", Networking.GSON.toJsonTree(g.getMessageLog()));
@@ -35,7 +33,8 @@ public class ChatProcessor implements RequestProcessor {
       return true;
     }
 
-    Message m = new Message(user, json.get("message").getAsString(), System.currentTimeMillis());
+    Message m = new Message(user, json.get("message").getAsString(),
+        System.currentTimeMillis());
     g.logMessage(m);
 
     boolean success = true;

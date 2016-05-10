@@ -30,7 +30,7 @@ function heartbeat() {
 }
 
 webSocket.onopen = function() {
-	window.setInterval(heartbeat, 60 * 1000);
+	window.setInterval(heartbeat, 10 * 1000);
 };
 
 webSocket.onmessage = function(msg) {
