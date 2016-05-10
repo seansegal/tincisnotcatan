@@ -70,6 +70,17 @@ public class GCT {
     return toRet;
   }
 
+  public JsonObject closedGroups() {
+    refreshGroups();
+    Collection<Group> list = new ArrayList<>();
+    full.stream().forEach(g -> list.add(new GroupView(g)));
+    Collection<Group> gr = Collections.unmodifiableCollection(list);
+    JsonObject toRet = new JsonObject();
+    toRet.add("closedGroups", Networking.GSON.toJsonTree(gr));
+    return toRet;
+
+  }
+
 
   private void refreshGroups() {
     for (Group g : full) {
