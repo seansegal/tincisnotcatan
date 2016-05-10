@@ -21,8 +21,6 @@ $(window).load(function() {
     if(href != "/home" && !document.cookie){
     	window.location = "/home"; // redirect to home
     }
-
-    sendReloadChatRequest();
 });
 
 var dragging = false;

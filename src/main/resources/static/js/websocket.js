@@ -21,6 +21,7 @@ webSocket.onopen = function() {
 		sendGetGameStateAction();
 	}
 	window.setInterval(heartbeat, 10 * 1000);
+    sendReloadChatRequest();
 };
 
 function deleteAllCookiesAndGoHome() {
