@@ -43,7 +43,7 @@ webSocket.onclose = function() {
 $(".leave-game-btn").click(function(event) {
 	var exit = {
 		requestType : "gameOver",
-		cause : "explicitExit"
+		reason : "explicitExit"
 	};
 	webSocket.send(JSON.stringify(exit));
 	deleteAllCookiesAndGoHome();
@@ -393,11 +393,17 @@ function handleActionResponse(data) {
 }
 
 function handleGameOver(data) {
-	if (data.reason == "disconnectedUser") {
+	switch(data.reason) {
+	case "disconnectedUser":
 		deleteAllCookiesAndGoHome();
-	} else {
-		console.log("UNSUPPORTED REASON FOR GAME OVER!");
+		break;
+	case "explicitExit":
+		deleteAllCookiesAndGoHome();
+		break;
+	default:
+		console.log("UNSUPPORTED REASON FOR GAME OVER");
 	}
+
 }
 
 function handleFollowUp(action) {

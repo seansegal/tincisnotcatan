@@ -16,8 +16,7 @@ public class GameOverProcessor implements RequestProcessor {
     for (User u : g.connectedUsers()) {
       u.message(json);
     }
-
-    // TODO: any cleanup for game over!
+    System.out.println("GAMEOVERPROCESSED : " + json);
     g.clear();
     return true;
   }
