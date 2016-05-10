@@ -334,18 +334,30 @@ function sendMessage(message) {
 	}
 }
 
+function insertChatMessage(msg) {
+    var formattedDate = moment(msg.timeStamp).format("LT");
+    var fromPlayer = playersById[msg.userId];
+    insert("chat", "<div style='border-left-color: " + fromPlayer.color
+            + "'><article><b>" + msg.sender + ":</b><p>" + msg.content 
+            + "</p><span class='timestamp'>" + formattedDate + "</span></article></div>");
+}
+
 // Update the chat-panel, and the list of connected users
 function updateChat(msg) {
 	if (msg.hasOwnProperty('ERROR')) {
 		alert(msg.ERROR);
 	} else {
-		var fromPlayer = playersById[msg.fromUser];
-		insert("chat", "<div style='border-left-color: " + fromPlayer.color
-				+ "'>" + msg.userMessage + "</div>");
+        insertChatMessage(msg);
 		if (!muted) {
 			chatReceivedSound.play();
 		}
 	}
+}
+
+function loadChatLogs(logs) {
+    for (var i = 0; i < logs.length; i++) {
+        insertChatMessage(logs[i]);
+    }
 }
 
 // ////////////////////////////////////////
@@ -353,7 +365,7 @@ function updateChat(msg) {
 // ////////////////////////////////////////
 
 function handleChatResponse(data) {
-    if (data.hasOwnProperty(logs)) {
+    if (data.hasOwnProperty("logs")) {
         loadChatLogs(data.logs);
     } else {
         updateChat(data);
