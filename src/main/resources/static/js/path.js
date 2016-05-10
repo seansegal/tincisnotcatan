@@ -84,8 +84,6 @@ Path.prototype.draw = function(transX, transY, scale) {
 		element.css("background-color", this.player.color);
 	}
 
-	console.log("translate(" + x + "px, " + y + "px) " + "rotate(" + angle + "rad)");
-
 	// Add selectable area to intersection
 	var select = $("#" + this.id + "-select");
 	select.css("transform", "translate(" + x + "px, " + y + "px) "

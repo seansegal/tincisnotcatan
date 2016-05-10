@@ -60,6 +60,14 @@ function sendGetGameStateAction() {
 	webSocket.send(JSON.stringify(playersReq));
 }
 
+function sendReloadChatRequest() {
+    var chatReq = {
+        requestType: "chat",
+        logs: true
+    }
+    webSocket.send(JSON.stringify(chatReq));
+}
+
 function sendGetInitialStateAction() {
 	var stateReq = {
 		requestType : "action",
@@ -276,7 +284,7 @@ webSocket.onmessage = function(msg) {
 	if (data.hasOwnProperty("requestType")) {
 		switch (data.requestType) {
 		case "chat":
-			updateChat(data);
+            handleChatResponse(data);
 			break;
 		case "getGameState":
 			handleGetGameState(data);
@@ -343,6 +351,14 @@ function updateChat(msg) {
 // ////////////////////////////////////////
 // Action Handlers
 // ////////////////////////////////////////
+
+function handleChatResponse(data) {
+    if (data.hasOwnProperty(logs)) {
+        loadChatLogs(data.logs);
+    } else {
+        updateChat(data);
+    }
+}
 
 function handleActionResponse(data) {
 	if (data.content.hasOwnProperty("message")) {
