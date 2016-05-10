@@ -6,10 +6,10 @@
 	<div class="text-center">
 		<h2>Catan Statistics</h2>
 		<#if open.atLimit>
-		<h4>Game limit reached</h4>
+		<h4>Game limit reached ($(limit))</h4>
 		<#else>
-		<h4>Not at game limit</h4>
-		</#if>
+		<h4>Not at game limit (${limit})</h4>
+		</#if>		
 	</div>
 	<div class="row">
 		<div class="col-xs-6">

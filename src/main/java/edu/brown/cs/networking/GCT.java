@@ -45,6 +45,9 @@ public class GCT {
     Spark.init();
   }
 
+  public int groupLimit() {
+    return GAME_LIMIT;
+  }
 
   public Group groupForUser(User u) {
     return userToUserGroup.get(u);
