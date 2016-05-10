@@ -817,9 +817,7 @@
         		<h4 class="modal-title" id="statsModal">Roll Distribution</h4>
       		</div>
       		<div class="modal-body text-center">
-      			<div id="dice-distribution-container">
-					<canvas id="dice-distribution" width="200" height="200"></canvas>
-				</div>
+      			<div class="ct-chart ct-perfect-fourth"></div>
       		</div>
       		<div class="modal-footer">
       			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -868,6 +866,6 @@
 <script src="js/board.js"></script>
 <script src="js/websocket.js"></script>
 <script src="js/main.js"></script>
-<script src="js/Chart.min.js"></script>
+<script src="js/chartist.min.js"></script>
 <script src="js/moment.min.js"></script>
 
