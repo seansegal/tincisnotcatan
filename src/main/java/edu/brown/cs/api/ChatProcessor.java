@@ -1,25 +1,28 @@
 package edu.brown.cs.api;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
 
+import com.google.common.collect.EvictingQueue;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.networking.API;
 import edu.brown.cs.networking.Group;
+import edu.brown.cs.networking.Networking;
 import edu.brown.cs.networking.RequestProcessor;
 import edu.brown.cs.networking.User;
 
 
 public class ChatProcessor implements RequestProcessor {
 
-  private static final String    IDENTIFIER  = "chat";
-  private static final String    REQUEST_KEY = "requestType";
-  private final List<JsonObject> chatLog;
+  private static final String IDENTIFIER  = "chat";
+  private static final String REQUEST_KEY = "requestType";
+  private final Queue<Message> chatLog;
+
+  private static final int MAX_CHAT_LOG = 10;
 
 
   public ChatProcessor() {
-    chatLog = new ArrayList<>();
+    chatLog = EvictingQueue.create(MAX_CHAT_LOG);
   }
 
 
@@ -27,16 +30,20 @@ public class ChatProcessor implements RequestProcessor {
   public boolean run(User user, Group g, JsonObject json,
       API api) {
 
-    JsonObject toSend =
-        Chat.createMessage(String.format("%s%n", user.getField("userName")),
-            json.get("message").getAsString());
-    toSend.addProperty("fromUser", user.userID());
-    // chatLog.add(0, toSend);
-    // toSend.add("chatLog", Networking.GSON.toJsonTree(chatLog));
+    if(json.has("logs")) {
+      JsonObject toSend = new JsonObject();
+      toSend.addProperty(Networking.REQUEST_IDENTIFIER, "chat");
+      toSend.add("logs", Networking.GSON.toJsonTree(chatLog));
+      user.message(toSend);
+      return true;
+    }
+
+    Message m = new Message(user, json.get("message").getAsString(), System.currentTimeMillis());
+    chatLog.add(m);
 
     boolean success = true;
     for (User other : g.connectedUsers()) {
-      success &= other.message(toSend);
+      success &= other.message(m.asJson());
     }
     return success;
   }
