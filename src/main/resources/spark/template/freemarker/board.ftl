@@ -299,6 +299,7 @@
 				    	<h5 id="bank-give-amount"> </h5>
 				    	<div class="form-group text-center" id="bank-trade-amount-container">
 							<label for="bank-trade-amount-input">Amount to receive:</label>
+							<br>
 							<input id="bank-trade-amount-input" class="form-control" type="number" min="0" value="1" step="1">
 						</div>
 		    			<div class="row trade-row">
@@ -868,3 +869,5 @@
 <script src="js/websocket.js"></script>
 <script src="js/main.js"></script>
 <script src="js/Chart.min.js"></script>
+<script src="js/moment.min.js"></script>
+
