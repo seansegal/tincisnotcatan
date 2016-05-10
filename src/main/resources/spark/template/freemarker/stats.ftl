@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-xs-6">
 			<h3>Open Games: ${open.groups?size}</h3>
-			<ul class="list-group">
+			<ul class="list-group" style="max-height: 70vh; overflow-y: auto">
 			<#list open.groups as group>
 				<li class="list-group-item">
 					<p><strong>Name: </strong> ${group.group.groupName}</p>
@@ -27,7 +27,7 @@
 		</div>
 		<div class="col-xs-6">
 			<h3>Games In Play: ${closed.closedGroups?size}</h3>
-			<ul class="list-group">
+			<ul class="list-group" style="max-height: 70vh; overflow-y: auto">
 			<#list closed.closedGroups as group>
 				<li class="list-group-item">
 					<p><strong>Name: </strong> ${group.group.groupName}</p>
