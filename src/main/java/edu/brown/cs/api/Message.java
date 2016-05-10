@@ -28,6 +28,7 @@ public class Message {
   public JsonObject asJson() {
     if(jsonRepresentation == null) {
       jsonRepresentation = new JsonObject();
+      jsonRepresentation.addProperty("requestType", "chat");
       jsonRepresentation.addProperty("sender", sender);
       jsonRepresentation.addProperty("content", content);
       jsonRepresentation.addProperty("timeStamp", timeStamp);
