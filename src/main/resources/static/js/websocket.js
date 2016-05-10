@@ -398,6 +398,7 @@ function handleGameOver(data) {
 		deleteAllCookiesAndGoHome();
 		break;
 	case "explicitExit":
+		console.log(data.departedUser);
 		deleteAllCookiesAndGoHome();
 		break;
 	default:
