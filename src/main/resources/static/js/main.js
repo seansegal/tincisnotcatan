@@ -9,8 +9,6 @@ var tradeRates = {};
 var gameStats = {};
 
 $(window).load(function() {
-	board = new Board();
-
 	// Enable tooltips and popovers
 	$(function () {
   		$('[data-toggle="tooltip"]').tooltip();
@@ -23,15 +21,9 @@ $(window).load(function() {
     if(href != "/home" && !document.cookie){
     	window.location = "/home"; // redirect to home
     }
-});
 
-function redrawCatan() {
-	board.draw();
-	
-	for (var i = 0; i < players.length; i++) {
-		players[i].fillPlayerTab();
-	}
-}
+    sendReloadChatRequest();
+});
 
 var dragging = false;
 var lastX;
