@@ -60,7 +60,7 @@ public class Main {
     // Set up board
     Spark.get("/board", new BoardHandler(), freeMarker);
     Spark.get("/home", new HomeHandler(), freeMarker);
-    Spark.get("stats", new StatsHandler(), freeMarker);
+    Spark.get("/stats", new StatsHandler(), freeMarker);
     Spark.before("/", (request, response) -> {
       System.out.println(
           "Redirect causes an extra open/close on GroupView. Disregard.");

@@ -5,7 +5,10 @@ import static edu.brown.cs.networking.Util.print;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
 
+import com.google.common.collect.EvictingQueue;
 import com.google.gson.JsonObject;
 
 public class UserGroup implements Group {
@@ -13,15 +16,20 @@ public class UserGroup implements Group {
   private UserTable              table;
   private API                    api;
   private final UserGroupBuilder myBuilder;
+  private final Queue<Message>   messageLog;
+
+  private static final int       MAX_CHAT_LOG = 10;
 
 
   private UserGroup() {
     assert false : "should never call this constructor!";
     this.myBuilder = null;
+    messageLog = null;
   }
 
 
   private UserGroup(UserGroupBuilder b) {
+    messageLog = EvictingQueue.create(MAX_CHAT_LOG);
     this.myBuilder = b;
     this.table = new UserTable();
 
@@ -297,5 +305,17 @@ public class UserGroup implements Group {
     public UserGroup build() {
       return new UserGroup(this);
     }
+  }
+
+
+  @Override
+  public void logMessage(Message m) {
+    messageLog.add(m);
+  }
+
+
+  @Override
+  public List<Message> getMessageLog() {
+    return new ArrayList<>(messageLog);
   }
 }

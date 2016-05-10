@@ -1,6 +1,7 @@
 package edu.brown.cs.networking;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
@@ -93,6 +94,19 @@ public class GroupView implements Group {
   @Override
   public Collection<User> connectedUsers() {
     return inner.connectedUsers();
+  }
+
+
+  @Override
+  public void logMessage(Message m) {
+    throw new UnsupportedOperationException(
+        "Can't log message for a GroupView");
+  }
+
+
+  @Override
+  public List<Message> getMessageLog() {
+    return inner.getMessageLog();
   }
 
 
