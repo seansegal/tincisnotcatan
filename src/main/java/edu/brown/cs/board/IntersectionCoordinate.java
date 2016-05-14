@@ -1,10 +1,26 @@
 package edu.brown.cs.board;
 
+/**
+ * System for specifiying the location of the intersections on the board.
+ *
+ * @author anselvahle
+ *
+ */
 public class IntersectionCoordinate {
   private final HexCoordinate coord1;
   private final HexCoordinate coord2;
   private final HexCoordinate coord3;
 
+  /**
+   * Constructor for the class.
+   *
+   * @param coord1
+   *          Coordinate of one adjacent tile.
+   * @param coord2
+   *          Coordinate of another adjacent tile.
+   * @param coord3
+   *          Coordinate of the third and final adjacent tile.
+   */
   public IntersectionCoordinate(HexCoordinate coord1, HexCoordinate coord2,
       HexCoordinate coord3) {
     this.coord1 = coord1;
@@ -12,14 +28,29 @@ public class IntersectionCoordinate {
     this.coord3 = coord3;
   }
 
+  /**
+   * Gets coord1.
+   * 
+   * @return coord1.
+   */
   public HexCoordinate getCoord1() {
     return coord1;
   }
 
+  /**
+   * Gets coord2.
+   *
+   * @return coord2.
+   */
   public HexCoordinate getCoord2() {
     return coord2;
   }
 
+  /**
+   * Gets coord3.
+   *
+   * @return coord3.
+   */
   public HexCoordinate getCoord3() {
     return coord3;
   }

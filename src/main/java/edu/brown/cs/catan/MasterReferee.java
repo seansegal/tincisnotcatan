@@ -21,8 +21,8 @@ import edu.brown.cs.gamestats.CatanStats;
 import edu.brown.cs.gamestats.GameStats;
 
 /**
- * An implementation of Referee that can read and write data. There should be one
- * MasterReferee per game. Contains all Catan game data.
+ * An implementation of Referee that can read and write data. There should be
+ * one MasterReferee per game. Contains all Catan game data.
  *
  */
 public class MasterReferee implements Referee {

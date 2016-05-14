@@ -10,7 +10,9 @@ https://docs.google.com/forms/u/0/d/1O8lxl-nhlunTfGOnSRq8g2ccZLpLsR5VHq3jRVlTUEs
 # Icons
 https://thenounproject.com/term/catan/
 
-# CatanAPI JSON Documentation
+# Documentation
+
+## The CatanAPI
 
 ### CatanAPI Overview
 The CatanAPI provides a simple way to keep track of one game of Settlers of Catan. The API will keep track of all aspects of the game and provide enough JSON formatted information about the game so that it can be represented graphically. The section below outlines how to create a game, set the games settings and then send/receive information about a game. 
@@ -94,12 +96,55 @@ canBuyDevCard: true/false}
 
 `board` is a public object that represents the current boards state. It is of the form: 
 ``` javascript
+    {intersections: [Intersection object],
+     tiles: [Tile object],
+     paths: [Path object]}
+
+     intersection: {canBuildSettlement: true/false,
+                    coordinate: {hex coordinate}
+                    building: 0 // Player id & exists only if there is a building}
+
+    tile: {hasRobber: true/false, 
+           number: 5, //number to roll
+            type: "WHEAT" //resource type}
+
+    path: { canBuildRoad: true/false,
+            road: 2 // Player id & exists only if there is a building
+            start: {hex cooridnate},
+            end: {hex coordinate}}         
 ```
 
 ### Actions
 Actions are the only way to change the game state. They are all called by using the CatanAPI's performAction method. Both Actions and FollowUpActions are performed using this function. Currently, the API supports the follow Actions and FollowUpActions:
 
-### The Networking Library
+#### Actions: Can be sent on a players turn, as long as there are no pending FollowUpActions that must be performed first. 
+* buildRoad
+* buildSettlement
+* buildCity
+* buyDevCard
+* playMonopoly
+* playKnight
+* playYearOfPlenty
+* playRoadBuilding
+* tradeWithBank
+* proposeTrade (used for interplayer trading)
+* startGame (called when the game should be started)
+* endTurn
+
+
+#### FollowUpActions: Can only be sent when the API is currently waiting of this FollowUpAction:
+* moveRobber
+* takeCard
+* dropCards
+* rollDice
+* knightOrDice (sent when a player must choose between a Knight or Dice)
+* reviewTrade (used to accept or decline a propsed trade)
+* tradeResponse (used to finalize a trade)
+
+
+
+
+## The Networking Library
 The Networking Library is specifically an abstraction for using persistent notions of sessions with websockets. While Jetty provides a `org.eclipse.jetty.websocket.api.Session`, the implementation fails to maintain persistence like HttpSession objects. To solve this problem for user management, this library sets a cookie for all connecting sessions, called "USER_ID", which is an alphanumeric string, 16 characters long. When a session connects to our server side websocket, there are three cases.
 
     1) The connecting session has no USER_ID cookie.
@@ -134,6 +179,17 @@ The important classes in this package are:
     GroupSelector - (Interface) Used to choose the ideal Group (selected from a list of non-full Groups that have at least one User in them in the GCT). The GroupSelector can access any field of the Groups in making this determination, including the consideration of unique identifiers that may have been requested by the end user. (In the case of joining an existing game). The GroupSelector's sole method, selectFor(User u, Collection<Group> c), is intended to find the best Group in c that u should be placed in.
 
     DistinctRandom - A simple helper class that provides a static method getString(), which provides a guaranteed-unique alphanumeric string for user or group identifiers. 
+
+    RequestProcessor - (Interface) The GCT makes no assumptions about the format of messages that the developer intends to receive from the front end. A RequestProcessor allows the end-developer to programmatically define what messages to accept and how to handle said messages. RequestProcessor provides two method signatures : 
+
+    boolean match(JsonObject j) and
+    boolean run(User user, Group g, JsonObject json, API api)
+
+    match() allows the RequestProcessor to indicate if the JsonObject is in such a format that it can be handled. It might check for certain fields, and in turn check if those fields are valid. If match() returns true, then the message sent should be handled by run(...).
+
+    This pattern allows the configuration of the Group to include a collection of RequestProcessors, so each Group, can programmatically define what it's allowed and able to handle. In Catan, the request processors do not vary between instances of Groups (they all handle a game of Catan). But, it's conceivable that as games expand and rules become more complicated, more RequestProcessors with more specific parameters might be needed. Further, while this feature isn't used in Catan as of this writing, it's possible to easily change what RequestProcessors are "active" or listening for messages programmatically, to therefore disable actions not at the API level, but at the Group level. (Say, if a user disconnected).
+
+
 
 
 

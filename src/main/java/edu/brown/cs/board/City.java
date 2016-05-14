@@ -6,9 +6,21 @@ import java.util.Map;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Implementation of Building for the City.
+ *
+ * @author anselvahle
+ *
+ */
 public class City implements Building {
   private Player _player;
 
+  /**
+   * Constructor for the class.
+   *
+   * @param player
+   *          Player to be associated with the the building.
+   */
   public City(Player player) {
     _player = player;
   }
