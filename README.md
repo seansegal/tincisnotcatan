@@ -1,18 +1,9 @@
-# catan
-For CS032 : Introduction to Software Engineering. A modeling of Settlers of Catan in Java.
+# Catan
+An online version of Settlers of Catan with the option to play with Advanced Economic features. Originally built for CS32: Introduction to Software Engineering final project.  
 
-# coordinates
-http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/AV0405/MARTIN/Hex.pdf
+Visit http://cs032catan.herokuapp.com/ to try out the game!
 
-# Google Form!
-https://docs.google.com/forms/u/0/d/1O8lxl-nhlunTfGOnSRq8g2ccZLpLsR5VHq3jRVlTUEs/edit
-
-# Icons
-https://thenounproject.com/term/catan/
-
-# Documentation
-
-## The CatanAPI
+## Documentation: The CatanAPI
 
 ### CatanAPI Overview
 The CatanAPI provides a simple way to keep track of one game of Settlers of Catan. The API will keep track of all aspects of the game and provide enough JSON formatted information about the game so that it can be represented graphically. The section below outlines how to create a game, set the games settings and then send/receive information about a game. 
@@ -144,7 +135,7 @@ Actions are the only way to change the game state. They are all called by using 
 
 
 
-## The Networking Library
+## Documentation: The Networking Library
 The Networking Library is specifically an abstraction for using persistent notions of sessions with websockets. While Jetty provides a `org.eclipse.jetty.websocket.api.Session`, the implementation fails to maintain persistence like HttpSession objects. To solve this problem for user management, this library sets a cookie for all connecting sessions, called "USER_ID", which is an alphanumeric string, 16 characters long. When a session connects to our server side websocket, there are three cases.
 
     1) The connecting session has no USER_ID cookie.
@@ -190,7 +181,16 @@ The important classes in this package are:
     This pattern allows the configuration of the Group to include a collection of RequestProcessors, so each Group, can programmatically define what it's allowed and able to handle. In Catan, the request processors do not vary between instances of Groups (they all handle a game of Catan). But, it's conceivable that as games expand and rules become more complicated, more RequestProcessors with more specific parameters might be needed. Further, while this feature isn't used in Catan as of this writing, it's possible to easily change what RequestProcessors are "active" or listening for messages programmatically, to therefore disable actions not at the API level, but at the Group level. (Say, if a user disconnected).
 
 
+# Helpful links 
 
+#### Coordinates
+http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/AV0405/MARTIN/Hex.pdf
+
+#### Google Form for Requirements
+https://docs.google.com/forms/u/0/d/1O8lxl-nhlunTfGOnSRq8g2ccZLpLsR5VHq3jRVlTUEs/edit
+
+#### Icons Source
+https://thenounproject.com/term/catan/
 
 
 
