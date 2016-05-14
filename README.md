@@ -10,7 +10,9 @@ https://docs.google.com/forms/u/0/d/1O8lxl-nhlunTfGOnSRq8g2ccZLpLsR5VHq3jRVlTUEs
 # Icons
 https://thenounproject.com/term/catan/
 
-# CatanAPI JSON Documentation
+# Documentation
+
+## The CatanAPI
 
 ### CatanAPI Overview
 The CatanAPI provides a simple way to keep track of one game of Settlers of Catan. The API will keep track of all aspects of the game and provide enough JSON formatted information about the game so that it can be represented graphically. The section below outlines how to create a game, set the games settings and then send/receive information about a game. 
@@ -142,7 +144,7 @@ Actions are the only way to change the game state. They are all called by using 
 
 
 
-### The Networking Library
+## The Networking Library
 The Networking Library is specifically an abstraction for using persistent notions of sessions with websockets. While Jetty provides a `org.eclipse.jetty.websocket.api.Session`, the implementation fails to maintain persistence like HttpSession objects. To solve this problem for user management, this library sets a cookie for all connecting sessions, called "USER_ID", which is an alphanumeric string, 16 characters long. When a session connects to our server side websocket, there are three cases.
 
     1) The connecting session has no USER_ID cookie.
