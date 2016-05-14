@@ -136,10 +136,10 @@ Actions are the only way to change the game state. They are all called by using 
 
 
 ## Documentation: The Networking Library
-The Networking Library is specifically an abstraction for using persistent notions of sessions with websockets. While Jetty provides a `org.eclipse.jetty.websocket.api.Session`, the implementation fails to maintain persistence like HttpSession objects. To solve this problem for user management, this library sets a cookie for all connecting sessions, called "USER_ID", which is an alphanumeric string, 16 characters long. When a session connects to our server side websocket, there are three cases.
-    1) The connecting session has no USER\_ID cookie.
-    2) The connecting session has a USER\_ID cookie, and an existing User object holds a reference to a session object whose USER\_ID matches the connecting session's USER\_ID.
-    3) The connecting session has a USER_ID cookie, but we have no "memory" of it.
+The Networking Library is specifically an abstraction for using persistent notions of sessions with websockets. While Jetty provides a `org.eclipse.jetty.websocket.api.Session`, the implementation fails to maintain persistence like `HttpSession` objects. To solve this problem for user management, this library sets a cookie for all connecting sessions, called "USER\_ID", which is an alphanumeric string, 16 characters long. When a session connects to our server side websocket, there are three cases.
+    1. The connecting session has no USER\_ID cookie.
+    2. The connecting session has a USER\_ID cookie, and an existing User object holds a reference to a session object whose USER\_ID matches the connecting session's USER\_ID.
+    3. The connecting session has a USER_ID cookie, but we have no "memory" of it.
 
 In 1), we consider this a brand new end-user. We create a new `User` object, assign the `User` a new USER\_ID, and send a command to the session's endpoint to set the appropriate cookie.
 
@@ -177,9 +177,9 @@ The GCT provides management of all of the Groups that are active at a given time
 boolean match(JsonObject j) and
 boolean run(User user, Group g, JsonObject json, API api)
 ```
-`match()` allows the RequestProcessor to indicate if the JsonObject is in such a format that it can be handled. It might check for certain fields, and in turn check if those fields are valid. If `match()` returns true, then the message sent should be handled by `run()`.
+`match()` allows the RequestProcessor to indicate if the `JsonObject` is in such a format that it can be handled. It might check for certain fields, and in turn check if those fields are valid. If `match()` returns true, then the message sent should be handled by `run()`.
 
-This pattern allows the configuration of the `Group` to include a collection of RequestProcessors, so each `Group`, can programmatically define what it's allowed and able to handle. In Catan, the request processors do not vary between instances of `Group`s (they all handle a game of Catan). But, it's conceivable that as games expand and rules become more complicated, more RequestProcessors with more specific parameters might be needed. Further, while this feature isn't used in Catan as of this writing, it's possible to easily change what RequestProcessors are "active" or listening for messages programmatically, to therefore disable actions not at the API level, but at the Group level. (Say, if a user disconnected).
+This pattern allows the configuration of the `Group` to include a collection of `RequestProcessors`, so each `Group`, can programmatically define what it's allowed and able to handle. In Catan, the processors do not vary between instances of `Group`s (they all handle a game of Catan). But, it's conceivable that as games expand and rules become more complicated, more RequestProcessors with more specific parameters might be needed. Further, while this feature isn't used in Catan as of this writing, it's possible to easily change what `RequestProcessors` are "active" or listening for messages programmatically, to therefore disable actions not at the API level, but at the `Group` level. (Say, if a user disconnected).
 
 
 # Helpful links 
