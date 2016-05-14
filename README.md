@@ -94,10 +94,53 @@ canBuyDevCard: true/false}
 
 `board` is a public object that represents the current boards state. It is of the form: 
 ``` javascript
+    {intersections: [Intersection object],
+     tiles: [Tile object],
+     paths: [Path object]}
+
+     intersection: {canBuildSettlement: true/false,
+                    coordinate: {hex coordinate}
+                    building: 0 // Player id & exists only if there is a building}
+
+    tile: {hasRobber: true/false, 
+           number: 5, //number to roll
+            type: "WHEAT" //resource type}
+
+    path: { canBuildRoad: true/false,
+            road: 2 // Player id & exists only if there is a building
+            start: {hex cooridnate},
+            end: {hex coordinate}}         
 ```
 
 ### Actions
 Actions are the only way to change the game state. They are all called by using the CatanAPI's performAction method. Both Actions and FollowUpActions are performed using this function. Currently, the API supports the follow Actions and FollowUpActions:
+
+#### Actions: Can be sent on a players turn, as long as there are no pending FollowUpActions that must be performed first. 
+buildRoad
+buildSettlement
+buildCity
+buyDevCard
+playMonopoly
+playKnight
+playYearOfPlenty
+playRoadBuilding
+tradeWithBank
+proposeTrade (used for interplayer trading)
+startGame (called when the game should be started)
+endTurn
+
+
+#### FollowUpActions: Can only be sent when the API is currently waiting of this FollowUpAction:
+moveRobber
+takeCard
+dropCards
+rollDice
+knightOrDice (sent when a player must choose between a Knight or Dice)
+reviewTrade (used to accept or decline a propsed trade)
+tradeResponse (used to finalize a trade)
+
+
+
 
 ### The Networking Library
 The Networking Library is specifically an abstraction for using persistent notions of sessions with websockets. While Jetty provides a `org.eclipse.jetty.websocket.api.Session`, the implementation fails to maintain persistence like HttpSession objects. To solve this problem for user management, this library sets a cookie for all connecting sessions, called "USER_ID", which is an alphanumeric string, 16 characters long. When a session connects to our server side websocket, there are three cases.

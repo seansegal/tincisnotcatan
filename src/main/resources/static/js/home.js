@@ -24,15 +24,18 @@ if (document.location.hostname == "localhost") {
 			+ location.port + "/groups/");
 }
 
+// Send a heartbeat on the websocket
 function heartbeat() {
 	var beat = "HEARTBEAT";
 	webSocket.send(JSON.stringify(beat));
 }
 
+// Start heartbeats when the websocket opens
 webSocket.onopen = function() {
 	window.setInterval(heartbeat, 10 * 1000);
 };
 
+// Handle message from the websocket
 webSocket.onmessage = function(msg) {
 	var data = JSON.parse(msg.data);
 	console.log(data);
@@ -52,6 +55,10 @@ webSocket.onmessage = function(msg) {
 	}
 }
 
+/*
+ * Displays all available groups to join.
+ * @param groups - the current groups to join
+ */
 function createJoinableGameList(groups) {
 	$("#games-list").empty();
 
@@ -86,6 +93,7 @@ function createJoinableGameList(groups) {
 	}
 }
 
+// Move from username entry screen to game creation/join screen
 $("#enter-name-begin-btn").click(openCreateJoinGame);
 $("#nameEntry").keypress(function(event) {
 	var keyPressed = (event.keyCode ? event.keyCode : event.which);
@@ -103,6 +111,7 @@ $("#nameEntry, #game-name-entry").on("input", function(event) {
 	input.val(cleanedText);
 });
 
+// Make sure dynamic rates option only shown when decimal option selected
 $("#decimal-option").click(function() {
 	$("#dynamic-rates-container").removeClass("hidden");
 });
@@ -111,6 +120,9 @@ $("#integer-option").click(function() {
 	$("#dynamic-rates-container").addClass("hidden");
 });
 
+/*
+ * Opens the create/join game screen.
+ */
 function openCreateJoinGame() {
 	var name = $("#nameEntry").val();
 	if (name !== undefined && name !== "") {
@@ -125,6 +137,10 @@ function openCreateJoinGame() {
 	}
 }
 
+/*
+ * Handle a request to join an existing game.
+ * @param caller - the object that called this function
+ */
 function existingGameSelected(caller) {
 	console.log(caller);
 	var userName = id("nameEntry").value;
@@ -151,10 +167,15 @@ function existingGameSelected(caller) {
 	return true;
 }
 
+// Display all cookies
 function displayCookies() {
 	alert(document.cookie);
 }
 
+/*
+ * Returns a cookie of the given name.
+ * @param name - the name of the cookie
+ */
 function getCookie(name) {
 	var nameEQ = name + "=";
 	// alert(document.cookie);
@@ -173,7 +194,7 @@ function setCookie(cookie, value) {
 	var eqVal = cookie + "=" + value;
 	document.cookie = eqVal;
 }
-
+ 
 function stopReturnKey(evt) {
 	var evt = (evt) ? evt : ((event) ? event : null);
 	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement
@@ -183,6 +204,9 @@ function stopReturnKey(evt) {
 	}
 }
 
+/*
+ * Handle a request to start a new game.
+ */
 function startGamePressed() {
 	var userName = id("nameEntry").value;
 	var numPlayers = id("numPlayersDesired").value;

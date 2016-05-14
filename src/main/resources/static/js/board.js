@@ -6,6 +6,9 @@ var boardX = $(window).width() / 2 - 75;
 var boardY = $(window).height() / 2 - 100;
 var boardScale = INITIAL_HEX_SIZE;
 
+/*
+ * Constructs a new Board object.
+ */
 function Board() {
 	this.transX = boardX;
 	this.transY = boardY;
@@ -16,6 +19,11 @@ function Board() {
 	this.paths = [];
 }
 
+/*
+ * Translates the board on screen.
+ * @param deltaX - the number of pixels to translate in the x direction
+ * @param deltaY - the number of pixels to translate in the y direction
+ */
 Board.prototype.translate = function(deltaX, deltaY) {
 	this.transX = this.transX + deltaX;
 	this.transY = this.transY + deltaY;
@@ -33,6 +41,10 @@ Board.prototype.translate = function(deltaX, deltaY) {
 	this.draw();
 }
 
+/*
+ * Scales the board on screen.
+ * @param deltaScale - the factor to scale by
+ */
 Board.prototype.scale = function(deltaScale) {
 	this.scaleFactor = this.scaleFactor + deltaScale;
 	
@@ -49,6 +61,9 @@ Board.prototype.scale = function(deltaScale) {
 	this.draw();
 }
 
+/*
+ * Redraws the board.
+ */
 Board.prototype.draw = function() {
 	for (var i = 0; i < this.tiles.length; i++) {
 		this.tiles[i].draw(this.transX, this.transY, this.scaleFactor);
@@ -63,18 +78,34 @@ Board.prototype.draw = function() {
 	}
 }
 
+/*
+ * Adds a tile to the board.
+ * @param tile - the tile to add to the board
+ */
 Board.prototype.addTile = function(tile) {
 	this.tiles.push(tile);
 }
 
+/*
+ * Adds an intersection to the board.
+ * @param tile - the intersection to add to the board
+ */
 Board.prototype.addIntersection = function(intersection) {
 	this.intersections.push(intersection);
 }
 
+/*
+ * Adds a path to the board.
+ * @param tile - the path to add to the board
+ */
 Board.prototype.addPath = function(path) {
 	this.paths.push(path);
 }
 
+/*
+ * Create a new board from the given board data.
+ * @param boardData - the board data 
+ */
 Board.prototype.createBoard = function(boardData) {
 	$("#board-viewport").empty();
 
