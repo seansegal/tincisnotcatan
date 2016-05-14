@@ -2,10 +2,15 @@ package edu.brown.cs.catan;
 
 import com.google.gson.JsonObject;
 
+/**
+ * Represents one game of Catan's settings.
+ *
+ */
 public class GameSettings {
 
   public final int numPlayers;
   public final int winningPointCount;
+  // Add more colors if more players are supported.
   public final String[] COLORS = { "#BF2720", "#115EC9", "#DFA629", "#EDEAD9" };
   public final boolean isDecimal;
   public final boolean isDynamic;
@@ -31,7 +36,7 @@ public class GameSettings {
       System.out.println("SETTINGS missing isDecimal parameter");
     }
     boolean isDynamic = false;
-    if(isDecimal){
+    if (isDecimal) {
       try {
         isDynamic = settings.get("isDynamic").getAsBoolean();
       } catch (NullPointerException e) {

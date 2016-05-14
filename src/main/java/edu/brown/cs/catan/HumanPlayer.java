@@ -6,19 +6,41 @@ import java.util.Map;
 
 import edu.brown.cs.actions.CatanFormats;
 
+/**
+ * Represents a Catan Player. Contains all Player information inclduing number
+ * of buildings, the players Hand, the players hidden victory points, and the
+ * players color, name and id.
+ *
+ */
 public class HumanPlayer implements Player {
 
+  // Identifiers:
+  private final String name;
+  private final int id;
+
+  // Player's Hand:
   private final Map<Resource, Double> resources;
-  private final Map<DevelopmentCard, Integer> devCards; // TODO
-  private int numPlayedKnights;
+  private final Map<DevelopmentCard, Integer> devCards;
+
+  // Remaining Buildings:
   private int numRoads;
   private int numSettlements;
   private int numCities;
-  private final String name;
-  private final int id;
-  private final String color;
-  private int _numVictoryPoints;
 
+  private int numPlayedKnights;
+  private final String color;
+  private int numVictoryPoints;
+
+  /**
+   * Creates a HumanPlayer (CatanPlayer)
+   *
+   * @param id
+   *          Unique player ID
+   * @param name
+   *          Player's name or username
+   * @param color
+   *          Player's color, represented as a hex string.
+   */
   public HumanPlayer(int id, String name, String color) {
     this.name = name;
     this.id = id;
@@ -26,7 +48,7 @@ public class HumanPlayer implements Player {
     this.numRoads = Settings.INITIAL_ROADS;
     this.numSettlements = Settings.INITIAL_SETTLEMENTS;
     this.numCities = Settings.INITIAL_CITIES;
-    _numVictoryPoints = 0;
+    numVictoryPoints = 0;
     // Initialize Resource card hand:
     this.resources = new HashMap<>();
     for (Resource r : Resource.values()) {
@@ -164,12 +186,14 @@ public class HumanPlayer implements Player {
 
   @Override
   public void addResource(Resource resource) {
-    resources.replace(resource, CatanFormats.round(resources.get(resource) + 1.0));
+    resources.replace(resource,
+        CatanFormats.round(resources.get(resource) + 1.0));
   }
 
   @Override
   public void addResource(Resource resource, double count) {
-    resources.replace(resource, CatanFormats.round(resources.get(resource) + count));
+    resources.replace(resource,
+        CatanFormats.round(resources.get(resource) + count));
   }
 
   @Override
@@ -252,7 +276,7 @@ public class HumanPlayer implements Player {
   @Override
   public void addDevelopmentCard(DevelopmentCard card) {
     if (card == DevelopmentCard.POINT) {
-      _numVictoryPoints++;
+      numVictoryPoints++;
     }
     int newVal = devCards.get(card) + 1;
     devCards.put(card, newVal);
@@ -293,7 +317,7 @@ public class HumanPlayer implements Player {
 
   @Override
   public int numVictoryPoints() {
-    return _numVictoryPoints;
+    return numVictoryPoints;
   }
 
   @Override
@@ -322,11 +346,17 @@ public class HumanPlayer implements Player {
     return true;
   }
 
+  /**
+   * A ReadOnlyPlayer can give player data but cannot mutate any player data.
+   * UnsupportedOperationExceptions are thrown when attempting to mutate player
+   * data.
+   *
+   */
   private class ReadOnlyPlayer implements Player {
 
     private final HumanPlayer _player;
 
-    public ReadOnlyPlayer(HumanPlayer player) {
+    private ReadOnlyPlayer(HumanPlayer player) {
       _player = player;
     }
 
