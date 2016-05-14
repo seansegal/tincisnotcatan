@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import spark.Spark;
 
 // Grand Central Terminal - Routes all of the inputs to appropriate groups
-public class GCT {
+public final class GCT {
 
   private final Set<Group>       pending;
   private final Set<Group>       full;
@@ -34,8 +34,8 @@ public class GCT {
 
     // provided by builder:
     this.groupSelector = builder.groupSelector;
-    Spark.webSocket(builder.webSocketRoute, NewWebsocket.class);
-    NewWebsocket.setGct(this);
+    Spark.webSocket(builder.webSocketRoute, ReceivingWebsocket.class);
+    ReceivingWebsocket.setGct(this);
 
     // build group view websocket, if user wants it.
     if (builder.groupViewRoute != null) {

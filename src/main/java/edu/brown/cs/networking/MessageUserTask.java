@@ -5,7 +5,7 @@ import static edu.brown.cs.networking.Util.print;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-public class MessageUserTask implements Runnable {
+class MessageUserTask implements Runnable {
 
   private User   u;
   private String message;

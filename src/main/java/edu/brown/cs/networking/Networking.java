@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+// Convenience constants
 public class Networking {
 
   public static final String     USER_IDENTIFIER             = "USER_ID";

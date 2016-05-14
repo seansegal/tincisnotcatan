@@ -24,7 +24,7 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import com.google.gson.JsonObject;
 
 @WebSocket
-public class NewWebsocket {
+public class ReceivingWebsocket {
 
   private final ExecutorService   threadPool;
   private final Map<String, User> uuidToUser;
@@ -32,7 +32,7 @@ public class NewWebsocket {
   private static GCT              gct;
 
 
-  public NewWebsocket() {
+  public ReceivingWebsocket() {
     threadPool = Executors.newFixedThreadPool(8);
     uuidToUser = new ConcurrentHashMap<>();
     ignoreSession = new ConcurrentHashSet<>();
