@@ -94,6 +94,22 @@ canBuyDevCard: true/false}
 
 `board` is a public object that represents the current boards state. It is of the form: 
 ``` javascript
+    {intersections: [Intersection object],
+     tiles: [Tile object],
+     paths: [Path object]}
+
+     intersection: {canBuildSettlement: true/false,
+                    coordinate: {hex coordinate}
+                    building: 0 // Player id & exists only if there is a building}
+
+    tile: {hasRobber: true/false, 
+           number: 5, //number to roll
+            type: "WHEAT" //resource type}
+
+    path: { canBuildRoad: true/false,
+            road: 2 // Player id & exists only if there is a building
+            start: {hex cooridnate},
+            end: {hex coordinate}}         
 ```
 
 ### Actions
