@@ -8,7 +8,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 
-public class UserSerializer implements JsonSerializer<User> {
+class UserSerializer implements JsonSerializer<User> {
 
   @Override
   public JsonElement serialize(User src, Type typeOfSrc,

@@ -9,7 +9,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 
-public class GroupSerializer implements JsonSerializer<Group> {
+class GroupSerializer implements JsonSerializer<Group> {
 
   @Override
   public JsonElement serialize(Group src, Type typeOfSrc,

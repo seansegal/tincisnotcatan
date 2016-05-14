@@ -2,7 +2,7 @@ package edu.brown.cs.networking;
 
 import com.google.gson.JsonObject;
 
-public class Message {
+public final class Message {
 
 
   private String     sender;

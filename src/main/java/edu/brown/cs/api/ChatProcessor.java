@@ -16,9 +16,7 @@ public class ChatProcessor implements RequestProcessor {
   private static final String REQUEST_KEY = "requestType";
 
 
-  public ChatProcessor() {
-
-  }
+  public ChatProcessor() {}
 
 
   @Override

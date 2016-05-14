@@ -1,6 +1,6 @@
 package edu.brown.cs.networking;
 
-public class DisconnectUserTask implements Runnable {
+class DisconnectUserTask implements Runnable {
 
   private User   u;
   @SuppressWarnings("unused")

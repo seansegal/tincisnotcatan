@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 
-public class GroupView implements Group {
+class GroupView implements Group {
 
   @SerializedName("group")
   private Group inner;

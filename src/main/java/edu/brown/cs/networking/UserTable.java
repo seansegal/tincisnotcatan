@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class UserTable {
+class UserTable {
 
   private final Set<User>       users;
   private final Map<User, Long> afk;

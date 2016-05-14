@@ -3,7 +3,7 @@ package edu.brown.cs.networking;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class JsonObjectBuilder {
+class JsonObjectBuilder {
 
   private JsonObject j;
 
