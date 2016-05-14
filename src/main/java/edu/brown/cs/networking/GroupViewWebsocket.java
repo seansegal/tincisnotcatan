@@ -15,7 +15,7 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import com.google.gson.JsonObject;
 
 @WebSocket
-class GroupViewWebsocket {
+public class GroupViewWebsocket {
 
   private static GCT          gct;
   private static Set<Session> viewers = new HashSet<>();

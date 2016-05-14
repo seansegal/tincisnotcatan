@@ -60,62 +60,18 @@ public interface Player {
    */
   void useCity();
 
-  /**
-   * Uses a Settlement piece.
-   */
   void useSettlement();
 
-  /**
-   * Plays a DevelopmentCard
-   *
-   * @param card
-   *          The DevelopmentCard being played.
-   */
   void playDevelopmentCard(DevelopmentCard card);
 
-  /**
-   * Returns a ReadOnly map of the Players resources.
-   *
-   * @return ReadOnly map of the player's resource hand.
-   */
   Map<Resource, Double> getResources();
 
-  /**
-   * Returns a ReadOnly map of the player's development card hand.
-   *
-   * @return Development card hand.
-   */
   Map<DevelopmentCard, Integer> getDevCards();
 
-  /**
-   * Adds a resource to a player's hand.
-   *
-   * @param resource
-   *          Resource to add.
-   */
   void addResource(Resource resource);
 
-  /**
-   * Adds multiple resources to a player's hand.
-   *
-   * @param resource
-   *          Resource to add
-   * @param count
-   *          Number to add (can be any decimal amount)
-   */
   void addResource(Resource resource, double count);
 
-  /**
-   * Adds multiple resources to a player's hand. Allows the Bank to keep track
-   * of the change.
-   *
-   * @param resource
-   *          Resource to add
-   * @param count
-   *          Number to add (can be any decimal amount)
-   * @param bank
-   *          A bank to keep track of supply.
-   */
   void addResource(Resource resource, double count, Bank bank);
 
   void removeResource(Resource resource);
