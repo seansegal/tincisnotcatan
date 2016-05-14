@@ -36,6 +36,15 @@ public class Intersection {
     return _position;
   }
 
+  /**
+   * Tells the building to tell the player who is associated with it to collect
+   * a resource of the input type.
+   *
+   * @param res
+   *          Type of resource to collect.
+   * @return A map of the player id to a map of resources that they collected
+   *         and how many of them.
+   */
   public Map<Integer, Map<Resource, Integer>> notifyBuilding(Resource res) {
     Map<Integer, Map<Resource, Integer>> toRet = new HashMap<Integer, Map<Resource, Integer>>();
     if (_building != null) {

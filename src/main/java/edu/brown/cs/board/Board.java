@@ -27,6 +27,12 @@ import edu.brown.cs.catan.GameSettings;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Settings;
 
+/**
+ * Board Class. Functions as a container class for all of the board data.
+ *
+ * @author anselvahle
+ *
+ */
 public class Board {
   private Collection<Tile> _tiles;
   private Map<IntersectionCoordinate, Intersection> _intersections;
@@ -34,12 +40,28 @@ public class Board {
   private final List<HexCoordinate> PORT_LOCATION;
   private final static int DEPTH = 2;
 
+  /**
+   * Adds a certain number of tiles of a specific type to a list to shuffle when
+   * constructing the board.
+   *
+   * @param availTiles
+   *          List of tiles.
+   * @param type
+   *          Type of tiles to add.
+   * @param numTiles
+   *          How many tiles to add.
+   */
   private void addTiles(List<TileType> availTiles, TileType type, int numTiles) {
     for (int i = 0; i < numTiles; i++) {
       availTiles.add(type);
     }
   }
 
+  /**
+   * Gets permutations of sea coordinates and puts them into a list.
+   *
+   * @return List of HexCoordinates of the location of Sea Tiles.
+   */
   private List<HexCoordinate> getSeaPermutations() {
     List<HexCoordinate> coords = new ArrayList<HexCoordinate>();
     int[] oneThree = { 0, 0, 3 };
@@ -73,6 +95,13 @@ public class Board {
     return coords;
   }
 
+  /**
+   * Returns true if there are possible permutations of the array.
+   *
+   * @param data
+   *          Array to permute
+   * @return Boolean stating if there are more permutations
+   */
   private boolean permute(int[] data) {
     int k = data.length - 2;
     while (data[k] >= data[k + 1]) {
@@ -99,6 +128,12 @@ public class Board {
     data[idx2] = tmp;
   }
 
+  /**
+   * Tells the tiles what was rolled.
+   *
+   * @param roll
+   *          Num that was rolled.
+   */
   public void notifyTiles(int roll) {
     for (Tile t : _tiles) {
       if (t.getRollNumber() == roll) {
@@ -118,18 +153,39 @@ public class Board {
     return toRet.toString();
   }
 
+  /**
+   * Getter for the tiles.
+   * 
+   * @return Collection of the tiles in the board.
+   */
   public Collection<Tile> getTiles() {
     return Collections.unmodifiableCollection(_tiles);
   }
 
+  /**
+   * Getter for the intersections.
+   *
+   * @return Map of the intersections on the board.
+   */
   public Map<IntersectionCoordinate, Intersection> getIntersections() {
     return Collections.unmodifiableMap(_intersections);
   }
 
+  /**
+   * Getter for the paths.
+   *
+   * @return Map of the paths in the board.
+   */
   public Map<PathCoordinate, Path> getPaths() {
     return Collections.unmodifiableMap(_paths);
   }
 
+  /**
+   * Sets the port locations for a standard board size;
+   * 
+   * @return List of the coordinates of the port locations for the standard
+   *         board.
+   */
   private List<HexCoordinate> setPortLocations() {
     List<HexCoordinate> toRet = new ArrayList<HexCoordinate>();
     toRet.add(new HexCoordinate(0, 0, 3));
@@ -144,9 +200,16 @@ public class Board {
     return toRet;
   }
 
+  /**
+   * Constructor for the Board.
+   *
+   * @param settings
+   *          Settings for how the board should be made.
+   */
   public Board(GameSettings settings) {
     List<TileType> availTiles = new ArrayList<TileType>();
     int[] rollNums = ROLL_NUMS;
+    // Determines whether the board should be random or not;
     if (settings.isStandard) {
       availTiles = standardBoard();
       rollNums = Settings.STANDARD_ROLL_NUMS;
@@ -161,7 +224,7 @@ public class Board {
         Collections.shuffle(availTiles);
       } while ((availTiles.get(0) == DESERT));
     }
-
+    // Sets the port locations
     PORT_LOCATION = setPortLocations();
 
     Map<IntersectionCoordinate, Intersection> intersections = new HashMap<IntersectionCoordinate, Intersection>();
@@ -174,7 +237,7 @@ public class Board {
     int y = 0;
     int z = 0;
     int i = 0;
-
+    // How it constructs the board
     while (currDepth >= 0) {
       currRoll = addTile(availTiles.get(currTile), new HexCoordinate(x, y, z),
           intersections, paths, currRoll, currTile, rollNums);
@@ -236,6 +299,7 @@ public class Board {
     _paths = paths;
     i = 0;
     List<HexCoordinate> seaCoords = getSeaPermutations();
+    // Adds sea tiles and ports
     for (HexCoordinate hc : seaCoords) {
       Tile seaTile = new Tile(hc, SEA, _intersections);
       if (PORT_LOCATION.contains(hc)) {
@@ -247,6 +311,17 @@ public class Board {
     }
   }
 
+  /**
+   * 
+   * @param tileType
+   * @param coord
+   * @param intersections
+   * @param paths
+   * @param currRoll
+   * @param currTile
+   * @param rollNums
+   * @return
+   */
   private int addTile(TileType tileType, HexCoordinate coord,
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, Integer currRoll, Integer currTile,
@@ -270,6 +345,14 @@ public class Board {
     return null;
   }
 
+  /**
+   * Moves the robber to a given HexCoord.
+   * 
+   * @param coord
+   *          Coordinate of the tile to moved it to.
+   * @return Set of Integers that are the playerIDs of the people on the tile
+   *         the robber was moved to.
+   */
   public Set<Integer> moveRobber(HexCoordinate coord) {
     Set<Integer> playersOnTile = Collections.emptySet();
     for (Tile t : _tiles) {
@@ -287,6 +370,13 @@ public class Board {
     return playersOnTile;
   }
 
+  /**
+   * Finds the longest path on the board.
+   * 
+   * @param player
+   *          Finds the longest path belonging to this player.
+   * @return The length of the players longest road.
+   */
   public int longestPath(Player player) {
     int max = 0;
     for (Path path : _paths.values()) {
@@ -298,6 +388,7 @@ public class Board {
     return max;
   }
 
+  // Standard Board
   private List<TileType> standardBoard() {
     List<TileType> tiles = new ArrayList<>();
     tiles.add(WHEAT);

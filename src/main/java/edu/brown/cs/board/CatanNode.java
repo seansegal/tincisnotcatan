@@ -7,10 +7,24 @@ import java.util.List;
 import edu.brown.cs.graph.Edge;
 import edu.brown.cs.graph.Node;
 
+/**
+ * Catan specific implementation of the Node interface.
+ *
+ * @author anselvahle
+ *
+ */
 public class CatanNode implements Node<Path, Intersection> {
   private Intersection _data;
   private GraphCache _cache;
 
+  /**
+   * Constructor for the class.
+   *
+   * @param data
+   *          Value to be stored in the node.
+   * @param cache
+   *          Cache to store the Node in.
+   */
   public CatanNode(Intersection data, GraphCache cache) {
     _data = data;
     _cache = cache;
