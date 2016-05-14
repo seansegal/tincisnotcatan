@@ -8,6 +8,13 @@ import com.google.gson.JsonObject;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
+/**
+ * Action responsible for determining what a player does at the beginning of
+ * their turn.
+ * 
+ * @author anselvahle
+ *
+ */
 public class KnightOrDice implements FollowUpAction {
   private Player _player;
   private final int _playerID;

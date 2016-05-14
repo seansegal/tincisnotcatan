@@ -15,6 +15,12 @@ import com.google.gson.JsonPrimitive;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Referee.GameStatus;
 
+/**
+ * Action responsible for starting the game.
+ * 
+ * @author anselvahle
+ *
+ */
 public class StartGame implements Action {
 
   public static final String ID = "startGame";

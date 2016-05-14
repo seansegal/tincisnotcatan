@@ -13,6 +13,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Referee.GameStatus;
 
+/**
+ * Action responsible for building a road during game play.
+ *
+ * @author anselvahle
+ *
+ */
 public class BuildRoad implements Action {
 
   public static final String ID = "buildRoad";

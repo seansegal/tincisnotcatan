@@ -14,6 +14,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Referee.GameStatus;
 
+/**
+ * Action responsible for Placing roads during game play.
+ * 
+ * @author anselvahle
+ *
+ */
 public class PlaceRoad implements FollowUpAction {
 
   private static final String ID = "placeRoad";

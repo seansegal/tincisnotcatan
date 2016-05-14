@@ -13,6 +13,12 @@ import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 import edu.brown.cs.catan.Trade;
 
+/**
+ * Action responsible for proposing a trade.
+ * 
+ * @author anselvahle
+ *
+ */
 public class ProposeTrade implements Action{
   private Player _player;
   private Referee _ref;

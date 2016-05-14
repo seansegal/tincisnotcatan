@@ -11,6 +11,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Referee.GameStatus;
 
+/**
+ * Action that is responsible for building a city.
+ *
+ * @author anselvahle
+ *
+ */
 public class BuildCity implements Action {
 
   private Player _player;

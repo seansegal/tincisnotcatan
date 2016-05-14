@@ -11,6 +11,12 @@ import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
+/**
+ * Action responsible for ending a turn.
+ *
+ * @author anselvahle
+ *
+ */
 public class EndTurn implements Action {
   public static final String ID = "endTurn";
   private Player _player;

@@ -16,6 +16,12 @@ import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 import edu.brown.cs.catan.Settings;
 
+/**
+ * Action responsible for rolling the dice.
+ * 
+ * @author anselvahle
+ *
+ */
 public class RollDice implements FollowUpAction {
 
   private Player _player;

@@ -10,6 +10,12 @@ import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
+/**
+ * Action responsible for Playing a knight.
+ * 
+ * @author anselvahle
+ *
+ */
 public class PlayKnight implements Action {
 
   public static final String ID = "playKnight";
