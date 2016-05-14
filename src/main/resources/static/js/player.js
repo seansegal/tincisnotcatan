@@ -1,3 +1,9 @@
+/*
+ * Constructs a new Player object.
+ * @param id - the id of this player
+ * @param name - the name of this player
+ * @param color - the color of this player
+ */
 function Player(id, name, color) {
 	this.id = id;
 	this.name = name;
@@ -17,6 +23,9 @@ function Player(id, name, color) {
 	this.hand = {};
 }
 
+/*
+ * Adds a tab to the players tabs with all of this player's information.
+ */
 Player.prototype.addPlayerTab = function() {
 	var tabTitle = (this.id === playerId) ? "You" : "P" + this.id;
 
@@ -95,6 +104,9 @@ Player.prototype.addPlayerTab = function() {
 	largestArmy.css("border-color", "rgba(" + rgb + ",0.6)");
 }
 
+/*
+ * Fills the appropriate sections of the turn display for this player.
+ */
 Player.prototype.fillTurnDisplay = function() {
 	var displayContainer = $("#turn-display-container");
 	displayContainer.append("<div id='" + this.id + "-turn-square' class='turn-square'></div>");
@@ -112,6 +124,11 @@ Player.prototype.fillTurnDisplay = function() {
 	}
 }
 
+/*
+ * Creates a new player from the given player data.
+ * @param playersData - the player data
+ * @return the new player object
+ */
 function parsePlayers(playersData) {
 	var players = [];
 
@@ -136,6 +153,10 @@ function parsePlayers(playersData) {
 	return players;
 }
 
+/*
+ * Fills this player's hand from the given hand data.
+ * @param handData - the number of each card that the player possesses
+ */
 function fillPlayerHand(handData) {
 	var player = playersById[playerId];
 
@@ -172,6 +193,10 @@ function fillPlayerHand(handData) {
 	player.hand.victoryPoint = handData.devCards["Victory Point"];
 }
 
+/*
+ * Displays the player's options to buy buildings if they possess the correct resources.
+ * @param handData - the player's hand data
+ */
 function fillPlayerBuyOptions(handData) {
 	if (handData.canBuildSettlement) {
 		$("#settlement-build-btn").prop("disabled", false);
@@ -198,6 +223,10 @@ function fillPlayerBuyOptions(handData) {
 	}
 }
 
+/*
+ * Fills the player's bank trade rates in the gui.
+ * @param rates - the player's trade rates
+ */
 function fillPlayerTradeRates(rates) {
 	$("#brick-trade-rate").text(rates.brick);
 	$("#wood-trade-rate").text(rates.wood);
@@ -206,6 +235,11 @@ function fillPlayerTradeRates(rates) {
 	$("#sheep-trade-rate").text(rates.sheep);
 }
 
+/*
+ * Converts a color in hex to a rgb object.
+ * @param hex - the hexadecimal representation of the color
+ * @return the rgb color
+ */
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     var r = parseInt(result[1], 16);

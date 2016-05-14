@@ -28,6 +28,14 @@ var PORT = {
 	WILDCARD: 6
 }
 
+/*
+ * Constructs a new Tile object.
+ * @param coordinates - the hex coordinates of this tile
+ * @param tileType - the type of this tile
+ * @param number - the number of this tile
+ * @param hasRobber - whether this tile has the robber or not
+ * @param port - the port at this tile
+ */
 function Tile(coordinates, tileType, number, hasRobber, port) {
 	this.coordinates = coordinates;
 	this.tileType = tileType;
@@ -59,6 +67,12 @@ function Tile(coordinates, tileType, number, hasRobber, port) {
 	}
 }
 
+/*
+ * Redraws this tile.
+ * @param transX - the x translation of the board
+ * @param transY - the y translation of the board
+ * @param scale - the scale to draw at
+ */
 Tile.prototype.draw = function(transX, transY, scale) {
 	var displacement = hexToCartesian(this.coordinates);
 	var tileX = transX + displacement.x * scale;
@@ -223,10 +237,17 @@ Tile.prototype.draw = function(transX, transY, scale) {
 	}
 }
 
+/*
+ * Returns whether this tile can have the robber placed on it
+ * @return whether this tile can have the robber placed on it
+ */
 Tile.prototype.isRobbable = function() {
 	return !(this.tileType === TILE_TYPE.SEA || this.hasRobber); 
 }
 
+/*
+ * Highlights this tile
+ */
 Tile.prototype.highlight = function() {
 	// Highlight circle
 	var numberCircle = $("#" + this.id + "-wrapper .number-circle");
@@ -243,6 +264,9 @@ Tile.prototype.highlight = function() {
 	});
 }
 
+/*
+ * Unhighlights this tile.
+ */
 Tile.prototype.unHighlight = function() {
 	if (this.highlighted) {
 		var numberCircle = $("#" + this.id + "-wrapper .number-circle");
@@ -251,6 +275,11 @@ Tile.prototype.unHighlight = function() {
 	}
 }
 
+/*
+ * Creates a new tile from the given tile data.
+ * @param tileData - the tileData
+ * @return the new tile
+ */
 function parseTile(tileData) {
 	var coords = parseHexCoordinates(tileData.hexCoordinate);
 	var type = parseTileType(tileData.type);
@@ -294,6 +323,11 @@ function parseTile(tileData) {
 	return tile;
 }
 
+/*
+ * Converts a string into a tile type
+ * @param tileType - the tile type as a string
+ * @return the tile type
+ */
 function parseTileType(tileType) {
 	switch (tileType) {
 		case "BRICK":
@@ -315,6 +349,11 @@ function parseTileType(tileType) {
 	}
 }
 
+/*
+ * Converts a hex coordinate into a cartesian coordinate
+ * @param hexCoordinates - the hex coordinate
+ * @return the cartesian coordinate
+ */
 function hexToCartesian(hexCoordinates) {
 	var x = X_UNIT_VEC.x * hexCoordinates.x + Y_UNIT_VEC.x * hexCoordinates.y 
 			+ Z_UNIT_VEC.x * hexCoordinates.z;
@@ -323,10 +362,22 @@ function hexToCartesian(hexCoordinates) {
 	return {x: x, y: y};
 }
 
+/*
+ * Parses a hex coordinate from JSON into a javascript object.
+ * @param hexCoordinates - the hex coordinate to parse
+ * @return the parsed hex coordinate
+ */
 function parseHexCoordinates(hexCoordinates) {
 	return {x: hexCoordinates.x, y: hexCoordinates.y, z: hexCoordinates.z};
 }
 
+/*
+ * Finds the center of three hex coordinates
+ * @param c1 - the first hex coordinate
+ * @param c1 - the second hex coordinate
+ * @param c1 - the third hex coordinate
+ * @return the center of the three hex coordinates, as a hex coordinate
+ */
 function findCenter(c1, c2, c3) {
 	var x = (c1.x + c2.x + c3.x) / 3;
 	var y = (c1.y + c2.y + c3.y) / 3;
