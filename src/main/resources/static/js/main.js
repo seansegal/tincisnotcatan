@@ -8,6 +8,7 @@ var gameSettings = {};
 var tradeRates = {};
 var gameStats = {};
 
+// Actions to take when window initially loads
 $(window).load(function() {
 	// Enable tooltips and popovers
 	$(function () {
@@ -23,10 +24,12 @@ $(window).load(function() {
     }
 });
 
+// Mouse movement variables
 var dragging = false;
 var lastX;
 var lastY;
 
+// When mouse is pressed, start dragging mode and save current position
 $(document).on("mousedown", "#board-viewport", function(event) {
 	lastX = event.pageX;
 	lastY = event.pageY;
@@ -34,6 +37,7 @@ $(document).on("mousedown", "#board-viewport", function(event) {
 	$(document).on("mousemove", "#board-viewport", onMouseMove);
 });
 
+// When mouse is moved, translate the board from last position
 function onMouseMove(event) {
 	if (dragging) {
 		board.translate(event.pageX - lastX, event.pageY - lastY);
@@ -42,6 +46,7 @@ function onMouseMove(event) {
 	}
 }
 
+// When mouse is released, do final translate and leave dragging mode
 $(document).on("mouseup mouseleave", "#board-viewport", function(event) {
 	if (dragging) {
 		dragging = false;
@@ -50,6 +55,7 @@ $(document).on("mouseup mouseleave", "#board-viewport", function(event) {
 	}
 });
 
+// When mouse is scrolled, scale board
 $(document).on("wheel", "#board-viewport", function(event) {
 	if (Math.abs(event.originalEvent.deltaY) > 0.01) {
 		var deltaScale = event.originalEvent.deltaY > 0 ? 10 : -10;
@@ -57,6 +63,10 @@ $(document).on("wheel", "#board-viewport", function(event) {
 	}
 });
 
+/*
+ * Adds a message to the message section.
+ * @param message - displays a message in the current message section
+ */
 function addMessage(message) {
 	var container = $("#message-container");
 	container.empty();
@@ -64,6 +74,11 @@ function addMessage(message) {
 	addToMessageHistory(message);
 }
 
+/*
+ * Formats a number based on the current decimal/integer setting.
+ * @param num - the number to format
+ * @return the formatted number (as a string)
+ */
 function formatNumber(num) {
 	if (gameSettings.isDecimal) {
 		return num.toFixed(2);
@@ -72,12 +87,18 @@ function formatNumber(num) {
 	}
 }
 
+/*
+ * Finds the exchange rate from one resource to another.
+ * @param toGive - the player's trade rates
+ * @param toGet - the resource to get
+ * @return the trade rate from toGive to toGet
+ */
 function getExchangeRate(toGive, toGet) {
 	return tradeRates[toGive];
 }
 
+// Set up flashing tab message when it is your turn
 var yourTurnDisplayed = false;
-
 setInterval(function() {
 	// Change tab title when it is your turn
 	if (playerId === currentPlayerTurn) {
@@ -105,6 +126,7 @@ var BUILD_MODE = {
 }
 var currentMode = BUILD_MODE.NONE;
 
+// Enter build settlement mode.
 function enterSettlementMode() {
 	exitBuildMode();
 	currentMode = BUILD_MODE.SETTLEMENT;
@@ -120,6 +142,7 @@ function enterSettlementMode() {
 	highlightSettlements();
 }
 
+// Exit build settlement mode
 function exitSettlementMode() {
 	currentMode = BUILD_MODE.NONE;
 
@@ -134,6 +157,7 @@ function exitSettlementMode() {
 	unHighlightSettlements();
 }
 
+// Highlight all intersections that a settlement can be built on.
 function highlightSettlements() {
 	for (var i = 0; i < board.intersections.length; i++) {
 		if (board.intersections[i].canBuildSettlement) {
@@ -142,6 +166,7 @@ function highlightSettlements() {
 	}
 }
 
+// Unhighlight all highlighted intersections.
 function unHighlightSettlements() {
 	for (var i = 0; i < board.intersections.length; i++) {
 		if (board.intersections[i].highlighted) {
@@ -150,6 +175,7 @@ function unHighlightSettlements() {
 	}
 }
 
+// Enter build city mode.
 function enterCityMode() {
 	exitBuildMode();
 	currentMode = BUILD_MODE.CITY;
@@ -170,6 +196,7 @@ function enterCityMode() {
 	}
 }
 
+// Exit build city mode.
 function exitCityMode() {
 	currentMode = BUILD_MODE.NONE;
 
@@ -190,6 +217,7 @@ function exitCityMode() {
 	}
 }
 
+// Highlight all paths that roads can be built on.
 function highlightRoads() {
 	for (var i = 0; i < board.paths.length; i++) {
 		if (board.paths[i].canBuildRoad) {
@@ -198,6 +226,7 @@ function highlightRoads() {
 	}
 }
 
+// Unhighlight all highlighted paths.
 function unHighlightRoads() {
 	for (var i = 0; i < board.paths.length; i++) {
 		if (board.paths[i].highlighted) {
@@ -206,6 +235,7 @@ function unHighlightRoads() {
 	}
 }
 
+// Enter build road mode.
 function enterRoadMode() {
 	exitBuildMode();
 	currentMode = BUILD_MODE.ROAD;
@@ -221,6 +251,7 @@ function enterRoadMode() {
 	highlightRoads();
 }
 
+// Exit build road mode.
 function exitRoadMode() {
 	currentMode = BUILD_MODE.NONE;
 
@@ -235,6 +266,7 @@ function exitRoadMode() {
 	unHighlightRoads();
 }
 
+// Exit the current build mode.
 function exitBuildMode() {
 	switch (currentMode) {
 		case BUILD_MODE.SETTLEMENT:
@@ -251,10 +283,12 @@ function exitBuildMode() {
 	}
 }
 
+// Set enter build mode handlers.
 $("#settlement-build-btn").click(enterSettlementMode);
 $("#city-build-btn").click(enterCityMode);
 $("#road-build-btn").click(enterRoadMode);
 
+// Exit build mode on the following actions
 $("#players-tab-toggle").click(exitBuildMode);
 $("#trade-tab-toggle").click(exitBuildMode);
 $("#end-turn-btn").click(exitBuildMode);
@@ -270,6 +304,7 @@ $("#dev-card-buy-btn").click(sendBuyDevCardAction);
 // Monopoly Modal 
 //////////////////////////////////////////
 
+// Open the play monopoly modal.
 function openMonopolyModal() {
 	var selectedMonopolyResource = null;
 	var selectedElement;
@@ -314,6 +349,7 @@ function openMonopolyModal() {
 	$("#monopoly-modal").modal("show");
 }
 
+// When the monopoly card button is clicked, display modal only if player has a monopoly card/
 $("#monopoly-btn").click(function(event) {
 	// Check that player had a monopoly card to play
 	if (playersById[playerId].hand.monopoly <= 0) {
@@ -328,6 +364,7 @@ $("#monopoly-btn").click(function(event) {
 // Year of Plenty Modal
 //////////////////////////////////////////
 
+// Calculate the currently input resources.
 function calcYearOfPlentyResources() {
 	var inputs = $(".yop-number");
 	var num = 0;
@@ -340,6 +377,7 @@ function calcYearOfPlentyResources() {
 	return num;
 }
 
+// When a number is input for year of plenty, change displayed values and possible cap input number.
 $(".yop-number").change(function(event) {
 	var oldVal = $(this).data("oldVal");
 	var newVal = parseFloat(formatNumber(parseFloat($(this).val())));
@@ -364,7 +402,7 @@ $(".yop-number").change(function(event) {
 	}
 });
 
-
+// When year of plenty confirm button is clicked, check current selected resources and send request.
 $("#play-yop-btn").click(function(event) {
 	var resourcesSelected = calcYearOfPlentyResources();
 	if (resourcesSelected === 2) {
@@ -385,6 +423,7 @@ $("#play-yop-btn").click(function(event) {
 	}
 });
 
+// When year of plenty card button is clicked, show year of plenty modal only if card is in hand.
 $("#year-of-plenty-btn").click(function(event) {
 	// Check that player actually year of plenty card to play
 	if (playersById[playerId].hand.yearOfPlenty <= 0) {
@@ -395,6 +434,7 @@ $("#year-of-plenty-btn").click(function(event) {
 	$("#year-of-plenty-modal").modal("show");
 });
 
+// When year of plenty modal is hidden, reset number inputs
 $("#year-of-plenty-modal").on("hide.bs.modal", function() {
 	$(".yop-number").val("");
 });
@@ -403,6 +443,7 @@ $("#year-of-plenty-modal").on("hide.bs.modal", function() {
 // Discard Modal
 //////////////////////////////////////////
 
+// Calculate the current number of discarded cards in the input fields.
 function calcNumDiscards() {
 	var inputs = $(".discard-number");
 	var num = 0;
@@ -415,7 +456,11 @@ function calcNumDiscards() {
 	return -num;
 }
 
-function enterDiscardModal(numToDiscard) {
+/*
+ * Enter the discard modal, setting up click handlers.
+ * @param numToDiscard - the number of cards to discard
+ */
+ function enterDiscardModal(numToDiscard) {
 	$("#discard-modal").modal("show");
 	$("#num-resources-to-discard").text(numToDiscard);
 	$("#discard-btn").prop("disabled", true);
@@ -506,6 +551,7 @@ function enterDiscardModal(numToDiscard) {
 	});
 }
 
+// When discard modal is hidden, reset number inputs.
 $("#discard-modal").on("hide.bs.modal", function() {
 	$(".discard-number").val("");
 });
@@ -514,6 +560,7 @@ $("#discard-modal").on("hide.bs.modal", function() {
 // Moving the Robber
 //////////////////////////////////////////
 
+// Highlight all tiles on board that robber could be moved to.
 function highlightRobbableTiles() {
 	for (var i = 0; i < board.tiles.length; i++) {
 		if (board.tiles[i].isRobbable) {
@@ -522,6 +569,7 @@ function highlightRobbableTiles() {
 	}
 }
 
+// Exit place robber mode, unhighlighting all highlighted tiles.
 function exitPlaceRobberMode() {
 	for (var i = 0; i < board.tiles.length; i++) {
 		if (board.tiles[i].highlighted) {
@@ -543,11 +591,17 @@ $("#knight-btn").click(sendPlayKnightAction);
 var inPlaceRoadMode = false;
 var buttonState = {};
 
+/*
+ * Disables a button and saves its old state.
+ * @param id - the id of the button to disable and save state
+ * @param stateMap - the current state of the buttons
+ */
 function saveAndDisable(id, stateMap) {
 	stateMap[id] = $(id).prop("disabled");
 	$(id).prop("disabled", true);
 }
 
+// When entering place road mode, save state of all build buttons.
 function enterPlaceRoadMode() {
 	inPlaceRoadMode = true;
 	highlightRoads();
@@ -566,11 +620,17 @@ function enterPlaceRoadMode() {
 	saveAndDisable("#road-building-btn", buttonState);
 }
 
+/*
+ * Restores the state of a button.
+ * @param id - the id of the button whose state to restore
+ * @param stateMap - the old state of the buttons
+ */
 function restoreState(id, stateMap) {
 	var oldState = stateMap[id];
 	$(id).prop("disabled", oldState);
 }
 
+// When exiting place road mode, restore state of all build buttons.
 function exitPlaceRoadMode() {
 	restoreState("#settlement-build-btn", buttonState);
 	restoreState("#city-build-btn", buttonState);
@@ -596,11 +656,13 @@ $("#road-building-btn").click(sendPlayRoadBuildingAction);
 
 var inPlaceSettlementMode = false;
 
+// When place settlement mode is entered, highlight all available intersections.
 function enterPlaceSettlementMode() {
 	inPlaceSettlementMode = true;
 	highlightSettlements();
 }
 
+// When place settlement mode is exited, unhighlight all intersections.
 function exitPlaceSettlementMode() {
 	inPlaceSettlementMode = false;
 	unHighlightSettlements();
@@ -610,6 +672,10 @@ function exitPlaceSettlementMode() {
 // Take Card Modal
 //////////////////////////////////////////
 
+/*
+ * Create and enter the take card modal.
+ * @param playerIds - the ids of all players who you can take a card from
+ */
 function enterTakeCardModal(playerIds) {
 	var toStealFrom = null;
 
@@ -650,6 +716,7 @@ var selectedToGiveResource  = null;
 var selectedToGetElement = null;
 var selectedToGetResource  = null;
 
+// Handle a to give circle being clicked
 $(".to-give-circle-container").click(function(event) {
 	var element = $(this);
 
@@ -671,6 +738,7 @@ $(".to-give-circle-container").click(function(event) {
 	}
 });
 
+// Handle a to get circle being clicked
 $(".to-get-circle-container").click(function(event) {
 	var element = $(this);
 
@@ -692,6 +760,7 @@ $(".to-get-circle-container").click(function(event) {
 	}
 });
 
+// When the bank trade amount is changed, update the displayed amount to give
 $("#bank-trade-amount-input").change(function(event) {
 	var amount = parseFloat(formatNumber(parseFloat($("#bank-trade-amount-input").val())));
 	$("#bank-trade-amount-input").val(amount);
@@ -701,6 +770,7 @@ $("#bank-trade-amount-input").change(function(event) {
 	}
 });
 
+// When the bank trade button is clicked, initiate a trade if all fields have been set
 $("#bank-trade-btn").click(function(event) {
 	var amount = parseFloat($("#bank-trade-amount-input").val());
 
@@ -724,6 +794,10 @@ $("#bank-trade-btn").click(function(event) {
 // Start Game Dialog
 //////////////////////////////////////////
 
+/*
+ * Creates and displays the game start modal.
+ * @param content - the game start data
+ */
 function showStartGameDialogue(content) {
 	var turnOrder = content.data.turnOrder;
 	var isFirst = content.data.isFirst;
@@ -761,18 +835,22 @@ function showStartGameDialogue(content) {
 
 $("#roll-dice-btn").click(sendRollDiceAction);
 
+// Displays the roll dice modal.
 function showRollDiceModal() {
 	$("#roll-dice-modal").modal("show");
 }
 
+// When the knight option is clicked, send a request to play a knight
 $("#knight-dice-play-knight-btn").click(function(event) {
 	sendKnightOrDiceAction(true);
 });
 
+// When the roll dice button is clicked, send a request to roll the dice
 $("#knight-dice-roll-dice-btn").click(function(event) {
 	sendKnightOrDiceAction(false);
 });
 
+// Display the knight or dice modal.
 function showKnightOrDiceModal() {
 	$("#knight-or-dice-modal").modal("show");
 }
@@ -783,6 +861,10 @@ function showKnightOrDiceModal() {
 
 var timeoutInterval;
 
+/*
+ * Create and display the disconnected users modal.
+ * @param disconnectData - data about the users that have disconnected
+ */
 function showDisconnectedUsersModal(disconnectData) {
 	clearInterval(timeoutInterval);
 	timeoutInterval = setInterval(function() {
@@ -796,6 +878,7 @@ function showDisconnectedUsersModal(disconnectData) {
 	$("#disconnected-user-modal").modal("show");
 }
 
+// Hide the disconnected users modal
 function hideDisconnectedUsersModal() {
 	clearInterval(timeoutInterval);
 	$("#disconnected-user-modal").modal("hide");
@@ -807,6 +890,7 @@ function hideDisconnectedUsersModal() {
 
 var currentTrade = {brick: 0, wood: 0, ore: 0, wheat: 0, sheep: 0};
 
+// Clear the current interplayer trade
 function clearInterplayerTrades() {
 	// Clear currently displayed trade
 	$(".interplayer-trade-input").val("");
@@ -820,7 +904,11 @@ function clearInterplayerTrades() {
 	$("#propose-interplayer-trade-btn").prop("disabled", true);
 }
 
-function canTrade() {
+/*
+ * Determine whether an interplayer trade can be proposed.
+ * @return whether an interplayer trade can be proposed
+ */
+ function canTrade() {
 	var toGive = false;
 	var toGet = false;
 
@@ -835,6 +923,12 @@ function canTrade() {
 	return (toGive && toGet);
 }
 
+/*
+ * Updates the to give and to get panels for a certain resource.
+ * @param resource - the resource to update
+ * @param oldVal - the old value of this resource
+ * @param newVal - the new value of this resourcce
+ */
 function updateToGiveGetPanels(resource, newVal, oldVal) {
 	if (oldVal !== undefined && oldVal !== 0) {
 		// Find old value container
@@ -856,6 +950,7 @@ function updateToGiveGetPanels(resource, newVal, oldVal) {
 	}
 }
 
+// Handle updates to the amount of a resource to trade.
 $(".interplayer-trade-input").change(function(event) {
 	var resource = $(this).attr("res");
 	var playerHand = playersById[playerId].hand;
@@ -889,12 +984,17 @@ $(".interplayer-trade-input").change(function(event) {
 	}
 });
 
+// When the propose trade button is clicked send a propose trade action.
 $("#propose-interplayer-trade-btn").click(function(event) {
 	sendProposeTradeAction(currentTrade);
 	clearInterplayerTrades();
 });
 
-function handleReviewTradeAction(closeModal) {
+/*
+ * Handle a review trade action response.
+ * @param closeModal - whether to close the trade responses modal or not
+ */
+ function handleReviewTradeAction(closeModal) {
 	if (closeModal) {
 		$("#trade-responses-modal").modal("hide");
 	}
@@ -904,9 +1004,12 @@ function handleReviewTradeAction(closeModal) {
 // Review Trade Modal
 //////////////////////////////////////////
 
+/*
+ * Open the review trade modal.
+ * @param tradeData - data about the current trade
+ */
 function showReviewTradeModal(tradeData) {
 	var resources = tradeData._resources;
-
 
 	// Clear previously shown resources
 	$("#review-to-give-container [res]").addClass("hidden");
@@ -928,6 +1031,7 @@ function showReviewTradeModal(tradeData) {
 	$("#review-trade-modal").modal("show");
 }
 
+// Exit the review trade modal
 function exitReviewTradeModal() {
 	$("#review-trade-modal").modal("hide");
 }
@@ -944,6 +1048,10 @@ $("#review-trade-reject-btn").click(function(event) {
 // Trade Response Modal
 //////////////////////////////////////////
 
+/*
+ * Open the trade responses modal.
+ * @param tradeData - data about the current trade and who has accepted or declined
+ */
 function showTradeResponseModal(tradeData) {
 	var resources = tradeData._resources;
 	var accepted = tradeData._acceptedTrade;
@@ -1002,6 +1110,7 @@ function showTradeResponseModal(tradeData) {
 	$("#trade-responses-modal").modal("show");
 }
 
+// When the trade response cancel button is clicked, send trade response action to notify other players
 $("#trade-responses-cancel-trade-btn").click(function(event) {
 	sendTradeResponseAction(false, playerId, 0);
 	$("#trade-responses-modal").modal("hide");
@@ -1011,6 +1120,10 @@ $("#trade-responses-cancel-trade-btn").click(function(event) {
 // Winner Modal
 //////////////////////////////////////////
 
+/*
+ * Show the game won modal.
+ * @param winnerId - the id of the winning player
+ */
 function showWinnerModal(winnerId) {
 	var winner = playersById[winnerId];
 
@@ -1033,6 +1146,7 @@ $("#return-home-btn").click(deleteAllCookiesAndGoHome);
 var currSeqPlace = 0;
 var updateResourceSeq = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
 
+// When a key is pressed, progress through update resources sequence
 $(document).keydown(function(event) {
 	var key = (event.keyCode ? event.keyCode : event.which);
 	if (key === updateResourceSeq[currSeqPlace]) {
@@ -1050,6 +1164,10 @@ $(document).keydown(function(event) {
 // Decimal Trade Rates
 //////////////////////////////////////////
 
+/*
+ * Set input buttons to only allow decimals based on the isDecimal option.
+ * @param isDecimal - whether the isDecimal option is set
+ */
 function setDecimalTradeRates(isDecimal) {
 	if (isDecimal) {
 		$("input[type=number]").attr("step", 0.01);
@@ -1062,6 +1180,7 @@ function setDecimalTradeRates(isDecimal) {
 // Game Stats Page
 //////////////////////////////////////////
 
+// Create and show the roll distribution modal.
 $("#show-stats-btn").click(function(event) {
 	var rolls = gameStats.rolls;
 	var data = {
@@ -1083,6 +1202,7 @@ $("#show-stats-btn").click(function(event) {
 
 var muted = false;
 
+// Create and fill the extras tab
 function buildExtrasTab() {
 	$("#game-settings-container").empty();
 	$("#game-settings-container").append("<p><strong>Victory Points: </strong>" + gameSettings.winningPointCount + "</p>"
@@ -1094,10 +1214,15 @@ function buildExtrasTab() {
 	$("#game-stats-container").append("<p><strong>Turn: </strong>" + gameStats.turn + "</p>");
 }
 
+/*
+ * Adds a message to message history.
+ * @param message - the message to add to message history
+ */
 function addToMessageHistory(message) {
 	$("#message-history-list").prepend("<li class='list-group-item'>" + message + "</li>");
 }
 
+// Handle the mute button being clicked.
 $("#mute-btn").click(function() {
 	muted = !($(this).hasClass("active"));
 });
