@@ -116,28 +116,28 @@ canBuyDevCard: true/false}
 Actions are the only way to change the game state. They are all called by using the CatanAPI's performAction method. Both Actions and FollowUpActions are performed using this function. Currently, the API supports the follow Actions and FollowUpActions:
 
 #### Actions: Can be sent on a players turn, as long as there are no pending FollowUpActions that must be performed first. 
-buildRoad
-buildSettlement
-buildCity
-buyDevCard
-playMonopoly
-playKnight
-playYearOfPlenty
-playRoadBuilding
-tradeWithBank
-proposeTrade (used for interplayer trading)
-startGame (called when the game should be started)
-endTurn
+* buildRoad
+* buildSettlement
+* buildCity
+* buyDevCard
+* playMonopoly
+* playKnight
+* playYearOfPlenty
+* playRoadBuilding
+* tradeWithBank
+* proposeTrade (used for interplayer trading)
+* startGame (called when the game should be started)
+* endTurn
 
 
 #### FollowUpActions: Can only be sent when the API is currently waiting of this FollowUpAction:
-moveRobber
-takeCard
-dropCards
-rollDice
-knightOrDice (sent when a player must choose between a Knight or Dice)
-reviewTrade (used to accept or decline a propsed trade)
-tradeResponse (used to finalize a trade)
+* moveRobber
+* takeCard
+* dropCards
+* rollDice
+* knightOrDice (sent when a player must choose between a Knight or Dice)
+* reviewTrade (used to accept or decline a propsed trade)
+* tradeResponse (used to finalize a trade)
 
 
 
