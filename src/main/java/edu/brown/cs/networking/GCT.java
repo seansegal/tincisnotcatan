@@ -15,7 +15,11 @@ import com.google.gson.JsonObject;
 
 import spark.Spark;
 
-// Grand Central Terminal - Routes all of the inputs to appropriate groups
+/**
+ * Grand Central Terminal - Routes all of the inputs to appropriate groups
+ *
+ * @author ndemarco
+ */
 public final class GCT {
 
   private final Set<Group>       pending;
@@ -45,21 +49,45 @@ public final class GCT {
     Spark.init();
   }
 
+
+  /**
+   * @return the maximum number of concurrent groups that this GCT supports.
+   */
   public int groupLimit() {
     return GAME_LIMIT;
   }
 
+
+  /**
+   * Get the Group that {@code u} is currently in, else {@code null} if no such
+   * group exists.
+   *
+   * @param u
+   *          the user to query
+   * @return the {@code Group} that {@code u} is in.
+   */
   public Group groupForUser(User u) {
     return userToUserGroup.get(u);
   }
 
 
+  /**
+   * Indicate if the given {@code uuid} represents a user that is presently in
+   * any game held by this GCT.
+   *
+   * @param uuid
+   * @return true if this user is presently in any group in this GCT.
+   */
   public boolean userIDIsValid(String uuid) {
     return pending.stream().anyMatch(grp -> grp.hasUser(uuid))
         || full.stream().anyMatch(grp -> grp.hasUser(uuid));
   }
 
 
+  /**
+   * @return a JsonObject representing the groups that are currently not full,
+   *         and in need of more users.
+   */
   public JsonObject openGroups() {
     refreshGroups();
     Collection<Group> list = new ArrayList<>();
@@ -73,6 +101,11 @@ public final class GCT {
     return toRet;
   }
 
+
+  /**
+   * @return a JsonObject representing the groups that are currently full, and
+   *         not in need of more users.
+   */
   public JsonObject closedGroups() {
     refreshGroups();
     Collection<Group> list = new ArrayList<>();
@@ -105,6 +138,17 @@ public final class GCT {
   }
 
 
+  /**
+   * Attempt to add a user, either to a currently non-full group, or to a new
+   * group if no such group is found by the GroupSelector. If {@code u} is
+   * already in a group, the add message is forwarded to that group, and the
+   * group can handle it accordingly. For example, if a {@code User} was
+   * previously marked as absent, the group can note that the user has returned.
+   *
+   * @param u
+   *          the {@code User} to add.
+   * @return true if the addition succeeded.
+   */
   public boolean add(User u) {
     Group bestFit =
         groupSelector.selectFor(u, Collections.unmodifiableCollection(pending));
@@ -121,6 +165,16 @@ public final class GCT {
   }
 
 
+  /**
+   * Attempt to remove {@code u} from the group in which it is contained. Will
+   * return false silently if {@code u} is not in any known group. Otherwise,
+   * will forward the remove request to the {@code Group} that contains
+   * {@code u}
+   *
+   * @param u
+   *          the {@code User} to remove
+   * @return true if the remove succeeded.
+   */
   public boolean remove(User u) {
     Group group = userToUserGroup.get(u);
     if (group == null) {
@@ -133,6 +187,16 @@ public final class GCT {
   }
 
 
+  /**
+   * Handle a websocket message from {@code u}. Will return false on error,
+   * particularly if {@code u} is not contained in any known Group in this GCT.
+   *
+   * @param u
+   *          the user that sent the message.
+   * @param j
+   *          the JsonObject message
+   * @return boolean indicating the suceess of the message being processed.
+   */
   public boolean message(User u, JsonObject j) {
     Group group = userToUserGroup.get(u);
     if (group == null) {

@@ -178,6 +178,17 @@ The important classes in this package are:
 
     DistinctRandom - A simple helper class that provides a static method getString(), which provides a guaranteed-unique alphanumeric string for user or group identifiers. 
 
+    RequestProcessor - (Interface) The GCT makes no assumptions about the format of messages that the developer intends to receive from the front end. A RequestProcessor allows the end-developer to programmatically define what messages to accept and how to handle said messages. RequestProcessor provides two method signatures : 
+
+    boolean match(JsonObject j) and
+    boolean run(User user, Group g, JsonObject json, API api)
+
+    match() allows the RequestProcessor to indicate if the JsonObject is in such a format that it can be handled. It might check for certain fields, and in turn check if those fields are valid. If match() returns true, then the message sent should be handled by run(...).
+
+    This pattern allows the configuration of the Group to include a collection of RequestProcessors, so each Group, can programmatically define what it's allowed and able to handle. In Catan, the request processors do not vary between instances of Groups (they all handle a game of Catan). But, it's conceivable that as games expand and rules become more complicated, more RequestProcessors with more specific parameters might be needed. Further, while this feature isn't used in Catan as of this writing, it's possible to easily change what RequestProcessors are "active" or listening for messages programmatically, to therefore disable actions not at the API level, but at the Group level. (Say, if a user disconnected).
+
+
+
 
 
 
