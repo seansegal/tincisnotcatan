@@ -150,7 +150,7 @@ In 3), either the end user has attempted to maliciously fake a USER\_ID for one 
 
 The important classes in this package are:
 
-GCT - (Grand Central Terminal) The top-level Group manager directly instantiated by the end-developer. Using the Builder pattern, the GCT can be configured with: 
+`GCT` - (Grand Central Terminal) The top-level Group manager directly instantiated by the end-developer. Using the Builder pattern, the GCT can be configured with: 
     
 ``` java
     new GCTBuilder("/action") // the websocket route to enable with Spark
@@ -161,19 +161,19 @@ GCT - (Grand Central Terminal) The top-level Group manager directly instantiated
         .build();
 ```
 
-The GCT provides management of all of the Groups that are active at a given time. 
+The `GCT` provides management of all of the `Group`s that are active at the current time. 
     
-`User` - a representation of a single end-user, not to be confused with a Session.
+`User` - a representation of a single end-user, not to be confused with a `Session`.
     
-`Group` - (Interface) A collection of Users that generally have the permission to send messages that affect other Users in the group (Conceptually, people in the same game). A Group must be able to say if it isFull(), or isEmpty() (among other things). A valid implementation of a Group could be a group that is never full, and is the sole Group for the whole server, where all Users end up. In Catan, Groups represent single instances of a game of Catan.
+`Group` - (Interface) A collection of `User`s that generally have the permission to send messages that affect other `User`s in the `Group` (Conceptually, people in the same game). A `Group` must be able to say if it `isFull()`, or `isEmpty()` (among other things). A valid implementation of a `Group` could be a group that is never full, and is the sole `Group` for the whole server, where all Users end up. In Catan, `Group`s represent single instances of a game of Catan.
 
-`UserGroup` - A concrete implementation of a Group that provides a builder pattern for modular construction by the end-developer. The role of the GroupSelector (below) is to either choose the most appropriate currently-open group, or create a new group that fits the User or developer's specifications. UserGroup allows a great deal of customization and field access to tailor the Group to the specific needs of the game or web app.
+`UserGroup` - A concrete implementation of a `Group` that provides a builder pattern for modular construction by the end-developer. The role of the `GroupSelector` (below) is to either choose the most appropriate currently-open group, or create a new group that fits the User or developer's specifications. `UserGroup` allows a great deal of customization and field access to tailor the `Group` to the specific needs of the game or web app.
 
-`GroupSelector` - (Interface) Used to choose the ideal Group (selected from a list of non-full Groups that have at least one User in them in the GCT). The GroupSelector can access any field of the Groups in making this determination, including the consideration of unique identifiers that may have been requested by the end user. (In the case of joining an existing game). The GroupSelector's sole method, selectFor(User u, Collection<Group> c), is intended to find the best Group in c that u should be placed in.
+`GroupSelector` - (Interface) Used to choose the ideal `Group` (selected from a list of non-full `Group`s that have at least one `User` in them in the `GCT`). The `GroupSelector` can access any field of the `Group`s in making this determination, including the consideration of unique identifiers that may have been requested by the end user. (In the case of joining an existing game). The `GroupSelector`'s sole method, `selectFor(User u, Collection<Group> c)`, is intended to find the best `Group` in `c` that `u` should be placed in.
 
-`DistinctRandom` - A simple helper class that provides a static method getString(), which provides a guaranteed-unique alphanumeric string for user or group identifiers. 
+`DistinctRandom` - A simple helper class that provides a static method `getString()`, which provides a guaranteed-unique alphanumeric string for user or group identifiers. 
 
-`RequestProcessor` - (Interface) The GCT makes no assumptions about the format of messages that the developer intends to receive from the front end. A RequestProcessor allows the end-developer to programmatically define what messages to accept and how to handle said messages. RequestProcessor provides two method signatures : 
+`RequestProcessor` - (Interface) The `GCT` makes no assumptions about the format of messages that the developer intends to receive from the front end. A `RequestProcessor` allows the end-developer to programmatically define what messages to accept and how to handle said messages. `RequestProcessor` provides two method signatures : 
 ``` java
 boolean match(JsonObject j) and
 boolean run(User user, Group g, JsonObject json, API api)
