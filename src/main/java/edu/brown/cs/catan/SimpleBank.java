@@ -2,23 +2,33 @@ package edu.brown.cs.catan;
 
 import java.util.Map;
 
+/**
+ * A simple bank implementation used in the regular/classic game of catan. Rates
+ * are simply determined by a constant.
+ *
+ */
 public class SimpleBank implements Bank {
 
   Map<Resource, Double> _supply;
 
-  public SimpleBank() {}
+  public SimpleBank() {
+  }
 
   @Override
-  public void getResource(Resource resource) {}
+  public void getResource(Resource resource) {
+  }
 
   @Override
-  public void discardResource(Resource resource) {}
+  public void discardResource(Resource resource) {
+  }
 
   @Override
-  public void getResource(Resource resource, double count) {}
+  public void getResource(Resource resource, double count) {
+  }
 
   @Override
-  public void discardResource(Resource resource, double count) {}
+  public void discardResource(Resource resource, double count) {
+  }
 
   @Override
   public double getBankRate(Resource res) {

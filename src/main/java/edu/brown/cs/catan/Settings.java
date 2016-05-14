@@ -4,6 +4,10 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
+/**
+ * Constants for Settings that are used across all instances of a game.
+ *
+ */
 public abstract class Settings {
 
   // Number of pieces each player begins the game with:
@@ -49,7 +53,8 @@ public abstract class Settings {
       .put(Resource.WILDCARD, 3.0).build();
 
   // Port Resource Order
-  public final static Resource[] PORT_ORDER = { Resource.WILDCARD, Resource.SHEEP, Resource.WILDCARD, Resource.WHEAT, Resource.BRICK,
+  public final static Resource[] PORT_ORDER = { Resource.WILDCARD,
+      Resource.SHEEP, Resource.WILDCARD, Resource.WHEAT, Resource.BRICK,
       Resource.WILDCARD, Resource.ORE, Resource.WILDCARD, Resource.WOOD };
 
   // Development Card Deck:
