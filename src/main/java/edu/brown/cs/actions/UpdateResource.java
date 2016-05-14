@@ -9,6 +9,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Action responsible for cheating.
+ *
+ * @author anselvahle
+ *
+ */
 public class UpdateResource implements Action {
   public static final String ID = "updateResource";
   private Player _player;

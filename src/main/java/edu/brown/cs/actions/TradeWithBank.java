@@ -12,6 +12,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Action responsible for trading with the bank.
+ *
+ * @author anselvahle
+ *
+ */
 public class TradeWithBank implements Action {
 
   public static final String ID = "tradeWithBank";

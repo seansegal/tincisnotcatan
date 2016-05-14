@@ -12,6 +12,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Action responsible for playing a monopoly card.
+ * 
+ * @author anselvahle
+ *
+ */
 public class PlayMonopoly implements Action {
   public static final String ID = "playMonopoly";
   private Referee _ref;

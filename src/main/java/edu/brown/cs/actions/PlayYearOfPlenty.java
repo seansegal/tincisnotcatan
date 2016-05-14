@@ -15,6 +15,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Action responsible for playing year of plenty
+ * 
+ * @author anselvahle
+ *
+ */
 public class PlayYearOfPlenty implements Action {
   private final Referee _ref;
   private final Player _player;

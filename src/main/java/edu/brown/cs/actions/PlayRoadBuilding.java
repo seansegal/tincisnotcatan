@@ -11,6 +11,12 @@ import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
+/**
+ * Action responsible for playing roadBuilding card
+ * 
+ * @author anselvahle
+ *
+ */
 public class PlayRoadBuilding implements Action {
 
   public static final String ID = "playRoadBuilding";

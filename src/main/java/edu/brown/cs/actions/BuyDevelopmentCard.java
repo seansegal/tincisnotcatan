@@ -9,6 +9,12 @@ import edu.brown.cs.catan.DevelopmentCard;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 
+/**
+ * Action responsible for buying a development card.
+ *
+ * @author anselvahle
+ *
+ */
 public class BuyDevelopmentCard implements Action {
 
   public static final String ID = "buyDevCard";

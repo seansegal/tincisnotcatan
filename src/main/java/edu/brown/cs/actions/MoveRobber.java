@@ -15,6 +15,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Action Responsible for moving the robber.
+ * 
+ * @author anselvahle
+ *
+ */
 public class MoveRobber implements FollowUpAction {
 
   private boolean _isSetup;

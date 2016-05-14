@@ -11,6 +11,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Action responsible fro discarding cards.
+ * 
+ * @author anselvahle
+ *
+ */
 public class DropCards implements FollowUpAction {
 
   private boolean _isSetup;

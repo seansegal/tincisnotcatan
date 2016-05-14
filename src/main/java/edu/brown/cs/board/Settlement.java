@@ -6,9 +6,21 @@ import java.util.Map;
 import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Settlement implentation of the Building interface.
+ *
+ * @author anselvahle
+ *
+ */
 public class Settlement implements Building {
   private Player _player;
 
+  /**
+   * Constructor for the class.
+   * 
+   * @param player
+   *          Player who built this settlement.
+   */
   public Settlement(Player player) {
     _player = player;
   }

@@ -11,6 +11,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Referee.GameStatus;
 
+/**
+ * Action responsible for building a settlement during game play.
+ * 
+ * @author anselvahle
+ *
+ */
 public class BuildSettlement implements Action {
 
   public static final String ID = "buildSettlement";

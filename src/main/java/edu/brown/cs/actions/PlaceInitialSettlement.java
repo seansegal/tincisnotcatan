@@ -16,6 +16,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Action responsible for placing the settlements during game setup.
+ * 
+ * @author anselvahle
+ *
+ */
 public class PlaceInitialSettlement implements FollowUpAction {
 
   private static final String ID = "placeSettlement";

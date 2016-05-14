@@ -16,6 +16,12 @@ import edu.brown.cs.catan.Player;
 import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Action responsible for taking a card from someone.
+ * 
+ * @author anselvahle
+ *
+ */
 public class TakeCardAction implements Action, FollowUpAction {
 
   public final static String ID = "takeCard";
@@ -43,7 +49,6 @@ public class TakeCardAction implements Action, FollowUpAction {
           "A FollowUpAction must be setup before it is executed.");
     }
     if (!_toTake.contains(_playerToTake)) {
-      System.out.println("HERE with toTake: " + _toTake + " and playerToTake:" + _playerToTake);
       return ImmutableMap
           .of(_playerID,
               new ActionResponse(

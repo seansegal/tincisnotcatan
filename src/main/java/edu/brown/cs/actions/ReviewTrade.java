@@ -12,6 +12,12 @@ import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 import edu.brown.cs.catan.Trade;
 
+/**
+ * Action responsible for reviewing a trade.
+ *
+ * @author anselvahle
+ *
+ */
 public class ReviewTrade implements FollowUpAction {
   private Player _player;
   private final int _playerID;

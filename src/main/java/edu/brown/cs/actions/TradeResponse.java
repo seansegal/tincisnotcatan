@@ -12,6 +12,12 @@ import edu.brown.cs.catan.Referee;
 import edu.brown.cs.catan.Resource;
 import edu.brown.cs.catan.Trade;
 
+/**
+ * Action responsible for responding to a trade.
+ * 
+ * @author anselvahle
+ *
+ */
 public class TradeResponse implements FollowUpAction {
 
   private Player _player;

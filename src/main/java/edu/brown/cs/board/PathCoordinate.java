@@ -1,19 +1,44 @@
 package edu.brown.cs.board;
 
+/**
+ * System for maintaing and describing location of paths on the board.
+ *
+ * @author anselvahle
+ *
+ */
 public class PathCoordinate {
   private final IntersectionCoordinate _startCoord;
   private final IntersectionCoordinate _endCoord;
 
+  /**
+   * Constructor for the class.
+   *
+   * @param startCoord
+   *          Coordinate of the intersection where a path ends.
+   * @param endCoord
+   *          Coordiante of the intersection where a path ends.
+   */
   public PathCoordinate(IntersectionCoordinate startCoord,
       IntersectionCoordinate endCoord) {
     _startCoord = startCoord;
     _endCoord = endCoord;
   }
 
+  /**
+   * Gets the coordinate of the intersection where the path begins.
+   *
+   * @return Intersection coordinate of the intersection at the beginning of the
+   *         path.
+   */
   public IntersectionCoordinate get_startCoord() {
     return _startCoord;
   }
 
+  /**
+   * Gets the coordinate of the intersection where the path ends.
+   *
+   * @return Intersection coordinate of the intersection at the end of the path.
+   */
   public IntersectionCoordinate get_endCoord() {
     return _endCoord;
   }
