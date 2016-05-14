@@ -14,6 +14,12 @@ import com.google.common.collect.ImmutableSet;
 
 import edu.brown.cs.catan.Resource;
 
+/**
+ * Generic Tile implementation of the BoardTile interface.
+ *
+ * @author anselvahle
+ *
+ */
 public class Tile implements BoardTile {
   private final Collection<Intersection> _intersections;
   private final int _rollNum;
@@ -23,6 +29,20 @@ public class Tile implements BoardTile {
   private List<IntersectionCoordinate> _portLocations;
   private Resource _portType;
 
+  /**
+   * Constructor for the class.
+   *
+   * @param rollNum
+   *          Number that will trigger this tile.
+   * @param coordinate
+   *          Location of the tile on the board.
+   * @param intersections
+   *          Map of the intersections on the board.
+   * @param paths
+   *          Map of the paths on the board.
+   * @param type
+   *          The type of resource associated with this tile.
+   */
   public Tile(int rollNum, HexCoordinate coordinate,
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, TileType type) {
@@ -35,6 +55,22 @@ public class Tile implements BoardTile {
     fillEdges(intersections, paths);
   }
 
+  /**
+   * Constructor for the class.
+   *
+   * @param rollNum
+   *          Number that will trigger this tile.
+   * @param coordinate
+   *          Location of the tile on the board.
+   * @param intersections
+   *          Map of the intersections on the board.
+   * @param paths
+   *          Map of the paths on the board.
+   * @param type
+   *          The type of resource associated with this tile.
+   * @param hasRobber
+   *          Boolean stating whether or not the robber is on this tile.
+   */
   public Tile(int rollNum, HexCoordinate coordinate,
       Map<IntersectionCoordinate, Intersection> intersections,
       Map<PathCoordinate, Path> paths, TileType type, boolean hasRobber) {
@@ -47,6 +83,16 @@ public class Tile implements BoardTile {
     fillEdges(intersections, paths);
   }
 
+  /**
+   * Constructor for the class (Seat tile specific).
+   *
+   * @param coordinate
+   *          Location of the tile on the board.
+   * @param type
+   *          The tile type associated with this tile.
+   * @param intersections
+   *          Map of the intersections on the board.
+   */
   public Tile(HexCoordinate coordinate, TileType type,
       Map<IntersectionCoordinate, Intersection> intersections) {
     _type = type;
@@ -58,6 +104,13 @@ public class Tile implements BoardTile {
     fillSeaTile(intersections);
   }
 
+  /**
+   * Determines where the intersections on Sea Tiles are and which two will be
+   * the port locations.
+   *
+   * @param intersections
+   *          Map of the intersections on the board.
+   */
   private void fillSeaTile(Map<IntersectionCoordinate, Intersection> intersections) {
     PriorityQueue<IntersectionCoordinate> closestIntersections =
         new PriorityQueue<>(6, new IntersectionComparator());
@@ -98,6 +151,13 @@ public class Tile implements BoardTile {
     _intersections.add(intersections.get(toAdd));
   }
 
+  /**
+   * Private class made to compare the distance of intersections from the center
+   * of the board.
+   * 
+   * @author anselvahle
+   *
+   */
   private static class IntersectionComparator implements
       Comparator<IntersectionCoordinate> {
 
@@ -112,6 +172,7 @@ public class Tile implements BoardTile {
           Math.pow(o2X, 2) + Math.pow(o2Y, 2));
     }
 
+    // Averages the hex coordinates for the x position.
     private double averagePositionX(IntersectionCoordinate coord) {
       double x1 = coord.getCoord1().cartesianX();
       double x2 = coord.getCoord2().cartesianX();
@@ -119,6 +180,7 @@ public class Tile implements BoardTile {
       return (x1 + x2 + x3) / 3.0;
     }
 
+    // Averages the hex coordinates for the y position.
     private double averagePositionY(IntersectionCoordinate coord) {
       double y1 = coord.getCoord1().cartesianY();
       double y2 = coord.getCoord2().cartesianY();
@@ -128,6 +190,8 @@ public class Tile implements BoardTile {
 
   }
 
+  // Fills the edges of a tile using the relative positions of the nearby tiles.
+  // First by using a cache and then by creation.
   private void fillEdges(
       Map<IntersectionCoordinate, Intersection> intersections, Map<PathCoordinate, Path> paths) {
     HexCoordinate upLeftTile = new HexCoordinate(_coordinate.getX(),
@@ -172,6 +236,8 @@ public class Tile implements BoardTile {
 
   }
 
+  // Fills the intersections of the tile, first by using a cache and then by
+  // creation.
   private void fillIntersections(
       Map<IntersectionCoordinate, Intersection> intersections,
       IntersectionCoordinate coord) {
@@ -184,6 +250,7 @@ public class Tile implements BoardTile {
     }
   }
 
+  // Fills the paths using the cache and then creation
   private void fillPaths(Intersection start, Intersection end,
       Map<PathCoordinate, Path> paths) {
     PathCoordinate path = new PathCoordinate(start.getPosition(), end.getPosition());
@@ -197,6 +264,12 @@ public class Tile implements BoardTile {
     return _type;
   }
 
+  /**
+   * Tells the intersections when to collect resources.
+   *
+   * @return A map of the player id to a map of resources that they collected
+   *         and how many of them.
+   */
   public Map<Integer, Map<Resource, Integer>> notifyIntersections() {
     Map<Integer, Map<Resource, Integer>> playerResourceCount = new HashMap<Integer, Map<Resource, Integer>>();
     assert (_type.getType() != null);
@@ -223,6 +296,12 @@ public class Tile implements BoardTile {
     return playerResourceCount;
   }
 
+  /**
+   * Sets the port for this tile.
+   *
+   * @param p
+   *          Port to set on this tile.
+   */
   public void setPorts(Port p) {
     assert (_type == TileType.SEA);
     for (Intersection i : _intersections) {
@@ -242,6 +321,11 @@ public class Tile implements BoardTile {
     return _coordinate;
   }
 
+  /**
+   * Getter for the intersections on this tile.
+   *
+   * @return Collection of the intersections on this tile.
+   */
   public Collection<Intersection> getIntersections() {
     return _intersections;
   }
@@ -278,6 +362,12 @@ public class Tile implements BoardTile {
     return _hasRobber;
   }
 
+  /**
+   * Setter for the hasRobber boolean.
+   *
+   * @param _hasRobber
+   *          boolean stating whether or not the robber is on this tile.
+   */
   public void hasRobber(boolean _hasRobber) {
     this._hasRobber = _hasRobber;
   }
