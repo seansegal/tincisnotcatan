@@ -3,18 +3,31 @@ package edu.brown.cs.catan;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An implementation of Bank that offers Dyanmic rates based on Resource supply.
+ * Uses a logit function as to represent the possible distribution of rates.
+ * Rates vary from MIN_RATE to MAX_RATE which are constants that could be
+ * changed. Uses both the expectation of a given Resource in the game and the
+ * relative amount of a given Resource to determine the rate.
+ *
+ *
+ */
 public class DynamicBank implements Bank {
 
   private Map<Resource, Double> _supply;
   private static final double MIN_RATE = 2.0;
   private static final double MAX_RATE = 6.0;
+  private static final double EXPECTATION = 3.0; // The expected number of a
+                                                 // given resource.
 
   public static void main(String[] args) {
     // System.out.println(new DynamicBank().getRateFromProbit(10));
   }
 
+  /**
+   * Creates a Dynamic Bank.
+   */
   public DynamicBank() {
-    System.out.println("DYNAMIC BANK CREATED");
     _supply = new HashMap<>();
     for (Resource resource : Resource.values()) {
       _supply.put(resource, 0.0);
@@ -97,8 +110,7 @@ public class DynamicBank implements Bank {
   }
 
   private double getExpectation(Resource res) {
-    // TODO
-    return 3.0;
+    return EXPECTATION;
   }
 
 }

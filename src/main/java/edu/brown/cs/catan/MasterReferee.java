@@ -20,6 +20,11 @@ import edu.brown.cs.board.Intersection;
 import edu.brown.cs.gamestats.CatanStats;
 import edu.brown.cs.gamestats.GameStats;
 
+/**
+ * An implementation of Referee that can read and write data. There should be one
+ * MasterReferee per game. Contains all Catan game data.
+ *
+ */
 public class MasterReferee implements Referee {
 
   private final Board _board;
@@ -35,8 +40,12 @@ public class MasterReferee implements Referee {
   private final Setup _setup;
   private GameStats _gameStats;
 
+  /**
+   * Creates a MasterReferee. Contains all Catan game data with default game
+   * settings.
+   */
   public MasterReferee() {
-    _gameSettings = new GameSettings(); // TODO default settings
+    _gameSettings = new GameSettings(); // Use default settings.
     _board = new Board(_gameSettings);
     _players = new HashMap<Integer, Player>();
     _turnOrder = initializeTurnOrder(_gameSettings.numPlayers);
@@ -48,12 +57,18 @@ public class MasterReferee implements Referee {
     _gameStats = CatanStats.getGameStatsObject();
   }
 
+  /**
+   * Creates a MasterReferee. Contains all Catan game data with inputted
+   * GameSettings.
+   *
+   * @param gameSettings
+   *          A GameSettings object to use as the gameSettings.
+   */
   public MasterReferee(GameSettings gameSettings) {
-    _gameSettings = gameSettings; // TODO customize
+    _gameSettings = gameSettings;
     _board = new Board(_gameSettings);
     _players = new HashMap<Integer, Player>();
     _turnOrder = initializeTurnOrder(_gameSettings.numPlayers);
-    System.out.println("CALLED WITH boolean: " + _gameSettings.isDynamic);
     _bank = initializeBank(_gameSettings.isDynamic);
     _devCardDeck = initializeDevDeck();
     _turn = new Turn(1, Collections.emptyMap());
@@ -271,8 +286,7 @@ public class MasterReferee implements Referee {
           && i.getBuilding().getPlayer().equals(player)) {
         if (i.getPort().getResource() == Resource.WILDCARD) {
           for (Resource r : Resource.values()) {
-            double rate = Math.min(rates.get(r),
-                _bank.getWildCardRate(r));
+            double rate = Math.min(rates.get(r), _bank.getWildCardRate(r));
             rates.put(r, rate);
           }
         } else {
@@ -518,6 +532,5 @@ public class MasterReferee implements Referee {
     }
 
   }
-
 
 }

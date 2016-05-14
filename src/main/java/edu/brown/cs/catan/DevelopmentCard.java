@@ -1,5 +1,11 @@
 package edu.brown.cs.catan;
 
+/**
+ * Represents a Catan DevelopmentCard. This Enum currently contains the Standard
+ * Development Cards from the original game of Settlers of Catan. New
+ * development cards could be added here in the future.
+ *
+ */
 public enum DevelopmentCard {
 
   KNIGHT("Knight", "a Knight"), YEAR_OF_PLENTY("Year of Plenty",
@@ -15,6 +21,11 @@ public enum DevelopmentCard {
     this.description = description;
   }
 
+  /**
+   * Used for sending messages to Players.
+   *
+   * @return A String in a helpful format for Player messages.
+   */
   public String toFancyString() {
     return this.description;
   }
