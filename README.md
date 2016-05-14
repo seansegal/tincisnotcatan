@@ -3,6 +3,47 @@ An online version of Settlers of Catan with the option to play with Advanced Eco
 
 Visit http://cs032catan.herokuapp.com/ to try out the game!
 
+## End-User Documentation
+
+### Home Screen
+The first thing you will see is a home screen with a single text input for your username. Once a username has been input, you will be brought to a screen where you have the option to create a new game or join an existing game. To join an existing game, simply click the `Join Game` button next to the game that you wish to enter. To create a new game, first enter the name of the game to display to other players, the number of players to allow in the game, the number of victory points to play to, and which advanced economic features to enable.
+
+The decimal resources option enables resource amounts accurate to two decimal places. This allows players to trade fractional resource amounts with each other and the bank.
+
+The dynamic exchange rates option is only available if the decimal resources option is selected. When dynamic exchange rates are enabled, the bank trade rates will vary based off the current resources in players's hands.
+
+### Beginning the Game
+Once a player has created a game or joined an existing game, they are taken to the game board. Once all players have joined, a random turn order is generated and the game begins. As per the official rules, the first player must place a settlement and road, then then the second player, and so on until the last player places their first settlement and road. Then, the last player will place their second settlement and road, then the second to last player, and so on until the first player places their second settlement and road.
+
+### Turn Flow
+Once all players have placed their two initial settlements, the first players turn begins. On a player's turn, the player has the option of building a road, settlement, city, or development card, proposing a trade with other players, trading with the bank, or playing a development card. The player can take as many of these actions as they choose on a single turn, with the restriction that only one development card can be played per turn. When a player is ready to end their turn, they should press the 'End Turn' button to move to the next player's turn.
+
+### Player Tab
+The first tab on the right is the `Player Tab`. This tab displays all player information, including number of victory points, total number of resource and development cards, and number of buildings left. If a player has longest road or largest army, a banner will be displayed in their player tab.
+
+### Build Tab
+The second tab on the right is the `Build Tab`. This tab displays the costs for roads, settlements, cities, and development cards. If the player does not have enough resources to buy a building, the build button will be disabled. When a build button is clicked, the available locations on the board are highlighted. Clicking on one of these highlighted locations will build the appropriate building at that location.
+
+### Trade Tab
+The third tab on the right is the `Trade Tab`. This tab has two subtabs - one for trading with other players, and one for trading with the bank. If you would like to trade with other players, enter your desired resources to give and desired resources to receive. Entering a negative number indicates a resource to give and entering a positive number indicates a resource to receive. When you are ready to propose the trade to all players, you should hit the `Propose Trade` button.
+
+At this point, all other players will see the proposed trade and are given the option to accept or reject the trade. As other players accept or reject the trade, you will see their response. If a player accepts the trade, you will be given the option to finalize the trade with them, at which points the appropriate resources will be added and removed from your hand. If you would like to cancel the trade at any point, simply press the `Cancel Trade` button and all other players will be notified that the trade has been canceled.
+
+To trade with the bank, select the resources that you would like to give and receive. The trade rate between these resources is displayed directly below the resource to give. Enter the number of resources that you would like to receive, and the number of resources you must give will be automatically calculated based off this trade rate. If you would like to trade, click the `Trade` button and resources will automatically be added to and removed from your hand.
+
+### Development Cards
+The number of resource and development cards in your hand are displayed in the bar at the bottom of the screen. Hovering over a development card displays instructions on how to use it. To play a development card, click the appropriate development card icon.
+
+If a Knight is played, all tiles that the robber can move to will be highlighted. Clicking on a highlighted tile will move the robber to that tile. If a player has a building adjacent to this tile, a dialogue will pop up and the current player can select a player to take a random card from.
+
+If Year of Plenty is played, the player can select exactly two resources to add to their hand. If the decimal resources option is enabled, fractional amounts of resources can be selected, as long as the total addes up to exactly two.
+
+If Monopoly is played, the player can select a resource to steal from all other players.
+
+If Road Building is played, the player can build two roads in the same manner as when the `Build Road` button is pressed.
+
+Victory points are automatically added to the victory point count in your player tab, but are not visible to other players.
+
 ## Documentation: The CatanAPI
 
 ### CatanAPI Overview
