@@ -1,6 +1,15 @@
 var ROAD_WIDTH_SCALE = 0.055;
 var ROAD_LENGTH_SCALE = 0.95;
 
+/*
+ * Construct a new intersection.
+ * @param start1 - the coordinate of the first adjacent tile to the start intersection
+ * @param start2 - the coordinate of the second adjacent tile to the start intersection
+ * @param start3 - the coordinate of the third adjacent tile to the start intersection
+ * @param end1 - the coordinate of the first adjacent tile to the end intersection
+ * @param end2 - the coordinate of the second adjacent tile to the end intersection
+ * @param end3 - the coordinate of the third adjacent tile to the end intersection 
+ */
 function Path(start1, start2, start3, end1, end2, end3) {
 	this.originalStart = {coord1: start1, coord2: start2, coord3: start3};
 	this.originalEnd = {coord1: end1, coord2: end2, coord3: end3};
@@ -29,6 +38,12 @@ function Path(start1, start2, start3, end1, end2, end3) {
 	$("#board-viewport").append("<div class='path' id='" + this.id + "'></div>");
 }
 
+/*
+ * Redraws this path.
+ * @param transX - the x translation of the board
+ * @param transY - the y translation of the board
+ * @param scale - the scale to draw at
+ */
 Path.prototype.draw = function(transX, transY, scale) {
 	// Move road to correct section of board
 	var cartesianStart = hexToCartesian(this.start);
@@ -92,11 +107,18 @@ Path.prototype.draw = function(transX, transY, scale) {
 	select.css("height", height);
 }
 
+/*
+ * Adds a road to this path.
+ * @param player - the player who owns this road
+ */
 Path.prototype.addRoad = function(player) {
 	this.containsRoad = true;
 	this.player = player;
 }
 
+/*
+ * Creates a path click handler.
+ */
 Path.prototype.createPathClickHandler = function() {
 	var that = this;
 	return function(event) {
@@ -110,6 +132,9 @@ Path.prototype.createPathClickHandler = function() {
 	};
 }
 
+/*
+ * Highlights this path.
+ */
 Path.prototype.highlight = function() {
 	if (!(this.highlighted)) {
 		this.highlighted = true;
@@ -121,6 +146,9 @@ Path.prototype.highlight = function() {
 	}
 }
 
+/*
+ * Unhighlights this path.
+ */
 Path.prototype.unHighlight = function() {
 	if (this.highlighted) {
 		this.highlighted = false;
@@ -133,6 +161,10 @@ Path.prototype.unHighlight = function() {
 	}
 }
 
+/*
+ * Creates a path from the given data.
+ * @param pathData - the path data
+ */
 function parsePath(pathData) {
 	var start = pathData.start;
 	var end = pathData.end;

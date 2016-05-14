@@ -11,11 +11,13 @@ if (document.location.hostname == "localhost") {
 			+ location.port + "/action/");
 }
 
+// Send a heartbeat on the websocket
 function heartbeat() {
 	var beat = "HEARTBEAT";
 	webSocket.send(JSON.stringify(beat));
 }
 
+// Requests to be send when websocket first opens
 webSocket.onopen = function() {
 	if (document.cookie.indexOf("USER_ID") > -1) {
 		sendGetGameStateAction();
@@ -24,6 +26,7 @@ webSocket.onopen = function() {
     sendReloadChatRequest();
 };
 
+// Delete all cookies and return to home screen
 function deleteAllCookiesAndGoHome() {
 	deleteCookie("USER_ID");
 	deleteCookie("desiredGroupId");
@@ -32,6 +35,7 @@ function deleteAllCookiesAndGoHome() {
 	window.location = "/home";
 }
 
+// Actions to be taken when websocket is closed
 webSocket.onclose = function() {
 	if (document.cookie.indexOf("USER_ID") > -1) {
 		window.location.reload(true);
@@ -41,6 +45,7 @@ webSocket.onclose = function() {
 
 }
 
+// When a leave game button is pressed, return to home screen
 $(".leave-game-btn").click(function(event) {
 	var exit = {
 		requestType : "gameOver",
@@ -335,6 +340,10 @@ function sendMessage(message) {
 	}
 }
 
+/*
+ * Create and insert a message into chat.
+ * @param msg - the message to insert
+ */
 function insertChatMessage(msg) {
     var formattedDate = moment(msg.timeStamp).format("LT");
     var fromPlayer = playersById[msg.userId];
@@ -346,7 +355,10 @@ function insertChatMessage(msg) {
     $("#chat").scrollTop($("#chat")[0].scrollHeight);
 }
 
-// Update the chat-panel, and the list of connected users
+/*
+ * Update the chat with the given message.
+ * @param msg - the msg that was received
+ */
 function updateChat(msg) {
 	if (msg.hasOwnProperty('ERROR')) {
 		alert(msg.ERROR);
@@ -358,6 +370,10 @@ function updateChat(msg) {
 	}
 }
 
+/*
+ * Load chat logs, displaying them in chat window.
+ * @param logs - an array of chat messages to display
+ */
 function loadChatLogs(logs) {
     for (var i = 0; i < logs.length; i++) {
         insertChatMessage(logs[i]);
@@ -368,6 +384,10 @@ function loadChatLogs(logs) {
 // Action Handlers
 // ////////////////////////////////////////
 
+/*
+ * Handles a chat response.
+ * @param data - the chat data
+ */
 function handleChatResponse(data) {
     if (data.hasOwnProperty("logs")) {
         loadChatLogs(data.logs);
@@ -376,6 +396,10 @@ function handleChatResponse(data) {
     }
 }
 
+/*
+ * Handles an action that was send back to the gui.
+ * @param data - the action data
+ */
 function handleActionResponse(data) {
 	if (data.content.hasOwnProperty("message")) {
 		addMessage(data.content.message);
@@ -396,6 +420,10 @@ function handleActionResponse(data) {
 	}
 }
 
+/*
+ * Handle a game over send from the websocket.
+ * @param data - the game over data
+ */
 function handleGameOver(data) {
 	switch(data.reason) {
 	case "disconnectedUser":
@@ -413,6 +441,10 @@ function handleGameOver(data) {
 
 $("#user-exited-go-home-btn").click(deleteAllCookiesAndGoHome);
 
+/*
+ * Handle a followup action.
+ * @param action - the followup action.
+ */
 function handleFollowUp(action) {
 	if (action.hasOwnProperty("actionData")
 			&& action.actionData.hasOwnProperty("message")) {
@@ -452,6 +484,10 @@ function handleFollowUp(action) {
 	}
 }
 
+/*
+ * Handles a get games state response. Redraws the board and resets all internal data.
+ * @param gameStateData - the game state data
+ */
 function handleGetGameState(gameStateData) {
 	// Set global data
 	playerId = gameStateData.playerID;
@@ -543,6 +579,10 @@ id("message").addEventListener("keypress", function(e) {
 	}
 });
 
+/*
+ * Handle a disconnected user message.
+ * @param disconnectData - the disconnected user data
+ */
 function handleDisconnectedUsers(disconnectData) {
 	if (disconnectData.users.length === 0) {
 		hideDisconnectedUsersModal();

@@ -17,6 +17,12 @@ var BUILDING = {
 	CITY: 3
 }
 
+/*
+ * Construct a new intersection.
+ * @param coord1 - the coordinate of the first adjacent tile
+ * @param coord2 - the coordinate of the second adjacent tile
+ * @param coord3 - the coordinate of the third adjacent tile
+ */
 function Intersection(coord1, coord2, coord3) {
 	this.intersectCoordinates = {coord1: coord1, coord2: coord2, coord3: coord3};
 	this.coordinates = findCenter(coord1, coord2, coord3);
@@ -35,6 +41,12 @@ function Intersection(coord1, coord2, coord3) {
 	$("#board-viewport").append("<div class='intersection' id='" + this.id  + "'></div>");
 }
 
+/*
+ * Redraws this intersection.
+ * @param transX - the x translation of the board
+ * @param transY - the y translation of the board
+ * @param scale - the scale to draw at
+ */
 Intersection.prototype.draw = function(transX, transY, scale) {
 	var displacement = hexToCartesian(this.coordinates);
 		
@@ -103,16 +115,27 @@ Intersection.prototype.draw = function(transX, transY, scale) {
 	select.css("width", size);
 }
 
+/*
+ * Adds a settlement to this intersection.
+ * @param player - the player who owns the settlement
+ */
 Intersection.prototype.addSettlement = function(player) {
 	this.building = BUILDING.SETTLEMENT;
 	this.player = player;
 }
 
+/*
+ * Adds a city to this intersection.
+ * @param player - the player who owns the city
+ */
 Intersection.prototype.addCity = function(player) {
 	this.building = BUILDING.CITY;
 	this.player = player;
 }
 
+/*
+ * Creates an intersection click handler for building cities and settlements.
+ */
 Intersection.prototype.createIntersectionClickHandler = function() {
 	var that = this;
 	return function(event) {
@@ -131,6 +154,9 @@ Intersection.prototype.createIntersectionClickHandler = function() {
 	};
 }
 
+/*
+ * Highlights this intersection.
+ */
 Intersection.prototype.highlight = function() {
 	if (!(this.highlighted)) {
 		this.highlighted = true;
@@ -142,6 +168,9 @@ Intersection.prototype.highlight = function() {
 	}
 }
 
+/*
+ * Unhighlights this intersection.
+ */
 Intersection.prototype.unHighlight = function() {
 	if (this.highlighted) {
 		this.highlighted = false;
@@ -154,6 +183,10 @@ Intersection.prototype.unHighlight = function() {
 	}
 }
 
+/*
+ * Creates a new intersection from the given path data.
+ * @param data - the intersection data
+ */
 function parseIntersection(data) {
 	var position = data.coordinate;
 	var intersect = new Intersection(parseHexCoordinates(position.coord1),
