@@ -46,7 +46,9 @@ public class UserGroup implements Group {
     }
   }
 
-
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean add(User u) {
     synchronized (this) {
@@ -79,6 +81,9 @@ public class UserGroup implements Group {
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean remove(User u) {
     synchronized (this) {
@@ -89,12 +94,18 @@ public class UserGroup implements Group {
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void clear() {
     table.clear();
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean handleMessage(User u, JsonObject j) {
     synchronized (this) {
@@ -132,6 +143,9 @@ public class UserGroup implements Group {
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   public boolean hasUser(User u) {
     boolean ret = table.contains(u);
     System.out.println("hasUser? : " + ret);
@@ -139,17 +153,26 @@ public class UserGroup implements Group {
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   public boolean hasUser(String id) {
     return table.contains(id);
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<User> connectedUsers() {
     return table.onlyConnectedUsers();
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean isEmpty() {
     return table.isEmpty();
@@ -182,30 +205,45 @@ public class UserGroup implements Group {
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String identifier() {
     return myBuilder.identifier;
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String groupName() {
     return myBuilder.name;
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int maxSize() {
     return myBuilder.desiredSize;
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int currentSize() {
     return table.size();
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean isFull() {
     return myBuilder.desiredSize == table.size();
