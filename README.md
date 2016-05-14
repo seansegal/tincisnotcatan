@@ -151,6 +151,7 @@ In 3), either the end user has attempted to maliciously fake a USER_ID for one r
 The important classes in this package are:
 
     GCT - (Grand Central Terminal) The top-level Group manager directly instantiated by the end-developer. Using the Builder pattern, the GCT can be configured with: 
+    
 ``` java
     new GCTBuilder("/action") // the websocket route to enable with Spark
         // optional, how to choose groups for new users.
@@ -159,6 +160,7 @@ The important classes in this package are:
         .withGroupViewRoute("/groups") 
         .build();
 ```
+
     The GCT provides management of all of the Groups that are active at a given time. 
     
     User - a representation of a single end-user, not to be confused with a Session.
