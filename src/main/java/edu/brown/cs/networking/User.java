@@ -108,23 +108,39 @@ public final class User {
    * Indicate if this User has a customizable field named {@code user}
    *
    * @param field
-   * @return
+   * @return boolean indicating if this user has a field named {@code field}
    */
   public boolean hasField(String field) {
     return values.has(field) && !values.get(field).isJsonNull();
   }
 
 
+  /**
+   * Convert the cookies associated with this User into a JsonObject and return
+   * it.
+   *
+   * @return the cookies of this User in Json form.
+   */
   public JsonObject getFieldsAsJson() {
     return values;
   }
 
 
+  /**
+   * @return The internal user identifier for this User.
+   */
   public int userID() {
     return userID;
   }
 
 
+  /**
+   * Update the internal user id for this user. It can only be called once; when
+   * the userID field is initially null. The internal id is therefore immutable
+   * for a User.
+   *
+   * @param id
+   */
   public void setUserID(int id) {
     assert userID == null : "Tried to set userID more than once!";
     this.userID = id;
@@ -138,4 +154,8 @@ public final class User {
         values.toString());
   }
 
+  /*
+   * Note that hashing and equality is defined on an instance level - no two
+   * Users can be identical if they aren't the same exact instance of User
+   */
 }
