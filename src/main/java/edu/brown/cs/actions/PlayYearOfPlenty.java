@@ -86,8 +86,6 @@ public class PlayYearOfPlenty implements Action {
     }
 
     StringBuilder message = new StringBuilder("You gained:");
-
-    if (_ref.getGameSettings().isDecimal) {
       NumberFormat nf = new DecimalFormat("##.##");
       for (Resource res : _resources.keySet()) {
         if (_resources.get(res) > 0.0) {
@@ -96,21 +94,13 @@ public class PlayYearOfPlenty implements Action {
               nf.format(_resources.get(res)), res));
         }
       }
-    } else {
-      for (Resource res : _resources.keySet()) {
-        if (_resources.get(res) > 0) {
-          _player.addResource(res, _resources.get(res), _bank);
-          message.append(String.format(" %d %s,", _resources.get(res), res));
-        }
-      }
-    }
-
     message.replace(message.toString().length() - 1, message.toString()
         .length(), "");
 
     Map<Integer, ActionResponse> toRet = new HashMap<Integer, ActionResponse>();
     toRet.put(_player.getID(), new ActionResponse(true, message.toString(),
         _resources));
+    System.out.println("SENDING ACTION RESPONSE: " + message.toString());
     return toRet;
   }
 
