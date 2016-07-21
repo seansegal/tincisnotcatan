@@ -1,9 +1,15 @@
 package edu.brown.cs.catan;
 
+/**
+ * Represents a Catan resource. The Wildcard resource is added for convenience
+ * in ports and trades.
+ *
+ */
 public enum Resource {
 
   WHEAT("wheat", "a wheat"), SHEEP("sheep", "a sheep"), ORE("ore", "an ore"), WOOD(
-      "wood", "a wood"), BRICK("brick", "a brick"), WILDCARD("wildcard", "any card");
+      "wood", "a wood"), BRICK("brick", "a brick"), WILDCARD("wildcard",
+      "any card");
 
   private final String _description;
   private final String _withArticle;

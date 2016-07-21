@@ -6,6 +6,10 @@ import edu.brown.cs.actions.BuildSettlement;
 import edu.brown.cs.board.HexCoordinate;
 import edu.brown.cs.board.IntersectionCoordinate;
 
+/**
+ * Used for Testing purposes.
+ *
+ */
 public class TestReferee extends MasterReferee {
 
   public TestReferee() {
