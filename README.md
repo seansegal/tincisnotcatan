@@ -1,7 +1,7 @@
 # Catan
 An online version of Settlers of Catan with the option to play with Advanced Economic features. Originally built for CS32: Introduction to Software Engineering final project.  
 
-Visit http://cs032catan.herokuapp.com/ to try out the game!
+Visit http://tinc.herokuapp.com/ to try out the game!
 
 ## End-User Documentation
 
