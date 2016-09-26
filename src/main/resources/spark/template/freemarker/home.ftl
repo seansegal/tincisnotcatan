@@ -1,20 +1,19 @@
 <#assign content>
 
-<div class="background-viewport">
-	<div class="hexagon-wrapper-home" id="animated-hex">
-		<div class="hexagon-home"></div>
-	</div>
-</div>
+<!-- "Fork me on GitHub" tag -->
+<a href="https://github.com/nickpdemarco/catan"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
 
-<div class="container-fluid text-center">
-	<h1>CS032 Catan</h1>
+<div class="text-center">
+<div class='row'>
+<h1><span style='color:#aa0000'>t</span>inc <span style='color:#aa0000'>i</span>s <span style='color:#aa0000'>n</span>ot <span style='color:#aa0000'>c</span>atan</h1>
+</div>
 	<div class="row" id="pre-name-container">
 		<div class="col-xs-4"></div>
 		<div class="col-xs-4">
 			<div class="input-group">
-		    	<input type="text" id="nameEntry" class="form-control input-lg" placeholder="Enter username...">
+		    	<input type="text" id="nameEntry" class="form-control input-lg" placeholder="Enter a username to begin">
 		    	<span class="input-group-btn">
-		    		<button class="btn btn-success input-lg" type="button" id="enter-name-begin-btn">Begin!</button>
+		    		<button class="btn btn-success input-lg" type="button" id="enter-name-begin-btn">Start Playing!</button>
 		    	</span>
 		    </div>
 		</div>

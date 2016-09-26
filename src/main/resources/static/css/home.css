@@ -1,10 +1,38 @@
+html {
+  /* Fallback background */
+  background: url(../images/homepage.jpg) no-repeat center center fixed;
+
+  /* Gradient background */
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(../images/homepage.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 h1 {
-  font-size: 72px;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: lightgrey;
+  font-weight: bold;
+  font-size: 68px;
   position: absolute;
   top: 2%;
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* Start Playing button */
+#enter-name-begin-btn {
+  background-color: #aa0000;
+  border-color:#aa0000;
+}
+
+/* Create game button */
+#startGameButton {
+  background-color: #aa0000;
+  border-color:#aa0000;
+}
+
 
 #pre-name-container {
   position: absolute;
