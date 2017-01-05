@@ -8,16 +8,14 @@
 <h1><span style='color:#aa0000'>t</span>inc <span style='color:#aa0000'>i</span>s <span style='color:#aa0000'>n</span>ot <span style='color:#aa0000'>c</span>atan</h1>
 </div>
 	<div class="row" id="pre-name-container">
-		<div class="col-xs-4"></div>
-		<div class="col-xs-4">
+		<div class="col-xs-10 col-xs-offset-1 col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4" style='margin-top:8%'>
 			<div class="input-group">
 		    	<input type="text" id="nameEntry" class="form-control input-lg" placeholder="Enter a username to begin">
 		    	<span class="input-group-btn">
-		    		<button class="btn btn-success input-lg" type="button" id="enter-name-begin-btn">Start Playing!</button>
+		    		<button class="btn btn-success input-lg" type="button" id="enter-name-begin-btn">Play</button>
 		    	</span>
 		    </div>
 		</div>
-		<div class="col-xs-4"></div>
 	</div>
 	<div class="row hidden" id="post-name-container">
 		<div class="col-xs-2"></div>

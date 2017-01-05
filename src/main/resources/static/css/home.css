@@ -1,4 +1,4 @@
-html {
+body {
   /* Fallback background */
   background: url(../images/homepage.jpg) no-repeat center center fixed;
 
@@ -10,15 +10,22 @@ html {
   background-size: cover;
 }
 
+
 h1 {
   font-family: 'Helvetica Neue', sans-serif;
   color: lightgrey;
   font-weight: bold;
-  font-size: 68px;
-  position: absolute;
-  top: 2%;
-  left: 50%;
-  transform: translateX(-50%);
+  font-size: 62px;
+  margin-top:35px;
+  background:none;
+  margin-left:70px;
+  margin-right:70px;
+}
+
+@media screen and (min-width: 420px) {
+    h1 {
+      font-size: 68px;
+    }
 }
 
 /* Start Playing button */
@@ -35,9 +42,6 @@ h1 {
 
 
 #pre-name-container {
-  position: absolute;
-  top: 25%;
-  width: 100%;
 }
 
 #post-name-container {
