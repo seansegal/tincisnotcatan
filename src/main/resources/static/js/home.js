@@ -13,12 +13,12 @@ $(window).load(function() {
 	};
 
 	if(isMobile()){
-		console.log('MOBILE')
+		$("#use-desktop-modal").modal("show");
 	}
 
 	// If not in chrome, display useful modal
 	var isChrome = !!window.chrome && !!window.chrome.webstore;
-	if (!isChrome) {
+	if (!isChrome && !isMobile()) {
 		$("#use-chrome-modal").modal("show");
 	}
 });
