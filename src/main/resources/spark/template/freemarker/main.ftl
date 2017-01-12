@@ -11,15 +11,15 @@
     <!-- for Facebook -->          
     <meta property="og:title" content="tinc is not catan" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="images/catan-favicon.ico" />
-    <meta property="og:url" content="http://tinc.herokuapp.com/home" />
+    <meta property="og:image" content="https://s-media-cache-ak0.pinimg.com/236x/bd/b8/cd/bdb8cd3c18ba57f7adc982dd6e80aa1c.jpg" />
+    <meta property="og:url" content="http://tinc.herokuapp.com" />
     <meta property="og:description" content="Play Catan online with your friends!" />
 
     <!-- for Twitter -->          
     <meta name="twitter:card" content="Online Catan Emulator" />
     <meta name="twitter:title" content="tinc is not catan" />
     <meta name="twitter:description" content="Play Catan online with your friends!" />
-    <meta name="twitter:image" content="images/catan-favicon.ico" />
+    <meta name="twitter:image" content="https://s-media-cache-ak0.pinimg.com/236x/bd/b8/cd/bdb8cd3c18ba57f7adc982dd6e80aa1c.jpg" />
 
     <title>${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
