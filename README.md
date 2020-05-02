@@ -8,9 +8,16 @@ Contributions are welcome! To run locally, build the Docker image with
 `docker build -t catan .`
 
 Then run the application with, 
-`docker run --name catan -d -p 4567:4567 --cpus=4 catan`
+`docker run --rm --name catan -d -p 4567:4567 --cpus=4 catan`
 
 Once running, the application will be available at `localhost:4567`.
+
+## Deployment
+The latest code on `master` automatically deployed to our staging site: `http://stormy-mesa-37166.herokuapp.com/home`.
+
+The staging site is pushed to production (`tinc.herokuapp.com`) manually. It will only be updated when there are no users playing Catan.
+
+In the future, CI and CD should be setup to automatically test new builds and deploy upgrades.
 
 ## End-User Documentation
 
