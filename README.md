@@ -3,6 +3,15 @@ An online version of Settlers of Catan with the option to play with Advanced Eco
 
 Visit http://tinc.herokuapp.com/ to try out the game!
 
+## Contributing
+Contributions are welcome! To run locally, build the Docker image with 
+`docker build -t catan .`
+
+Then run the application with, 
+`docker run --name catan -d -p 4567:4567 --cpus=4 catan`
+
+Once running, the application will be available at `localhost:4567`.
+
 ## End-User Documentation
 
 ### Home Screen
