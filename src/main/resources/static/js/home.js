@@ -17,7 +17,7 @@ $(window).load(function() {
 	}
 
 	// If not in chrome, display useful modal
-	var isChrome = !!window.chrome && !!window.chrome.webstore;
+	var isChrome = !!window.chrome;
 	if (!isChrome && !isMobile()) {
 		$("#use-chrome-modal").modal("show");
 	}
